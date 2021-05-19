@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f26f9a4_54b7a78c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-19T14:53:14Z",
+      "side": 1,
+      "message": "I think we switched to using Instant",
+      "range": {
+        "startLine": 48,
+        "startChar": 12,
+        "endLine": 48,
+        "endChar": 17
+      },
+      "revId": "ad708e6db73f00f24cd6a84a5231bbe661556d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a18bc89_9b6d74a6",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-19T14:53:14Z",
+      "side": 1,
+      "message": "a lot of the models code checks updates the content of the current key, if it\u0027s not null.  Should that be done here, too?",
+      "revId": "ad708e6db73f00f24cd6a84a5231bbe661556d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46fb14be_ab9567b4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-19T14:53:14Z",
+      "side": 1,
+      "message": "trim changedByUser?",
+      "revId": "ad708e6db73f00f24cd6a84a5231bbe661556d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abbb4a27_e8f49aad",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-19T14:53:14Z",
+      "side": 1,
+      "message": "hmm.  How many records could this return?  may want to force a limit on the record count and maximum time window.  may want to require starting timestamp",
+      "revId": "ad708e6db73f00f24cd6a84a5231bbe661556d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
