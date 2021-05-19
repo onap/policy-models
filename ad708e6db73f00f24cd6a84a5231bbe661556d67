@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e9028dfd_82dfc9bd",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyTracker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-19T15:13:22Z",
+      "side": 1,
+      "message": "wonder if we could use a different term than \"Tracker\"?  That term is already used within PAP with a different meaning",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 29
+      },
+      "revId": "ad708e6db73f00f24cd6a84a5231bbe661556d67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f26f9a4_54b7a78c",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyTracker.java",
         "patchSetId": 1
