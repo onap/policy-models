@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "403bd355_e9b1c50b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "don\u0027t think this needs to be unique",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b309c19f_86aa22cb",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "should probably have a secondary index on this",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fbabe0c_69dea4dd",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "is this necessary? - we don\u0027t do it in the other cases where Instant is used",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "172f6cbe_942720af",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "let\u0027s not \"trim\" here",
+      "range": {
+        "startLine": 175,
+        "startChar": 109,
+        "endLine": 175,
+        "endChar": 113
+      },
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e1d93bf_0102d262",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "I\u0027d rather not modify the authorativeConcept",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "468d12b3_167de98a",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-21T17:22:23Z",
+      "side": 1,
+      "message": "should we limit it to something?",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
