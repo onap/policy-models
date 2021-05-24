@@ -110,6 +110,24 @@
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4299cad_c23b894e",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T15:21:00Z",
+      "side": 1,
+      "message": "I did some checking and seems ok for usernames as well.",
+      "parentUuid": "bff794c4_9379d371",
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
