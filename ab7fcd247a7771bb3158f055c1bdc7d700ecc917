@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "e4bf1e8d_44a0f2f6",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T12:57:10Z",
+      "side": 1,
+      "message": "still need to add an @Index annotation to the class",
+      "parentUuid": "6a2003a2_d10a173f",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2fbabe0c_69dea4dd",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2
@@ -122,6 +140,24 @@
       "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c56f53a_a7d1a2a4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T12:57:10Z",
+      "side": 1,
+      "message": "Never mind - I should have looked at the change before commenting!",
+      "parentUuid": "f8a58603_3301c60d",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -239,6 +275,24 @@
       "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c61406e_1a5aa39d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T12:57:10Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "964c3ce3_28e01f48",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
