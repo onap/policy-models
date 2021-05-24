@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a571cf31_0d2b2623",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T15:10:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7d71df81_14b427c0",
+      "range": {
+        "startLine": 155,
+        "startChar": 24,
+        "endLine": 155,
+        "endChar": 84
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7670dea_1872d3f1",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 4
@@ -42,6 +66,47 @@
         "endLine": 170,
         "endChar": 116
       },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d037dbe8_ada7ad80",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T15:10:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a7670dea_1872d3f1",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 116
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff794c4_9379d371",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T15:10:51Z",
+      "side": 1,
+      "message": "is LOCAL_NAME_REGEXP an acceptable pattern for changedByUser (i.e., is it perhaps too restrictive)?",
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
