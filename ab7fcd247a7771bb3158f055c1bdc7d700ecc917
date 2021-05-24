@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "63432b39_63ff4ae6",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T15:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4bf1e8d_44a0f2f6",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fbabe0c_69dea4dd",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2

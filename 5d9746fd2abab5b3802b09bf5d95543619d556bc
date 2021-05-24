@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d71df81_14b427c0",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T15:02:17Z",
+      "side": 1,
+      "message": "just put this back to avoid nullpointer exception",
+      "range": {
+        "startLine": 155,
+        "startChar": 24,
+        "endLine": 155,
+        "endChar": 84
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7670dea_1872d3f1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T15:02:17Z",
+      "side": 1,
+      "message": "same as above",
+      "range": {
+        "startLine": 170,
+        "startChar": 8,
+        "endLine": 170,
+        "endChar": 116
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
