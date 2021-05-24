@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "f8a58603_3301c60d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-24T12:54:02Z",
+      "side": 1,
+      "message": "@committers: should we do a similar thing in the other classes?  or just modify this class to match the others?",
+      "parentUuid": "672e42cf_db8c0be4",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "172f6cbe_942720af",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2
