@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6a143a16_fb57d452",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "403bd355_e9b1c50b",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b309c19f_86aa22cb",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "6a2003a2_d10a173f",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b309c19f_86aa22cb",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fbabe0c_69dea4dd",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2021-05-21T17:22:23Z",
       "side": 1,
       "message": "is this necessary? - we don\u0027t do it in the other cases where Instant is used",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "672e42cf_db8c0be4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "it\u0027s giving a longer offset on milis and making then not equals.",
+      "parentUuid": "2fbabe0c_69dea4dd",
       "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "aa0e197b_838fbf11",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "172f6cbe_942720af",
+      "range": {
+        "startLine": 175,
+        "startChar": 109,
+        "endLine": 175,
+        "endChar": 113
+      },
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e1d93bf_0102d262",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 2
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "0799bda3_3a849866",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e1d93bf_0102d262",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "468d12b3_167de98a",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 2
@@ -104,6 +200,24 @@
       "writtenOn": "2021-05-21T17:22:23Z",
       "side": 1,
       "message": "should we limit it to something?",
+      "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "964c3ce3_28e01f48",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-24T10:50:44Z",
+      "side": 1,
+      "message": "that was an atempt at limiting. if not informed when used, it would limit it to 50. that was suggested on the wiki page.",
+      "parentUuid": "468d12b3_167de98a",
       "revId": "ab7fcd247a7771bb3158f055c1bdc7d700ecc917",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
