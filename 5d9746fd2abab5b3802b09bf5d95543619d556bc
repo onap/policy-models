@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "371b762e_dc11aac2",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "As suggested earlier, we need to think futuristic and name entities accordingly. We may include create/delete of policies via policy-api component later as well. Considering that the name should be generic enough for different actions. Something like \"PolicyAudit\"",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "204a6bd5_e4f5d67b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "can be simply \"user\" or \"actionByUser\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 19,
+        "endLine": 49,
+        "endChar": 32
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6881aa_85e0a5ae",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "Same changes needed here.",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 7
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d71df81_14b427c0",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 4
@@ -125,6 +194,144 @@
       "side": 1,
       "message": "I did some checking and seems ok for usernames as well.",
       "parentUuid": "bff794c4_9379d371",
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f48ebef2_3ae3e88f",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "Ideally we shouldn\u0027t have added the methods here. Better to create a new provider called \"PolicyAuditProvider\" and base the methods there (similar to PdpStatisticsProvider).",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bce3355_db3a5f62",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "Do we have some constants file for such information?",
+      "range": {
+        "startLine": 384,
+        "startChar": 44,
+        "endLine": 384,
+        "endChar": 46
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "147594c2_e5f6f3a7",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 387,
+        "startChar": 111,
+        "endLine": 387,
+        "endChar": 114
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fda026de_79a19e7d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "The title doesn\u0027t match with the method parameters. I think it will return details of the provided policy name \u0026 version only.",
+      "range": {
+        "startLine": 393,
+        "startChar": 7,
+        "endLine": 393,
+        "endChar": 50
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab8e5468_138443d8",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "It should be \"ASC\" or \"DESC\" ? You may want to show the latest record on the top?",
+      "range": {
+        "startLine": 407,
+        "startChar": 112,
+        "endLine": 407,
+        "endChar": 115
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eb8fc43_5872474f",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAuditTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-25T15:56:46Z",
+      "side": 1,
+      "message": "Corresponding changes will be needed in the test classes as well.",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 44
+      },
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
