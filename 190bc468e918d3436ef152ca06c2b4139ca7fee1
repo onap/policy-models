@@ -22,6 +22,155 @@
       "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d3ff6a_8f0e40d1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "if we\u0027re going to use this to store general audit records, then perhaps we should eliminate these fields and replace them with a simple string describing the action that was taken?  (And maybe move it somewhere else, like models-pap?)  Or is it OK to have it focused solely on policies, in which case the pdpGroup \u0026 pdpType would become optional/unused for create/delete records?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6ea23d6_49e28e38",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "maybe rename to this instead: PdpPolicyAuditIndex_timestamp",
+      "range": {
+        "startLine": 57,
+        "startChar": 34,
+        "endLine": 57,
+        "endChar": 53
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2adb33b0_bc89c489",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpPolicyAuditProviderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "PdpPolicyAuditProviderTest",
+      "range": {
+        "startLine": 77,
+        "startChar": 88,
+        "endLine": 77,
+        "endChar": 103
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1522f20_6a6b7235",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpPolicyAuditProviderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "for code coverage, probably need a case where the DB has 60 records, to verify that it limits the number of records to the provided limit, and another test where it limits to the default of 50.",
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a88de8a_049164c1",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpPolicyAuditProviderTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "\"Tracker\" \u003d\u003e \"Audit\"",
+      "range": {
+        "startLine": 128,
+        "startChar": 31,
+        "endLine": 128,
+        "endChar": 38
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "231ec4ba_1341f3fe",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "this line should be reverted to its original",
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df74b793_feafbf67",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-26T12:39:04Z",
+      "side": 1,
+      "message": "trailing spaces\n\nsame comment below",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
