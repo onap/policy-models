@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "dc62ddf9_25dff4d5",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-26T14:28:17Z",
+      "side": 1,
+      "message": "models-pap will be my choice.\n\nPDP is Policy Decision Point where the execution of policies are done. The audit is for actions taken by users using the API\u0027s provided by Policy Framework. So, it has no relation to the PDP itself. And should be completely generic. For more details, please refer - https://docs.onap.org/projects/onap-policy-parent/en/latest/architecture/architecture.html#id1",
+      "parentUuid": "069e4560_322f6832",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8d3ff6a_8f0e40d1",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
         "patchSetId": 5
@@ -60,6 +84,30 @@
       "writtenOn": "2021-05-26T12:39:04Z",
       "side": 1,
       "message": "if we\u0027re going to use this to store general audit records, then perhaps we should eliminate these fields and replace them with a simple string describing the action that was taken?  (And maybe move it somewhere else, like models-pap?)  Or is it OK to have it focused solely on policies, in which case the pdpGroup \u0026 pdpType would become optional/unused for create/delete records?",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 47,
+        "endChar": 31
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1554821_e118d9e3",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-26T14:28:17Z",
+      "side": 1,
+      "message": "I agree to keep it focused for policies and keep the pdpGroup \u0026 pdpType optional/unused for create/delete records. And have it in models-pap.",
+      "parentUuid": "a8d3ff6a_8f0e40d1",
       "range": {
         "startLine": 44,
         "startChar": 4,
