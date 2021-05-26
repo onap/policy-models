@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "069e4560_322f6832",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T12:52:19Z",
+      "side": 1,
+      "message": "I just assumed the Pdp was a required prefix. Then it probably doesn\u0027t belong on this package. Should move to models-base or models-pap?",
+      "parentUuid": "5678200d_c4610b6e",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8d3ff6a_8f0e40d1",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyAudit.java",
         "patchSetId": 5
