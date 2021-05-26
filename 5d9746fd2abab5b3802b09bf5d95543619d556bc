@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "905d1f03_2003c664",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "371b762e_dc11aac2",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "204a6bd5_e4f5d67b",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyDeploymentAudit.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "225fbcf2_70404cba",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "204a6bd5_e4f5d67b",
+      "range": {
+        "startLine": 49,
+        "startChar": 19,
+        "endLine": 49,
+        "endChar": 32
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba6881aa_85e0a5ae",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4727c957_b3d2e3eb",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAudit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba6881aa_85e0a5ae",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 7
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "1ae26683_c66741fe",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f48ebef2_3ae3e88f",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4bce3355_db3a5f62",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 4
@@ -243,6 +339,30 @@
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b908e235_5c795d83",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bce3355_db3a5f62",
+      "range": {
+        "startLine": 384,
+        "startChar": 44,
+        "endLine": 384,
+        "endChar": 46
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -269,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "cd77ce22_dd30567c",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "147594c2_e5f6f3a7",
+      "range": {
+        "startLine": 387,
+        "startChar": 111,
+        "endLine": 387,
+        "endChar": 114
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fda026de_79a19e7d",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
         "patchSetId": 4
@@ -289,6 +433,30 @@
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "950627d8_c37dc860",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda026de_79a19e7d",
+      "range": {
+        "startLine": 393,
+        "startChar": 7,
+        "endLine": 393,
+        "endChar": 50
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -315,6 +483,30 @@
     },
     {
       "key": {
+        "uuid": "8f4aac07_21e0b8b0",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8e5468_138443d8",
+      "range": {
+        "startLine": 407,
+        "startChar": 112,
+        "endLine": 407,
+        "endChar": 115
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eb8fc43_5872474f",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAuditTest.java",
         "patchSetId": 4
@@ -335,6 +527,30 @@
       "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b01fc706_8d5360f9",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpPolicyDeploymentAuditTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-26T10:15:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7eb8fc43_5872474f",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 44
+      },
+      "revId": "5d9746fd2abab5b3802b09bf5d95543619d556bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
