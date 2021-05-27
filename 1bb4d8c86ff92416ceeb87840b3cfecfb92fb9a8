@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d955e49_1eb8104e",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-27T20:13:09Z",
+      "side": 1,
+      "message": "I am not 100% sure but wondering if this will work? As Instant.EPOCH \u0026 Instant.now will represent the same date/time.\nMay be just pass the null values to dao.getFiltered so that it simply ignores this filter? As having them null means users don\u0027t need to use that filter.\nThoughts pls?",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
