@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ecf62d2_d7980c3b",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-27T12:59:19Z",
+      "side": 1,
+      "message": "probably want to remove those to be undeployed, as well",
+      "revId": "8b59e700d692cd6bbd87712c74d0be35c1568417",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
