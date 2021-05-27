@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58016708_720d422e",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/concepts/PolicyAudit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-27T17:06:01Z",
+      "side": 1,
+      "message": "Pls update",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "2786e643727aab88eb21777a527ff1175172cecd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d17b356d_245cd82f",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-27T17:06:01Z",
+      "side": 1,
+      "message": "does \"createAuditRecords\" sounds better?\nsame for gets.",
+      "range": {
+        "startLine": 53,
+        "startChar": 16,
+        "endLine": 53,
+        "endChar": 28
+      },
+      "revId": "2786e643727aab88eb21777a527ff1175172cecd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29093a3f_e9751416",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-05-27T17:06:01Z",
+      "side": 1,
+      "message": "As discussed yesterday in weekly call, we need \"toDate\" as well.",
+      "range": {
+        "startLine": 121,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 33
+      },
+      "revId": "2786e643727aab88eb21777a527ff1175172cecd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
