@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,7 @@
 
 package org.onap.policy.models.dao.converters;
 
+import com.google.re2j.Pattern;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -31,6 +33,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 @Converter
 public class CDataConditioner extends XmlAdapter<String, String> implements AttributeConverter<String, String> {
 
+    private static final Pattern TRAILING_SPACE_PAT = Pattern.compile("\\s+$");
     private static final String NL = "\n";
 
     @Override
@@ -63,7 +66,7 @@ public class CDataConditioner extends XmlAdapter<String, String> implements Attr
         if (in == null) {
             return null;
         } else {
-            return in.replaceAll("\\s+$", "").replaceAll("\\r?\\n", NL);
+            return TRAILING_SPACE_PAT.matcher(in).replaceAll("").replaceAll("\\r?\\n", NL);
         }
     }
 }

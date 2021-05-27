@@ -626,8 +626,12 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         long size = 0;
         try {
+            /*
+             * The invoking code only passes well-known classes into this method, thus
+             * disabling the sonar about SQL injection.
+             */
             size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)
-                    .getSingleResult();
+                    .getSingleResult();     // NOSONAR
         } finally {
             mg.close();
         }
