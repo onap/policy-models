@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a81d5c93_c8557ea6",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T10:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20c07b72_d61ae610",
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7baee983_6a5abaa1",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 7
@@ -155,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "6a435bfc_7c1607b1",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T10:07:42Z",
+      "side": 1,
+      "message": "Removed from code",
+      "parentUuid": "286625fd_fc11ee8f",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb07ac9_47f5c151",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
         "patchSetId": 7
@@ -190,6 +232,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "8cb07ac9_47f5c151",
+      "range": {
+        "startLine": 86,
+        "startChar": 88,
+        "endLine": 86,
+        "endChar": 103
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddb5065d_02d5d285",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T10:07:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6cd0bba_33978a55",
       "range": {
         "startLine": 86,
         "startChar": 88,
