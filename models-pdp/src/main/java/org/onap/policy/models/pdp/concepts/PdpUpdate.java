@@ -52,14 +52,6 @@ public class PdpUpdate extends PdpMessage {
     private Long pdpHeartbeatIntervalMs;
 
     /**
-     * Policies that the PDP should deploy. This is a complete list, so PDPs should be
-     * prepared to deploy new policies listed and undeploy policies that are no longer
-     * listed. Note: this list may be empty, as a PDP may remain attached to a subgroup
-     * even if all of the policies are removed from the subgroup.
-     */
-    private List<ToscaPolicy> policies = new LinkedList<>();
-
-    /**
      * Policies that the PDP should deploy.
      */
     private List<ToscaPolicy> policiesToBeDeployed = new LinkedList<>();
@@ -87,7 +79,9 @@ public class PdpUpdate extends PdpMessage {
 
         this.description = source.description;
         this.pdpHeartbeatIntervalMs = source.pdpHeartbeatIntervalMs;
-        this.policies = (source.policies == null ? null
-                        : source.policies.stream().map(ToscaPolicy::new).collect(Collectors.toList()));
+        this.policiesToBeDeployed = (source.policiesToBeDeployed == null ? null
+                : source.policiesToBeDeployed.stream().map(ToscaPolicy::new).collect(Collectors.toList()));
+        this.policiesToBeUndeployed = (source.policiesToBeUndeployed == null ? null
+                : source.policiesToBeUndeployed.stream().map(ToscaConceptIdentifier::new).collect(Collectors.toList()));
     }
 }

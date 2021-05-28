@@ -125,11 +125,11 @@ public class TestPdpUpdateListener {
         toscaPolicy.setProperties(propertiesMap);
         final List<ToscaPolicy> toscaPolicies = new ArrayList<>();
         toscaPolicies.add(toscaPolicy);
-        pdpUpdateMsg.setPolicies(toscaPolicies);
+        pdpUpdateMsg.setPoliciesToBeDeployed(toscaPolicies);
         pdpUpdateMessageListener.onTopicEvent(INFRA, TOPIC, null, pdpUpdateMsg);
         assertEquals(pdpStatus.getPdpGroup(), pdpUpdateMsg.getPdpGroup());
         assertEquals(pdpStatus.getPdpSubgroup(), pdpUpdateMsg.getPdpSubgroup());
         assertEquals(pdpStatus.getPolicies(),
-                new PdpMessageHandler().getToscaPolicyIdentifiers(pdpUpdateMsg.getPolicies()));
+                new PdpMessageHandler().getToscaPolicyIdentifiers(pdpUpdateMsg.getPoliciesToBeDeployed()));
     }
 }

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,9 @@
 
 package org.onap.policy.models.sim.pdp.handler;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpResponseDetails;
@@ -31,6 +33,7 @@ import org.onap.policy.models.pdp.enums.PdpResponseStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.sim.pdp.PdpSimulatorConstants;
 import org.onap.policy.models.sim.pdp.comm.PdpStatusPublisher;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * This class supports the handling of pdp update messages.
@@ -62,13 +65,19 @@ public class PdpUpdateMessageHandler {
                 }
                 pdpStatusContext.setPdpGroup(pdpUpdateMsg.getPdpGroup());
                 pdpStatusContext.setPdpSubgroup(pdpUpdateMsg.getPdpSubgroup());
-                pdpStatusContext
-                        .setPolicies(new PdpMessageHandler().getToscaPolicyIdentifiers(pdpUpdateMsg.getPolicies()));
-                if (pdpStatusContext.getState().equals(PdpState.ACTIVE) && !pdpUpdateMsg.getPolicies().isEmpty()) {
+                @SuppressWarnings("unchecked")
+                List<ToscaPolicy> policies = Registry.getOrDefault(PdpSimulatorConstants.REG_PDP_TOSCA_POLICY_LIST,
+                        List.class, new ArrayList<>());
+                policies.addAll(pdpUpdateMsg.getPoliciesToBeDeployed());
+                policies.removeIf(policy -> pdpUpdateMsg.getPoliciesToBeUndeployed().contains(policy.getIdentifier()));
+                pdpStatusContext.setPolicies(policies.stream().map(ToscaPolicy::getIdentifier)
+                        .collect(Collectors.toList()));
+                if (pdpStatusContext.getState().equals(PdpState.ACTIVE)
+                        && !pdpUpdateMsg.getPoliciesToBeDeployed().isEmpty()) {
                     pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
                             PdpResponseStatus.SUCCESS, "Pdp engine started and policies are running.");
                 }
-                Registry.registerOrReplace(PdpSimulatorConstants.REG_PDP_TOSCA_POLICY_LIST, pdpUpdateMsg.getPolicies());
+                Registry.registerOrReplace(PdpSimulatorConstants.REG_PDP_TOSCA_POLICY_LIST, policies);
                 if (null == pdpResponseDetails) {
                     pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
                             PdpResponseStatus.SUCCESS, "Pdp update successful.");
@@ -102,8 +111,10 @@ public class PdpUpdateMessageHandler {
             return false;
         }
 
-        return null != pdpStatusContext.getPolicies() && new PdpMessageHandler()
-                .getToscaPolicyIdentifiers(pdpUpdateMsg.getPolicies()).equals(pdpStatusContext.getPolicies());
+        return null != pdpStatusContext.getPolicies() && (pdpStatusContext.getPolicies()
+                .containsAll(new PdpMessageHandler().getToscaPolicyIdentifiers(
+                        pdpUpdateMsg.getPoliciesToBeDeployed()))) && pdpStatusContext.getPolicies()
+                .stream().noneMatch(pdpUpdateMsg.getPoliciesToBeUndeployed()::contains);
     }
 
     /**

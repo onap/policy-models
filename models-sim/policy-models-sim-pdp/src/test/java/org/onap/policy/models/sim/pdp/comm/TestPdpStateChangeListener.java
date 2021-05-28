@@ -133,7 +133,7 @@ public class TestPdpStateChangeListener {
         toscaPolicy.setProperties(propertiesMap);
         final List<ToscaPolicy> toscaPolicies = new ArrayList<>();
         toscaPolicies.add(toscaPolicy);
-        pdpUpdateMsg.setPolicies(toscaPolicies);
+        pdpUpdateMsg.setPoliciesToBeDeployed(toscaPolicies);
         pdpUpdateMessageListener.onTopicEvent(INFRA, TOPIC, null, pdpUpdateMsg);
         return pdpUpdateMsg;
     }

@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,7 @@ import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariable
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
@@ -41,7 +42,8 @@ public class PdpUpdateTest {
         assertThatThrownBy(() -> new PdpUpdate(null)).isInstanceOf(NullPointerException.class);
 
         PdpUpdate orig = new PdpUpdate();
-        orig.setPolicies(null);
+        orig.setPoliciesToBeDeployed(null);
+        orig.setPoliciesToBeUndeployed(null);
 
         // verify with null values
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpUpdate(orig).toString()));
@@ -62,14 +64,17 @@ public class PdpUpdateTest {
         policy2.setVersion("4.5.6");
 
         List<ToscaPolicy> policies = Arrays.asList(policy1, policy2);
-        orig.setPolicies(policies);
+        orig.setPoliciesToBeDeployed(policies);
+        orig.setPoliciesToBeUndeployed(policies.stream().map(ToscaPolicy::getIdentifier).collect(Collectors.toList()));
 
         PdpUpdate other = new PdpUpdate(orig);
 
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(other.toString()));
 
         // ensure list and items are not the same object
-        assertNotSame(other.getPolicies(), policies);
-        assertNotSame(other.getPolicies().get(0), policies.get(0));
+        assertNotSame(other.getPoliciesToBeDeployed(), policies);
+        assertNotSame(other.getPoliciesToBeDeployed().get(0), policies.get(0));
+        assertNotSame(other.getPoliciesToBeUndeployed(), policies);
+        assertNotSame(other.getPoliciesToBeUndeployed().get(0), policies.get(0));
     }
 }
