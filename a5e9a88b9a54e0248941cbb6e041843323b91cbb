@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b375892_ce3e22d5",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAudit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-28T12:47:40Z",
+      "side": 1,
+      "message": "add annotation:\n  @VerifyKey(versionNotNull \u003d true)",
+      "revId": "a5e9a88b9a54e0248941cbb6e041843323b91cbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38033407_94465e27",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAudit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-28T12:47:40Z",
+      "side": 1,
+      "message": "add @NotNull annotation",
+      "revId": "a5e9a88b9a54e0248941cbb6e041843323b91cbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b868f2ad_19a63a41",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAudit.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-28T12:47:40Z",
+      "side": 1,
+      "message": "once the annotations are added above, this method can be deleted",
+      "revId": "a5e9a88b9a54e0248941cbb6e041843323b91cbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "547d3a51_2fc1bf54",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAuditTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-05-28T12:47:40Z",
+      "side": 1,
+      "message": "sonar: eliminate enclosing \"{\" \"}\"",
+      "range": {
+        "startLine": 128,
+        "startChar": 33,
+        "endLine": 128,
+        "endChar": 34
+      },
+      "revId": "a5e9a88b9a54e0248941cbb6e041843323b91cbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
