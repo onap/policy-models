@@ -630,8 +630,8 @@ public class DefaultPfDao implements PfDao {
              * The invoking code only passes well-known classes into this method, thus
              * disabling the sonar about SQL injection.
              */
-            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)
-                    .getSingleResult();     // NOSONAR
+            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)   // NOSONAR
+                    .getSingleResult();
         } finally {
             mg.close();
         }
