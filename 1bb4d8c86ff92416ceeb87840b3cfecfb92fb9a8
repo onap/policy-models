@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "20c07b72_d61ae610",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b44f8709_c79f0d62",
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7baee983_6a5abaa1",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2021-05-27T20:30:32Z",
       "side": 1,
       "message": "need to limit this",
+      "range": {
+        "startLine": 64,
+        "startChar": 78,
+        "endLine": 64,
+        "endChar": 88
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b324d0f3_d6fb0556",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "this also will be limited on API. check Ram\u0027s comments on wiki.",
+      "parentUuid": "7baee983_6a5abaa1",
       "range": {
         "startLine": 64,
         "startChar": 78,
@@ -89,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "286625fd_fc11ee8f",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f8f26ff3_8b73941f",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8cb07ac9_47f5c151",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
         "patchSetId": 7
@@ -112,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "a6cd0bba_33978a55",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8cb07ac9_47f5c151",
+      "range": {
+        "startLine": 86,
+        "startChar": 88,
+        "endLine": 86,
+        "endChar": 103
+      },
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f94802d_1d9fa9d7",
         "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
         "patchSetId": 7
@@ -123,6 +213,24 @@
       "writtenOn": "2021-05-27T20:30:32Z",
       "side": 1,
       "message": "add JpaPolicyAudit?",
+      "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67da11bb_a4a37fa6",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "this is not part of the changes anymore. all moved to models-pap",
+      "parentUuid": "2f94802d_1d9fa9d7",
       "revId": "1bb4d8c86ff92416ceeb87840b3cfecfb92fb9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true

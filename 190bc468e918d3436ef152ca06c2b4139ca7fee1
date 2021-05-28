@@ -391,6 +391,30 @@
       "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb56baf2_9bd890da",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-05-28T08:30:43Z",
+      "side": 1,
+      "message": "this is not part of the changes anymore.",
+      "parentUuid": "62e39d44_fb14090b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "190bc468e918d3436ef152ca06c2b4139ca7fee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
