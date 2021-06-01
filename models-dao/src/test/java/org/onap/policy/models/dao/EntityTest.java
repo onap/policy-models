@@ -39,6 +39,7 @@ import java.util.TreeSet;
 import java.util.UUID;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfGeneratedIdKey;
@@ -70,6 +71,11 @@ public class EntityTest {
     private static final Long GENERATEDID2 = 10002L;
 
     private PfDao pfDao;
+
+    @Before
+    public void setUp() {
+        DefaultPfDao.clear();
+    }
 
     /**
      * Closes the DAO.
