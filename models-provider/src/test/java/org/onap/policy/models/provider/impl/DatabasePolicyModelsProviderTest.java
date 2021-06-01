@@ -36,6 +36,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -89,6 +90,8 @@ public class DatabasePolicyModelsProviderTest {
      */
     @Before
     public void setupParameters() {
+        DefaultPfDao.clear();
+
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
