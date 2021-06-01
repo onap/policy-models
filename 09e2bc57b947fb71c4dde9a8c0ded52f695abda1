@@ -16,6 +16,24 @@
       "revId": "09e2bc57b947fb71c4dde9a8c0ded52f695abda1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3879dd57_56601c8b",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAuditTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-06-01T13:46:20Z",
+      "side": 1,
+      "message": "any update or reply for this?",
+      "parentUuid": "3884b08a_a29f5072",
+      "revId": "09e2bc57b947fb71c4dde9a8c0ded52f695abda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
