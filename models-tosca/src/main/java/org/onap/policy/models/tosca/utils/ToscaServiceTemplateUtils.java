@@ -56,9 +56,24 @@ public class ToscaServiceTemplateUtils {
     public static JpaToscaServiceTemplate addFragment(@NonNull final JpaToscaServiceTemplate originalTemplate,
             @NonNull final JpaToscaServiceTemplate fragmentTemplate) {
 
-        var result = new BeanValidationResult("incoming fragment", fragmentTemplate);
+        return addFragment(originalTemplate, fragmentTemplate, true);
+    }
 
-        if (originalTemplate.compareToWithoutEntities(fragmentTemplate) != 0) {
+    /**
+     * Add a service template fragment to a service template. All entities in the service template fragment must either
+     * a) not exist on the original service template or b) be identical to entities on the original service template.
+     *
+     * @param originalTemplate the original service template
+     * @param fragmentTemplate the fragment being added to the original service template
+     * @param validate {@code true} if to validate the data, {@code false} otherwise
+     * @return JpaToscaServiceTemplate
+     */
+    public static JpaToscaServiceTemplate addFragment(@NonNull final JpaToscaServiceTemplate originalTemplate,
+            @NonNull final JpaToscaServiceTemplate fragmentTemplate, boolean validate) {
+
+        var result = (validate ? new BeanValidationResult("incoming fragment", fragmentTemplate) : null);
+
+        if (result != null && originalTemplate.compareToWithoutEntities(fragmentTemplate) != 0) {
             Validated.addResult(result, "service template",
                             originalTemplate.getKey(),
                             "does not equal existing service template");
@@ -77,13 +92,17 @@ public class ToscaServiceTemplateUtils {
                 compositeTemplate.getTopologyTemplate()
                         .setPolicies(addFragmentEntitites(compositeTemplate.getTopologyTemplate().getPolicies(),
                                 fragmentTemplate.getTopologyTemplate().getPolicies(), result));
-            } else {
+            } else if (result != null) {
                 Validated.addResult(result, "topology template",
                                 originalTemplate.getTopologyTemplate().getKey(),
                                 "does not equal existing topology template");
             }
         } else if (fragmentTemplate.getTopologyTemplate() != null) {
             compositeTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate(fragmentTemplate.getTopologyTemplate()));
+        }
+
+        if (result == null) {
+            return compositeTemplate;
         }
 
         if (result.isValid()) {
@@ -121,9 +140,15 @@ public class ToscaServiceTemplateUtils {
             return compositeContainer;
         }
 
-        var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
         var originalContainerMap = compositeContainer.getConceptMap();
         var fragmentContainerMap = fragmentContainer.getConceptMap();
+
+        if (result == null) {
+            originalContainerMap.putAll(fragmentContainerMap);
+            return compositeContainer;
+        }
+
+        var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
 
         for (Entry<PfConceptKey, J> fragmentEntry : fragmentContainerMap.entrySet()) {
             J containerEntity = originalContainerMap.get(fragmentEntry.getKey());
