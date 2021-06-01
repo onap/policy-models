@@ -19,8 +19,8 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>model-impl</artifactId>
@@ -33,61 +33,14 @@
   <description>gRPC client implementation to send process message to CDS blueprint processor gRPC endpoint.</description>
 
   <properties>
-    <grpc.version>1.35.0</grpc.version>
-    <protobuf.version>3.14.0</protobuf.version>
+    <grpc.version>1.25.0</grpc.version>
   </properties>
 
   <dependencies>
     <!-- CDS dependencies -->
     <dependency>
-      <groupId>org.onap.ccsdk.cds.components</groupId>
-      <artifactId>proto-definition</artifactId>
-    </dependency>
-
-    <!-- protobuf dependencies -->
-    <dependency>
-      <groupId>com.google.protobuf</groupId>
-      <artifactId>protobuf-java</artifactId>
-      <version>${protobuf.version}</version>
-    </dependency>
-
-    <!-- gRPC dependencies -->
-    <!-- io.netty artifacts have security issues and are transitive dependencies from io.grpc:grpc-netty:1.17.1.
-    Override io.netty dependencies and add exclusions to io.grpc:grpc-netty where io.netty version is mandated. -->
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-codec-http2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-handler-proxy</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf</artifactId>
-      <version>${grpc.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>com.google.code.findbugs</groupId>
-          <artifactId>jsr305</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-stub</artifactId>
-      <version>${grpc.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-netty</artifactId>
-      <version>${grpc.version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>io.netty</groupId>
-          <artifactId>netty-codec-http2</artifactId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.onap.ccsdk.cds.blueprintsprocessor</groupId>
+      <artifactId>blueprint-proto</artifactId>
     </dependency>
     <dependency>
       <groupId>io.grpc</groupId>
