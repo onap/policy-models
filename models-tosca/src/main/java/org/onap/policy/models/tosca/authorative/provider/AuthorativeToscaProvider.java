@@ -101,12 +101,16 @@ public class AuthorativeToscaProvider {
         LOGGER.debug("->getFilteredServiceTemplateList: filter={}", filter);
 
         List<ToscaServiceTemplate> filteredServiceTemplateList =
-                filter.filter(getServiceTemplateList(pfDao, null, null));
+                filter.filter(getServiceTemplateList(pfDao, filter.getName(), exactVersion(filter.getVersion())));
 
         LOGGER.debug("<-getFilteredServiceTemplateList: filter={}, filteredServiceTemplateList={}", filter,
                 filteredServiceTemplateList);
 
         return filteredServiceTemplateList;
+    }
+
+    private String exactVersion(String version) {
+        return (ToscaEntityFilter.LATEST_VERSION.equals(version) ? null : version);
     }
 
     /**
@@ -245,7 +249,8 @@ public class AuthorativeToscaProvider {
             LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
             var simpleToscaProvider = new SimpleToscaProvider();
 
-            final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, null, null);
+            final JpaToscaServiceTemplate dbServiceTemplate = simpleToscaProvider.getPolicyTypes(dao, filter.getName(),
+                            exactVersion(filter.getVersion()));
 
             List<ToscaPolicyType> filteredPolicyTypes = dbServiceTemplate.getPolicyTypes().toAuthorativeList();
             filteredPolicyTypes = filter.filter(filteredPolicyTypes);
@@ -285,7 +290,8 @@ public class AuthorativeToscaProvider {
 
         LOGGER.debug("->getFilteredPolicyTypeList: filter={}", filter);
 
-        List<ToscaPolicyType> filteredPolicyTypeList = filter.filter(getPolicyTypeList(dao, null, null));
+        List<ToscaPolicyType> filteredPolicyTypeList =
+                        filter.filter(getPolicyTypeList(dao, filter.getName(), exactVersion(filter.getVersion())));
 
         LOGGER.debug("<-getFilteredPolicyTypeList: filter={}, filteredPolicyTypeList={}", filter,
                 filteredPolicyTypeList);
@@ -427,12 +433,10 @@ public class AuthorativeToscaProvider {
 
         synchronized (providerLockObject) {
             LOGGER.debug("->getFilteredPolicies: filter={}", filter);
-            String version =
-                    ToscaTypedEntityFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
             var simpleToscaProvider = new SimpleToscaProvider();
             final JpaToscaServiceTemplate dbServiceTemplate =
-                    simpleToscaProvider.getPolicies(dao, filter.getName(), version);
+                    simpleToscaProvider.getPolicies(dao, filter.getName(), exactVersion(filter.getVersion()));
 
             List<ToscaPolicy> filteredPolicies =
                     dbServiceTemplate.getTopologyTemplate().getPolicies().toAuthorativeList();
@@ -472,9 +476,9 @@ public class AuthorativeToscaProvider {
             @NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter) throws PfModelException {
 
         LOGGER.debug("->getFilteredPolicyList: filter={}", filter);
-        String version = ToscaTypedEntityFilter.LATEST_VERSION.equals(filter.getVersion()) ? null : filter.getVersion();
 
-        List<ToscaPolicy> policyList = filter.filter(getPolicyList(dao, filter.getName(), version));
+        List<ToscaPolicy> policyList =
+                        filter.filter(getPolicyList(dao, filter.getName(), exactVersion(filter.getVersion())));
 
         LOGGER.debug("<-getFilteredPolicyList: filter={}, policyList={}", filter, policyList);
         return policyList;

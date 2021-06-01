@@ -89,6 +89,8 @@ public class PdpProviderTest {
      */
     @Before
     public void setupDao() throws Exception {
+        DefaultPfDao.clear();
+
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 

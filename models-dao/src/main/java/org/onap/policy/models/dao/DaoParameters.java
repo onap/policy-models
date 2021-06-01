@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +22,14 @@
 package org.onap.policy.models.dao;
 
 import java.util.Properties;
+import lombok.EqualsAndHashCode;
 
 /**
  * This class is a POJO that holds properties for PF DAOs.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+@EqualsAndHashCode
 public class DaoParameters {
     /** The default PF DAO plugin class. */
     public static final String DEFAULT_PLUGIN_CLASS = "org.onap.policy.models.dao.impl.DefaultPfDao";

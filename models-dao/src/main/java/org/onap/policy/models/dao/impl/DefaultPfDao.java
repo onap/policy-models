@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -114,8 +116,26 @@ public class DefaultPfDao implements PfDao {
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
     // @formatter:on
 
+    private static Map<DaoParameters, EntityManagerFactory> params2emf = new ConcurrentHashMap<>();
+
     // Entity manager for JPA
     private EntityManagerFactory emf = null;
+
+    /**
+     * Closes all entity manager factories and removes them from the cache.
+     */
+    public static void clear() {
+        Map<DaoParameters, EntityManagerFactory> old = params2emf;
+        params2emf = new ConcurrentHashMap<>();
+
+        for (Entry<DaoParameters, EntityManagerFactory> entry: old.entrySet()) {
+            try {
+                entry.getValue().close();
+            } catch (RuntimeException e) {
+                LOGGER.warn("Cannot close persistence unit {}", entry.getKey());
+            }
+        }
+    }
 
     @Override
     public void init(final DaoParameters daoParameters) throws PfModelException {
@@ -125,9 +145,16 @@ public class DefaultPfDao implements PfDao {
                     "Policy Framework persistence unit parameter not set");
         }
 
+        emf = params2emf.get(daoParameters);
+        if (emf != null) {
+            LOGGER.debug("Reusing Policy Framework persistence unit \"{}\"", daoParameters.getPersistenceUnit());
+            return;
+        }
+
         LOGGER.debug("Creating Policy Framework persistence unit \"{}\" . . .", daoParameters.getPersistenceUnit());
+        EntityManagerFactory emf2;
         try {
-            emf = Persistence.createEntityManagerFactory(daoParameters.getPersistenceUnit(),
+            emf2 = Persistence.createEntityManagerFactory(daoParameters.getPersistenceUnit(),
                     daoParameters.getJdbcProperties());
         } catch (final Exception ex) {
             String errorMessage = "Creation of Policy Framework persistence unit \""
@@ -136,6 +163,13 @@ public class DefaultPfDao implements PfDao {
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ex);
         }
         LOGGER.debug("Created Policy Framework persistence unit \"{}\"", daoParameters.getPersistenceUnit());
+
+        emf = params2emf.compute(daoParameters, (key, emf1) -> (emf1 != null ? emf1 : emf2));
+
+        if (emf != emf2) {
+            LOGGER.debug("Close extra Policy Framework persistence unit \"{}\"", daoParameters.getPersistenceUnit());
+            emf2.close();
+        }
     }
 
     /**
@@ -155,9 +189,7 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public final void close() {
-        if (emf != null) {
-            emf.close();
-        }
+        // do nothing
     }
 
     @Override
