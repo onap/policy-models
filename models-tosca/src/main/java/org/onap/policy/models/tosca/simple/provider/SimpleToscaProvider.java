@@ -194,7 +194,7 @@ public class SimpleToscaProvider {
                     referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
 
                 serviceTemplate =
-                    ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate);
+                    ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate, false);
             }
         }
         return serviceTemplate;
@@ -364,12 +364,12 @@ public class SimpleToscaProvider {
                 JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate = getCascadedDataTypes(dbServiceTemplate,
                     referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
 
-                dataTypeServiceTemplate =
-                    ToscaServiceTemplateUtils.addFragment(dataTypeServiceTemplate, dataTypeEntityTreeServiceTemplate);
+                dataTypeServiceTemplate = ToscaServiceTemplateUtils.addFragment(dataTypeServiceTemplate,
+                                dataTypeEntityTreeServiceTemplate, false);
             }
         }
 
-        serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeServiceTemplate);
+        serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeServiceTemplate, false);
         return serviceTemplate;
     }
 
@@ -546,7 +546,7 @@ public class SimpleToscaProvider {
 
             returnServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
             returnServiceTemplate =
-                ToscaServiceTemplateUtils.addFragment(returnServiceTemplate, referencedEntitiesServiceTemplate);
+                ToscaServiceTemplateUtils.addFragment(returnServiceTemplate, referencedEntitiesServiceTemplate, false);
         }
 
         return returnServiceTemplate;
