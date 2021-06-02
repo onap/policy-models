@@ -34,6 +34,24 @@
       "revId": "09e2bc57b947fb71c4dde9a8c0ded52f695abda1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf550cfc_3dc0a02b",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAuditTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-06-02T09:48:44Z",
+      "side": 1,
+      "message": "sorry, I thought I had replied. It only gives \"key is null\" even if I test with name or version null, so I don\u0027t think it\u0027s necessary. as for timestamp, it won\u0027t give an error back because sonar complains if I just leave it to accept null so I had to give the Instant.now() so it\u0027s never null.",
+      "parentUuid": "3879dd57_56601c8b",
+      "revId": "09e2bc57b947fb71c4dde9a8c0ded52f695abda1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
