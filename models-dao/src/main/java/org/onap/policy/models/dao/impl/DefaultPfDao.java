@@ -32,6 +32,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.ws.rs.core.Response;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfGeneratedIdKey;
@@ -72,6 +73,7 @@ public class DefaultPfDao implements PfDao {
 
     private static final String WHERE      = " WHERE ";
     private static final String AND        = " AND ";
+    private static final String ORDER_BY        = " ORDER BY c.";
 
     private static final String NAME_FILTER            = "c.key.name = :name";
     private static final String VERSION_FILTER         = "c.key.version = :version";
@@ -395,9 +397,8 @@ public class DefaultPfDao implements PfDao {
 
         try {
             PfFilter timeStampFilter = new PfFilterFactory().createFilter(someClass);
-            filterQueryString = timeStampFilter.addFilter(filterQueryString,
-                  name, startTime, endTime, filterMap, sortOrder, getRecordNum);
-
+            filterQueryString = timeStampFilter.addFilter(filterQueryString, name, startTime, endTime, filterMap,
+                    sortOrder, getRecordNum);
 
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
 
@@ -427,7 +428,7 @@ public class DefaultPfDao implements PfDao {
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();
-        }  finally {
+        } finally {
             mg.close();
         }
     }
@@ -505,6 +506,27 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
+    public <T extends PfConcept> List<T> getAll(Class<T> someClass, String orderBy, Integer numRecords) {
+
+        if (someClass == null) {
+            return Collections.emptyList();
+        }
+        final var mg = getEntityManager();
+        try {
+            String query = setQueryTable(SELECT_FROM_TABLE, someClass);
+
+            if (StringUtils.isNotBlank(orderBy)) {
+                query = query.concat(ORDER_BY).concat(orderBy);
+            }
+
+            return mg.createQuery(query, someClass).setMaxResults(numRecords)
+                    .getResultList();
+        } finally {
+            mg.close();
+        }
+    }
+
+    @Override
     public <T extends PfConcept> List<T> getAllVersionsByParent(final Class<T> someClass, final String parentKeyName) {
         if (someClass == null || parentKeyName == null) {
             return Collections.emptyList();
@@ -539,9 +561,8 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass,
-                                                        final PfGeneratedIdKey key,
-                                                        final Instant timeStamp) {
+    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass, final PfGeneratedIdKey key,
+            final Instant timeStamp) {
         if (someClass == null || key == null || timeStamp == null) {
             return Collections.emptyList();
         }
