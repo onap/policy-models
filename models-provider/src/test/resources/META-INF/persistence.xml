@@ -27,6 +27,7 @@
         <class>org.onap.policy.models.base.PfConceptKey</class>
         <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
         <class>org.onap.policy.models.dao.converters.Uuid2String</class>
+        <class>org.onap.policy.models.pap.persistence.concepts.JpaPolicyAudit</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdp</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup</class>

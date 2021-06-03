@@ -126,6 +126,8 @@ public class DummyPolicyModelsProviderTest {
         assertThat(dummyProvider.getGroupPolicyStatus("name")).isEmpty();
         assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null,
             null)).doesNotThrowAnyException();
+        assertThatCode(() -> dummyProvider.createAuditRecords(null)).doesNotThrowAnyException();
+        assertThat(dummyProvider.getAuditRecords(null, 10)).isEmpty();
     }
 
     @Test

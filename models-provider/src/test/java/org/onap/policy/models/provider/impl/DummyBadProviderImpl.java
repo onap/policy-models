@@ -31,6 +31,8 @@ import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pap.concepts.PolicyAudit;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -261,6 +263,17 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
+        // Not implemented
+        return null;
+    }
+
+    @Override
+    public void createAuditRecords(List<PolicyAudit> auditRecords) {
+        // Not implemented
+    }
+
+    @Override
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter, @NonNull Integer numRecords) {
         // Not implemented
         return null;
     }

@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.List;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.pap.concepts.PolicyAudit;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -408,4 +410,19 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
             Collection<PdpPolicyStatus> deleteObjs);
+
+    /**
+     * Creates records for audit actions on policies.
+     *
+     * @param auditRecords the objects to create
+     */
+    public void createAuditRecords(@NonNull List<PolicyAudit> auditRecords);
+
+    /**
+     * Collect the audit records.
+     * @param auditFilter filter for search
+     * @param numRecords max number of records to be collected
+     * @return list of {@link PolicyAudit} or empty if none or not match with filter
+     */
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter,  @NonNull Integer numRecords);
 }
