@@ -59,7 +59,7 @@ public class PolicyAuditProvider {
         BeanValidationResult result = new BeanValidationResult("createAuditRecords", jpaAudits);
 
         int count = 0;
-        for (JpaPolicyAudit jpaAudit: jpaAudits) {
+        for (JpaPolicyAudit jpaAudit : jpaAudits) {
             result.addResult(jpaAudit.validate(String.valueOf(count++)));
         }
 
@@ -126,12 +126,22 @@ public class PolicyAuditProvider {
      */
     @Data
     @Builder
-    protected static class AuditFilter {
+    public static class AuditFilter {
         private String name;
         private String version;
         private AuditAction action;
         private String pdpGroup;
         private Instant fromDate;
         private Instant toDate;
+
+        /**
+         * Check if even still using build(), none of the params were provided.
+         *
+         * @return {@code true} if all empty/null; {@code false} otherwise.
+         */
+        public boolean isEmpty() {
+            return StringUtils.isAllEmpty(name, version, pdpGroup) && action == null && fromDate == null
+                    && toDate == null;
+        }
     }
 }

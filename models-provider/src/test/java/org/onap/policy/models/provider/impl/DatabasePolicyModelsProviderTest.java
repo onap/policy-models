@@ -36,6 +36,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.pap.concepts.PolicyAudit;
+import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -534,6 +537,33 @@ public class DatabasePolicyModelsProviderTest {
 
         assertThatThrownBy(() -> databaseProvider.deletePolicyType("pt0", "0.0.1"))
                 .hasMessageContaining("service template not found in database");
+
+        databaseProvider.close();
+    }
+
+    @Test
+    public void testCreateAuditRecords() throws PfModelException {
+        PolicyAudit audit = PolicyAudit.builder().action(AuditAction.DEPLOYMENT).pdpGroup(GROUP).pdpType(GROUP)
+                .policy(new ToscaConceptIdentifier(NAME, VERSION_100)).user("user").build();
+
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        databaseProvider.createAuditRecords(List.of(audit));
+        List<PolicyAudit> createdAudits = databaseProvider.getAuditRecords(null, 10);
+        assertThat(createdAudits).hasSize(1);
+
+        createdAudits = databaseProvider.getAuditRecords(AuditFilter.builder().build(), 10);
+        assertThat(createdAudits).hasSize(1);
+
+        List<PolicyAudit> emptyList =
+                databaseProvider.getAuditRecords(AuditFilter.builder().action(AuditAction.UNDEPLOYMENT).build(), 10);
+        assertThat(emptyList).isEmpty();
+
+        assertThatThrownBy(() -> databaseProvider.createAuditRecords(null))
+                .hasMessageContaining("audits is marked non-null but is null");
+
+        assertThatThrownBy(() -> databaseProvider.getAuditRecords(null, null))
+                .hasMessageContaining("numRecords is marked non-null but is null");
 
         databaseProvider.close();
     }

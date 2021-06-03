@@ -23,6 +23,7 @@ package org.onap.policy.models.pap.persistence.provider;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
@@ -215,6 +216,25 @@ public class PolicyAuditProviderTest {
         assertThatThrownBy(() -> {
             provider.getAuditRecords(pfDao, null, NUMBER_RECORDS);
         }).hasMessageMatching(String.format(FIELD_IS_NULL, "auditFilter"));
+    }
+
+    @Test
+    public void testAuditFiltersIsEmpty() {
+        AuditFilter emptyFilter = AuditFilter.builder().build();
+        assertTrue(emptyFilter.isEmpty());
+
+        AuditFilter stringsEmpty =
+                AuditFilter.builder().action(AuditAction.DEPLOYMENT).fromDate(Instant.MIN).toDate(Instant.MAX).build();
+        assertFalse(stringsEmpty.isEmpty());
+
+        AuditFilter filter = AuditFilter.builder().fromDate(Instant.MIN).toDate(Instant.MAX).build();
+        assertFalse(filter.isEmpty());
+        filter = AuditFilter.builder().fromDate(Instant.MIN).build();
+        assertFalse(filter.isEmpty());
+        filter = AuditFilter.builder().toDate(Instant.MAX).build();
+        assertFalse(filter.isEmpty());
+        filter = AuditFilter.builder().name("myPolicy").toDate(Instant.MAX).build();
+        assertFalse(filter.isEmpty());
     }
 
     private List<PolicyAudit> generatePolicyAudits(Instant date, String group, ToscaConceptIdentifier policy) {

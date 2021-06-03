@@ -29,6 +29,9 @@ import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pap.concepts.PolicyAudit;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -307,6 +310,22 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
             Collection<PdpPolicyStatus> deleteObjs) {
         assertInitialized();
         new PdpProvider().cudPolicyStatus(getPfDao(), createObjs, updateObjs, deleteObjs);
+    }
+
+    @Override
+    public void createAuditRecords(List<PolicyAudit> auditRecords) {
+        assertInitialized();
+        new PolicyAuditProvider().createAuditRecords(getPfDao(), auditRecords);
+    }
+
+    @Override
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter, @NonNull Integer numRecords) {
+        assertInitialized();
+        if (auditFilter == null || auditFilter.isEmpty()) {
+            return new PolicyAuditProvider().getAuditRecords(getPfDao(), numRecords);
+        } else {
+            return new PolicyAuditProvider().getAuditRecords(getPfDao(), auditFilter, numRecords);
+        }
     }
 
     /**

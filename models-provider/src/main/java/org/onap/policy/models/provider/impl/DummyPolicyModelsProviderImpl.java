@@ -32,6 +32,8 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.pap.concepts.PolicyAudit;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -265,6 +267,17 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
             Collection<PdpPolicyStatus> deleteObjs) {
         // Not implemented
+    }
+
+    @Override
+    public void createAuditRecords(List<PolicyAudit> auditRecords) {
+        // Not implemented
+    }
+
+    @Override
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter, @NonNull Integer numRecords) {
+        // Not implemented
+        return new ArrayList<>();
     }
 
     /**
