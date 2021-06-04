@@ -67,8 +67,6 @@ public class DatabasePolicyModelsProviderTest {
 
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
 
-    private static final String SUBGROUP_IS_NULL = "^pdpSubGroup is marked .*on.*ull but is null$";
-
     private static final String GROUP_IS_NULL = "^pdpGroupName is marked .*on.*ull but is null$";
 
     private static final String NAME_IS_NULL = "^name is marked .*on.*ull but is null$";
@@ -226,54 +224,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessageMatching("^pdpGroups is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(null, new PdpSubGroup());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(NAME, null);
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpSubGroup(NAME, new PdpSubGroup());
-        }).hasMessage("parameter \"localName\" is null");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, null, new Pdp());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "sub", null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(null, "sub", new Pdp());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(NAME, null, null);
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(NAME, null, new Pdp());
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(NAME, "sub", null);
-        }).hasMessageMatching("^pdp is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdp(NAME, "sub", new Pdp());
-        }).hasMessage("parameter \"localName\" is null");
-
-        assertThatThrownBy(() -> {
             databaseProvider.deletePdpGroup(null);
         }).hasMessageMatching(NAME_IS_NULL);
 
@@ -396,16 +346,6 @@ public class DatabasePolicyModelsProviderTest {
         assertEquals(1, databaseProvider.getPdpGroups(GROUP).size());
 
         pdpSubGroup.setDesiredInstanceCount(234);
-        databaseProvider.updatePdpSubGroup(GROUP, pdpSubGroup);
-        assertEquals(234,
-                databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
-
-        assertEquals("Hello", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                .get(0).getMessage());
-        pdp.setMessage("Howdy");
-        databaseProvider.updatePdp(GROUP, "type", pdp);
-        assertEquals("Howdy", databaseProvider.getPdpGroups(GROUP).get(0).getPdpSubgroups().get(0).getPdpInstances()
-                .get(0).getMessage());
 
         assertThatThrownBy(() -> {
             databaseProvider.deletePdpGroup(NAME);

@@ -270,7 +270,7 @@ public class SimpleToscaProviderTest {
         new SimpleToscaProvider().createPolicies(pfDao, serviceTemplate);
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(pfDao, policyType0Key))
-                .hasMessage("policy type PolicyType0:0.0.1 is in use, it is referenced in policy type pt1:0.0.2");
+                .hasMessageContaining("policy type PolicyType0:0.0.1 is in use, it is referenced in policy");
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(pfDao, pt1.getKey()))
                 .hasMessage("policy type pt1:0.0.2 is in use, it is referenced in policy p1:0.0.1");
@@ -878,13 +878,6 @@ public class SimpleToscaProviderTest {
         JpaToscaServiceTemplate deletedServiceTemplate = new SimpleToscaProvider().deleteServiceTemplate(pfDao);
 
         assertEquals(dataType0, deletedServiceTemplate.getDataTypes().get(dataType0Key));
-    }
-
-    @Test
-    public void testNullParameters() {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getCascadedDataTypes(null, null, null);
-        }).hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

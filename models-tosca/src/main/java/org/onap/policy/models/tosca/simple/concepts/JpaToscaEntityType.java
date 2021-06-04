@@ -27,9 +27,9 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -65,7 +65,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     @VerifyKey
     private PfConceptKey derivedFrom;
 
-    @ElementCollection
+    @Transient
     private Map<@NotNull @NotBlank String, @NotNull @NotBlank String> metadata;
 
     @Column

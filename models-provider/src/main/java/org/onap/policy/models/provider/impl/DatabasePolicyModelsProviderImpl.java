@@ -32,7 +32,6 @@ import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
@@ -228,19 +227,6 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException {
         assertInitialized();
         return new PdpProvider().updatePdpGroups(getPfDao(), pdpGroups);
-    }
-
-    @Override
-    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final PdpSubGroup pdpSubGroup)
-            throws PfModelException {
-        assertInitialized();
-        new PdpProvider().updatePdpSubGroup(getPfDao(), pdpGroupName, pdpSubGroup);
-    }
-
-    @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
-            throws PfModelException {
-        new PdpProvider().updatePdp(getPfDao(), pdpGroupName, pdpSubGroup, pdp);
     }
 
     @Override

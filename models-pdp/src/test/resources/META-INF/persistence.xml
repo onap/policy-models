@@ -24,18 +24,9 @@
     <persistence-unit name="ToscaConceptTest" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
-        <class>org.onap.policy.models.dao.converters.CDataConditioner</class>
-        <class>org.onap.policy.models.dao.converters.Uuid2String</class>
-        <class>org.onap.policy.models.base.PfConceptKey</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup</class>
-        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdp</class>
+        <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus</class>
         <class>org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
-        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty</class>
 
         <properties>
             <property name="eclipselink.target-database" value="MySQL" />

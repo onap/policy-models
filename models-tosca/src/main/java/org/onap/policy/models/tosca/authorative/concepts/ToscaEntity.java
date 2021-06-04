@@ -52,6 +52,7 @@ public class ToscaEntity implements PfNameVersion {
     private String derivedFrom;
 
     private Map<String, String> metadata;
+
     private String description;
 
     /**

@@ -21,21 +21,32 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
-import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfConceptFilter;
+import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
+import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
@@ -45,6 +56,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
+import org.onap.policy.models.tosca.simple.provider.EntityKey.NodeType;
 import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.onap.policy.models.tosca.utils.ToscaUtils;
 import org.slf4j.Logger;
@@ -61,6 +73,7 @@ public class SimpleToscaProvider {
     // Recurring string constants
     private static final String DATA_TYPE = "data type ";
     private static final String POLICY_TYPE = "policy type ";
+    private static final String POLICY = "policy ";
     private static final String SERVICE_TEMPLATE_NOT_FOUND_IN_DATABASE = "service template not found in database";
     private static final String DO_NOT_EXIST = " do not exist";
     private static final String NOT_FOUND = " not found";
@@ -157,47 +170,155 @@ public class SimpleToscaProvider {
                 "data types for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        JpaToscaServiceTemplate serviceTemplate = getCascadedDataTypes(dbServiceTemplate, name, version);
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+
+        EntityTree tree = makeTree(serviceTemplate);
+
+        serviceTemplate.setPolicyTypes(null);
+        serviceTemplate.setTopologyTemplate(null);
+
+        // load up data types
+        var dataTypes = filter(serviceTemplate.getDataTypes(), NodeType.DATA_TYPE, name, version);
+        var dataKeys = getCascadedDataTypes(serviceTemplate, tree, dataTypes);
+
+        if (dataKeys.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                "data types for " + name + ":" + version + DO_NOT_EXIST);
+        }
 
         LOGGER.debug("<-getDataTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
     }
 
-    /**
-     * Get the cascaded data types for a data type name and version.
-     *
-     * @param dbServiceTemplate the service template to search for the cascaded data types
-     * @param name the data type name we are searching for
-     * @param version the data type version we are searching for
-     * @return a service template containing the cascaded data types
-     * @throws PfModelException on errors getting the data types
-     */
-    public JpaToscaServiceTemplate getCascadedDataTypes(@NonNull final JpaToscaServiceTemplate dbServiceTemplate,
-        final String name, final String version) throws PfModelException {
+    private EntityTree makeTree(JpaToscaServiceTemplate serviceTemplate) {
+        EntityTree tree = new EntityTree();
 
-        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
-        serviceTemplate.setPolicyTypes(null);
-        serviceTemplate.setTopologyTemplate(null);
+        loadPolicies(serviceTemplate, tree);
+        loadPolicyTypes(serviceTemplate, tree);
+        loadDataTypes(serviceTemplate, tree);
 
-        ToscaUtils.getEntityTree(serviceTemplate.getDataTypes(), name, version);
+        return tree;
+    }
 
-        if (!ToscaUtils.doDataTypesExist(serviceTemplate)) {
-            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
-                "data types for " + name + ":" + version + DO_NOT_EXIST);
+    private void loadPolicies(JpaToscaServiceTemplate serviceTemplate, EntityTree tree) {
+        if (serviceTemplate.getTopologyTemplate() == null
+                        || serviceTemplate.getTopologyTemplate().getPolicies() == null) {
+            return;
         }
 
-        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getConceptMap().values()) {
-            Collection<PfConceptKey> referencedDataTypeKeys = dataType.getReferencedDataTypes();
+        for (JpaToscaPolicy data : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
+            EntityKey dataKey = new EntityKey(NodeType.POLICY, data.getKey());
+            tree.add(dataKey, data);
 
-            for (PfConceptKey referencedDataTypeKey : referencedDataTypeKeys) {
-                JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate = getCascadedDataTypes(dbServiceTemplate,
-                    referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
+            addReference(tree, dataKey, NodeType.POLICY, data.getDerivedFrom());
+            addReferences(tree, dataKey, NodeType.POLICY_TYPE, Collections.singleton(data.getType()));
+        }
+    }
 
-                serviceTemplate =
-                    ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeEntityTreeServiceTemplate);
+    private void loadPolicyTypes(JpaToscaServiceTemplate serviceTemplate, EntityTree tree) {
+        if (serviceTemplate.getPolicyTypes() == null) {
+            return;
+        }
+
+        for (JpaToscaPolicyType data : serviceTemplate.getPolicyTypes().getConceptMap().values()) {
+            EntityKey dataKey = new EntityKey(NodeType.POLICY_TYPE, data.getKey());
+            tree.add(dataKey, data);
+
+            addReference(tree, dataKey, NodeType.POLICY_TYPE, data.getDerivedFrom());
+            addReferences(tree, dataKey, NodeType.DATA_TYPE, data.getReferencedDataTypes());
+        }
+    }
+
+    private void loadDataTypes(JpaToscaServiceTemplate serviceTemplate, EntityTree tree) {
+        if (serviceTemplate.getDataTypes() == null) {
+            return;
+        }
+
+        for (JpaToscaDataType data : serviceTemplate.getDataTypes().getConceptMap().values()) {
+            EntityKey dataKey = new EntityKey(NodeType.DATA_TYPE, data.getKey());
+            tree.add(dataKey, data);
+
+            addReference(tree, dataKey, NodeType.DATA_TYPE, data.getDerivedFrom());
+            addReferences(tree, dataKey, NodeType.DATA_TYPE, data.getReferencedDataTypes());
+        }
+    }
+
+    private void addReferences(EntityTree tree, EntityKey key, NodeType refType,
+                    Collection<PfConceptKey> referencedKeys) {
+        for (var refKey : referencedKeys) {
+            addReference(tree, key, refType, refKey);
+        }
+    }
+
+    private void addReference(EntityTree tree, EntityKey key, NodeType refType, PfConceptKey refKey) {
+        if (refKey == null || refKey.getName().endsWith(ToscaUtils.ROOT_KEY_NAME_SUFFIX)) {
+            return;
+        }
+
+        EntityKey refEntityKey = new EntityKey(refType, refKey);
+
+        tree.addReference(key, refEntityKey);
+    }
+
+    private <T extends JpaToscaEntityType<?>> Collection<EntityKey> filter(
+                    PfConceptContainer<T, ? extends PfNameVersion> entityTypes, NodeType type, String name,
+                    String version) {
+
+        Predicate<PfConcept> theFilter;
+        if (name == null) {
+            theFilter = null;
+        } else if (version == null || PfKey.NULL_KEY_VERSION.equals(version)) {
+            theFilter = key -> name.equals(key.getName());
+        } else {
+            theFilter = key -> name.equals(key.getName()) && version.contentEquals(key.getVersion());
+        }
+
+        Stream<T> stream = entityTypes.getConceptMap().values().stream();
+        if (theFilter != null) {
+            stream = stream.filter(theFilter);
+        }
+
+        return stream.map(jpa -> new EntityKey(type, jpa.getKey())).collect(Collectors.toList());
+    }
+
+    private <T extends JpaToscaEntityType<?>> Map<PfConceptKey, T> cascade(EntityTree tree,
+                    NodeType type, Collection<EntityKey> data) {
+
+        Map<PfConceptKey, T> map = new TreeMap<>();
+        Queue<EntityKey> queue = new ArrayDeque<>(data);
+
+        while (!queue.isEmpty()) {
+            EntityKey entKey = queue.remove();
+
+            if (entKey.getType() == type) {
+                map.put(entKey.getIdent(), tree.get(entKey));
+            }
+
+            for (EntityKey refKey : tree.getUses(entKey, type)) {
+                map.computeIfAbsent(refKey.getIdent(), refId -> {
+                    queue.add(refKey);
+                    T refData = tree.get(refKey);
+                    map.put(refId, refData);
+                    return refData;
+                });
             }
         }
-        return serviceTemplate;
+
+        return map;
+    }
+
+    private List<EntityKey> getCascadedDataTypes(JpaToscaServiceTemplate serviceTemplate, EntityTree tree,
+                    Collection<EntityKey> keys) {
+
+        Map<PfConceptKey, JpaToscaDataType> dataTypeMap = cascade(tree, NodeType.DATA_TYPE, keys);
+
+        JpaToscaDataTypes jpaDataTypes = new JpaToscaDataTypes();
+        jpaDataTypes.setConceptMap(dataTypeMap);
+
+        serviceTemplate.setDataTypes(jpaDataTypes);
+
+        return dataTypeMap.keySet().stream().map(key -> new EntityKey(NodeType.DATA_TYPE, key))
+                        .collect(Collectors.toList());
     }
 
     /**
@@ -234,15 +355,28 @@ public class SimpleToscaProvider {
 
         ToscaUtils.assertDataTypesExist(serviceTemplate);
 
-        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
-            dao.update(dataType);
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+        if (dbServiceTemplate == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "service template " + NOT_FOUND);
         }
+
+        if (dbServiceTemplate.getDataTypes() == null) {
+            dbServiceTemplate.setDataTypes(new JpaToscaDataTypes());
+        }
+
+        Map<PfConceptKey, JpaToscaDataType> dbDataTypes = dbServiceTemplate.getDataTypes().getConceptMap();
+
+        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
+            dbDataTypes.put(dataType.getKey(), dataType);
+        }
+
+        new SimpleToscaServiceTemplateProvider().write(dao, dbServiceTemplate);
 
         // Return the created data types
         var returnDataTypes = new JpaToscaDataTypes();
 
-        for (PfConceptKey dataTypeKey : serviceTemplate.getDataTypes().getConceptMap().keySet()) {
-            returnDataTypes.getConceptMap().put(dataTypeKey, dao.get(JpaToscaDataType.class, dataTypeKey));
+        for (PfConceptKey dataTypeKey : dbDataTypes.keySet()) {
+            returnDataTypes.getConceptMap().put(dataTypeKey, dbDataTypes.get(dataTypeKey));
         }
 
         var returnServiceTemplate = new JpaToscaServiceTemplate();
@@ -271,30 +405,35 @@ public class SimpleToscaProvider {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no data types found");
         }
 
-        JpaToscaDataType dataType4Deletion = serviceTemplate.getDataTypes().get(dataTypeKey);
+        EntityTree tree = makeTree(serviceTemplate);
+        EntityKey key = new EntityKey(NodeType.DATA_TYPE, dataTypeKey);
+
+        JpaToscaDataType dataType4Deletion = tree.get(key);
         if (dataType4Deletion == null) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, DATA_TYPE + dataTypeKey.getId() + NOT_FOUND);
         }
 
-        for (JpaToscaDataType dataType : serviceTemplate.getDataTypes().getAll(null)) {
-            if (dataType.getReferencedDataTypes().contains(dataTypeKey)) {
-                throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE,
-                    DATA_TYPE + dataTypeKey.getId() + " is in use, it is referenced in data type " + dataType.getId());
+        Set<EntityKey> refKeys = tree.getUsedBy(key, NodeType.POLICY_TYPE, NodeType.DATA_TYPE);
+        if (!refKeys.isEmpty()) {
+            var refKey = refKeys.iterator().next();
+            String msg;
+            switch (refKey.getType()) {
+                case DATA_TYPE:
+                    msg = "data type";
+                    break;
+                case POLICY_TYPE:
+                    msg = "policy type";
+                    break;
+                default:
+                    msg = "unknown";
+                    break;
             }
-        }
-
-        if (ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
-            for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
-                if (policyType.getReferencedDataTypes().contains(dataTypeKey)) {
-                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, DATA_TYPE + dataTypeKey.getId()
-                        + " is in use, it is referenced in policy type " + policyType.getId());
-                }
-            }
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, DATA_TYPE + dataTypeKey.getId()
+                            + " is in use, it is referenced in " + msg + " " + refKey.getIdent().getId());
         }
 
         serviceTemplate.getDataTypes().getConceptMap().remove(dataTypeKey);
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
-        dao.delete(dataType4Deletion);
 
         var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setDataTypes(new JpaToscaDataTypes());
@@ -324,53 +463,89 @@ public class SimpleToscaProvider {
                 "policy types for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        JpaToscaServiceTemplate serviceTemplate = getCascadedPolicyTypes(dbServiceTemplate, name, version);
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+
+        EntityTree tree = makeTree(serviceTemplate);
+
+        serviceTemplate.setTopologyTemplate(null);
+
+        // load up policy types
+        var policyTypes = filter(serviceTemplate.getPolicyTypes(), NodeType.POLICY_TYPE, name, version);
+        var typeKeys = getCascadedPolicyTypes(serviceTemplate, tree, policyTypes);
+
+        if (typeKeys.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                "policy types for " + name + ":" + version + DO_NOT_EXIST);
+        }
+
+        getCascadedDataTypes(serviceTemplate, tree, typeKeys);
 
         LOGGER.debug("<-getPolicyTypes: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
         return serviceTemplate;
     }
 
     /**
-     * Get the cascaded policy types for a policy type name and version.
+     * Get policy types.
      *
-     * @param dbServiceTemplate the service template to search for the cascaded policy types
-     * @param name the policy type name we are searching for
-     * @param version the policy type version we are searching for
-     * @return a service template containing the cascaded policy types
-     * @throws PfModelException on errors getting the policy types
+     * @param dao the DAO to use to access the database
+     * @param filter the filter for the policy types to get
+     * @return the policy types found
+     * @throws PfModelException on errors getting policy types
      */
-    public JpaToscaServiceTemplate getCascadedPolicyTypes(final JpaToscaServiceTemplate dbServiceTemplate,
-        final String name, final String version) throws PfModelException {
+    public JpaToscaServiceTemplate getFilteredPolicyTypes(@NonNull final PfDao dao,
+                    @NonNull final ToscaEntityFilter<ToscaPolicyType> filter)
+        throws PfModelException {
+        LOGGER.debug("->getFilteredPolicyTypes: filter={}", filter);
+
+        final JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doPolicyTypesExist(dbServiceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                            "policy types for filter " + filter + DO_NOT_EXIST);
+        }
 
         var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
 
-        serviceTemplate.setDataTypes(null);
+        EntityTree tree = makeTree(serviceTemplate);
+
         serviceTemplate.setTopologyTemplate(null);
 
-        ToscaUtils.getEntityTree(serviceTemplate.getPolicyTypes(), name, version);
+        // load up policy types of interest
+        var authorativeTypes = serviceTemplate.getPolicyTypes().getConceptMap().values().stream()
+                        .map(JpaToscaPolicyType::toAuthorative).collect(Collectors.toList());
+        authorativeTypes = filter.filter(authorativeTypes);
 
-        if (!ToscaUtils.doPolicyTypesExist(serviceTemplate)) {
+        var typeKeys = authorativeTypes.stream()
+                        .map(ToscaPolicyType::getKey)
+                        .map(key -> new PfConceptKey(key.getName(), key.getVersion()))
+                        .map(key -> new EntityKey(NodeType.POLICY_TYPE, key))
+                        .collect(Collectors.toList());
+
+        typeKeys = getCascadedPolicyTypes(serviceTemplate, tree, typeKeys);
+
+        if (typeKeys.isEmpty()) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
-                "policy types for " + name + ":" + version + DO_NOT_EXIST);
+                            "policy types for filter " + filter + DO_NOT_EXIST);
         }
 
-        var dataTypeServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
-        dataTypeServiceTemplate.setPolicyTypes(null);
+        getCascadedDataTypes(serviceTemplate, tree, typeKeys);
 
-        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getConceptMap().values()) {
-            Collection<PfConceptKey> referencedDataTypeKeys = policyType.getReferencedDataTypes();
-
-            for (PfConceptKey referencedDataTypeKey : referencedDataTypeKeys) {
-                JpaToscaServiceTemplate dataTypeEntityTreeServiceTemplate = getCascadedDataTypes(dbServiceTemplate,
-                    referencedDataTypeKey.getName(), referencedDataTypeKey.getVersion());
-
-                dataTypeServiceTemplate =
-                    ToscaServiceTemplateUtils.addFragment(dataTypeServiceTemplate, dataTypeEntityTreeServiceTemplate);
-            }
-        }
-
-        serviceTemplate = ToscaServiceTemplateUtils.addFragment(serviceTemplate, dataTypeServiceTemplate);
+        LOGGER.debug("<-getFilteredPolicyTypes: filter={}, serviceTemplate={}", filter, serviceTemplate);
         return serviceTemplate;
+    }
+
+    private List<EntityKey> getCascadedPolicyTypes(JpaToscaServiceTemplate serviceTemplate,
+                    EntityTree tree, Collection<EntityKey> keys) {
+
+        Map<PfConceptKey, JpaToscaPolicyType> policyTypeMap = cascade(tree, NodeType.POLICY_TYPE, keys);
+
+        JpaToscaPolicyTypes jpaPolicyTypes = new JpaToscaPolicyTypes();
+        jpaPolicyTypes.setConceptMap(policyTypeMap);
+
+        serviceTemplate.setPolicyTypes(jpaPolicyTypes);
+
+        return policyTypeMap.keySet().stream().map(key -> new EntityKey(NodeType.POLICY_TYPE, key))
+                        .collect(Collectors.toList());
     }
 
     /**
@@ -412,15 +587,28 @@ public class SimpleToscaProvider {
             updateDataTypes(dao, serviceTemplate);
         }
 
-        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
-            dao.update(policyType);
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+        if (dbServiceTemplate == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "service template " + NOT_FOUND);
         }
+
+        if (dbServiceTemplate.getPolicyTypes() == null) {
+            dbServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
+        }
+
+        Map<PfConceptKey, JpaToscaPolicyType> dbPolicyTypes = dbServiceTemplate.getPolicyTypes().getConceptMap();
+
+        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
+            dbPolicyTypes.put(policyType.getKey(), policyType);
+        }
+
+        new SimpleToscaServiceTemplateProvider().write(dao, dbServiceTemplate);
 
         // Return the created policy types
         var returnPolicyTypes = new JpaToscaPolicyTypes();
 
         for (PfConceptKey policyTypeKey : serviceTemplate.getPolicyTypes().getConceptMap().keySet()) {
-            returnPolicyTypes.getConceptMap().put(policyTypeKey, dao.get(JpaToscaPolicyType.class, policyTypeKey));
+            returnPolicyTypes.getConceptMap().put(policyTypeKey, dbPolicyTypes.get(policyTypeKey));
         }
 
         var returnServiceTemplate = new JpaToscaServiceTemplate();
@@ -449,36 +637,36 @@ public class SimpleToscaProvider {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no policy types found");
         }
 
-        JpaToscaPolicyType policyType4Deletion = serviceTemplate.getPolicyTypes().get(policyTypeKey);
+        EntityTree tree = makeTree(serviceTemplate);
+        EntityKey key = new EntityKey(NodeType.POLICY_TYPE, policyTypeKey);
+
+        JpaToscaPolicyType policyType4Deletion = tree.get(key);
         if (policyType4Deletion == null) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
                 POLICY_TYPE + policyTypeKey.getId() + NOT_FOUND);
         }
 
-        var result = new BeanValidationResult("policy types", serviceTemplate);
-
-        for (JpaToscaPolicyType policyType : serviceTemplate.getPolicyTypes().getAll(null)) {
-            Collection<JpaToscaEntityType<ToscaEntity>> ancestorList = ToscaUtils
-                .getEntityTypeAncestors(serviceTemplate.getPolicyTypes(), policyType, result);
-
-            if (ancestorList.contains(policyType4Deletion)) {
-                throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE + policyTypeKey.getId()
-                    + " is in use, it is referenced in policy type " + policyType.getId());
+        Set<EntityKey> refKeys = tree.getUsedBy(key, NodeType.POLICY, NodeType.POLICY_TYPE);
+        if (!refKeys.isEmpty()) {
+            var refKey = refKeys.iterator().next();
+            String msg;
+            switch (refKey.getType()) {
+                case POLICY_TYPE:
+                    msg = "policy type";
+                    break;
+                case POLICY:
+                    msg = "policy";
+                    break;
+                default:
+                    msg = "unknown";
+                    break;
             }
-        }
-
-        if (ToscaUtils.doPoliciesExist(serviceTemplate)) {
-            for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
-                if (policyTypeKey.equals(policy.getType())) {
-                    throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE
-                        + policyTypeKey.getId() + " is in use, it is referenced in policy " + policy.getId());
-                }
-            }
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY_TYPE + policyTypeKey.getId()
+                            + " is in use, it is referenced in " + msg + " " + refKey.getIdent().getId());
         }
 
         serviceTemplate.getPolicyTypes().getConceptMap().remove(policyTypeKey);
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
-        dao.delete(policyType4Deletion);
 
         var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
@@ -508,48 +696,92 @@ public class SimpleToscaProvider {
                 "policies for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        JpaToscaServiceTemplate returnServiceTemplate = getCascadedPolicies(dbServiceTemplate, name, version);
-
-        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, returnServiceTemplate);
-        return returnServiceTemplate;
-    }
-
-    /**
-     * Get the cascaded policies for a policy name and version.
-     *
-     * @param dbServiceTemplate the service template to search for the cascaded policy
-     * @param name the policy name we are searching for
-     * @param version the policy version we are searching for
-     * @return a service template containing the cascaded policy
-     * @throws PfModelException on errors getting the policy
-     */
-    public JpaToscaServiceTemplate getCascadedPolicies(final JpaToscaServiceTemplate dbServiceTemplate,
-        final String name, final String version) throws PfModelException {
-
         var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
-        serviceTemplate.setDataTypes(new JpaToscaDataTypes());
-        serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
-        ToscaUtils.getEntityTree(serviceTemplate.getTopologyTemplate().getPolicies(), name, version);
+        EntityTree tree = makeTree(serviceTemplate);
 
-        if (!ToscaUtils.doPoliciesExist(serviceTemplate)) {
+        serviceTemplate.setPolicyTypes(null);
+        serviceTemplate.setDataTypes(null);
+
+        // load up policies
+        var policies = filter(serviceTemplate.getTopologyTemplate().getPolicies(), NodeType.POLICY, name, version);
+        var policyKeys = getCascadedPolicies(serviceTemplate, tree, policies);
+
+        if (policyKeys.isEmpty()) {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
                 "policies for " + name + ":" + version + DO_NOT_EXIST);
         }
 
-        var returnServiceTemplate = new JpaToscaServiceTemplate(serviceTemplate);
-        returnServiceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        var typeKeys = getCascadedPolicyTypes(serviceTemplate, tree, policyKeys);
 
-        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
-            JpaToscaServiceTemplate referencedEntitiesServiceTemplate =
-                getCascadedPolicyTypes(dbServiceTemplate, policy.getType().getName(), policy.getType().getVersion());
+        getCascadedDataTypes(serviceTemplate, tree, typeKeys);
 
-            returnServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(policy.getKey(), policy);
-            returnServiceTemplate =
-                ToscaServiceTemplateUtils.addFragment(returnServiceTemplate, referencedEntitiesServiceTemplate);
+        LOGGER.debug("<-getPolicies: name={}, version={}, serviceTemplate={}", name, version, serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Get policies.
+     *
+     * @param dao the DAO to use to access the database
+     * @param filter the filter for the policies to get
+     * @return the policies found
+     * @throws PfModelException on errors getting policies
+     */
+    public JpaToscaServiceTemplate getFilteredPolicies(@NonNull final PfDao dao,
+                    @NonNull final ToscaTypedEntityFilter<ToscaPolicy> filter) throws PfModelException {
+        LOGGER.debug("->getFilteredPolicies: filter={}", filter);
+
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doPoliciesExist(dbServiceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND,
+                "policies for " + filter + DO_NOT_EXIST);
         }
 
-        return returnServiceTemplate;
+        var serviceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+
+        final EntityTree tree = makeTree(serviceTemplate);
+
+        serviceTemplate.setPolicyTypes(null);
+        serviceTemplate.setDataTypes(null);
+
+        // load up policies of interest
+        var authorativePolicies = serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().values().stream()
+                        .map(JpaToscaPolicy::toAuthorative).collect(Collectors.toList());
+        authorativePolicies = filter.filter(authorativePolicies);
+
+        var policyEntityKeys = authorativePolicies.stream()
+                        .map(ToscaPolicy::getKey)
+                        .map(key -> new PfConceptKey(key.getName(), key.getVersion()))
+                        .map(key -> new EntityKey(NodeType.POLICY, key))
+                        .collect(Collectors.toList());
+
+        var policyKeys = getCascadedPolicies(serviceTemplate, tree, policyEntityKeys);
+
+        if (policyKeys.isEmpty()) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "policies for " + filter + DO_NOT_EXIST);
+        }
+
+        var typeKeys = getCascadedPolicyTypes(serviceTemplate, tree, policyKeys);
+
+        getCascadedDataTypes(serviceTemplate, tree, typeKeys);
+
+        LOGGER.debug("<-getFilteredPolicies: filter={}, serviceTemplate={}", filter, serviceTemplate);
+        return serviceTemplate;
+    }
+
+    private List<EntityKey> getCascadedPolicies(JpaToscaServiceTemplate serviceTemplate, EntityTree tree,
+                    Collection<EntityKey> keys) {
+
+        Map<PfConceptKey, JpaToscaPolicy> policyMap = cascade(tree, NodeType.POLICY, keys);
+
+        JpaToscaPolicies jpaPolicies = new JpaToscaPolicies();
+        jpaPolicies.setConceptMap(policyMap);
+
+        serviceTemplate.getTopologyTemplate().setPolicies(jpaPolicies);
+
+        return policyMap.keySet().stream().map(key -> new EntityKey(NodeType.POLICY, key)).collect(Collectors.toList());
     }
 
     /**
@@ -586,17 +818,33 @@ public class SimpleToscaProvider {
 
         ToscaUtils.assertPoliciesExist(serviceTemplate);
 
-        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
-            verifyPolicyTypeForPolicy(dao, policy);
-            dao.update(policy);
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+        if (dbServiceTemplate == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "service template " + NOT_FOUND);
         }
 
-        // Return the created policy types
+        if (dbServiceTemplate.getTopologyTemplate() == null) {
+            dbServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        }
+        if (serviceTemplate.getTopologyTemplate().getPolicies() == null) {
+            serviceTemplate.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        }
+        Map<PfConceptKey, JpaToscaPolicy> dbPolicies =
+                        serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap();
+
+        for (JpaToscaPolicy policy : serviceTemplate.getTopologyTemplate().getPolicies().getAll(null)) {
+            verifyPolicyTypeForPolicy(dbServiceTemplate.getPolicyTypes(), policy);
+            dbPolicies.put(policy.getKey(), policy);
+        }
+
+        new SimpleToscaServiceTemplateProvider().write(dao, dbServiceTemplate);
+
+        // Return the created policies
         var returnPolicies = new JpaToscaPolicies();
         returnPolicies.setKey(serviceTemplate.getTopologyTemplate().getPolicies().getKey());
 
         for (PfConceptKey policyKey : serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().keySet()) {
-            returnPolicies.getConceptMap().put(policyKey, dao.get(JpaToscaPolicy.class, policyKey));
+            returnPolicies.getConceptMap().put(policyKey, dbPolicies.get(policyKey));
         }
 
         serviceTemplate.getTopologyTemplate().setPolicies(returnPolicies);
@@ -623,14 +871,23 @@ public class SimpleToscaProvider {
             throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no policies found");
         }
 
-        JpaToscaPolicy policy4Deletion = serviceTemplate.getTopologyTemplate().getPolicies().get(policyKey);
+        EntityTree tree = makeTree(serviceTemplate);
+        EntityKey key = new EntityKey(NodeType.POLICY, policyKey);
+
+        JpaToscaPolicy policy4Deletion = tree.get(key);
         if (policy4Deletion == null) {
-            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "policy " + policyKey.getId() + NOT_FOUND);
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, POLICY + policyKey.getId() + NOT_FOUND);
+        }
+
+        Set<EntityKey> refKeys = tree.getUsedBy(key, NodeType.POLICY);
+        if (!refKeys.isEmpty()) {
+            var refKey = refKeys.iterator().next();
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, POLICY + policyKey.getId()
+                            + " is in use, it is referenced in policy " + refKey.getIdent().getId());
         }
 
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().remove(policyKey);
         new SimpleToscaServiceTemplateProvider().write(dao, serviceTemplate);
-        dao.delete(policy4Deletion);
 
         var deletedServiceTemplate = new JpaToscaServiceTemplate();
         deletedServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
@@ -644,22 +901,27 @@ public class SimpleToscaProvider {
     /**
      * Verify the policy type for a policy exists.
      *
-     * @param dao the DAO to use to access policy types in the database
+     * @param policyTypes the available policy types in the service template
      * @param policy the policy to check the policy type for
      */
-    private void verifyPolicyTypeForPolicy(final PfDao dao, final JpaToscaPolicy policy) {
+    private void verifyPolicyTypeForPolicy(final JpaToscaPolicyTypes policyTypes, final JpaToscaPolicy policy) {
+        if (policyTypes == null) {
+            String errorMessage = "No policy types for policy " + policy.getId();
+            throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
+        }
+
         PfConceptKey policyTypeKey = policy.getType();
 
         JpaToscaPolicyType policyType = null;
 
         if (PfKey.NULL_KEY_VERSION.equals(policyTypeKey.getVersion())) {
-            policyType = getLatestPolicyTypeVersion(dao, policyTypeKey.getName());
+            policyType = policyTypes.get(policyTypeKey.getName());
 
             if (policyType != null) {
                 policy.getType().setVersion(policyType.getKey().getVersion());
             }
         } else {
-            policyType = dao.get(JpaToscaPolicyType.class, policyTypeKey);
+            policyType = policyTypes.get(policyTypeKey);
         }
 
         if (policyType == null) {
@@ -667,36 +929,5 @@ public class SimpleToscaProvider {
                 POLICY_TYPE + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
             throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
-    }
-
-    /**
-     * Get the latest version of the policy type for the given policy type name.
-     *
-     * @param dao the DAO to use to access policy types in the database
-     * @param policyTypeName the name of the policy type
-     * @return the latest policy type
-     */
-    private JpaToscaPolicyType getLatestPolicyTypeVersion(final PfDao dao, final String policyTypeName) {
-        // Policy type version is not specified, get the latest version from the database
-        List<JpaToscaPolicyType> jpaPolicyTypeList = dao.getFiltered(JpaToscaPolicyType.class, policyTypeName, null);
-
-        if (CollectionUtils.isEmpty(jpaPolicyTypeList)) {
-            return null;
-        }
-
-        // Create a filter to get the latest version of the policy type
-        var pfConceptFilter = PfConceptFilter.builder().version(PfConceptFilter.LATEST_VERSION).build();
-
-        // FIlter the returned policy type list
-        List<PfConcept> policyTypeKeyList = new ArrayList<>(jpaPolicyTypeList);
-        List<PfConcept> filterdPolicyTypeList = pfConceptFilter.filter(policyTypeKeyList);
-
-        // We should have one and only one returned entry
-        if (filterdPolicyTypeList.size() != 1) {
-            String errorMessage = "search for latest policy type " + policyTypeName + " returned more than one entry";
-            throw new PfModelRuntimeException(Response.Status.CONFLICT, errorMessage);
-        }
-
-        return (JpaToscaPolicyType) filterdPolicyTypeList.get(0);
     }
 }

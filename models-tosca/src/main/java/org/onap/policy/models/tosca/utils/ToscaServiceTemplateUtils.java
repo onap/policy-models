@@ -121,9 +121,15 @@ public class ToscaServiceTemplateUtils {
             return compositeContainer;
         }
 
-        var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
         var originalContainerMap = compositeContainer.getConceptMap();
         var fragmentContainerMap = fragmentContainer.getConceptMap();
+
+        if (result == null) {
+            originalContainerMap.putAll(fragmentContainerMap);
+            return compositeContainer;
+        }
+
+        var result2 = new BeanValidationResult("incoming fragment", fragmentContainer);
 
         for (Entry<PfConceptKey, J> fragmentEntry : fragmentContainerMap.entrySet()) {
             J containerEntity = originalContainerMap.get(fragmentEntry.getKey());

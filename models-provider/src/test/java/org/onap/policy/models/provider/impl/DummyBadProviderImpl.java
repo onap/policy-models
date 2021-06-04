@@ -33,12 +33,10 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
@@ -149,12 +147,6 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
-            throws PfModelException {
-        // do nothing
-    }
-
-    @Override
     public PdpGroup deletePdpGroup(@NonNull String name) throws PfModelException {
         return null;
     }
@@ -196,12 +188,6 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     @Override
     public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
         return Collections.emptyList();
-    }
-
-    @Override
-    public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull PdpSubGroup pdpSubGroup)
-            throws PfModelException {
-        // do nothing
     }
 
     @Override
