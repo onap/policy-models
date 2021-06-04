@@ -29,12 +29,10 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -288,27 +286,6 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @throws PfModelException on errors updating PDP groups
      */
     public List<PdpGroup> updatePdpGroups(@NonNull final List<PdpGroup> pdpGroups) throws PfModelException;
-
-    /**
-     * Update a PDP subgroup.
-     *
-     * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpSubGroup the PDP subgroup to be updated
-     * @throws PfModelException on errors updating PDP subgroups
-     */
-    public void updatePdpSubGroup(@NonNull final String pdpGroupName, @NonNull final PdpSubGroup pdpSubGroup)
-            throws PfModelException;
-
-    /**
-     * Update a PDP.
-     *
-     * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpSubGroup the PDP subgroup to be updated
-     * @param pdp the PDP to be updated
-     * @throws PfModelException on errors updating PDP subgroups
-     */
-    public void updatePdp(@NonNull final String pdpGroupName, @NonNull final String pdpSubGroup, @NonNull final Pdp pdp)
-            throws PfModelException;
 
     /**
      * Delete a PDP group.

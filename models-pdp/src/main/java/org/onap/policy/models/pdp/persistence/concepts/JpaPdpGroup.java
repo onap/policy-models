@@ -28,17 +28,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -84,18 +79,10 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     @NotNull
     private PdpState pdpGroupState;
 
-    @ElementCollection
+    @Lob
     private Map<@NotNull @NotBlank String, @NotNull @NotBlank String> properties;
 
-    // @formatter:off
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @CollectionTable(joinColumns = {
-            @JoinColumn(name = "pdpGroupParentKeyName",    referencedColumnName = "parentKeyName"),
-            @JoinColumn(name = "pdpGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-            @JoinColumn(name = "pdpGroupParentLocalName",  referencedColumnName = "parentLocalName"),
-            @JoinColumn(name = "pdpGroupLocalName",        referencedColumnName = "localName")
-        })
-    // @formatter:on
+    @Lob
     @NotNull
     private List<@NotNull @Valid JpaPdpSubGroup> pdpSubGroups;
 

@@ -46,6 +46,7 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfFilter;
 import org.onap.policy.models.dao.PfFilterFactory;
+import org.onap.policy.models.dao.PfUpdateable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -170,7 +171,10 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             mg.getTransaction().begin();
+
+            preMerge(obj);
             mg.merge(obj);
+
             mg.getTransaction().commit();
         } finally {
             mg.close();
@@ -284,11 +288,18 @@ public class DefaultPfDao implements PfDao {
         try {
             mg.getTransaction().begin();
             for (final T t : objs) {
+                preMerge(t);
                 mg.merge(t);
             }
             mg.getTransaction().commit();
         } finally {
             mg.close();
+        }
+    }
+
+    private void preMerge(Object obj) {
+        if (obj instanceof PfUpdateable) {
+            ((PfUpdateable) obj).preMerge();
         }
     }
 
@@ -427,9 +438,20 @@ public class DefaultPfDao implements PfDao {
             }
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
-            return query.getResultList();
+            return postLoadAll(query.getResultList());
         } finally {
             mg.close();
+        }
+    }
+
+    private <T> List<T> postLoadAll(List<T> list) {
+        list.forEach(this::postLoad);
+        return list;
+    }
+
+    private void postLoad(Object obj) {
+        if (obj instanceof PfUpdateable) {
+            ((PfUpdateable) obj).postLoad();
         }
     }
 
@@ -467,6 +489,7 @@ public class DefaultPfDao implements PfDao {
             final var t = mg.find(someClass, key);
             if (t != null) {
                 mg.refresh(t);
+                postLoad(t);
             }
             return checkAndReturn(someClass, t);
         } finally {
@@ -481,7 +504,7 @@ public class DefaultPfDao implements PfDao {
         }
         final var mg = getEntityManager();
         try {
-            return mg.createQuery(setQueryTable(SELECT_FROM_TABLE, someClass), someClass).getResultList();
+            return postLoadAll(mg.createQuery(setQueryTable(SELECT_FROM_TABLE, someClass), someClass).getResultList());
         } finally {
             mg.close();
         }
@@ -495,10 +518,11 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_ALL_FOR_PARENT, someClass), someClass)
-                    .setParameter(PARENT_NAME,    parentKey.getName())
-                    .setParameter(PARENT_VERSION, parentKey.getVersion())
-                    .getResultList();
+            return postLoadAll(
+                    mg.createQuery(setQueryTable(SELECT_ALL_FOR_PARENT, someClass), someClass)
+                        .setParameter(PARENT_NAME,    parentKey.getName())
+                        .setParameter(PARENT_VERSION, parentKey.getVersion())
+                        .getResultList());
             // @formatter:on
         } finally {
             mg.close();
@@ -519,8 +543,8 @@ public class DefaultPfDao implements PfDao {
                 query = query.concat(ORDER_BY).concat(orderBy);
             }
 
-            return mg.createQuery(query, someClass).setMaxResults(numRecords)
-                    .getResultList();
+            return postLoadAll(mg.createQuery(query, someClass).setMaxResults(numRecords)
+                    .getResultList());
         } finally {
             mg.close();
         }
@@ -534,9 +558,9 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS_FOR_PARENT, someClass), someClass)
+            return postLoadAll(mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS_FOR_PARENT, someClass), someClass)
                     .setParameter(PARENT_NAME, parentKeyName)
-                    .getResultList();
+                    .getResultList());
             // @formatter:on
         } finally {
             mg.close();
@@ -551,9 +575,9 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
+            return postLoadAll(mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
                     .setParameter(NAME, conceptName)
-                    .getResultList();
+                    .getResultList());
             // @formatter:on
         } finally {
             mg.close();
@@ -570,11 +594,11 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             // @formatter:off
-            return mg.createQuery(setQueryTable(SELECT_BY_TIMESTAMP_NOKEY, someClass), someClass)
+            return postLoadAll(mg.createQuery(setQueryTable(SELECT_BY_TIMESTAMP_NOKEY, someClass), someClass)
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
                     .setParameter(TIMESTAMP, Timestamp.from(timeStamp))
-                    .getResultList();
+                    .getResultList());
             // @formatter:on
         } finally {
             mg.close();
@@ -590,10 +614,10 @@ public class DefaultPfDao implements PfDao {
         List<T> ret;
         try {
             // @formatter:off
-            ret = mg.createQuery(setQueryTable(SELECT_BY_CONCEPT_KEY, someClass), someClass)
+            ret = postLoadAll(mg.createQuery(setQueryTable(SELECT_BY_CONCEPT_KEY, someClass), someClass)
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
-                    .getResultList();
+                    .getResultList());
             // @formatter:on
         } finally {
             mg.close();
@@ -621,7 +645,7 @@ public class DefaultPfDao implements PfDao {
             mg.close();
         }
 
-        return getSingleResult(someClass, key.getId(), ret);
+        return getSingleResult(someClass, key.getId(), postLoadAll(ret));
     }
 
     @Override
@@ -630,7 +654,9 @@ public class DefaultPfDao implements PfDao {
         T ret;
         try {
             mg.getTransaction().begin();
+            preMerge(obj);
             ret = mg.merge(obj);
+            postLoad(ret);
             mg.flush();
             mg.getTransaction().commit();
         } finally {

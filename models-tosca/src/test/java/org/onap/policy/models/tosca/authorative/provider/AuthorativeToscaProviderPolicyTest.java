@@ -389,7 +389,7 @@ public class AuthorativeToscaProviderPolicyTest {
         // @formatter:off
         assertThatThrownBy(
             () -> new AuthorativeToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion()))
-                    .hasMessageMatching("policies for onap.restart.tca:1.0.0 do not exist");
+                    .hasMessageMatching("policies for .*onap.restart.tca.* do not exist");
         // @formatter:on
     }
 

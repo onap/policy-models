@@ -28,11 +28,11 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -101,7 +101,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @Column
     private long policyExecutedFailCount;
 
-    @ElementCollection
+    @Lob
     private List<PdpEngineWorkerStatistics> engineStats;
 
     /**

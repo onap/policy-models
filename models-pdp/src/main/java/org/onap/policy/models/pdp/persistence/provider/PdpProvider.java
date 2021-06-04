@@ -34,18 +34,13 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
-import org.onap.policy.models.pdp.persistence.concepts.JpaPdpSubGroup;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
 /**
@@ -150,55 +145,6 @@ public class PdpProvider {
         }
 
         return returnPdpGroups;
-    }
-
-    /**
-     * Update a PDP subgroup.
-     *
-     * @param dao the DAO to use to access the database
-     * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpSubGroup the PDP subgroup to be updated
-     * @throws PfModelException on errors updating PDP subgroups
-     */
-    public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
-
-        final var subGroupKey =
-                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
-        final var jpaPdpSubgroup = new JpaPdpSubGroup(subGroupKey);
-        jpaPdpSubgroup.fromAuthorative(pdpSubGroup);
-
-        BeanValidationResult validationResult = jpaPdpSubgroup.validate("PDP sub group");
-        if (!validationResult.isValid()) {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
-        }
-
-        dao.update(jpaPdpSubgroup);
-    }
-
-    /**
-     * Update a PDP.
-     *
-     * @param dao the DAO to use to access the database
-     * @param pdpGroupName the name of the PDP group of the PDP subgroup
-     * @param pdpSubGroup the PDP subgroup to be updated
-     * @param pdp the PDP to be updated
-     * @throws PfModelException on errors updating PDP subgroups
-     */
-    public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
-
-        final var pdpKey =
-                new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup, pdp.getInstanceId());
-        final var jpaPdp = new JpaPdp(pdpKey);
-        jpaPdp.fromAuthorative(pdp);
-
-        BeanValidationResult validationResult = jpaPdp.validate("PDP");
-        if (!validationResult.isValid()) {
-            throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, validationResult.getResult());
-        }
-
-        dao.update(jpaPdp);
     }
 
     /**

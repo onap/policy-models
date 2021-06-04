@@ -34,12 +34,10 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -195,16 +193,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     @Override
     public List<PdpGroup> updatePdpGroups(final List<PdpGroup> pdpGroups) throws PfModelException {
         return new ArrayList<>();
-    }
-
-    @Override
-    public void updatePdpSubGroup(final String pdpGroupName, final PdpSubGroup pdpSubGroup) throws PfModelException {
-        // Not implemented
-    }
-
-    @Override
-    public void updatePdp(String pdpGroupName, String pdpSubGroup, Pdp pdp) throws PfModelException {
-        // Not implemented
     }
 
     @Override

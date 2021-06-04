@@ -34,9 +34,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
-import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -108,8 +106,6 @@ public class DummyPolicyModelsProviderTest {
         PolicyModelsProvider dummyProvider = setUpDummyProvider();
         dummyProvider.init();
 
-        dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
-        dummyProvider.updatePdp("name", "type", new Pdp());
         dummyProvider.updatePdpStatistics(new ArrayList<>());
         assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
 

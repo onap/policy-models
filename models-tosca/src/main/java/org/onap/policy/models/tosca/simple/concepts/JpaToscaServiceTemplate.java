@@ -22,23 +22,25 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.annotations.NotBlank;
@@ -48,6 +50,7 @@ import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.dao.PfUpdateable;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
 /**
@@ -61,66 +64,56 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 @Table(name = "ToscaServiceTemplate")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = {"data"})
 public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemplate>
-        implements PfAuthorative<ToscaServiceTemplate> {
+        implements PfAuthorative<ToscaServiceTemplate>, PfUpdateable {
     private static final long serialVersionUID = 8084846046148349401L;
 
     public static final String DEFAULT_TOSCA_DEFINTIONS_VERISON = "tosca_simple_yaml_1_1_0";
     public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
-    // @formatter:off
     @Column
     @SerializedName("tosca_definitions_version")
     @NotNull
     @NotBlank
     private String toscaDefinitionsVersion;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dataTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
+    @Transient
     @SerializedName("data_types")
     @Valid
     private JpaToscaDataTypes dataTypes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
+    @Transient
     @SerializedName("capability_types")
     @Valid
     private JpaToscaCapabilityTypes capabilityTypes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
+    @Transient
     @SerializedName("relationship_types")
     @Valid
     private JpaToscaRelationshipTypes relationshipTypes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
+    @Transient
     @SerializedName("node_types")
     @Valid
     private JpaToscaNodeTypes nodeTypes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "policyTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
+    @Transient
     @SerializedName("policy_types")
     @Valid
     private JpaToscaPolicyTypes policyTypes;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName")
-    @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion")
-    @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName")
-    @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
+    @Transient
     @SerializedName("topology_template")
     @Valid
     private JpaToscaTopologyTemplate topologyTemplate;
-    // @formatter:on
+
+    @ToString.Exclude
+    @Column
+    @Lob
+    @Getter(AccessLevel.PRIVATE)
+    private WrappedData data = new WrappedData();
 
     /**
      * The Default Constructor creates a {@link JpaToscaServiceTemplate} object with a null key.
@@ -473,5 +466,40 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
                 addResult(result, "policy type", policy.getType().getId(), NOT_FOUND);
             }
         }
+    }
+
+    @Override
+    public void preMerge() {
+        data.metadata = this.getMetadata();
+        data.dataTypes = this.dataTypes;
+        data.capabilityTypes = this.capabilityTypes;
+        data.relationshipTypes = this.relationshipTypes;
+        data.nodeTypes = this.nodeTypes;
+        data.policyTypes = this.policyTypes;
+        data.topologyTemplate = this.topologyTemplate;
+    }
+
+    @Override
+    public void postLoad() {
+        this.setMetadata(data.metadata);
+        this.dataTypes = data.dataTypes;
+        this.capabilityTypes = data.capabilityTypes;
+        this.relationshipTypes = data.relationshipTypes;
+        this.nodeTypes = data.nodeTypes;
+        this.policyTypes = data.policyTypes;
+        this.topologyTemplate = data.topologyTemplate;
+    }
+
+    @Getter
+    public static class WrappedData implements Serializable {
+        private static final long serialVersionUID = 1L;
+
+        private JpaToscaDataTypes dataTypes;
+        private JpaToscaCapabilityTypes capabilityTypes;
+        private JpaToscaRelationshipTypes relationshipTypes;
+        private JpaToscaNodeTypes nodeTypes;
+        private JpaToscaPolicyTypes policyTypes;
+        private JpaToscaTopologyTemplate topologyTemplate;
+        private Map<String, String> metadata;
     }
 }
