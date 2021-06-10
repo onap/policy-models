@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.dao;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
@@ -598,11 +599,11 @@ public class EntityTest {
         pfDao.create(keyInfo4);
         pfDao.create(keyInfo5);
 
-        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, null).size());
-        assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "AAA0", null).size());
-        assertEquals(3, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", null).size());
-        assertEquals(1, pfDao.getFiltered(DummyConceptEntity.class, "BBB0", VERSION003).size());
-        assertEquals(6, pfDao.getFiltered(DummyConceptEntity.class, null, VERSION003).size());
+        assertThat(pfDao.getFiltered(DummyConceptEntity.class, null, null)).hasSize(6);
+        assertThat(pfDao.getFiltered(DummyConceptEntity.class, "AAA0", null)).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyConceptEntity.class, "BBB0", null)).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyConceptEntity.class, "BBB0", VERSION003)).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyConceptEntity.class, null, VERSION003)).hasSize(6);
 
         final PfTimestampKey atKey0 = new PfTimestampKey("AT-KEY0", VERSION001, TIMESTAMP0);
         final PfTimestampKey atKey1 = new PfTimestampKey("AT-KEY1", VERSION001, TIMESTAMP1);
@@ -616,28 +617,25 @@ public class EntityTest {
         pfDao.create(tkeyInfo2);
 
 
-        assertEquals(1, pfDao
-                .getFiltered(DummyTimestampEntity.class, "AT-KEY0", VERSION001, null, null, null, "DESC", 0).size());
-        assertEquals(1,
-                pfDao.getFiltered(DummyTimestampEntity.class, "AT-KEY0", null, null, null, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(1, pfDao
-                .getFiltered(DummyTimestampEntity.class, "AT-KEY0", VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyTimestampEntity.class, null, VERSION001, null, TIMESTAMP2, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, null, null, "DESC", 0).size());
-        assertEquals(2,
-                pfDao.getFiltered(DummyTimestampEntity.class, null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 2)
-                        .size());
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class,
+                        PfFilterParameters.builder().name("AT-KEY0").version(VERSION001).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class, PfFilterParameters.builder().name("AT-KEY0").build()))
+                        .hasSize(1);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class, PfFilterParameters.builder().version(VERSION001)
+                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class, PfFilterParameters.builder().name("AT-KEY0")
+                        .version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).startTime(TIMESTAMP0).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class, PfFilterParameters.builder().version(VERSION001)
+                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).sortOrder("DESC").recordNum(2).build())).hasSize(2);
 
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("doubleValue", 200.1);
-        assertEquals(1,
-                pfDao.getFiltered(DummyTimestampEntity.class, null, null, null, null, filterMap, "DESC", 0).size());
+        assertThat(pfDao.getFiltered(DummyTimestampEntity.class,
+                        PfFilterParameters.builder().filterMap(filterMap).build())).hasSize(1);
     }
 
     private void testgetFilteredOps2() {
@@ -656,29 +654,23 @@ public class EntityTest {
         pfDao.create(gkeyInfo2);
 
 
-        assertEquals(1, pfDao
-                .getFiltered(DummyGeneratedIdEntity.class, "AT-KEY0", VERSION001, null, null, null, "DESC", 0).size());
-        assertEquals(1,
-                pfDao.getFiltered(DummyGeneratedIdEntity.class, "AT-KEY0", null, null, null, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyGeneratedIdEntity.class, null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(1, pfDao
-                .getFiltered(DummyGeneratedIdEntity.class, "AT-KEY0", VERSION001,
-                        TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyGeneratedIdEntity.class, null, VERSION001, null, TIMESTAMP2, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyGeneratedIdEntity.class, null, VERSION001,
-                        TIMESTAMP0, null, null, "DESC", 0).size());
-        assertEquals(2,
-                pfDao.getFiltered(DummyGeneratedIdEntity.class, null, VERSION001,
-                        TIMESTAMP0, TIMESTAMP2, null, "DESC", 2)
-                        .size());
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
+                        PfFilterParameters.builder().name("AT-KEY0").version(VERSION001).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
+                        PfFilterParameters.builder().name("AT-KEY0").build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().version(VERSION001)
+                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().name("AT-KEY0")
+                        .version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).startTime(TIMESTAMP0).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().version(VERSION001)
+                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).sortOrder("DESC").recordNum(2).build())).hasSize(2);
 
-        assertEquals(1,
-                pfDao.getFiltered(DummyGeneratedIdEntity.class, null, null, null, null, filterMap, "DESC", 0).size());
+        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
+                        PfFilterParameters.builder().filterMap(filterMap).build())).hasSize(1);
     }
 
     private void testgetFilteredOps3() {
@@ -700,33 +692,23 @@ public class EntityTest {
         pfDao.create(rkeyInfo2);
 
 
-        assertEquals(1, pfDao
-                .getFiltered(DummyReferenceTimestampEntity.class,
-                    "Owner0", VERSION001, null, null, null, "DESC", 0).size());
-        assertEquals(1,
-                pfDao.getFiltered(DummyReferenceTimestampEntity.class,
-                    "Owner0", null, null, null, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyReferenceTimestampEntity.class,
-                    null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(1, pfDao
-                .getFiltered(DummyReferenceTimestampEntity.class,
-                    "Owner0", VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 0)
-                .size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyReferenceTimestampEntity.class, null,
-                    VERSION001, null, TIMESTAMP2, null, "DESC", 0).size());
-        assertEquals(3, pfDao
-                .getFiltered(DummyReferenceTimestampEntity.class, null,
-                    VERSION001, TIMESTAMP0, null, null, "DESC", 0).size());
-        assertEquals(2,
-                pfDao.getFiltered(DummyReferenceTimestampEntity.class,
-                    null, VERSION001, TIMESTAMP0, TIMESTAMP2, null, "DESC", 2)
-                        .size());
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().name("Owner0").version(VERSION001).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().name("Owner0").build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class, PfFilterParameters.builder()
+                        .version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class, PfFilterParameters.builder().name("Owner0")
+                        .version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(1);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).endTime(TIMESTAMP2).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).startTime(TIMESTAMP0).build())).hasSize(3);
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2)
+                                        .sortOrder("DESC").recordNum(2).build())).hasSize(2);
 
-        assertEquals(1,
-                pfDao.getFiltered(DummyReferenceTimestampEntity.class,
-                    null, null, null, null, filterMap, "DESC", 0).size());
+        assertThat(pfDao.getFiltered(DummyReferenceTimestampEntity.class,
+                        PfFilterParameters.builder().filterMap(filterMap).build())).hasSize(1);
     }
 }
