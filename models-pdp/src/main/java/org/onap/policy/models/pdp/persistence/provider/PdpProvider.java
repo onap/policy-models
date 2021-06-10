@@ -36,6 +36,7 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.dao.PfFilterParameters;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -300,10 +301,10 @@ public class PdpProvider {
     public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
                     throws PfModelException {
 
-        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+        PfFilterParameters params = PfFilterParameters.builder().filterMap(Map.of("pdpGroup", groupName)).build();
 
-        return dao.getFiltered(JpaPdpPolicyStatus.class, null, null, null, null, filter, null, 0).stream()
-                        .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+        return dao.getFiltered(JpaPdpPolicyStatus.class, params)
+                        .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
     }
 
     /**

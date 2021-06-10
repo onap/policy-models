@@ -181,7 +181,7 @@ public class PdpStatisticsProviderTest {
     }
 
     @Test
-    public void testGetFilteredPdpStatistics() throws Exception {
+    public void testGetFilteredPdpStatisticsOld() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().getFilteredPdpStatistics(null, NAME, GROUP, SUBGROUP, TIMESTAMP1, TIMESTAMP2,
                     ORDER, 1);
@@ -207,6 +207,32 @@ public class PdpStatisticsProviderTest {
         assertThat(getPdpStatisticsList).hasSize(1);
         getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, "name2", GROUP, SUBGROUP,
                 TIMESTAMP1, TIMESTAMP2, ORDER, 0);
+        assertThat(getPdpStatisticsList).hasSize(1);
+    }
+
+    @Test
+    public void testGetFilteredPdpStatistics() throws Exception {
+
+        assertThatThrownBy(() -> {
+            new PdpStatisticsProvider().getFilteredPdpStatistics(null, PdpFilterParameters.builder().build());
+        }).hasMessageMatching(DAO_IS_NULL);
+
+
+        List<PdpStatistics> createdPdpStatisticsList;
+        createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
+        createdListStr = createdPdpStatisticsList.toString();
+        assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
+
+        List<PdpStatistics> getPdpStatisticsList;
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
+                        .builder().name(NAME).group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).hasSize(1);
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
+                        .builder().name("name2").group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).hasSize(1);
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao,
+                        PdpFilterParameters.builder().name("name2").group(GROUP).subGroup(SUBGROUP)
+                                        .startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
         assertThat(getPdpStatisticsList).hasSize(1);
     }
 
