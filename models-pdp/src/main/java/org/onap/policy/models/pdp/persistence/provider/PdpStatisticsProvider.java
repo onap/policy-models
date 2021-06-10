@@ -37,6 +37,7 @@ import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.dao.PfFilterParameters;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics;
 
@@ -47,8 +48,6 @@ import org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics;
  * @author Ning Xi (ning.xi@est.tech)
  */
 public class PdpStatisticsProvider {
-    // Recurring string constants
-    private static final String DESC_ORDER = "DESC";
 
     /**
      * Get PDP statistics.
@@ -113,9 +112,32 @@ public class PdpStatisticsProvider {
             filterMap.put("pdpSubGroupName", pdpSubGroup);
         }
 
-        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, name,
-                PfKey.NULL_KEY_VERSION, startTimeStamp,
-                endTimeStamp, filterMap, sortOrder, getRecordNum));
+        // @formatter:off
+        return asPdpStatisticsList(
+                    dao.getFiltered(JpaPdpStatistics.class,
+                        PdpFilterParameters.builder()
+                            .name(name)
+                            .startTime(startTimeStamp)
+                            .endTime(endTimeStamp)
+                            .group(pdpGroupName)
+                            .subGroup(pdpSubGroup)
+                            .sortOrder(sortOrder)
+                            .recordNum(getRecordNum)
+                            .build()));
+        // @formatter:on
+    }
+
+    /**
+     * Get filtered PDP statistics.
+     *
+     * @param dao the DAO to use to access the database
+     * @param filterParams filter parameters
+     * @return the PDP statistics found
+     * @throws PfModelException on errors getting policies
+     */
+    public List<PdpStatistics> getFilteredPdpStatistics(@NonNull final PfDao dao,
+                    PdpFilterParameters filterParams) {
+        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, filterParams));
     }
 
     /**
@@ -198,10 +220,9 @@ public class PdpStatisticsProvider {
      * @throws PfModelException on errors deleting PDP statistics
      */
     public List<PdpStatistics> deletePdpStatistics(@NonNull final PfDao dao, @NonNull final String name,
-            final Instant timestamp) {
-        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(
-                dao.getFiltered(JpaPdpStatistics.class, name,
-                PfKey.NULL_KEY_VERSION, timestamp, timestamp, null, DESC_ORDER, 0));
+                    final Instant timestamp) {
+        List<PdpStatistics> pdpStatisticsListToDel = asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class,
+                        PfFilterParameters.builder().name(name).startTime(timestamp).endTime(timestamp).build()));
 
         pdpStatisticsListToDel.stream().forEach(s -> dao.delete(JpaPdpStatistics.class,
                 new PfGeneratedIdKey(s.getPdpInstanceId(), PfKey.NULL_KEY_VERSION, s.getGeneratedId())));

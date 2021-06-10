@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.dao.PfFilterParametersIntfc;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
 import org.onap.policy.models.pap.persistence.concepts.JpaPolicyAudit;
@@ -46,7 +48,6 @@ import org.onap.policy.models.pap.persistence.concepts.JpaPolicyAudit;
 public class PolicyAuditProvider {
 
     private static final Integer DEFAULT_MAX_RECORDS = 100;
-    private static final String DESCENDING_ORDER = "DESC";
 
     /**
      * Create audit records.
@@ -96,24 +97,22 @@ public class PolicyAuditProvider {
      */
     public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull AuditFilter auditFilter,
             @NonNull Integer numRecords) {
-        numRecords = numRecords > DEFAULT_MAX_RECORDS ? DEFAULT_MAX_RECORDS : numRecords;
 
-        Map<String, Object> filter = new HashMap<>();
-        if (StringUtils.isNotBlank(auditFilter.getPdpGroup())) {
-            filter.put("pdpGroup", auditFilter.getPdpGroup());
-        }
+        auditFilter.setRecordNum(Math.min(numRecords, DEFAULT_MAX_RECORDS));
 
-        if (auditFilter.getAction() != null) {
-            filter.put("action", auditFilter.getAction());
-        }
+        return getAuditRecords(dao, auditFilter);
+    }
 
-        // @formatter:off
-        return dao.getFiltered(JpaPolicyAudit.class,
-                auditFilter.getName(), auditFilter.getVersion(),
-                auditFilter.getFromDate(), auditFilter.getToDate(),
-                filter, DESCENDING_ORDER, numRecords)
-                .stream().map(JpaPolicyAudit::toAuthorative).collect(Collectors.toList());
-        // @formatter:on
+    /**
+     * Collect audit records based on filters at {@link AuditFilter}.
+     *
+     * @param auditFilter {@link AuditFilter} object with filters for search
+     * @return list of {@link PolicyAudit} records
+     */
+    public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull AuditFilter auditFilter) {
+
+        return dao.getFiltered(JpaPolicyAudit.class, auditFilter)
+                    .stream().map(JpaPolicyAudit::toAuthorative).collect(Collectors.toList());
     }
 
     /**
@@ -126,13 +125,19 @@ public class PolicyAuditProvider {
      */
     @Data
     @Builder
-    public static class AuditFilter {
+    public static class AuditFilter implements PfFilterParametersIntfc {
         private String name;
         private String version;
         private AuditAction action;
         private String pdpGroup;
         private Instant fromDate;
         private Instant toDate;
+        private int recordNum;
+        @Builder.Default
+        private String sortOrder = "DESC";
+
+        // initialized lazily, if not set via the builder
+        private Map<String, Object> filterMap;
 
         /**
          * Check if even still using build(), none of the params were provided.
@@ -142,6 +147,35 @@ public class PolicyAuditProvider {
         public boolean isEmpty() {
             return StringUtils.isAllEmpty(name, version, pdpGroup) && action == null && fromDate == null
                     && toDate == null;
+        }
+
+        @Override
+        public Instant getStartTime() {
+            return fromDate;
+        }
+
+        @Override
+        public Instant getEndTime() {
+            return toDate;
+        }
+
+        @Override
+        public Map<String, Object> getFilterMap() {
+            if (filterMap != null) {
+                return filterMap;
+            }
+
+            filterMap = new HashMap<>();
+
+            if (StringUtils.isNotBlank(pdpGroup)) {
+                filterMap.put("pdpGroup", pdpGroup);
+            }
+
+            if (action != null) {
+                filterMap.put("action", action);
+            }
+
+            return filterMap;
         }
     }
 }

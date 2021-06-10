@@ -143,6 +143,38 @@ public class PolicyAuditProviderTest {
         });
 
         List<PolicyAudit> records = provider.getAuditRecords(pfDao,
+                AuditFilter.builder().fromDate(date).toDate(Instant.now()).recordNum(NUMBER_RECORDS).build());
+        assertThat(records).hasSize(6);
+
+        List<PolicyAudit> recordsWithGroupB =
+                        provider.getAuditRecords(pfDao,
+                                        AuditFilter.builder().pdpGroup(GROUP_B).recordNum(NUMBER_RECORDS).build());
+        assertThat(recordsWithGroupB).hasSize(4);
+
+        List<PolicyAudit> recordsWithActionDeploy = provider.getAuditRecords(pfDao,
+                AuditFilter.builder().action(AuditAction.DEPLOYMENT).recordNum(NUMBER_RECORDS).build());
+        assertThat(recordsWithActionDeploy).hasSize(3);
+
+        List<PolicyAudit> recordsWithMyPolicy = provider.getAuditRecords(pfDao,
+                        AuditFilter.builder().name(MY_POLICY.getName()).version(MY_POLICY.getVersion())
+                                        .recordNum(NUMBER_RECORDS).build());
+        assertThat(recordsWithMyPolicy).hasSize(4);
+    }
+
+    @Test
+    public void testFiltersOld() {
+        PolicyAuditProvider provider = new PolicyAuditProvider();
+
+        Instant date = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        System.out.println(date);
+        provider.createAuditRecords(pfDao, generatePolicyAudits(date, GROUP_A, MY_POLICY));
+        provider.createAuditRecords(pfDao, generatePolicyAudits(date, GROUP_B, MY_POLICY));
+        provider.createAuditRecords(pfDao, generatePolicyAudits(date, GROUP_B, MY_POLICY2));
+        Awaitility.await().pollDelay(3, TimeUnit.SECONDS).until(() -> {
+            return true;
+        });
+
+        List<PolicyAudit> records = provider.getAuditRecords(pfDao,
                 AuditFilter.builder().fromDate(date).toDate(Instant.now()).build(), NUMBER_RECORDS);
         assertThat(records).hasSize(6);
 
@@ -202,7 +234,7 @@ public class PolicyAuditProviderTest {
         }).hasMessageMatching(String.format(FIELD_IS_NULL, "dao"));
 
         assertThatThrownBy(() -> {
-            provider.getAuditRecords(pfDao, null);
+            provider.getAuditRecords(pfDao, (Integer) null);
         }).hasMessageMatching(String.format(FIELD_IS_NULL, "numRecords"));
 
         assertThatThrownBy(() -> {
