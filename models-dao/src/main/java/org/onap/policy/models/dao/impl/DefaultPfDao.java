@@ -26,7 +26,6 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -46,6 +45,7 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfFilter;
 import org.onap.policy.models.dao.PfFilterFactory;
+import org.onap.policy.models.dao.PfFilterParametersIntfc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -388,43 +388,15 @@ public class DefaultPfDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name, final String version,
-            final Instant startTime, final Instant endTime, final Map<String, Object> filterMap, final String sortOrder,
-            final int getRecordNum) {
+    public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, PfFilterParametersIntfc filterParams) {
         final var mg = getEntityManager();
 
-        var filterQueryString = SELECT_FROM_TABLE + WHERE;
-
         try {
-            PfFilter timeStampFilter = new PfFilterFactory().createFilter(someClass);
-            filterQueryString = timeStampFilter.addFilter(filterQueryString, name, startTime, endTime, filterMap,
-                    sortOrder, getRecordNum);
+            PfFilter filter = new PfFilterFactory().createFilter(someClass);
+            String filterQueryString = SELECT_FROM_TABLE + filter.genWhereClause(filterParams);
 
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
-
-            if (filterMap != null) {
-                for (Map.Entry<String, Object> entry : filterMap.entrySet()) {
-                    query.setParameter(entry.getKey(), entry.getValue());
-                }
-            }
-            if (name != null) {
-                query.setParameter(timeStampFilter.getNameParameter(), name);
-            }
-            if (startTime != null) {
-                if (endTime != null) {
-                    query.setParameter("startTime", Timestamp.from(startTime));
-                    query.setParameter("endTime", Timestamp.from(endTime));
-                } else {
-                    query.setParameter("startTime", Timestamp.from(startTime));
-                }
-            } else {
-                if (endTime != null) {
-                    query.setParameter("endTime", Timestamp.from(endTime));
-                }
-            }
-            if (getRecordNum > 0) {
-                query.setMaxResults(getRecordNum);
-            }
+            filter.setParams(query, filterParams);
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();

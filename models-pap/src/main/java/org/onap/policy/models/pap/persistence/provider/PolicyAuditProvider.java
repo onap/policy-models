@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,6 +34,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.dao.PfFilterParameters;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
 import org.onap.policy.models.pap.persistence.concepts.JpaPolicyAudit;
@@ -109,9 +111,15 @@ public class PolicyAuditProvider {
 
         // @formatter:off
         return dao.getFiltered(JpaPolicyAudit.class,
-                auditFilter.getName(), auditFilter.getVersion(),
-                auditFilter.getFromDate(), auditFilter.getToDate(),
-                filter, DESCENDING_ORDER, numRecords)
+                        PfFilterParameters.builder()
+                            .name(auditFilter.getName())
+                            .version(auditFilter.getVersion())
+                            .startTime(auditFilter.getFromDate())
+                            .endTime(auditFilter.getToDate())
+                            .filterMap(filter)
+                            .sortOrder(DESCENDING_ORDER)
+                            .recordNum(numRecords)
+                            .build())
                 .stream().map(JpaPolicyAudit::toAuthorative).collect(Collectors.toList());
         // @formatter:on
     }

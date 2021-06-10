@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -300,10 +299,10 @@ public class PdpProvider {
     public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
                     throws PfModelException {
 
-        Map<String, Object> filter = Map.of("pdpGroup", groupName);
+        PdpFilterParameters params = PdpFilterParameters.builder().group(groupName).build();
 
-        return dao.getFiltered(JpaPdpPolicyStatus.class, null, null, null, null, filter, null, 0).stream()
-                        .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+        return dao.getFiltered(JpaPdpPolicyStatus.class, params)
+                        .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
     }
 
     /**
