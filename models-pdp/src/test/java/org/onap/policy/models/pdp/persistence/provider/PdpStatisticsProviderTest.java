@@ -211,6 +211,32 @@ public class PdpStatisticsProviderTest {
     }
 
     @Test
+    public void testGetFilteredPdpStatistics2() throws Exception {
+
+        assertThatThrownBy(() -> {
+            new PdpStatisticsProvider().getFilteredPdpStatistics(null, PdpFilterParameters.builder().build());
+        }).hasMessageMatching(DAO_IS_NULL);
+
+
+        List<PdpStatistics> createdPdpStatisticsList;
+        createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
+        createdListStr = createdPdpStatisticsList.toString();
+        assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
+
+        List<PdpStatistics> getPdpStatisticsList;
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters.builder()
+                        .name(NAME).group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).hasSize(1);
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters.builder()
+                        .name("name2").group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).hasSize(1);
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao,
+                        PdpFilterParameters.builder().name("name2").group(GROUP).subGroup(SUBGROUP)
+                                        .startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).hasSize(1);
+    }
+
+    @Test
     public void testUpdatePdpStatistics() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().updatePdpStatistics(null, null);

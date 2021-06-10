@@ -21,9 +21,11 @@
 
 package org.onap.policy.models.dao;
 
-import java.time.Instant;
+import java.sql.Timestamp;
 import java.util.Map;
+import javax.persistence.TypedQuery;
 import lombok.Data;
+import org.onap.policy.models.base.PfConcept;
 /**
  * This abstract class is used as a base for the filter implementations.
  *
@@ -42,35 +44,22 @@ public abstract class PfFilter {
     private String keyPrefix;
 
     /**
-     * Generates filter string.
-     *
-     * @param inputFilterString current filterString generated from FilterMap
-     * @param name the pdpInstance name for the PDP statistics to get
-     * @param startTime the start timeStamp to filter from database, filter rule:
-     *     startTime <= filteredRecord timeStamp <= endTime. null for ignore end time
-     * @param endTime the end timeStamp to filter from database, filter rule:
-     *     startTime <= filteredRecord timeStamp <= endTime. null for ignore end time
-     * @param filterMap Map store extra key/value used to filter from database, can be null     *
-     * @param sortOrder sortOrder to query database
-     * @param getRecordNum Total query count from database
-
+     * Generates the "WHERE" (and "ORDER BY") clause for a JPA query.
      */
-    public String addFilter(final String inputFilterString,
-        final String name, final Instant startTime, final Instant endTime,
-        final Map<String, Object> filterMap, final String sortOrder, final int getRecordNum) {
-        var filterQueryString = new StringBuilder(inputFilterString);
-        if (filterMap != null) {
-            for (String key : filterMap.keySet()) {
+    public String genWhereClause(PfFilterParametersIntfc parameters) {
+        var filterQueryString = new StringBuilder();
+        if (parameters.getFilterMap() != null) {
+            for (String key : parameters.getFilterMap().keySet()) {
                 filterQueryString.append(getKeyPrefix() + key + "= :" + key + AND);
             }
         }
 
-        if (name != null) {
+        if (parameters.getName() != null) {
             filterQueryString.append(getNameFilter() + AND);
         }
 
-        if (startTime != null) {
-            if (endTime != null) {
+        if (parameters.getStartTime() != null) {
+            if (parameters.getEndTime() != null) {
                 filterQueryString.append(getTimeStampStartFilter());
                 filterQueryString.append(AND);
                 filterQueryString.append(getTimeStampEndFilter());
@@ -78,16 +67,47 @@ public abstract class PfFilter {
                 filterQueryString.append(getTimeStampStartFilter());
             }
         } else {
-            if (endTime != null) {
+            if (parameters.getEndTime() != null) {
                 filterQueryString.append(getTimeStampEndFilter());
             } else {
                 filterQueryString.delete(filterQueryString.length() - AND.length(), filterQueryString.length());
             }
         }
 
-        if (getRecordNum > 0) {
-            filterQueryString.append(ORDER + getTimeStampFilter() + sortOrder);
+        if (parameters.getRecordNum() > 0) {
+            filterQueryString.append(ORDER + getTimeStampFilter() + parameters.getSortOrder());
         }
         return filterQueryString.toString();
+    }
+
+    /**
+     * Sets the JPA query parameters, based on the filter parameters.
+     * @param query query to populate
+     */
+    public <T extends PfConcept> void setParams(TypedQuery<T> query, PfFilterParametersIntfc parameters) {
+
+        if (parameters.getFilterMap() != null) {
+            for (Map.Entry<String, Object> entry : parameters.getFilterMap().entrySet()) {
+                query.setParameter(entry.getKey(), entry.getValue());
+            }
+        }
+        if (parameters.getName() != null) {
+            query.setParameter(this.getNameParameter(), parameters.getName());
+        }
+        if (parameters.getStartTime() != null) {
+            if (parameters.getEndTime() != null) {
+                query.setParameter("startTime", Timestamp.from(parameters.getStartTime()));
+                query.setParameter("endTime", Timestamp.from(parameters.getEndTime()));
+            } else {
+                query.setParameter("startTime", Timestamp.from(parameters.getStartTime()));
+            }
+        } else {
+            if (parameters.getEndTime() != null) {
+                query.setParameter("endTime", Timestamp.from(parameters.getEndTime()));
+            }
+        }
+        if (parameters.getRecordNum() > 0) {
+            query.setMaxResults(parameters.getRecordNum());
+        }
     }
 }
