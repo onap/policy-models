@@ -56,9 +56,9 @@ public class PolicyAuditProvider {
     public void createAuditRecords(@NonNull PfDao dao, @NonNull final List<PolicyAudit> audits) {
         List<JpaPolicyAudit> jpaAudits = audits.stream().map(JpaPolicyAudit::new).collect(Collectors.toList());
 
-        BeanValidationResult result = new BeanValidationResult("createAuditRecords", jpaAudits);
+        var result = new BeanValidationResult("createAuditRecords", jpaAudits);
 
-        int count = 0;
+        var count = 0;
         for (JpaPolicyAudit jpaAudit : jpaAudits) {
             result.addResult(jpaAudit.validate(String.valueOf(count++)));
         }

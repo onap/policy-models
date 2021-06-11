@@ -143,7 +143,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
 
     @Override
     public PolicyAudit toAuthorative() {
-        ToscaConceptIdentifier policyIdent = new ToscaConceptIdentifier(key.getName(), key.getVersion());
+        var policyIdent = new ToscaConceptIdentifier(key.getName(), key.getVersion());
 
         // @formatter:off
         return PolicyAudit.builder()
