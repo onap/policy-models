@@ -1,7 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+<<<<<<< HEAD
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+=======
+ *  Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
+>>>>>>> Fix sonar in policy/models
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,9 +61,9 @@ public class PolicyAuditProvider {
     public void createAuditRecords(@NonNull PfDao dao, @NonNull final List<PolicyAudit> audits) {
         List<JpaPolicyAudit> jpaAudits = audits.stream().map(JpaPolicyAudit::new).collect(Collectors.toList());
 
-        BeanValidationResult result = new BeanValidationResult("createAuditRecords", jpaAudits);
+        var result = new BeanValidationResult("createAuditRecords", jpaAudits);
 
-        int count = 0;
+        var count = 0;
         for (JpaPolicyAudit jpaAudit : jpaAudits) {
             result.addResult(jpaAudit.validate(String.valueOf(count++)));
         }
