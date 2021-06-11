@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -143,7 +144,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
 
     @Override
     public PolicyAudit toAuthorative() {
-        ToscaConceptIdentifier policyIdent = new ToscaConceptIdentifier(key.getName(), key.getVersion());
+        var policyIdent = new ToscaConceptIdentifier(key.getName(), key.getVersion());
 
         // @formatter:off
         return PolicyAudit.builder()
