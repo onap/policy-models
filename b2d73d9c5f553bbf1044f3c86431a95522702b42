@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c538be2_cebad039",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAudit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-06-14T08:57:10Z",
+      "side": 1,
+      "message": "license.",
+      "revId": "b2d73d9c5f553bbf1044f3c86431a95522702b42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
