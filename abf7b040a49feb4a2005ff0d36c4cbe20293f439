@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09544895_2e5dbd48",
+        "filename": "models-dao/src/test/java/org/onap/policy/models/dao/EntityTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 625,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-06-14T12:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c03b1ce_4a7f36f9",
+      "range": {
+        "startLine": 623,
+        "startChar": 8,
+        "endLine": 625,
+        "endChar": 33
+      },
+      "revId": "abf7b040a49feb4a2005ff0d36c4cbe20293f439",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68419ece_ce1f5396",
         "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "abf7b040a49feb4a2005ff0d36c4cbe20293f439",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c65ab17c_f406c3b8",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-06-14T12:55:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68419ece_ce1f5396",
+      "range": {
+        "startLine": 169,
+        "startChar": 8,
+        "endLine": 169,
+        "endChar": 33
+      },
+      "revId": "abf7b040a49feb4a2005ff0d36c4cbe20293f439",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
