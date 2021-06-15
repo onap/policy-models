@@ -34,9 +34,11 @@ import java.time.Instant;
 import java.util.ArrayList;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -114,8 +116,9 @@ public class DummyPolicyModelsProviderTest {
         assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
 
         assertTrue(
-                dummyProvider.getFilteredPdpStatistics("name", null, null,
-                    Instant.now(), Instant.now(), null, 0).isEmpty());
+                dummyProvider.getFilteredPdpStatistics(
+                                PdpFilterParameters.builder().name("name")
+                                .startTime(Instant.now()).endTime(Instant.now()).build()).isEmpty());
         assertTrue(dummyProvider.createPdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.updatePdpStatistics(null).isEmpty());
         assertTrue(dummyProvider.deletePdpStatistics(null, Instant.now()).isEmpty());
@@ -127,7 +130,7 @@ public class DummyPolicyModelsProviderTest {
         assertThatCode(() -> dummyProvider.cudPolicyStatus(null, null,
             null)).doesNotThrowAnyException();
         assertThatCode(() -> dummyProvider.createAuditRecords(null)).doesNotThrowAnyException();
-        assertThat(dummyProvider.getAuditRecords(null, 10)).isEmpty();
+        assertThat(dummyProvider.getAuditRecords(AuditFilter.builder().recordNum(10).build())).isEmpty();
     }
 
     @Test

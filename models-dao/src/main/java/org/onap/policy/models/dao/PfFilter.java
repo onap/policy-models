@@ -26,9 +26,9 @@ import java.util.Map;
 import javax.persistence.TypedQuery;
 import lombok.Data;
 import org.onap.policy.models.base.PfConcept;
+
 /**
  * This abstract class is used as a base for the filter implementations.
- *
  */
 
 @Data
@@ -48,37 +48,48 @@ public abstract class PfFilter {
      * Generates the "WHERE" (and "ORDER BY") clause for a JPA query.
      */
     public String genWhereClause(PfFilterParametersIntfc parameters) {
-        var filterQueryString = new StringBuilder(WHERE);
+        if (parameters == null) {
+            return "";
+        }
+
+        var builder = new ClauseBuilder(WHERE, AND);
+
         if (parameters.getFilterMap() != null) {
             for (String key : parameters.getFilterMap().keySet()) {
-                filterQueryString.append(getKeyPrefix() + key + "= :" + key + AND);
+                builder.addCondition(getKeyPrefix(), key, "= :", key);
             }
         }
 
         if (parameters.getName() != null) {
-            filterQueryString.append(getNameFilter() + AND);
+            builder.addCondition(getNameFilter());
         }
 
         if (parameters.getStartTime() != null) {
-            if (parameters.getEndTime() != null) {
-                filterQueryString.append(getTimeStampStartFilter());
-                filterQueryString.append(AND);
-                filterQueryString.append(getTimeStampEndFilter());
-            } else {
-                filterQueryString.append(getTimeStampStartFilter());
-            }
-        } else {
-            if (parameters.getEndTime() != null) {
-                filterQueryString.append(getTimeStampEndFilter());
-            } else {
-                filterQueryString.delete(filterQueryString.length() - AND.length(), filterQueryString.length());
-            }
+            builder.addCondition(getTimeStampStartFilter());
         }
 
-        if (parameters.getRecordNum() > 0) {
-            filterQueryString.append(ORDER + getTimeStampFilter() + parameters.getSortOrder());
+        if (parameters.getEndTime() != null) {
+            builder.addCondition(getTimeStampEndFilter());
         }
-        return filterQueryString.toString();
+
+        return builder.toString();
+    }
+
+    /**
+     * Generates the "ORDER BY" clause for a JPA query.
+     */
+    public String genOrderClause(PfFilterParametersIntfc parameters) {
+        if (parameters == null) {
+            return "";
+        }
+
+        var builder = new ClauseBuilder(ORDER, ", ");
+
+        if (parameters.getRecordNum() > 0) {
+            builder.addCondition(getTimeStampFilter(), parameters.getSortOrder());
+        }
+
+        return builder.toString();
     }
 
     /**
@@ -86,6 +97,9 @@ public abstract class PfFilter {
      * @param query query to populate
      */
     public <T extends PfConcept> void setParams(TypedQuery<T> query, PfFilterParametersIntfc parameters) {
+        if (parameters == null) {
+            return;
+        }
 
         if (parameters.getFilterMap() != null) {
             for (Map.Entry<String, Object> entry : parameters.getFilterMap().entrySet()) {
@@ -96,19 +110,39 @@ public abstract class PfFilter {
             query.setParameter(this.getNameParameter(), parameters.getName());
         }
         if (parameters.getStartTime() != null) {
-            if (parameters.getEndTime() != null) {
-                query.setParameter("startTime", Timestamp.from(parameters.getStartTime()));
-                query.setParameter("endTime", Timestamp.from(parameters.getEndTime()));
-            } else {
-                query.setParameter("startTime", Timestamp.from(parameters.getStartTime()));
-            }
-        } else {
-            if (parameters.getEndTime() != null) {
-                query.setParameter("endTime", Timestamp.from(parameters.getEndTime()));
-            }
+            query.setParameter("startTime", Timestamp.from(parameters.getStartTime()));
+        }
+        if (parameters.getEndTime() != null) {
+            query.setParameter("endTime", Timestamp.from(parameters.getEndTime()));
         }
         if (parameters.getRecordNum() > 0) {
             query.setMaxResults(parameters.getRecordNum());
+        }
+    }
+
+    private static class ClauseBuilder {
+        private final StringBuilder builder = new StringBuilder();
+        private final String separator;
+
+        private String currentSeparator;
+
+        public ClauseBuilder(String clause, String separator) {
+            this.separator = separator;
+            this.currentSeparator = clause;
+        }
+
+        @Override
+        public String toString() {
+            return builder.toString();
+        }
+
+        public void addCondition(String...condition) {
+            builder.append(currentSeparator);
+            currentSeparator = separator;
+
+            for (String text: condition) {
+                builder.append(text);
+            }
         }
     }
 }

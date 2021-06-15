@@ -46,6 +46,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
+import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
@@ -278,10 +279,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessageMatching(NAME_IS_NULL);
 
         assertThatThrownBy(() -> {
-            databaseProvider.getFilteredPdpStatistics(NAME, null, "sub", TIMESTAMP, TIMESTAMP, ORDER, 0);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
             databaseProvider.createPdpStatistics(null);
         }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
 
@@ -426,34 +423,41 @@ public class DatabasePolicyModelsProviderTest {
         databaseProvider.createPdpStatistics(makePdpStatisticsList());
 
         assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null,
-            null, null, ORDER, 0).get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(null, GROUP, null,
-            Instant.now(), null, ORDER, 0).size());
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(null, GROUP, null,
-            null, TIMESTAMP, ORDER, 0).get(0).getPdpInstanceId());
-        assertEquals(0,
-                databaseProvider.getFilteredPdpStatistics(null, GROUP, null, Instant.now(),
-                    Instant.now(), ORDER, 0).size());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().group(GROUP).build()).get(0).getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().group(GROUP).startTime(Instant.now()).build()).size());
+        assertEquals(NAME, databaseProvider
+                        .getFilteredPdpStatistics(PdpFilterParameters.builder().group(GROUP).endTime(TIMESTAMP).build())
+                        .get(0).getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().group(GROUP)
+                        .startTime(Instant.now()).endTime(Instant.now()).build()).size());
 
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, null,
-            null, ORDER, 0).get(0).getPdpInstanceId());
-        assertEquals(0,
-                databaseProvider.getFilteredPdpStatistics(NAME, GROUP, null, Instant.now(), Instant.now(),
-                    ORDER, 0).size());
+        assertEquals(NAME, databaseProvider
+                        .getFilteredPdpStatistics(PdpFilterParameters.builder().name(NAME).group(GROUP).build()).get(0)
+                        .getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().name(NAME).group(GROUP)
+                        .startTime(Instant.now()).endTime(Instant.now()).build()).size());
 
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type",
-            null, null, ORDER, 0).get(0).getPdpInstanceId());
+        assertEquals(NAME,
+                        databaseProvider.getFilteredPdpStatistics(
+                                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type").build())
+                                        .get(0).getPdpInstanceId());
 
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type",
-            Instant.now(), Instant.now(), ORDER, 0).size());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
+                            .startTime(Instant.now()).endTime(Instant.now()).build()).size());
 
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type",
-            null, null, ORDER, 1).get(0).getPdpInstanceId());
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type",
-            null, null, ORDER, 5).get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(NAME, GROUP, "type",
-            Instant.now(), Instant.now(), ORDER, 5).size());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
+                            .sortOrder(ORDER).recordNum(1).build()).get(0).getPdpInstanceId());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
+                            .sortOrder(ORDER).recordNum(5).build()).get(0).getPdpInstanceId());
+        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
+                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
+                            .startTime(Instant.now()).endTime(Instant.now())
+                            .sortOrder(ORDER).recordNum(5).build()).size());
 
         assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
         assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
@@ -549,21 +553,15 @@ public class DatabasePolicyModelsProviderTest {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.createAuditRecords(List.of(audit));
-        List<PolicyAudit> createdAudits = databaseProvider.getAuditRecords(null, 10);
+        List<PolicyAudit> createdAudits = databaseProvider.getAuditRecords(AuditFilter.builder().recordNum(10).build());
         assertThat(createdAudits).hasSize(1);
 
-        createdAudits = databaseProvider.getAuditRecords(AuditFilter.builder().build(), 10);
-        assertThat(createdAudits).hasSize(1);
-
-        List<PolicyAudit> emptyList =
-                databaseProvider.getAuditRecords(AuditFilter.builder().action(AuditAction.UNDEPLOYMENT).build(), 10);
+        List<PolicyAudit> emptyList = databaseProvider
+                        .getAuditRecords(AuditFilter.builder().action(AuditAction.UNDEPLOYMENT).recordNum(10).build());
         assertThat(emptyList).isEmpty();
 
         assertThatThrownBy(() -> databaseProvider.createAuditRecords(null))
                 .hasMessageContaining("audits is marked non-null but is null");
-
-        assertThatThrownBy(() -> databaseProvider.getAuditRecords(null, null))
-                .hasMessageContaining("numRecords is marked non-null but is null");
 
         databaseProvider.close();
     }

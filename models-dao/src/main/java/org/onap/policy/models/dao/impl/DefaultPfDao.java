@@ -393,7 +393,9 @@ public class DefaultPfDao implements PfDao {
 
         try {
             PfFilter filter = new PfFilterFactory().createFilter(someClass);
-            String filterQueryString = SELECT_FROM_TABLE + filter.genWhereClause(filterParams);
+            String filterQueryString = SELECT_FROM_TABLE
+                            + filter.genWhereClause(filterParams)
+                            + filter.genOrderClause(filterParams);
 
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
             filter.setParams(query, filterParams);

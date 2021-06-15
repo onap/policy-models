@@ -35,6 +35,7 @@ import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -332,18 +333,11 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Get filtered PdpStatistics.
      *
-     * @param name the pdpInstance name for the PDP statistics to get
-     * @param pdpGroupName pdpGroupName to filter statistics
-     * @param pdpSubGroup pdpSubGroupType name to filter statistics
-     * @param startTimeStamp startTimeStamp to filter statistics
-     * @param endTimeStamp endTimeStamp to filter statistics
-     * @param sortOrder sortOrder to query database
-     * @param getRecordNum Total query count from database
+     * @param filterParams filter parameters
      * @return the PDP statistics found
      * @throws PfModelException on errors getting policies
      */
-    public List<PdpStatistics> getFilteredPdpStatistics(String name, @NonNull String pdpGroupName, String pdpSubGroup,
-            Instant startTimeStamp, Instant endTimeStamp, String sortOrder, int getRecordNum) throws PfModelException;
+    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException;
 
     /**
      * Creates PDP statistics.
@@ -421,8 +415,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
     /**
      * Collect the audit records.
      * @param auditFilter filter for search
-     * @param numRecords max number of records to be collected
      * @return list of {@link PolicyAudit} or empty if none or not match with filter
      */
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter,  @NonNull Integer numRecords);
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter);
 }

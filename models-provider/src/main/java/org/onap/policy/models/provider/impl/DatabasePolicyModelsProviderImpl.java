@@ -38,6 +38,7 @@ import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
 import org.onap.policy.models.pdp.persistence.provider.PdpStatisticsProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
@@ -256,13 +257,9 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public List<PdpStatistics> getFilteredPdpStatistics(final String name, @NonNull final String pdpGroupName,
-                                                        final String pdpSubGroup, final Instant startTimeStamp,
-                                                        final Instant endTimeStamp, final String sortOrder,
-                                                        final int getRecordNum) throws PfModelException {
+    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
         assertInitialized();
-        return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), name, pdpGroupName, pdpSubGroup,
-                startTimeStamp, endTimeStamp, sortOrder, getRecordNum);
+        return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), filterParams);
     }
 
     @Override
@@ -319,13 +316,9 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter, @NonNull Integer numRecords) {
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter) {
         assertInitialized();
-        if (auditFilter == null || auditFilter.isEmpty()) {
-            return new PolicyAuditProvider().getAuditRecords(getPfDao(), numRecords);
-        } else {
-            return new PolicyAuditProvider().getAuditRecords(getPfDao(), auditFilter, numRecords);
-        }
+        return new PolicyAuditProvider().getAuditRecords(getPfDao(), auditFilter);
     }
 
     /**

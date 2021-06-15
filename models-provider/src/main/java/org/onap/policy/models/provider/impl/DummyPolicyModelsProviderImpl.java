@@ -40,6 +40,7 @@ import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
+import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -218,8 +219,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getFilteredPdpStatistics(String name, String pdpGroupName, String pdpSubGroup,
-            Instant startTimeStamp, Instant endTimeStamp, String sortOrder, int getRecordNum) {
+    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
         // Not implemented
         return new ArrayList<>();
     }
@@ -275,7 +275,7 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter, @NonNull Integer numRecords) {
+    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter) {
         // Not implemented
         return new ArrayList<>();
     }
