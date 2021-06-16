@@ -1,0 +1,81 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - operational.modifyconfig.cds.chaining.example:
+        type: onap.policies.controlloop.operational.common.Drools
+        type_version: 1.0.0
+        name: operational.modifyconfig.cds.chaining.example
+        version: 1.0.0
+        properties:
+          id: ControlLoop-vFirewall-d0a1dfc6-94f5-4fd4-a5b5-4630b438850a
+          timeout: 1200
+          abatement: false
+          trigger: unique-policy-id-1-modifyConfig
+          operations:
+            - id: unique-policy-id-1-modifyConfig
+              description: Modify the packet generator
+              operation:
+                actor: CDS
+                operation: ModifyConfig
+                target:
+                  targetType: VNF
+                  entityId:
+                    resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+                payload:
+                  artifact_name: vfw-cds
+                  artifact_version: 1.0.0
+                  mode: async
+                  data: "{\"active-streams\": \"7\"}"
+              timeout: 300
+              retries: 0
+              success: unique-policy-id-2-modifyConfig
+              failure: unique-policy-id-3-modifyConfig
+              failure_timeout: final_failure_timeout
+              failure_retries: final_failure_retries
+              failure_exception: final_failure_exception
+              failure_guard: final_failure_guard
+            - id: unique-policy-id-2-modifyConfig
+              description: Modify the packet generator
+              operation:
+                actor: CDS
+                operation: ModifyConfig
+                target:
+                  targetType: VNF
+                  entityId:
+                    resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+                payload:
+                  artifact_name: vfw-cds
+                  artifact_version: 1.0.0
+                  mode: async
+                  data: "{\"active-streams\": \"7\"}"
+              timeout: 300
+              retries: 0
+              success: final_success
+              failure: final_failure
+              failure_timeout: final_failure_timeout
+              failure_retries: final_failure_retries
+              failure_exception: final_failure_exception
+              failure_guard: final_failure_guard
+            - id: unique-policy-id-3-modifyConfig
+              description: Modify the packet generator
+              operation:
+                actor: CDS
+                operation: ModifyConfig
+                target:
+                  targetType: VNF
+                  entityId:
+                    resourceID: bbb3cefd-01c8-413c-9bdd-2b92f9ca3d38
+                payload:
+                  artifact_name: vfw-cds
+                  artifact_version: 1.0.0
+                  mode: async
+                  data: "{\"active-streams\": \"7\"}"
+              timeout: 300
+              retries: 0
+              success: final_success
+              failure: final_failure
+              failure_timeout: final_failure_timeout
+              failure_retries: final_failure_retries
+              failure_exception: final_failure_exception
+              failure_guard: final_failure_guard
+          controllerName: usecases
