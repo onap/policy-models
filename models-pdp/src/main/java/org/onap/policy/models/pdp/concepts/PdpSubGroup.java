@@ -26,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
@@ -40,6 +41,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
 @Data
+@NoArgsConstructor
 public class PdpSubGroup {
     private String pdpType;
     private List<ToscaConceptIdentifier> supportedPolicyTypes;
@@ -48,13 +50,6 @@ public class PdpSubGroup {
     private int desiredInstanceCount;
     private Map<String, String> properties;
     private List<Pdp> pdpInstances;
-
-    /**
-     * Constructs the object.
-     */
-    public PdpSubGroup() {
-        super();
-    }
 
     /**
      * Constructs the object, making a deep copy from the source.

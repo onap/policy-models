@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +21,18 @@
 
 package org.onap.policy.models.sim.pdp;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Names of various items contained in the Registry.
  */
-public class PdpSimulatorConstants {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class PdpSimulatorConstants {
     // Registry keys
     public static final String REG_PDP_SIMULATOR_ACTIVATOR = "object:activator/pdp_simulator";
     public static final String REG_PDP_STATUS_OBJECT = "object:pdp/status";
     public static final String REG_PDP_TOSCA_POLICY_LIST = "object:pdp/tosca/policy/list";
     public static final String REG_PDP_STATUS_PUBLISHER = "object:pdp/status/publisher";
     public static final String REG_PDP_TOPIC_SINKS = "object:pdp/topic/sinks";
-
-    private PdpSimulatorConstants() {
-        super();
-    }
 }
