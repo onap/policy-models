@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,8 @@ package org.onap.policy.controlloop.actorserviceprovider;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -32,13 +34,10 @@ import org.slf4j.LoggerFactory;
 /**
  * Actor utilities.
  */
-public class Util {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Util {
     private static final Logger logger = LoggerFactory.getLogger(Util.class);
     private static final Coder coder = new StandardCoder();
-
-    private Util() {
-        // do nothing
-    }
 
     /**
      * Extracts an object's identity by invoking {@link Object#toString()} and returning

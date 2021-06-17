@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import lombok.AllArgsConstructor;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import org.slf4j.LoggerFactory;
  * message. Each forwarder is associated with a single set of selector keys. Listeners are
  * then registered with that forwarder for a particular set of values for the given keys.
  */
+@AllArgsConstructor
 public class Forwarder {
     private static final Logger logger = LoggerFactory.getLogger(Forwarder.class);
 
@@ -50,16 +52,6 @@ public class Forwarder {
      * Keys used to extract the field values from the {@link StandardCoderObject}.
      */
     private final List<SelectorKey> keys;
-
-    /**
-     * Constructs the object.
-     *
-     * @param keys keys used to extract the field's value from the
-     *        {@link StandardCoderObject}
-     */
-    public Forwarder(List<SelectorKey> keys) {
-        this.keys = keys;
-    }
 
     /**
      * Registers a listener for messages containing the given field values.

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -42,6 +43,7 @@ import org.onap.policy.common.utils.coder.CoderException;
  * RestManager Response suitable for use with subclasses of HttpOperation. Only a couple
  * of methods are implemented; the rest throw {@link UnsupportedOperationException}.
  */
+@AllArgsConstructor
 public class RestManagerResponse extends Response {
     // TODO move to actorServices
 
@@ -50,19 +52,6 @@ public class RestManagerResponse extends Response {
 
     private final String body;
     private final Coder coder;
-
-    /**
-     * Constructs the object.
-     *
-     * @param status HTTP response status code
-     * @param body response body
-     * @param coder coder to decode the entity body
-     */
-    public RestManagerResponse(int status, String body, Coder coder) {
-        this.status = status;
-        this.body = body;
-        this.coder = coder;
-    }
 
     @Override
     public void close() {

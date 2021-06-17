@@ -3,7 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2018 Nokia Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,15 +24,13 @@ package org.onap.policy.controlloop.actor.appclcm;
 
 import com.google.common.collect.Lists;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 
+@AllArgsConstructor
 class AppcLcmRecipeFormatter {
 
     private final String dashCasedRecipe;
-
-    AppcLcmRecipeFormatter(String dashCasedRecipe) {
-        this.dashCasedRecipe = dashCasedRecipe;
-    }
 
     String getUrlRecipe() {
         return dashCasedRecipe.toLowerCase();

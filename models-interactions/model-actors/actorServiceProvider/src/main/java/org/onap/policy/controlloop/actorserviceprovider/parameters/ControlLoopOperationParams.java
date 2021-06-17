@@ -79,6 +79,7 @@ public class ControlLoopOperationParams {
      * across various components/servers.
      */
     @NotNull
+    @Getter
     private UUID requestId;
 
     /**
@@ -171,15 +172,6 @@ public class ControlLoopOperationParams {
                     .getOperator(getOperation())
                     .buildOperation(this);
         // @formatter:on
-    }
-
-    /**
-     * Gets the requested ID of the associated event.
-     *
-     * @return the event's request ID, or {@code null} if no request ID is available
-     */
-    public UUID getRequestId() {
-        return requestId;
     }
 
     /**

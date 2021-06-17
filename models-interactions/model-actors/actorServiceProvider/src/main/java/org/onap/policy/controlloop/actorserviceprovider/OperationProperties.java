@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +20,9 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 /**
  * Names of properties needed by the Actors defined within this repo. Note: this is not
  * exhaustive, as additional property names may be returned by company-defined Actors.
@@ -27,7 +30,8 @@ package org.onap.policy.controlloop.actorserviceprovider;
  * Note: any time a property is added, applications using the actors must be updated to
  * provide the property's value when requested.
  */
-public class OperationProperties {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class OperationProperties {
 
     /**
      * A&AI Default Cloud Region. Obtained as follows:
@@ -153,9 +157,4 @@ public class OperationProperties {
      * An Integer containing the count.
      */
     public static final String DATA_VF_COUNT = "data/vfCount";
-
-
-    private OperationProperties() {
-        super();
-    }
 }
