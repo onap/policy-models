@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "210c0934_7b30753d",
+        "filename": "models-interactions/model-impl/sdnc/src/main/java/org/onap/policy/sdnc/SdncHealRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-06-17T20:35:09Z",
+      "side": 0,
+      "message": "already have annotations for these two",
+      "revId": "27ac6bce15318a074d4fb53606571eb30e46bf07",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
