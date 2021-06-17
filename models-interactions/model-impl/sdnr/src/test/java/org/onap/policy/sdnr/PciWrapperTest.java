@@ -60,7 +60,7 @@ public class PciWrapperTest {
 
         assertNotEquals(0, wrapper.hashCode());
 
-        assertEquals("Wrapper [version=19.3.9, cambriaPartition=The ", wrapper.toString().substring(0, 46));
+        assertEquals("PciWrapper(version=19.3.9, cambriaPartition=The ", wrapper.toString().substring(0, 48));
 
         PciWrapper copiedPciWrapper = new PciWrapper();
         copiedPciWrapper.setVersion(wrapper.getVersion());

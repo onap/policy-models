@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,12 @@ import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class PciWrapper implements Serializable {
 
     private static final long serialVersionUID = 375215806432396532L;
@@ -47,14 +49,4 @@ public class PciWrapper implements Serializable {
     private String correlationId;
 
     private String type;
-
-    public PciWrapper() {
-        // Create a default PciWrapper instance
-    }
-
-    @Override
-    public String toString() {
-        return "Wrapper [version=" + version + ", cambriaPartition=" + cambriaPartition + ", rpcName=" + rpcName
-            + ", correlationId=" + correlationId + ", type=" + type + "]";
-    }
 }

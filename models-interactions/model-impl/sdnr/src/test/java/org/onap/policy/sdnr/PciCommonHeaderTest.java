@@ -69,7 +69,7 @@ public class PciCommonHeaderTest {
 
         assertNotEquals(0, commonHeader.hashCode());
 
-        assertEquals("CommonHeader [timeStamp=", commonHeader.toString().substring(0, 24));
+        assertEquals("PciCommonHeader(timeStamp=", commonHeader.toString().substring(0, 26));
 
         PciCommonHeader copiedPciCommonHeader = new PciCommonHeader();
         copiedPciCommonHeader.setApiVer(commonHeader.getApiVer());
