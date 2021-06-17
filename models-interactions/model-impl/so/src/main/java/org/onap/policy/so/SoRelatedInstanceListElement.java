@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,11 +28,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SoRelatedInstanceListElement implements Serializable {
- 
-    private static final long serialVersionUID = -3283942659786236032L;
-    private SoRelatedInstance relatedInstance;
 
-    public SoRelatedInstanceListElement() {
-      //required by author
-    }
+    private static final long serialVersionUID = -3283942659786236032L;
+
+    private SoRelatedInstance relatedInstance;
 }
