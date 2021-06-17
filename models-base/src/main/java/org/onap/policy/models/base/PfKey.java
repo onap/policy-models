@@ -21,12 +21,15 @@
 
 package org.onap.policy.models.base;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
  * The key uniquely identifies every entity in the system. This class is an abstract class to give a common parent for
  * all key types in the system.
  */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PfKey extends PfConcept {
     private static final long serialVersionUID = 6281159885962014041L;
 
@@ -65,13 +68,6 @@ public abstract class PfKey extends PfConcept {
         PATCH,
         /** The keys match completely. */
         IDENTICAL
-    }
-
-    /**
-     * Default constructor.
-     */
-    protected PfKey() {
-        super();
     }
 
     /**
