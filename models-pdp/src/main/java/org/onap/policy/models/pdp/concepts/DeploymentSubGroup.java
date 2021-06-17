@@ -24,6 +24,7 @@ package org.onap.policy.models.pdp.concepts;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
@@ -35,6 +36,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
  * particular domain.
  */
 @Data
+@NoArgsConstructor
 public class DeploymentSubGroup {
 
     public enum Action {
@@ -46,13 +48,6 @@ public class DeploymentSubGroup {
     private String pdpType;
     private Action action;
     private List<ToscaConceptIdentifier> policies;
-
-    /**
-     * Constructs the object.
-     */
-    public DeploymentSubGroup() {
-        super();
-    }
 
     /**
      * Constructs the object, making a deep copy from the source.

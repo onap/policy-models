@@ -22,6 +22,7 @@
 package org.onap.policy.models.sim.pdp;
 
 import java.util.Arrays;
+import lombok.Getter;
 import org.onap.policy.common.utils.cmd.CommandLineException;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
@@ -43,7 +44,8 @@ public class PdpSimulatorMain {
     private static final Logger LOGGER = LoggerFactory.getLogger(PdpSimulatorMain.class);
 
     private PdpSimulatorActivator activator;
-    private PdpSimulatorParameterGroup parameterGroup;
+    @Getter
+    private PdpSimulatorParameterGroup parameters;
 
     /**
      * Instantiates the PdpSimulator.
@@ -73,14 +75,14 @@ public class PdpSimulatorMain {
 
         // Read the parameters
         try {
-            parameterGroup = new PdpSimulatorParameterHandler().getParameters(arguments);
+            parameters = new PdpSimulatorParameterHandler().getParameters(arguments);
         } catch (final Exception e) {
             LOGGER.error(PDP_SIMULATOR_FAIL_MSG, e);
             return;
         }
 
         // create the activator
-        activator = new PdpSimulatorActivator(parameterGroup);
+        activator = new PdpSimulatorActivator(parameters);
         Registry.register(PdpSimulatorConstants.REG_PDP_SIMULATOR_ACTIVATOR, activator);
         // Start the activator
         try {
@@ -97,15 +99,6 @@ public class PdpSimulatorMain {
         LOGGER.info("Started PdpSimulator service");
     }
 
-    /**
-     * Get the parameters specified in JSON.
-     *
-     * @return parameterGroup the parameters
-     */
-    public PdpSimulatorParameterGroup getParameters() {
-        return parameterGroup;
-    }
-
 
     /**
      * Shut down Execution.
@@ -114,7 +107,7 @@ public class PdpSimulatorMain {
      */
     public void shutdown() throws PdpSimulatorException {
         // clear the parameterGroup variable
-        parameterGroup = null;
+        parameters = null;
 
         // clear the pdp simulator activator
         if (activator != null && activator.isAlive()) {

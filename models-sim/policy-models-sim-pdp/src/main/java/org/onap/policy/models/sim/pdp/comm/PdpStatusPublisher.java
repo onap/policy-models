@@ -24,6 +24,7 @@ package org.onap.policy.models.sim.pdp.comm;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import lombok.Getter;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.client.TopicSinkClient;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -42,6 +43,7 @@ public class PdpStatusPublisher extends TimerTask {
 
     private TopicSinkClient topicSinkClient;
     private Timer timer;
+    @Getter
     private long interval;
 
     /**
@@ -70,15 +72,6 @@ public class PdpStatusPublisher extends TimerTask {
     public void terminate() {
         timer.cancel();
         timer.purge();
-    }
-
-    /**
-     * Get the current time interval used by the timer task.
-     *
-     * @return interval the current time interval
-     */
-    public long getInterval() {
-        return interval;
     }
 
     /**
