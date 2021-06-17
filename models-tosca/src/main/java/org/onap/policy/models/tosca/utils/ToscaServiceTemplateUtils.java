@@ -23,6 +23,8 @@ package org.onap.policy.models.tosca.utils;
 
 import java.util.Map.Entry;
 import javax.ws.rs.core.Response;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptContainer;
@@ -37,13 +39,8 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
 /**
  * This utility class provides methods to manage service templates.
  */
-public class ToscaServiceTemplateUtils {
-    /**
-     * Private constructor to prevent subclassing.
-     */
-    private ToscaServiceTemplateUtils() {
-        // Private constructor to prevent subclassing
-    }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ToscaServiceTemplateUtils {
 
     /**
      * Add a service template fragment to a service template. All entities in the service template fragment must either

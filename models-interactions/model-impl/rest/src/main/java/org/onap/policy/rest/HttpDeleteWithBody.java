@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2018 Amdocs. All rights reserved.
- * Modifications Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,32 +23,27 @@
 package org.onap.policy.rest;
 
 import java.net.URI;
+import lombok.NoArgsConstructor;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 
 /**
  * Allows for HTTP DELETE requests to contain a body, which the HttpDelete
  * class does not support.
  */
+@NoArgsConstructor
 public class HttpDeleteWithBody extends HttpEntityEnclosingRequestBase {
     public static final String METHOD_NAME = "DELETE";
 
     public HttpDeleteWithBody(final String uri) {
-        super();
         setURI(URI.create(uri));
     }
 
     public HttpDeleteWithBody(final URI uri) {
-        super();
         setURI(uri);
-    }
-
-    public HttpDeleteWithBody() {
-        super();
     }
 
     @Override
     public String getMethod() {
         return METHOD_NAME;
     }
-
 }
