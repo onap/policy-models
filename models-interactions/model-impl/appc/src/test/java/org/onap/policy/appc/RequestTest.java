@@ -21,6 +21,7 @@
 
 package org.onap.policy.appc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,7 +65,7 @@ public class RequestTest {
 
         assertNotEquals(0, request.hashCode());
 
-        assertEquals("Request [CommonHeader=CommonHeader [TimeStamp=", request.toString().substring(0, 46));
+        assertThat(request.toString()).startsWith("Request(commonHeader=CommonHeader(timeStamp=");
 
         Request copiedRequest = new Request();
         copiedRequest.setCommonHeader(request.getCommonHeader());

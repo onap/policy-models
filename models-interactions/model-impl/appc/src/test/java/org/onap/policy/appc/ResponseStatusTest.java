@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.appc;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
@@ -48,7 +49,7 @@ public class ResponseStatusTest {
         assertEquals(THERE_S_NO_PLACE_LIKE_HOME, status.getValue());
         assertNotEquals(0, status.hashCode());
 
-        assertEquals("ResponseStatus [Code=1234, Value=There's no pla", status.toString().substring(0, 47));
+        assertThat(status.toString()).startsWith("ResponseStatus(code=1234, value=There's no pla");
 
         ResponseStatus copiedStatus = new ResponseStatus();
         copiedStatus.setCode(status.getCode());

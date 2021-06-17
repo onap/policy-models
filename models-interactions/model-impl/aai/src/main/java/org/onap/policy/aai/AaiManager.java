@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -44,6 +45,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This class handles communication towards and responses from A&AI for this module.
  */
+@AllArgsConstructor
 public final class AaiManager {
 
     // TODO remove this class
@@ -55,9 +57,6 @@ public final class AaiManager {
 
     private static final StandardCoder CODER = new StandardCoder();
 
-    // The REST manager used for processing REST calls for this AAI manager
-    private final RestManager restManager;
-
     /** custom query and other AAI resource URLs. */
     private static final String CQ_URL = "/aai/v21/query?format=resource";
     private static final String TENANT_URL = "/aai/v21/search/nodes-query?"
@@ -66,14 +65,8 @@ public final class AaiManager {
     private static final String PNF_URL = PREFIX + "/network/pnfs/pnf/";
     private static final String AAI_DEPTH_SUFFIX = "?depth=0";
 
-    /**
-     * Constructor, create the AAI manager with the specified REST manager.
-     *
-     * @param restManager the rest manager to use for REST calls
-     */
-    public AaiManager(final RestManager restManager) {
-        this.restManager = restManager;
-    }
+    // The REST manager used for processing REST calls for this AAI manager
+    private final RestManager restManager;
 
     /**
      * Creates the custom query payload from a tenant query response.

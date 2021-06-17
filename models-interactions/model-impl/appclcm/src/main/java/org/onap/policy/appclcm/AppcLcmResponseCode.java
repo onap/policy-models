@@ -23,8 +23,12 @@
 package org.onap.policy.appclcm;
 
 import java.io.Serializable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.onap.policy.appclcm.util.StatusCodeEnum;
 
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class AppcLcmResponseCode implements Serializable {
 
     /* These fields define the key to the response code value. */
@@ -37,15 +41,8 @@ public class AppcLcmResponseCode implements Serializable {
     public static final String PARTIAL_FAILURE = "PARTIAL FAILURE";
     private static final long serialVersionUID = 8189456447227022582L;
 
-    private final Integer code;
-
-    protected AppcLcmResponseCode(final int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return this.code;
-    }
+    @Getter
+    private final int code;
 
     @Override
     public String toString() {

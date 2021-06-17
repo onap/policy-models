@@ -26,9 +26,12 @@ import com.google.gson.GsonBuilder;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.gson.InstantAsMillisTypeAdapter;
 import org.onap.policy.common.gson.ZonedDateTimeTypeAdapter;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Serialization {
     public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
@@ -38,8 +41,4 @@ public final class Serialization {
             // .registerTypeAdapter(CommonHeader1607.class, new gsonCommonHeaderInstance())
             // .registerTypeAdapter(ResponseStatus1607.class, new gsonResponseStatus())
             .create();
-
-    private Serialization() {
-        // Private constructor to prevent subclassing
-    }
 }
