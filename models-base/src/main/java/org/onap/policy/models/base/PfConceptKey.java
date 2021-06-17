@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,7 @@ import javax.persistence.Embeddable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.ToString;
 import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 
@@ -40,6 +41,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @Embeddable
 @Getter
 @EqualsAndHashCode(callSuper = false)
+@ToString
 public class PfConceptKey extends PfKeyImpl {
     private static final long serialVersionUID = 8932717618579392561L;
 
@@ -101,10 +103,5 @@ public class PfConceptKey extends PfKeyImpl {
      */
     public static final PfConceptKey getNullKey() {
         return new PfConceptKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
-    }
-
-    @Override
-    public String toString() {
-        return "PfConceptKey(name=" + getName() + ", version=" + getVersion() + ")";
     }
 }

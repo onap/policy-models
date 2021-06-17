@@ -23,6 +23,8 @@ package org.onap.policy.models.base;
 
 import java.io.Serializable;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -30,15 +32,9 @@ import lombok.NonNull;
  * and interfaces on all concepts that are sub-classes of this class.
  */
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PfConcept extends Validated implements Serializable, Comparable<PfConcept> {
     private static final long serialVersionUID = -7434939557282697490L;
-
-    /**
-     * Default constructor.
-     */
-    protected PfConcept() {
-        // Default Constructor
-    }
 
     /**
      * Copy constructor.

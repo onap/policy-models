@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,11 @@
 
 package org.onap.policy.controlloop;
 
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
 public class PhysicalControlLoopEvent extends ControlLoopEvent {
     private static final long serialVersionUID = -7282930271094849487L;
-
-    public PhysicalControlLoopEvent() {
-        // Default constructor
-    }
 
     /**
      * Construct an instance from an existing instance.

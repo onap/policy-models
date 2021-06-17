@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * controlloop
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,14 +21,14 @@
 
 package org.onap.policy.controlloop;
 
-public class ControlLoopTargetType {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ControlLoopTargetType {
     public static final String VM = "VM";
     public static final String VF = "VF";
     public static final String VFC = "VFC";
     public static final String VNF = "VNF";
     public static final String PNF = "PNF";
-
-    private ControlLoopTargetType() {
-        // do nothing
-    }
 }

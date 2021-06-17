@@ -24,6 +24,7 @@ package org.onap.policy.models.base;
 import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeSet;
+import lombok.AllArgsConstructor;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
@@ -31,19 +32,12 @@ import org.onap.policy.common.utils.validation.Assertions;
  *
  * @param <C> the type of concept on which the interface implementation is applied.
  */
+@AllArgsConstructor
 public class PfConceptGetterImpl<C> implements PfConceptGetter<C> {
 
     // The map from which to get concepts
     private final NavigableMap<PfConceptKey, C> conceptMap;
 
-    /**
-     * Constructor that sets the concept map on which the getter methods in the interface will operate..
-     *
-     * @param conceptMap the concept map on which the method will operate
-     */
-    public PfConceptGetterImpl(final NavigableMap<PfConceptKey, C> conceptMap) {
-        this.conceptMap = conceptMap;
-    }
 
     @Override
     public C get(final PfConceptKey conceptKey) {

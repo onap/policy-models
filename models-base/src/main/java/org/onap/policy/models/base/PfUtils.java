@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,6 +30,8 @@ import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 
@@ -38,10 +40,8 @@ import org.apache.commons.collections4.MapUtils;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PfUtils {
-    private PfUtils() {
-        // Cannot be subclassed
-    }
 
     /**
      * Compare two objects using their equals methods, nulls are allowed.

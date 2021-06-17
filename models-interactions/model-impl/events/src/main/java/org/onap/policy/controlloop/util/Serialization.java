@@ -33,10 +33,13 @@ import java.lang.reflect.Type;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.gson.InstantAsMillisTypeAdapter;
 import org.onap.policy.common.gson.ZonedDateTimeTypeAdapter;
 import org.onap.policy.controlloop.ControlLoopNotificationType;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Serialization {
     public static final DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSSxxx");
 
@@ -53,10 +56,6 @@ public final class Serialization {
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter(format))
             .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter()).create();
-
-    private Serialization() {
-        // Private constructor to prevent subclassing
-    }
 
     public static class NotificationTypeAdapter
             implements JsonSerializer<ControlLoopNotificationType>, JsonDeserializer<ControlLoopNotificationType> {

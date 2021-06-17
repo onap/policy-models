@@ -24,6 +24,8 @@ package org.onap.policy.models.base;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import javax.ws.rs.core.Response;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
@@ -37,16 +39,10 @@ import lombok.NonNull;
  * exist in Policy Framework (particularly the engine) at any time. Of course the model in a JVM can be changed at any
  * time provided all users of the model are stopped and restarted in an orderly manner.
  */
-public abstract class PfModelService {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class PfModelService {
     // The map holding the models
     private static Map<String, PfConcept> modelMap = new ConcurrentHashMap<>();
-
-    /**
-     * This class is an abstract static class that cannot be extended.
-     */
-    private PfModelService() {
-        // Default constructor
-    }
 
     /**
      * Register a model with the model service.

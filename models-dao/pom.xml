@@ -1,7 +1,7 @@
 <!--
   ============LICENSE_START=======================================================
    Copyright (C) 2019 Nordix Foundation.
-   Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+   Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -42,11 +42,6 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.1</version>
         </dependency>
     </dependencies>
 </project>
