@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,11 +27,15 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class Response implements Serializable {
 
     private static final long serialVersionUID = 434953706339865151L;
@@ -50,10 +54,6 @@ public class Response implements Serializable {
     @SerializedName("Payload")
     private Map<String, Object> payload = new HashMap<>();
 
-    public Response() {
-
-    }
-
     /**
      * Construct an instance from an existing instance.
      *
@@ -66,10 +66,5 @@ public class Response implements Serializable {
         if (request.getPayload() != null) {
             this.payload.putAll(request.getPayload());
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Response [CommonHeader=" + commonHeader + ", Status=" + status + ", Payload=" + payload + "]";
     }
 }

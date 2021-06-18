@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * appc
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,11 +30,15 @@ import java.util.Map;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class CommonHeader implements Serializable {
     private static final long serialVersionUID = -3581658269910980336L;
 
@@ -59,10 +63,6 @@ public class CommonHeader implements Serializable {
     @SerializedName("Flags")
     private Collection<Map<String, String>> flags = new ArrayList<>();
 
-    public CommonHeader() {
-        // Default constructor
-    }
-
     /**
      * Construct an instance from an existing instance.
      *
@@ -80,12 +80,5 @@ public class CommonHeader implements Serializable {
         if (commonHeader.flags != null) {
             this.flags.addAll(commonHeader.flags);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "CommonHeader [TimeStamp=" + timeStamp + ", APIver=" + apiVer + ", OriginatorId=" + originatorId
-                + ", RequestId=" + requestId + ", SubrequestId=" + subRequestId + ", RequestTrack=" + requestTrack
-                + ", Flags=" + flags + "]";
     }
 }

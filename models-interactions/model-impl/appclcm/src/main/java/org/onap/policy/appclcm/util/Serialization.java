@@ -24,9 +24,12 @@ package org.onap.policy.appclcm.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.Instant;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.gson.InstantAsMillisTypeAdapter;
 import org.onap.policy.common.gson.InstantTypeAdapter;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Serialization {
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantTypeAdapter()).create();
@@ -36,8 +39,4 @@ public final class Serialization {
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter()).create();
-
-    private Serialization() {
-        // Private constructor to prevent subclassing
-    }
 }

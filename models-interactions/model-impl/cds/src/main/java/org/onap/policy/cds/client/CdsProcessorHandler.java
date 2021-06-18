@@ -22,6 +22,7 @@ package org.onap.policy.cds.client;
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
+import lombok.AllArgsConstructor;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -33,17 +34,13 @@ import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@AllArgsConstructor
 public class CdsProcessorHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(CdsProcessorHandler.class);
     private static final String LOG_MSG = "[{}|{}|{}|]{}{}";
 
     private CdsProcessorListener listener;
     private String url;
-
-    CdsProcessorHandler(final CdsProcessorListener listener, String url) {
-        this.listener = listener;
-        this.url = url;
-    }
 
     CountDownLatch process(ExecutionServiceInput request, ManagedChannel channel) {
         final var header = request.getActionIdentifiers();

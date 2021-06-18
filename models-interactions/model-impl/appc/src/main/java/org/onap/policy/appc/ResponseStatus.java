@@ -23,11 +23,15 @@ package org.onap.policy.appc;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 public class ResponseStatus implements Serializable {
     private static final long serialVersionUID = 2421770469587860452L;
 
@@ -39,52 +43,4 @@ public class ResponseStatus implements Serializable {
 
     @SerializedName("Description")
     private String description;
-
-    @Override
-    public String toString() {
-        return "ResponseStatus [Code=" + code + ", Value=" + value + ", Description=" + description + "]";
-    }
-
-    @Override
-    public int hashCode() {
-        final var prime = 31;
-        var result = 1;
-        result = prime * result + code;
-        result = prime * result + ((description == null) ? 0 : description.hashCode());
-        result = prime * result + ((value == null) ? 0 : value.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        ResponseStatus other = (ResponseStatus) obj;
-        if (code != other.code) {
-            return false;
-        }
-        if (description == null) {
-            if (other.description != null) {
-                return false;
-            }
-        } else if (!description.equals(other.description)) {
-            return false;
-        }
-        if (value == null) {
-            if (other.value != null) {
-                return false;
-            }
-        } else if (!value.equals(other.value)) {
-            return false;
-        }
-        return true;
-    }
-
 }

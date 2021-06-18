@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada.
- * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import io.grpc.ForwardingClientCall;
 import io.grpc.Metadata;
 import io.grpc.Metadata.Key;
 import io.grpc.MethodDescriptor;
+import lombok.AllArgsConstructor;
 import org.onap.policy.cds.properties.CdsServerProperties;
 
 /**
@@ -40,14 +41,11 @@ import org.onap.policy.cds.properties.CdsServerProperties;
  * On the server side, CDS BasicAuthServerInterceptor (1) gets the client metadata from the server context, (2) extract
  * the "Authorization" header key and finally (3) decodes the username and password from the authHeader.</p>
  */
+@AllArgsConstructor
 public class BasicAuthClientHeaderInterceptor implements ClientInterceptor {
 
     static final String BASIC_AUTH_HEADER_KEY = "Authorization";
     private CdsServerProperties props;
-
-    BasicAuthClientHeaderInterceptor(CdsServerProperties props) {
-        this.props = props;
-    }
 
     @Override
     public <Q, P> ClientCall<Q, P> interceptCall(MethodDescriptor<Q, P> method,
