@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +19,11 @@
 
 package org.onap.policy.controlloop.actor.cds.constants;
 
-public class CdsActorConstants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class CdsActorConstants {
     public static final String CDS_ACTOR = "CDS";
 
     // CDS Status
@@ -39,8 +44,4 @@ public class CdsActorConstants {
     public static final String ORIGINATOR_ID = "POLICY";
     // Temporarily set to synchronous mode to support current rules, since callbacks aren't supported yet
     public static final String CDS_MODE = "sync";
-
-    private CdsActorConstants() {
-        // Hide implicit public constructor
-    }
 }

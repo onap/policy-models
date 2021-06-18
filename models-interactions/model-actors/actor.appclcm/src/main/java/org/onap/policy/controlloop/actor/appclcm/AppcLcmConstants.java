@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class AppcLcmConstants {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class AppcLcmConstants {
 
     // Strings for OPERATIONs
     public static final String OPERATION_RESTART = "Restart";
@@ -52,8 +55,4 @@ public class AppcLcmConstants {
 
     protected static final Set<String> SUPPORTS_PAYLOAD =
                     Set.of(OPERATION_CONFIG_MODIFY).stream().map(String::toLowerCase).collect(Collectors.toSet());
-
-    private AppcLcmConstants() {
-        // do nothing
-    }
 }

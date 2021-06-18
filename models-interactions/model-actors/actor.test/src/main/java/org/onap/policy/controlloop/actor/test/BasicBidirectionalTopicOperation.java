@@ -25,6 +25,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.function.BiConsumer;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -49,6 +51,7 @@ import org.onap.policy.simulators.Util;
  *
  * @param <Q> request type
  */
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation {
     protected static final String MY_SINK = "my-sink";
     protected static final String MY_SOURCE = "my-source";
@@ -79,12 +82,6 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
 
     private TopicServer<Q> topicServer;
 
-    /**
-     * Constructs the object using a default actor and operation name.
-     */
-    protected BasicBidirectionalTopicOperation() {
-        super();
-    }
 
     /**
      * Constructs the object.
