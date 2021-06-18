@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +27,12 @@ import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
 public class PciRequest implements Serializable {
 
     private static final long serialVersionUID = 323235565922846624L;
@@ -43,61 +45,4 @@ public class PciRequest implements Serializable {
 
     @SerializedName(value = "Payload")
     private String payload;
-
-    public PciRequest() {
-        // Create a default PCI request
-    }
-
-    public PciCommonHeader getCommonHeader() {
-        return commonHeader;
-    }
-
-    public void setCommonHeader(PciCommonHeader commonHeader) {
-        this.commonHeader = commonHeader;
-    }
-
-    /**
-     * Get the action.
-     *
-     * @return the action
-     */
-    public String getAction() {
-        return action;
-    }
-
-    /**
-     * Set the action.
-     *
-     * @param action
-     *            the action to set
-     */
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    /**
-     * Get the payload.
-     *
-     * @return the payload
-     */
-
-    public String getPayload() {
-        return payload;
-    }
-
-    /**
-     * Set the payload.
-     *
-     * @param payload
-     *            the payload to set
-     */
-
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
-    @Override
-    public String toString() {
-        return "PciRequest[commonHeader=" + commonHeader + ", action=" + action + ", payload=" + payload + "]";
-    }
 }

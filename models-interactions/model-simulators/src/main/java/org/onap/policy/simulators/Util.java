@@ -22,6 +22,8 @@
 package org.onap.policy.simulators;
 
 import java.io.IOException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
@@ -34,7 +36,8 @@ import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
 import org.onap.policy.models.sim.dmaap.rest.DmaapSimRestServer;
 
-public class Util {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Util {
     public static final String AAISIM_SERVER_NAME = "aaiSim";
     public static final String SOSIM_SERVER_NAME = "soSim";
     public static final String VFCSIM_SERVER_NAME = "vfcSim";
@@ -52,10 +55,6 @@ public class Util {
     private static final String CANNOT_PROCESS_PARAMETERS = "cannot parse parameters ";
     private static final String CANNOT_CONNECT = "cannot connect to port ";
     public static final String LOCALHOST = "localhost";
-
-    private Util() {
-        // Prevent instantiation of this class
-    }
 
     /**
      * Build an A&AI simulator.

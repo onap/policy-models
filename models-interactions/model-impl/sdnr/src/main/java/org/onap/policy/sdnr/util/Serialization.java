@@ -32,11 +32,14 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import java.lang.reflect.Type;
 import java.time.Instant;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.onap.policy.common.gson.InstantAsMillisTypeAdapter;
 import org.onap.policy.common.gson.InstantTypeAdapter;
 import org.onap.policy.sdnr.PciRequest;
 import org.onap.policy.sdnr.PciResponse;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Serialization {
     public static final Gson gsonPretty = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantTypeAdapter()).create();
@@ -47,10 +50,6 @@ public final class Serialization {
 
     public static final Gson gsonJunit = new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
             .registerTypeAdapter(Instant.class, new InstantAsMillisTypeAdapter()).create();
-
-    private Serialization() {
-        // Private constructor to prevent subclassing
-    }
 
     public static class RequestAdapter implements JsonSerializer<PciRequest>, JsonDeserializer<PciRequest> {
 

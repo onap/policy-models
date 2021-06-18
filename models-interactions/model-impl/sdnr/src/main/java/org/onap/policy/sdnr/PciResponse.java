@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +26,15 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class PciResponse implements Serializable {
 
     private static final long serialVersionUID = 8375708697287669750L;
@@ -44,10 +48,6 @@ public class PciResponse implements Serializable {
     @SerializedName(value = "Payload")
     private String payload;
 
-    public PciResponse() {
-        // EMPTY
-    }
-
     /**
      * Constructs a response using the common header of the request since they will
      * be the same.
@@ -57,11 +57,5 @@ public class PciResponse implements Serializable {
      */
     public PciResponse(PciRequest request) {
         this.commonHeader = new PciCommonHeader(request.getCommonHeader());
-    }
-
-    @Override
-    public String toString() {
-        return "PciResponse[CommonHeader=" + commonHeader + ", Status=" + status + ", Payload="
-                + payload + "]";
     }
 }

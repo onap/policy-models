@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,11 +30,15 @@ import java.util.Map;
 import java.util.UUID;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@ToString
 public class PciCommonHeader implements Serializable {
 
     private static final long serialVersionUID = 5435363539127062114L;
@@ -57,10 +61,6 @@ public class PciCommonHeader implements Serializable {
     @SerializedName(value = "Flags")
     private Map<String, String> flags = new HashMap<>();
 
-    public PciCommonHeader() {
-
-    }
-
     /**
      * Used to copy a pci common header.
      *
@@ -78,12 +78,5 @@ public class PciCommonHeader implements Serializable {
         if (commonHeader.flags != null) {
             this.flags.putAll(commonHeader.flags);
         }
-    }
-
-    @Override
-    public String toString() {
-        return "CommonHeader [timeStamp=" + timeStamp + ", apiVer=" + apiVer
-                   + ", requestId=" + requestId + ", subRequestId=" + subRequestId + ", requestTrack=" + requestTrack
-                   + ", flags=" + flags + "]";
     }
 }

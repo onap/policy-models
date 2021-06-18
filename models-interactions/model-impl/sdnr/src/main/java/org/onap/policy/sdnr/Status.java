@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
- * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,19 @@ package org.onap.policy.sdnr;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Status implements Serializable {
 
     private static final long serialVersionUID = 877641506135467199L;
@@ -40,23 +46,4 @@ public class Status implements Serializable {
 
     @SerializedName(value = "Value")
     private String value;
-
-    public Status() {
-        // Create a default PciResponseStatus instance
-    }
-
-    /**
-     * Constructor for the class Status.
-     *
-     */
-    public Status(int code, String value) {
-        super();
-        this.code = code;
-        this.value = value;
-    }
-
-    @Override
-    public String toString() {
-        return "Status [code = " + code + ", value = " + value + "]";
-    }
 }

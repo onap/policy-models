@@ -24,8 +24,12 @@
 package org.onap.policy.sdnr;
 
 import java.io.Serializable;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.onap.policy.sdnr.util.StatusCodeEnum;
 
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PciResponseCode implements Serializable {
 
     /* These fields define the key to the response code value. */
@@ -38,15 +42,8 @@ public class PciResponseCode implements Serializable {
     public static final String PARTIAL_FAILURE = "PARTIAL FAILURE";
     private static final long serialVersionUID = -5371924429933449763L;
 
-    private final Integer code;
-
-    protected PciResponseCode(final int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return this.code;
-    }
+    @Getter
+    private final int code;
 
     @Override
     public String toString() {
