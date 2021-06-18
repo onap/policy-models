@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import javax.ws.rs.core.Response;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -46,6 +48,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ToscaUtils {
     private static final String ROOT_KEY_NAME_SUFFIX = ".Root";
 
@@ -66,13 +69,6 @@ public final class ToscaUtils {
             new PfConceptKey("tosca.datatypes.TimeInterval", PfKey.NULL_KEY_VERSION)
         );
     // @formatter:on
-
-    /**
-     * Private constructor to prevent subclassing.
-     */
-    private ToscaUtils() {
-        // Private constructor to prevent subclassing
-    }
 
     /**
      * Get the predefined policy types.
