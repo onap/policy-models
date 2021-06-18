@@ -44,25 +44,29 @@
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         },
                         {
                             "instanceId": "apex-1",
                             "pdpState": "PASSIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         },
                         {
                             "instanceId": "apex-2",
                             "pdpState": "SAFE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         },
                         {
                             "instanceId": "apex-3",
                             "pdpState": "TEST",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }
@@ -108,7 +112,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }
@@ -154,7 +159,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "SAFE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 },
@@ -182,7 +188,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "SAFE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }
@@ -224,7 +231,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "PASSIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }
@@ -262,7 +270,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "TEST",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 },
@@ -290,7 +299,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "PASSIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 },
@@ -318,7 +328,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }
