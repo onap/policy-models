@@ -32,7 +32,8 @@
                             "instanceId": "apex-0",
                             "pdpState": "ACTIVE",
                             "healthy": "NOT_HEALTHY",
-                            "message": "message from PDP"
+                            "message": "message from PDP",
+                            "lastUpdate": "1970-01-01T00:00:00Z"
                         }
                     ]
                 }

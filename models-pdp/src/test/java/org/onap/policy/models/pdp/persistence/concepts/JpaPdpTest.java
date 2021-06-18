@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Date;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -47,6 +48,7 @@ public class JpaPdpTest {
 
     private static final String NULL_KEY_ERROR = "key is marked .*ull but is null";
     private static final String PDP1 = "ThePDP";
+    private static final Date CURRENT_DATE = new Date();
 
     @Test
     public void testJpaPdp() {
@@ -76,10 +78,6 @@ public class JpaPdpTest {
 
         assertThatThrownBy(() -> {
             new JpaPdp(null, PdpState.ACTIVE, PdpHealthStatus.UNKNOWN);
-        }).hasMessageMatching(NULL_KEY_ERROR);
-
-        assertThatThrownBy(() -> {
-            new JpaPdp(null, null, PdpHealthStatus.UNKNOWN);
         }).hasMessageMatching(NULL_KEY_ERROR);
 
         assertThatThrownBy(() -> {
@@ -175,7 +173,7 @@ public class JpaPdpTest {
     }
 
     @Test
-    public void testJpaPdpCompare() {
+    public void testJpaPdpCompare_testToAuthorative() {
         JpaPdp testJpaPdp = setUpJpaPdp();
 
         JpaPdp otherJpaPdp = new JpaPdp(testJpaPdp);
@@ -204,7 +202,15 @@ public class JpaPdpTest {
         testJpaPdp.setMessage("Valid Message");
         assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
 
+        testJpaPdp.setLastUpdate(new Date(0));
+        assertEquals(-1, testJpaPdp.compareTo(otherJpaPdp));
+        testJpaPdp.setLastUpdate(CURRENT_DATE);
+        assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
+
         assertEquals(testJpaPdp, new JpaPdp(testJpaPdp));
+
+        otherJpaPdp.fromAuthorative(testJpaPdp.toAuthorative());
+        assertEquals(0, testJpaPdp.compareTo(otherJpaPdp));
     }
 
     private JpaPdp setUpJpaPdp() {
@@ -218,6 +224,7 @@ public class JpaPdpTest {
         testJpaPdp.setPdpState(PdpState.ACTIVE);
         testJpaPdp.setHealthy(PdpHealthStatus.HEALTHY);
         testJpaPdp.setMessage("Valid Message");
+        testJpaPdp.setLastUpdate(CURRENT_DATE);
         return testJpaPdp;
     }
 }

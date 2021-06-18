@@ -1,7 +1,7 @@
 /*
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import java.time.Instant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -48,6 +49,13 @@ public class Pdp {
     private String message;
 
     /**
+     * Time when the record was last updated as a result of receiving a message from the
+     * PDP.
+     */
+    private Instant lastUpdate;
+
+
+    /**
      * Constructs the object, creating a deep copy of the fields from the source.
      *
      * @param source source from which to copy the fields
@@ -57,5 +65,6 @@ public class Pdp {
         this.pdpState = source.pdpState;
         this.healthy = source.healthy;
         this.message = source.message;
+        this.lastUpdate = source.lastUpdate;
     }
 }

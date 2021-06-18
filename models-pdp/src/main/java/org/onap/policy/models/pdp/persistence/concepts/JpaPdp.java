@@ -24,6 +24,7 @@
 package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -31,10 +32,12 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
@@ -77,6 +80,10 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
     @NotBlank
     private String message;
 
+    @Column(precision = 0)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastUpdate;
+
     /**
      * The Default Constructor creates a {@link JpaPdp} object with a null key.
      */
@@ -101,10 +108,11 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
      * @param healthy the health state of the PDP
      */
     public JpaPdp(@NonNull final PfReferenceKey key, @NonNull final PdpState pdpState,
-            @NonNull PdpHealthStatus healthy) {
+                    @NonNull PdpHealthStatus healthy) {
         this.key = key;
         this.pdpState = pdpState;
         this.healthy = healthy;
+        this.lastUpdate = new Date();
     }
 
     /**
@@ -118,6 +126,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.pdpState = copyConcept.pdpState;
         this.healthy = copyConcept.healthy;
         this.message = copyConcept.message;
+        this.lastUpdate = copyConcept.lastUpdate;
     }
 
     /**
@@ -137,6 +146,7 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         pdp.setPdpState(pdpState);
         pdp.setHealthy(healthy);
         pdp.setMessage(message);
+        pdp.setLastUpdate(lastUpdate.toInstant());
 
         return pdp;
     }
@@ -151,6 +161,12 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         this.setPdpState(pdp.getPdpState());
         this.setHealthy(pdp.getHealthy());
         this.setMessage(pdp.getMessage());
+
+        if (pdp.getLastUpdate() == null) {
+            this.setLastUpdate(new Date());
+        } else {
+            this.setLastUpdate(Date.from(pdp.getLastUpdate()));
+        }
     }
 
     @Override
@@ -193,20 +209,15 @@ public class JpaPdp extends PfConcept implements PfAuthorative<Pdp>, Serializabl
         }
 
         final JpaPdp other = (JpaPdp) otherConcept;
-        if (!key.equals(other.key)) {
-            return key.compareTo(other.key);
-        }
 
-        int result = ObjectUtils.compare(pdpState, other.pdpState);
-        if (result != 0) {
-            return result;
-        }
-
-        result = ObjectUtils.compare(healthy, other.healthy);
-        if (result != 0) {
-            return result;
-        }
-
-        return ObjectUtils.compare(message, other.message);
+        // @formatter:off
+        return new CompareToBuilder()
+                        .append(this.key, other.key)
+                        .append(this.pdpState, other.pdpState)
+                        .append(this.healthy, other.healthy)
+                        .append(this.message, other.message)
+                        .append(this.lastUpdate, other.lastUpdate)
+                        .toComparison();
+        // @formatter:on
     }
 }
