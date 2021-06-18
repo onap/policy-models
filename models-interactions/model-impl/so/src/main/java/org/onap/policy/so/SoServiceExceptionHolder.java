@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,8 +36,4 @@ public class SoServiceExceptionHolder implements Serializable {
     private String messageId;
     private String text;
     private List<String> variables = new LinkedList<>();
-
-    public SoServiceExceptionHolder() {
-        // required by author
-    }
 }

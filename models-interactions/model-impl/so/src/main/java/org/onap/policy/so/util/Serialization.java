@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * mso
  * ================================================================================
- * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,16 +24,14 @@ package org.onap.policy.so.util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.time.LocalDateTime;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Serialization {
 
     public static final Gson gsonPretty =
                     new GsonBuilder().disableHtmlEscaping().setPrettyPrinting()
                                     .registerTypeAdapter(LocalDateTime.class, new SoLocalDateTimeTypeAdapter())
                                     .create();
-
-    private Serialization() {
-        // utility class with explicit private constructor
-        // change if class is more than utility
-    }
 }

@@ -23,11 +23,15 @@ package org.onap.policy.so;
 
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@EqualsAndHashCode
 public class SoResponseWrapper implements Serializable {
 
     private static final long serialVersionUID = 7673023687132889069L;
@@ -35,47 +39,8 @@ public class SoResponseWrapper implements Serializable {
     @SerializedName("SoResponse")
     private SoResponse soResponse;
 
+    @EqualsAndHashCode.Include
     private transient String requestId;
-
-    public SoResponseWrapper(SoResponse response, String reqId) {
-        this.soResponse = response;
-        this.requestId = reqId;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        SoResponseWrapper other = (SoResponseWrapper) obj;
-        if (soResponse == null) {
-            if (other.soResponse != null) {
-                return false;
-            }
-        } else if (!soResponse.equals(other.soResponse)) {
-            return false;
-        }
-        if (requestId == null) {
-            return other.requestId == null;
-        } else {
-            return requestId.equals(other.requestId);
-        }
-    }
-
-    @Override
-    public int hashCode() {
-        final var prime = 31;
-        int result = super.hashCode();
-        result = prime * result + ((soResponse == null) ? 0 : soResponse.hashCode());
-        result = prime * result + ((requestId == null) ? 0 : requestId.hashCode());
-        return result;
-    }
 
     @Override
     public String toString() {

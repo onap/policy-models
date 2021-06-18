@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * so
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -28,11 +28,15 @@ import java.util.List;
 import java.util.Map;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @EqualsAndHashCode
+@ToString
+@NoArgsConstructor
 public class SoRequestDetails implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;
@@ -44,9 +48,6 @@ public class SoRequestDetails implements Serializable {
     private List<SoRelatedInstanceListElement> relatedInstanceList = new LinkedList<>();
     private SoRequestParameters requestParameters;
     private List<Map<String, String>> configurationParameters = new LinkedList<>();
-
-    public SoRequestDetails() {
-    }
 
     /**
      * Constructor.
@@ -61,13 +62,4 @@ public class SoRequestDetails implements Serializable {
         this.requestParameters = soRequestDetails.requestParameters;
         this.subscriberInfo = soRequestDetails.subscriberInfo;
     }
-
-    @Override
-    public String toString() {
-        return "SORequestDetails [modelInfo=" + modelInfo + ", cloudConfiguration=" + cloudConfiguration
-            + ", requestInfo=" + requestInfo + ", subscriberInfo=" + subscriberInfo
-            + ", relatedInstanceList=" + relatedInstanceList + ", requestParameters=" + requestParameters
-            + ", configurationParameters=" + configurationParameters + "]";
-    }
-
 }
