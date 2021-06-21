@@ -648,19 +648,20 @@ public class DefaultPfDao implements PfDao {
      * Check that a query returned one and only one entry and return that entry.
      *
      * @param someClass the class being searched for
-     * @param conceptName the concept name being searched for
+     * @param searchFilter the search filter
      * @param resultList the result list returned by the query
      * @return the single unique result
      */
-    private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter, List<T> ret) {
-        if (ret == null || ret.isEmpty()) {
+    private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter,
+                    List<T> resultList) {
+        if (resultList == null || resultList.isEmpty()) {
             return null;
         }
-        if (ret.size() > 1) {
+        if (resultList.size() > 1) {
             throw new IllegalArgumentException("More than one result was returned query on " + someClass
-                    + " with filter " + searchFilter + ": " + ret);
+                    + " with filter " + searchFilter + ": " + resultList);
         }
-        return ret.get(0);
+        return resultList.get(0);
     }
 
     /**
@@ -668,7 +669,7 @@ public class DefaultPfDao implements PfDao {
      *
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
      * @param someClass the class of the object to get, a subclass of {@link PfConcept}
-     * @param t the object that was retrieved from the database
+     * @param objToCheck the object that was retrieved from the database
      * @return the checked object or null
      */
     private <T extends PfConcept> T checkAndReturn(final Class<T> someClass, final T objToCheck) {

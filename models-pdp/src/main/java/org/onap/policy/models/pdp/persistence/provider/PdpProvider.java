@@ -358,7 +358,7 @@ public class PdpProvider {
     /**
      * Convert JPA PDP group list to an authorative PDP group list.
      *
-     * @param foundPdpGroups the list to convert
+     * @param jpaPdpGroupList the list to convert
      * @return the authorative list
      */
     private List<PdpGroup> asPdpGroupList(List<JpaPdpGroup> jpaPdpGroupList) {

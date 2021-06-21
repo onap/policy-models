@@ -186,7 +186,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * Filter PDP groups on PDP state.
      *
      * @param pdpGroup the PDP group to check
-     * @param policyFilter the policy regular expressions to check for
+     * @param pdpState the PDP state of interest
      * @return true if the filter should let this PDP group through
      */
     private boolean filterOnPdpState(final PdpGroup pdpGroup, final PdpState pdpState) {

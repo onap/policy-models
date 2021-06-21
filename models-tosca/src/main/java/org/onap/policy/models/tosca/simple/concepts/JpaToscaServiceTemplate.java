@@ -417,7 +417,6 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     /**
      * Validate that all data types referenced in policy types exist.
      *
-     * @param result the validation result object to use for the validation result
      * @param result where the results are added
      */
     private void validateReferencedDataTypes(final BeanValidationResult result) {
