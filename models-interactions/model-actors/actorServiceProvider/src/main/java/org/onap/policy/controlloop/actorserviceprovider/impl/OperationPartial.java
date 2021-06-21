@@ -217,7 +217,6 @@ public abstract class OperationPartial implements Operation {
     /**
      * Starts the operation attempt, without doing any retries.
      *
-     * @param params operation parameters
      * @param attempt attempt number, typically starting with 1
      * @return a future that will return the result of a single operation attempt
      */

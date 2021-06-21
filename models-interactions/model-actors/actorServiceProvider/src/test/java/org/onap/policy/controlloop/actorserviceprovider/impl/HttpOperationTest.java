@@ -437,7 +437,6 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
     private void initConfig(String clientName) {
@@ -447,7 +446,6 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration with a real client.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
     private void initConfig(String clientName, HttpClientFactory factory) {
@@ -458,7 +456,6 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration with a real client.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
     private void initRealConfig(String clientName) {
