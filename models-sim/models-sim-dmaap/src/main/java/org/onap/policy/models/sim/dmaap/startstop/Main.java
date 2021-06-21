@@ -22,6 +22,7 @@
 package org.onap.policy.models.sim.dmaap.startstop;
 
 import java.util.Arrays;
+import lombok.Getter;
 import org.onap.policy.common.utils.cmd.CommandLineException;
 import org.onap.policy.models.sim.dmaap.DmaapSimException;
 import org.onap.policy.models.sim.dmaap.DmaapSimRuntimeException;
@@ -38,7 +39,8 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     private DmaapSimActivator activator;
-    private DmaapSimParameterGroup parameterGroup;
+    @Getter
+    private DmaapSimParameterGroup parameters;
 
     /**
      * Instantiates the DMaap Simulator service.
@@ -67,14 +69,14 @@ public class Main {
 
         // Read the parameters
         try {
-            parameterGroup = new DmaapSimParameterHandler().getParameters(arguments);
+            parameters = new DmaapSimParameterHandler().getParameters(arguments);
         } catch (final Exception e) {
             LOGGER.error("start of DMaaP simulator service failed", e);
             return;
         }
 
         // Now, create the activator for the DMaaP Simulator service
-        activator = new DmaapSimActivator(parameterGroup);
+        activator = new DmaapSimActivator(parameters);
 
         // Start the activator
         try {
@@ -90,22 +92,13 @@ public class Main {
     }
 
     /**
-     * Get the parameters specified in JSON.
-     *
-     * @return the parameters
-     */
-    public DmaapSimParameterGroup getParameters() {
-        return parameterGroup;
-    }
-
-    /**
      * Shut down Execution.
      *
      * @throws DmaapSimException on shutdown errors
      */
     public void shutdown() throws DmaapSimException {
         // clear the parameterGroup variable
-        parameterGroup = null;
+        parameters = null;
 
         // clear the DMaaP simulator activator
         if (activator != null && activator.isAlive()) {

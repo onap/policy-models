@@ -23,19 +23,16 @@ package org.onap.policy.models.errors.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 /**
  * Utility class for managing {@link ErrorResponse objects}.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ErrorResponseUtils {
-    /**
-     * Private constructor used to prevent sub class instantiation.
-     */
-    private ErrorResponseUtils() {
-        // Default constructor
-    }
 
     /**
      * Store the cascaded messages from an exception and all its nested exceptions in an ErrorResponse object.

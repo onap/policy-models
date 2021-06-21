@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pap.concepts;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
+@AllArgsConstructor
 public class PdpGroupDeployResponse extends SimpleResponse {
 
     /**
@@ -44,15 +46,4 @@ public class PdpGroupDeployResponse extends SimpleResponse {
      * URI to fetch the deployment status.
      */
     private String uri;
-
-    /**
-     * Constructs the object.
-     *
-     * @param message the message
-     * @param uri the uri to get actual deployment status
-     */
-    public PdpGroupDeployResponse(String message, String uri) {
-        this.message = message;
-        this.uri = uri;
-    }
 }
