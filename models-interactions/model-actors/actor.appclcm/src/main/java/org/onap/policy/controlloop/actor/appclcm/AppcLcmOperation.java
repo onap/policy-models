@@ -119,7 +119,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * decoded into an object.
      *
      * @param source source from which to get the values
-     * @param map where to place the decoded values
+     * @param request where to place the decoded values
      */
     private void convertPayload(Map<String, Object> source, AppcLcmInput request) {
         try {
