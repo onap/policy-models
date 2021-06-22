@@ -190,6 +190,30 @@
       "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de6400f7_23f8c00b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-06-22T21:43:35Z",
+      "side": 1,
+      "message": "...and switching to approach #2, because messages originating from PAP need both a source and a name (i.e., target PDP)",
+      "parentUuid": "694051bf_9193e5d3",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
