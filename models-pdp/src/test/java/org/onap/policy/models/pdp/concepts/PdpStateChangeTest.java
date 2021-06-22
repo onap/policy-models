@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,6 +43,7 @@ public class PdpStateChangeTest {
         assertEquals(removeVariableFields(orig.toString()), removeVariableFields(new PdpStateChange(orig).toString()));
 
         // verify with all values
+        orig.setSource("my-source");
         orig.setName("my-name");
         orig.setPdpGroup("my-group");
         orig.setPdpSubgroup("my-subgroup");

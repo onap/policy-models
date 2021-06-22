@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -70,7 +70,8 @@ public class PdpMessage {
 
 
     /**
-     * Constructor for instantiating PdpMessage class with message name.
+     * Constructor for instantiating PdpMessage class with message name. The
+     * {@link #source} field is set to the current host name, though it can be overridden.
      *
      * @param messageName the message name
      */
