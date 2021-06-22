@@ -22,6 +22,30 @@
       "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51fb2b62_eefaf841",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-06-22T17:06:15Z",
+      "side": 1,
+      "message": "good point Ajith, I think pdps send it.",
+      "parentUuid": "85d6dbbd_cf417dda",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
