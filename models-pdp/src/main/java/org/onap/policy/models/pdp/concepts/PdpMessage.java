@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
+import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 
 /**
@@ -52,6 +53,11 @@ public class PdpMessage {
     private long timestampMs = System.currentTimeMillis();
 
     /**
+     * System from which the message originated.
+     */
+    private String source;
+
+    /**
      * PDP name, or {@code null} for state-change broadcast messages.
      */
     private String name;
@@ -70,12 +76,14 @@ public class PdpMessage {
 
 
     /**
-     * Constructor for instantiating PdpMessage class with message name.
+     * Constructor for instantiating PdpMessage class with message name. The
+     * {@link #source} field is set to the current host name, though it can be overridden.
      *
      * @param messageName the message name
      */
     public PdpMessage(final PdpMessageType messageName) {
         this.messageName = messageName;
+        this.source = NetworkUtil.getHostname();
     }
 
     /**
@@ -86,6 +94,7 @@ public class PdpMessage {
      */
     public PdpMessage(final PdpMessage source) {
         this.messageName = source.messageName;
+        this.source = source.source;
         this.name = source.name;
         this.pdpGroup = source.pdpGroup;
         this.pdpSubgroup = source.pdpSubgroup;

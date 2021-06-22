@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,6 +31,7 @@ import org.junit.Test;
 import org.onap.policy.models.pdp.enums.PdpMessageType;
 
 public class PdpMessageTest {
+    private static final String SOURCE = "mySource";
     private static final String PDP_GROUP_MSG = " pdp group ";
     private static final String PDP_NAME = "pdpA";
     private static final String PDP_GROUP = "groupA";
@@ -44,6 +46,8 @@ public class PdpMessageTest {
 
         // verify with null values
         message = new PdpMessage(PdpMessageType.PDP_STATE_CHANGE);
+        assertThat(message.getSource()).isNotNull();
+
         PdpMessage newmsg = new PdpMessage(message);
         newmsg.setRequestId(message.getRequestId());
         newmsg.setTimestampMs(message.getTimestampMs());
@@ -51,6 +55,8 @@ public class PdpMessageTest {
 
         // verify with all values
         message = makeMessage(PDP_NAME, PDP_GROUP, PDP_SUBGROUP);
+        message.setSource(SOURCE);
+
         newmsg = new PdpMessage(message);
         newmsg.setRequestId(message.getRequestId());
         newmsg.setTimestampMs(message.getTimestampMs());
