@@ -118,6 +118,30 @@
       "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f2a6b45_ad9da867",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-06-22T19:45:47Z",
+      "side": 1,
+      "message": "I don\u0027t remember the resolution wrt the multi-cluster discussion.   For existing functionality, for what I see in drools and xacml (and probably apex I would think) always send the hostname in the \u0027name\u0027 including responses to state-change and updates (since the responses are part of status messages).",
+      "parentUuid": "ade51c30_5812a549",
+      "range": {
+        "startLine": 63,
+        "startChar": 1,
+        "endLine": 63,
+        "endChar": 24
+      },
+      "revId": "272b11f4e160ee885c179fa0d44c1ba2430003ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
