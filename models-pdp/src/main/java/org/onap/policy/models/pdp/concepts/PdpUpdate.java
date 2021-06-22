@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  *  Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,6 +45,11 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 public class PdpUpdate extends PdpMessage {
 
     /**
+     * System from which the message originated.
+     */
+    private String source;
+
+    /**
      * Description of the PDP group.
      */
     private String description;
@@ -77,6 +82,7 @@ public class PdpUpdate extends PdpMessage {
     public PdpUpdate(PdpUpdate source) {
         super(source);
 
+        this.source = source.source;
         this.description = source.description;
         this.pdpHeartbeatIntervalMs = source.pdpHeartbeatIntervalMs;
         this.policiesToBeDeployed = (source.policiesToBeDeployed == null ? null
