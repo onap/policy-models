@@ -1,0 +1,9 @@
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Jim Hahn <jrh3@att.com>
+Code-Review+1: Pamela Dragosh <pdragosh@research.att.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Jim Hahn <jrh3@att.com>
+Submitted-at: Wed, 23 Jun 2021 18:47:47 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/122137
+Project: policy/models
+Branch: refs/heads/honolulu
