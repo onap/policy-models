@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,8 +35,9 @@ import lombok.Data;
 
 @Entity
 @Table(name = "operationshistory", indexes = {
-                @Index(name = "operationshistory_clreqid_index", columnList = "requestId,closedLoopName"),
-                @Index(name = "operationshistory_target_index", columnList = "target,operation,actor,endtime")})
+    @Index(name = "operationshistory_clreqid_index", columnList = "requestId,closedLoopName"),
+    @Index(name = "operationshistory_target_index", columnList = "target,operation,actor,endtime")
+})
 @Data
 public class OperationsHistory implements Serializable {
 
