@@ -34,8 +34,9 @@ import lombok.Data;
 
 @Entity
 @Table(name = "operationshistory", indexes = {
-                @Index(name = "operationshistory_clreqid_index", columnList = "requestId,closedLoopName"),
-                @Index(name = "operationshistory_target_index", columnList = "target,operation,actor,endtime")})
+    @Index(name = "operationshistory_clreqid_index", columnList = "requestId,closedLoopName"),
+    @Index(name = "operationshistory_target_index", columnList = "target,operation,actor,endtime")
+})
 @Data
 public class OperationsHistory implements Serializable {
 
