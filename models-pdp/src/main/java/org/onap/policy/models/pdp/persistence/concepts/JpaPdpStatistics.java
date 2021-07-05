@@ -66,7 +66,6 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 @EqualsAndHashCode(callSuper = false)
 public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStatistics>, Serializable {
     private static final long serialVersionUID = -7312974966820980659L;
-    private static final String NULL_NAME = "NULL";
 
     @EmbeddedId
     @VerifyKey
@@ -101,6 +100,15 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @Column
     private long policyExecutedFailCount;
 
+    @Column
+    private long policyUndeployCount;
+
+    @Column
+    private long policyUndeploySuccessCount;
+
+    @Column
+    private long policyUndeployFailCount;
+
     @ElementCollection
     private List<PdpEngineWorkerStatistics> engineStats;
 
@@ -117,7 +125,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      * @param key the key
      */
     public JpaPdpStatistics(@NonNull final PfGeneratedIdKey key) {
-        this(key, null, NULL_NAME, NULL_NAME, 0L, 0L, 0L, 0L, 0L, 0L, null);
+        this.key = new PfGeneratedIdKey(key);
     }
 
     /**
@@ -134,6 +142,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
         this.policyDeployCount = copyConcept.policyDeployCount;
         this.policyDeploySuccessCount = copyConcept.policyDeploySuccessCount;
         this.policyDeployFailCount = copyConcept.policyDeployFailCount;
+        this.policyUndeployCount = copyConcept.policyUndeployCount;
+        this.policyUndeploySuccessCount = copyConcept.policyUndeploySuccessCount;
+        this.policyUndeployFailCount = copyConcept.policyUndeployFailCount;
         this.policyExecutedCount = copyConcept.policyExecutedCount;
         this.policyExecutedSuccessCount = copyConcept.policyExecutedSuccessCount;
         this.policyExecutedFailCount = copyConcept.policyExecutedFailCount;
@@ -170,6 +181,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
                 .append(this.policyDeployCount, other.policyDeployCount)
                 .append(this.policyDeployFailCount, other.policyDeployFailCount)
                 .append(this.policyDeploySuccessCount, other.policyDeploySuccessCount)
+                .append(this.policyUndeployCount, other.policyUndeployCount)
+                .append(this.policyUndeployFailCount, other.policyUndeployFailCount)
+                .append(this.policyUndeploySuccessCount, other.policyUndeploySuccessCount)
                 .append(this.policyExecutedCount, other.policyExecutedCount)
                 .append(this.policyExecutedFailCount, other.policyExecutedFailCount)
                 .append(this.policyExecutedSuccessCount, other.policyExecutedSuccessCount).toComparison();
@@ -186,6 +200,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
         pdpStatistics.setPolicyDeployCount(policyDeployCount);
         pdpStatistics.setPolicyDeployFailCount(policyDeployFailCount);
         pdpStatistics.setPolicyDeploySuccessCount(policyDeploySuccessCount);
+        pdpStatistics.setPolicyUndeployCount(policyUndeployCount);
+        pdpStatistics.setPolicyUndeployFailCount(policyUndeployFailCount);
+        pdpStatistics.setPolicyUndeploySuccessCount(policyUndeploySuccessCount);
         pdpStatistics.setPolicyExecutedCount(policyExecutedCount);
         pdpStatistics.setPolicyExecutedFailCount(policyExecutedFailCount);
         pdpStatistics.setPolicyExecutedSuccessCount(policyExecutedSuccessCount);
@@ -212,6 +229,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
         this.setPolicyDeployCount(pdpStatistics.getPolicyDeployCount());
         this.setPolicyDeployFailCount(pdpStatistics.getPolicyDeployFailCount());
         this.setPolicyDeploySuccessCount(pdpStatistics.getPolicyDeploySuccessCount());
+        this.setPolicyUndeployCount(pdpStatistics.getPolicyUndeployCount());
+        this.setPolicyUndeployFailCount(pdpStatistics.getPolicyUndeployFailCount());
+        this.setPolicyUndeploySuccessCount(pdpStatistics.getPolicyUndeploySuccessCount());
         this.setPolicyExecutedCount(pdpStatistics.getPolicyExecutedCount());
         this.setPolicyExecutedFailCount(pdpStatistics.getPolicyExecutedFailCount());
         this.setPolicyExecutedSuccessCount(pdpStatistics.getPolicyExecutedSuccessCount());
