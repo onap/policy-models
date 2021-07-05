@@ -43,12 +43,15 @@ public class PdpStatistics {
     private Long generatedId;
     private String pdpGroupName;
     private String pdpSubGroupName;
-    private long policyDeployCount;
-    private long policyDeploySuccessCount;
-    private long policyDeployFailCount;
     private long policyExecutedCount;
     private long policyExecutedSuccessCount;
     private long policyExecutedFailCount;
+    private long policyDeployCount;
+    private long policyDeploySuccessCount;
+    private long policyDeployFailCount;
+    private long policyUndeployCount;
+    private long policyUndeploySuccessCount;
+    private long policyUndeployFailCount;
     private List<PdpEngineWorkerStatistics> engineStats;
 
     /**
@@ -62,12 +65,15 @@ public class PdpStatistics {
         this.generatedId = source.generatedId;
         this.pdpGroupName = source.pdpGroupName;
         this.pdpSubGroupName = source.pdpSubGroupName;
-        this.policyDeployCount = source.policyDeployCount;
-        this.policyDeployFailCount = source.policyDeployFailCount;
-        this.policyDeploySuccessCount = source.policyDeploySuccessCount;
         this.policyExecutedCount = source.policyExecutedCount;
         this.policyExecutedFailCount = source.policyExecutedFailCount;
         this.policyExecutedSuccessCount = source.policyExecutedSuccessCount;
+        this.policyDeployCount = source.policyDeployCount;
+        this.policyDeployFailCount = source.policyDeployFailCount;
+        this.policyDeploySuccessCount = source.policyDeploySuccessCount;
+        this.policyUndeployCount = source.policyUndeployCount;
+        this.policyUndeployFailCount = source.policyUndeployFailCount;
+        this.policyUndeploySuccessCount = source.policyUndeploySuccessCount;
         this.engineStats = PfUtils.mapList(source.engineStats, PdpEngineWorkerStatistics::new, null);
     }
 }
