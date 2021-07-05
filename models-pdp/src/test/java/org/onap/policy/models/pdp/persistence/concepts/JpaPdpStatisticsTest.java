@@ -118,6 +118,9 @@ public class JpaPdpStatisticsTest {
         assertEquals(pdpStat.getPolicyDeployCount(), jpaPdpStat.getPolicyDeployCount());
         assertEquals(pdpStat.getPolicyDeploySuccessCount(), jpaPdpStat.getPolicyDeploySuccessCount());
         assertEquals(pdpStat.getPolicyDeployFailCount(), jpaPdpStat.getPolicyDeployFailCount());
+        assertEquals(pdpStat.getPolicyUndeployCount(), jpaPdpStat.getPolicyUndeployCount());
+        assertEquals(pdpStat.getPolicyUndeploySuccessCount(), jpaPdpStat.getPolicyUndeploySuccessCount());
+        assertEquals(pdpStat.getPolicyUndeployFailCount(), jpaPdpStat.getPolicyUndeployFailCount());
         assertEquals(pdpStat.getPolicyExecutedCount(), jpaPdpStat.getPolicyExecutedCount());
         assertEquals(pdpStat.getPolicyExecutedSuccessCount(), jpaPdpStat.getPolicyExecutedSuccessCount());
         assertEquals(pdpStat.getPolicyExecutedFailCount(), jpaPdpStat.getPolicyExecutedFailCount());
@@ -133,6 +136,9 @@ public class JpaPdpStatisticsTest {
         pdpStat.setPolicyDeployCount(3);
         pdpStat.setPolicyDeploySuccessCount(1);
         pdpStat.setPolicyDeployFailCount(2);
+        pdpStat.setPolicyUndeployCount(4);
+        pdpStat.setPolicyUndeploySuccessCount(1);
+        pdpStat.setPolicyUndeployFailCount(3);
         pdpStat.setPolicyExecutedCount(9);
         pdpStat.setPolicyExecutedSuccessCount(4);
         pdpStat.setPolicyExecutedFailCount(5);

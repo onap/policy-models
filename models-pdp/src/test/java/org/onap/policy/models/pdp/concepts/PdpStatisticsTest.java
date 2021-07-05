@@ -45,12 +45,15 @@ public class PdpStatisticsTest {
         pdpStat.setPdpGroupName("PDPGroup0");
         pdpStat.setPdpSubGroupName("PDPSubGroup0");
         pdpStat.setTimeStamp(Instant.EPOCH);
-        pdpStat.setPolicyDeployCount(3);
-        pdpStat.setPolicyDeploySuccessCount(1);
-        pdpStat.setPolicyDeployFailCount(2);
         pdpStat.setPolicyExecutedCount(9);
         pdpStat.setPolicyExecutedSuccessCount(4);
         pdpStat.setPolicyExecutedFailCount(5);
+        pdpStat.setPolicyDeployCount(3);
+        pdpStat.setPolicyDeploySuccessCount(1);
+        pdpStat.setPolicyDeployFailCount(2);
+        pdpStat.setPolicyUndeployCount(5);
+        pdpStat.setPolicyUndeploySuccessCount(3);
+        pdpStat.setPolicyUndeployFailCount(2);
         pdpStat.setEngineStats(new ArrayList<>());
         return pdpStat;
     }
