@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fd589ce_eae12c6a",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PolicyDeploymentStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-06T15:09:16Z",
+      "side": 1,
+      "message": "After discussions on slack, it seems you are trying to create a common class for storing the stats \"in-memory\". \nAs per me, the PDPs are already managing this in their \"own way\". And it\u0027s all good until they are able to publish the stats in every heartbeat to the dmaap topic. I will let the PDPs decide and own how they want to do that, thereby providing flexibility to PDPs.",
+      "parentUuid": "a8277313_74524dc4",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "0ff21fc3d5289d01e7e396c08a2f3bc423d6d3fc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac0ffefe_74f9f228",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PolicyDeploymentStatisticsTest.java",
         "patchSetId": 1
