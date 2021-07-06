@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8277313_74524dc4",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PolicyDeploymentStatistics.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-06T13:13:20Z",
+      "side": 1,
+      "message": "We already have PdpStatisticsProvider for other operations. It will be good to add to the same provider.",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 39
+      },
+      "revId": "0ff21fc3d5289d01e7e396c08a2f3bc423d6d3fc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac0ffefe_74f9f228",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PolicyDeploymentStatisticsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-06T13:13:20Z",
+      "side": 1,
+      "message": "Same here, this can be added to PdpStatisticsProviderTest",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "0ff21fc3d5289d01e7e396c08a2f3bc423d6d3fc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
