@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "2b6b3b37_b0c8a76e",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpStatisticsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-06T21:12:13Z",
+      "side": 1,
+      "message": "Agree, nice catch Jim :)",
+      "parentUuid": "d8e83661_e091bdb8",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "81218501a400404bf111dfda1377b590ebcd69cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7fde101_bb9e80e7",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatisticsTest.java",
         "patchSetId": 2
