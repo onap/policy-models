@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83364a83_f1b6df7b",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-06T20:44:00Z",
+      "side": 1,
+      "message": "this is getting kind of long.  All of these fields are set to zero/null, so maybe just invoke super(key)?",
+      "revId": "81218501a400404bf111dfda1377b590ebcd69cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8e83661_e091bdb8",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpStatisticsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-06T20:44:00Z",
+      "side": 1,
+      "message": "maybe use completely different numbers from the deploy values so we know fields are copied correctly",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 56,
+        "endChar": 46
+      },
+      "revId": "81218501a400404bf111dfda1377b590ebcd69cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7fde101_bb9e80e7",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatisticsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-06T20:44:00Z",
+      "side": 1,
+      "message": "maybe use completely different numbers from the deploy values so we know fields are copied correctly",
+      "range": {
+        "startLine": 139,
+        "startChar": 8,
+        "endLine": 141,
+        "endChar": 46
+      },
+      "revId": "81218501a400404bf111dfda1377b590ebcd69cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
