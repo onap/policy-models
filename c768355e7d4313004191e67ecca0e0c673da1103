@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f6146c8_2ec2f08d",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-07T11:46:25Z",
+      "side": 1,
+      "message": "should make a copy of the key",
+      "range": {
+        "startLine": 128,
+        "startChar": 19,
+        "endLine": 128,
+        "endChar": 22
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2046419c_ce76c8f4",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-07T11:46:25Z",
+      "side": 1,
+      "message": "this one, too",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8857450_56d5e556",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-07T11:46:25Z",
+      "side": 1,
+      "message": "this one, too",
+      "range": {
+        "startLine": 140,
+        "startChar": 46,
+        "endLine": 140,
+        "endChar": 47
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
