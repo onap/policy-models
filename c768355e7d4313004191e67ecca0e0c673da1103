@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e18ce73_9cf49662",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatistics.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-07T12:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f6146c8_2ec2f08d",
+      "range": {
+        "startLine": 128,
+        "startChar": 19,
+        "endLine": 128,
+        "endChar": 22
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2046419c_ce76c8f4",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpStatisticsTest.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a91c830b_33de022e",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-07T12:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2046419c_ce76c8f4",
+      "range": {
+        "startLine": 56,
+        "startChar": 43,
+        "endLine": 56,
+        "endChar": 44
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8857450_56d5e556",
         "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatisticsTest.java",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95171cc_905e0b01",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/concepts/JpaPdpStatisticsTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-07T12:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8857450_56d5e556",
+      "range": {
+        "startLine": 140,
+        "startChar": 46,
+        "endLine": 140,
+        "endChar": 47
+      },
+      "revId": "c768355e7d4313004191e67ecca0e0c673da1103",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
