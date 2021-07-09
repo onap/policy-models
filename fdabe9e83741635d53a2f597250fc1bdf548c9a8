@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "0ff83dd1_34b6e67b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2021-07-09T20:05:51Z",
+      "side": 1,
+      "message": "keep summary line under 50 chars, see https://wiki.onap.org/display/DW/Commit+Messages",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "25796c58_1a2fb792",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
