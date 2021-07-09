@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "144761e9_3f5b5e81",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-09T18:50:17Z",
+      "side": 0,
+      "message": "thx for removing these!",
+      "revId": "43ed6b71f24a06834ee9fd6f7ceb28eda2c351ba",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
