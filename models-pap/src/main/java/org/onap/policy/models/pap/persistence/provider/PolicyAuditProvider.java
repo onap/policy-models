@@ -73,47 +73,18 @@ public class PolicyAuditProvider {
     }
 
     /**
-     * Collect all audit records.
-     *
-     * @param numRecords number of records to be collected
-     * @return list of {@link PolicyAudit} records
-     */
-    public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull Integer numRecords) {
-        numRecords = numRecords > DEFAULT_MAX_RECORDS ? DEFAULT_MAX_RECORDS : numRecords;
-
-        // @formatter:off
-        return dao.getAll(JpaPolicyAudit.class, "timeStamp DESC", numRecords)
-                .stream()
-                .map(JpaPolicyAudit::toAuthorative)
-                .collect(Collectors.toList());
-        // @formatter:on
-    }
-
-    /**
-     * Collect audit records based on filters at {@link AuditFilter}.
-     *
-     * @param auditFilter {@link AuditFilter} object with filters for search
-     * @param numRecords number of records to be collected
-     * @return list of {@link PolicyAudit} records
-     */
-    public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull AuditFilter auditFilter,
-            @NonNull Integer numRecords) {
-
-        auditFilter.setRecordNum(Math.min(numRecords, DEFAULT_MAX_RECORDS));
-
-        return getAuditRecords(dao, auditFilter);
-    }
-
-    /**
      * Collect audit records based on filters at {@link AuditFilter}.
      *
      * @param auditFilter {@link AuditFilter} object with filters for search
      * @return list of {@link PolicyAudit} records
      */
     public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull AuditFilter auditFilter) {
+        if (auditFilter.getRecordNum() < 1 || auditFilter.getRecordNum() > DEFAULT_MAX_RECORDS) {
+            auditFilter.setRecordNum(DEFAULT_MAX_RECORDS);
+        }
 
-        return dao.getFiltered(JpaPolicyAudit.class, auditFilter)
-                    .stream().map(JpaPolicyAudit::toAuthorative).collect(Collectors.toList());
+        return dao.getFiltered(JpaPolicyAudit.class, auditFilter).stream().map(JpaPolicyAudit::toAuthorative)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -139,16 +110,6 @@ public class PolicyAuditProvider {
 
         // initialized lazily, if not set via the builder
         private Map<String, Object> filterMap;
-
-        /**
-         * Check if even still using build(), none of the params were provided.
-         *
-         * @return {@code true} if all empty/null; {@code false} otherwise.
-         */
-        public boolean isEmpty() {
-            return StringUtils.isAllEmpty(name, version, pdpGroup) && action == null && fromDate == null
-                    && toDate == null;
-        }
 
         @Override
         public Instant getStartTime() {
