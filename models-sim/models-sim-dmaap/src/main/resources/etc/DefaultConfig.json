@@ -1,8 +1,0 @@
-{
-    "name": "DMaapSim",
-    "topicSweepSec": 900,
-    "restServerParameters": {
-        "host": "0.0.0.0",
-        "port": 3904
-    }
-}

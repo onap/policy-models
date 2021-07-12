@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP
 # ================================================================================
-# Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
 # Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -57,4 +57,4 @@ RUN find /opt/app -type d -perm 755 \
 USER policy:policy
 
 ENV PATH ${POLICY_HOME}/simulators/bin:$PATH
-ENTRYPOINT [ "bash", "simulators.sh" ]
+ENTRYPOINT [ "sh", "simulators.sh" ]
