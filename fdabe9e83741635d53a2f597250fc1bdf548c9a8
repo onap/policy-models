@@ -254,6 +254,24 @@
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c1e4d37_d2e8fbf6",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-12T13:57:32Z",
+      "side": 1,
+      "message": "the effect of those checks on performance are insignificant (relative to everything else, anyway).  If we did want to do this, then we would move this check inside the getFiltered() method, itself, rather than adding code to all of the places in which it\u0027s invoked",
+      "parentUuid": "d0405ed5_71182391",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
