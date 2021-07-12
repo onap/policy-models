@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "d99894d9_74965d48",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-12T08:49:17Z",
+      "side": 1,
+      "message": "ah, checking the code to change this, the problem with raising exception is that the agreed was when no value is informed, it should be set the default (100). because numRecords on AuditFilter is an int, sets to 0 when built without setting a value.",
+      "parentUuid": "95b7cb18_fd5a5436",
+      "range": {
+        "startLine": 82,
+        "startChar": 39,
+        "endLine": 82,
+        "endChar": 42
+      },
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3803bc6_a36f874f",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
