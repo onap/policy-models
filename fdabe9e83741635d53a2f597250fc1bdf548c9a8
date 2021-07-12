@@ -218,6 +218,24 @@
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b06952b8_92d39abb",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-12T13:51:33Z",
+      "side": 1,
+      "message": "nvm - this already works as expected, so just need to remove lines 86-93",
+      "parentUuid": "a45a9c8c_9cd9927e",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
