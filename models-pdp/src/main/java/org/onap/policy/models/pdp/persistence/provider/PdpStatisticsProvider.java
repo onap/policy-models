@@ -25,9 +25,7 @@ package org.onap.policy.models.pdp.persistence.provider;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
@@ -87,44 +85,6 @@ public class PdpStatisticsProvider {
             return asPdpStatisticsList(dao.getAll(JpaPdpStatistics.class));
         }
         return pdpStatistics;
-    }
-
-    /**
-     * Get filtered PDP statistics.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the pdpInstance name for the PDP statistics to get
-     * @param pdpGroupName pdpGroupName to filter statistics
-     * @param pdpSubGroup pdpSubGroupType name to filter statistics
-     * @param startTimeStamp startTimeStamp to filter statistics
-     * @param endTimeStamp endTimeStamp to filter statistics
-     * @param sortOrder sortOrder to query database
-     * @param getRecordNum Total query count from database
-     * @return the PDP statistics found
-     * @throws PfModelException on errors getting policies
-     */
-    public List<PdpStatistics> getFilteredPdpStatistics(@NonNull final PfDao dao, final String name,
-            @NonNull final String pdpGroupName, final String pdpSubGroup, final Instant startTimeStamp,
-            final Instant endTimeStamp, final String sortOrder, final int getRecordNum) {
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("pdpGroupName", pdpGroupName);
-        if (pdpSubGroup != null) {
-            filterMap.put("pdpSubGroupName", pdpSubGroup);
-        }
-
-        // @formatter:off
-        return asPdpStatisticsList(
-                    dao.getFiltered(JpaPdpStatistics.class,
-                        PdpFilterParameters.builder()
-                            .name(name)
-                            .startTime(startTimeStamp)
-                            .endTime(endTimeStamp)
-                            .group(pdpGroupName)
-                            .subGroup(pdpSubGroup)
-                            .sortOrder(sortOrder)
-                            .recordNum(getRecordNum)
-                            .build()));
-        // @formatter:on
     }
 
     /**

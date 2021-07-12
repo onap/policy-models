@@ -52,7 +52,6 @@ public class PdpStatisticsProviderTest {
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1078884350);
     private static final Long GENERATEDID1 = 1L;
     private static final Long GENERATEDID2 = 2L;
-    private static final String ORDER = "DESC";
 
     private PfDao pfDao;
 
@@ -178,36 +177,6 @@ public class PdpStatisticsProviderTest {
         getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, null, TIMESTAMP1);
         gotListStr = getPdpStatisticsList.toString();
         assertEquals(testListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
-    }
-
-    @Test
-    public void testGetFilteredPdpStatisticsOld() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().getFilteredPdpStatistics(null, NAME, GROUP, SUBGROUP, TIMESTAMP1, TIMESTAMP2,
-                    ORDER, 1);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, NAME, null, null, TIMESTAMP1, TIMESTAMP2, ORDER,
-                    1);
-        }).hasMessageMatching("pdpGroupName is marked .*ull but is null");
-
-
-        List<PdpStatistics> createdPdpStatisticsList;
-        createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
-        createdListStr = createdPdpStatisticsList.toString();
-        assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
-
-        List<PdpStatistics> getPdpStatisticsList;
-        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, NAME, GROUP, null,
-                TIMESTAMP1, TIMESTAMP2, ORDER, 0);
-        assertThat(getPdpStatisticsList).hasSize(1);
-        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, "name2", GROUP, null,
-                TIMESTAMP1, TIMESTAMP2, ORDER, 0);
-        assertThat(getPdpStatisticsList).hasSize(1);
-        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, "name2", GROUP, SUBGROUP,
-                TIMESTAMP1, TIMESTAMP2, ORDER, 0);
-        assertThat(getPdpStatisticsList).hasSize(1);
     }
 
     @Test
