@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6e3e49cf_f203c372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-12T11:58:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afb604d6_eea796c1",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25796c58_1a2fb792",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
