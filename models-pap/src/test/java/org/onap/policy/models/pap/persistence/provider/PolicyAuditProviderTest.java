@@ -184,9 +184,9 @@ public class PolicyAuditProviderTest {
         records = provider.getAuditRecords(pfDao, AuditFilter.builder().recordNum(102).build());
         assertThat(records).hasSize(100);
 
-        // try to get -1 records should return 100
+        // try to get -1 records should return 10
         records = provider.getAuditRecords(pfDao, AuditFilter.builder().recordNum(-1).build());
-        assertThat(records).hasSize(100);
+        assertThat(records).hasSize(10);
     }
 
     @Test

@@ -49,6 +49,7 @@ import org.onap.policy.models.pap.persistence.concepts.JpaPolicyAudit;
 public class PolicyAuditProvider {
 
     private static final Integer DEFAULT_MAX_RECORDS = 100;
+    private static final Integer DEFAULT_MIN_RECORDS = 10;
 
     /**
      * Create audit records.
@@ -79,7 +80,9 @@ public class PolicyAuditProvider {
      * @return list of {@link PolicyAudit} records
      */
     public List<PolicyAudit> getAuditRecords(@NonNull PfDao dao, @NonNull AuditFilter auditFilter) {
-        if (auditFilter.getRecordNum() < 1 || auditFilter.getRecordNum() > DEFAULT_MAX_RECORDS) {
+        if (auditFilter.getRecordNum() < 1) {
+            auditFilter.setRecordNum(DEFAULT_MIN_RECORDS);
+        } else if (auditFilter.getRecordNum() > DEFAULT_MAX_RECORDS) {
             auditFilter.setRecordNum(DEFAULT_MAX_RECORDS);
         }
 
