@@ -272,6 +272,24 @@
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74053da4_b09eea92",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-12T15:34:23Z",
+      "side": 1,
+      "message": "I agree with Jim, it\u0027s better to centralize the empty filter handling inside getFiltered method. And anyhow, we need to change getFiltered to accommodate the recordCount for the case where audit filter is not empty. I am referring to the call made at line 95 below.\n\nHaving said that, looks like there is refactoring needed in PdpStatisticsProvider as well - https://github.com/onap/policy-models/blob/master/models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java\nHowever, this can be done as a separate jira.",
+      "parentUuid": "1c1e4d37_d2e8fbf6",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
