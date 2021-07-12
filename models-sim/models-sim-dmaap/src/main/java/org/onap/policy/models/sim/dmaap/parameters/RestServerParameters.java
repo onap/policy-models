@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,17 @@
 
 package org.onap.policy.models.sim.dmaap.parameters;
 
+import java.util.Properties;
 import lombok.Getter;
+import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
+import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.parameters.ParameterGroupImpl;
 import org.onap.policy.common.parameters.annotations.Min;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.models.sim.dmaap.rest.CambriaMessageBodyHandler;
+import org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1;
+import org.onap.policy.models.sim.dmaap.rest.TextMessageBodyHandler;
 
 /**
  * Class to hold all parameters needed for rest server.
@@ -41,5 +47,33 @@ public class RestServerParameters extends ParameterGroupImpl {
 
     public RestServerParameters() {
         super(RestServerParameters.class.getSimpleName());
+    }
+
+    /**
+     * Creates a set of properties, suitable for building a REST server, from the
+     * parameters.
+     *
+     * @return a set of properties representing the given parameters
+     */
+    public Properties getServerProperties() {
+        final var props = new Properties();
+        props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, getName());
+
+        final String svcpfx =
+                        PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + getName();
+
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HOST_SUFFIX, getHost());
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_PORT_SUFFIX,
+                        Integer.toString(getPort()));
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_REST_CLASSES_SUFFIX,
+                        DmaapSimRestControllerV1.class.getName());
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "false");
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
+
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
+                        String.join(",", CambriaMessageBodyHandler.class.getName(),
+                                        GsonMessageBodyHandler.class.getName(),
+                                        TextMessageBodyHandler.class.getName()));
+        return props;
     }
 }
