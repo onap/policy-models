@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "afb604d6_eea796c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-12T08:29:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0ff83dd1_34b6e67b",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25796c58_1a2fb792",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "95b7cb18_fd5a5436",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-12T08:29:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "25796c58_1a2fb792",
+      "range": {
+        "startLine": 82,
+        "startChar": 39,
+        "endLine": 82,
+        "endChar": 42
+      },
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3803bc6_a36f874f",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
@@ -53,6 +95,24 @@
       "writtenOn": "2021-07-09T18:50:17Z",
       "side": 1,
       "message": "looks like the only benefit of this special condition is to deal with the fact that getFiltered() doesn\u0027t make use of the max record count.  We should fix getFiltered() rather than adding this kind of code everywhere",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50212492_82956bc9",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2021-07-12T08:29:18Z",
+      "side": 1,
+      "message": "getAll still uses the maxRecord. this is just to skip all the prep for the other filters, like pdpGroup, timestamp interval, etc...",
+      "parentUuid": "a3803bc6_a36f874f",
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
