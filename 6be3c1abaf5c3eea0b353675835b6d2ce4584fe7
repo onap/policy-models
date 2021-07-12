@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "404d28f7_3cfe2fd3",
+        "filename": "models-sim/models-sim-dmaap/src/main/java/org/onap/policy/models/sim/dmaap/parameters/RestServerParameters.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-12T21:16:09Z",
+      "side": 1,
+      "message": "moved this from DmaapSimRestServer (which is now deleted)",
+      "revId": "6be3c1abaf5c3eea0b353675835b6d2ce4584fe7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
