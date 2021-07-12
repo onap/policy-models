@@ -34,7 +34,6 @@ import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
-import org.onap.policy.models.sim.dmaap.rest.DmaapSimRestServer;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Util {
@@ -164,7 +163,7 @@ public final class Util {
 
         DmaapSimProvider.setInstance(new DmaapSimProvider(params));
 
-        var props = DmaapSimRestServer.getServerProperties(params.getRestServerParameters());
+        var props = params.getRestServerParameters().getServerProperties();
 
         final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "."
                 + params.getRestServerParameters().getName();
