@@ -326,6 +326,24 @@
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "238f2a49_e277327c",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-12T16:29:18Z",
+      "side": 1,
+      "message": "thanks Jim! just reviewed \u0026 approved that one.",
+      "parentUuid": "dc0ddd85_ccc561ed",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
