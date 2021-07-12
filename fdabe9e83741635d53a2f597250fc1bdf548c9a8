@@ -126,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "0815fbde_106d0be9",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-12T12:51:19Z",
+      "side": 1,
+      "message": "got it - then this default does make sense in both cases",
+      "parentUuid": "d99894d9_74965d48",
+      "range": {
+        "startLine": 82,
+        "startChar": 39,
+        "endLine": 82,
+        "endChar": 42
+      },
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3803bc6_a36f874f",
         "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
         "patchSetId": 1
@@ -155,6 +179,24 @@
       "side": 1,
       "message": "getAll still uses the maxRecord. this is just to skip all the prep for the other filters, like pdpGroup, timestamp interval, etc...",
       "parentUuid": "a3803bc6_a36f874f",
+      "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae43351a_30e97791",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-12T12:51:19Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s sufficient reason to have a special case",
+      "parentUuid": "50212492_82956bc9",
       "revId": "fdabe9e83741635d53a2f597250fc1bdf548c9a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
