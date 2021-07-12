@@ -57,4 +57,4 @@ RUN find /opt/app -type d -perm 755 \
 USER policy:policy
 
 ENV PATH ${POLICY_HOME}/simulators/bin:$PATH
-ENTRYPOINT [ "bash", "simulators.sh" ]
+ENTRYPOINT [ "sh", "simulators.sh" ]
