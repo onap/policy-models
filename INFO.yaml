@@ -32,7 +32,7 @@ repositories:
 committers:
     - <<: *onap_releng_ptl
     - name: 'Pamela Dragosh'
-      email: 'pdragosh@research.att.com'
+      email: 'pd1248@att.com'
       company: 'ATT'
       id: 'pdragosh'
       timezone: 'America/New_York'
