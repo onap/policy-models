@@ -36,4 +36,5 @@ public class DecisionResponse {
     private Map<String, Object> advice;
     private Map<String, Object> obligations;
     private Map<String, Object> policies;
+    private Map<String, Object> attributes;
 }
