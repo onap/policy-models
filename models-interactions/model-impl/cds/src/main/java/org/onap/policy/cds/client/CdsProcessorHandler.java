@@ -22,9 +22,15 @@ package org.onap.policy.cds.client;
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
+<<<<<<< HEAD   (bc072f Add example for pnf policy chaining)
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
+=======
+import lombok.AllArgsConstructor;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceStub;
+>>>>>>> CHANGE (1755cd Upgrade CDS dependency)
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
@@ -51,9 +57,15 @@ public class CdsProcessorHandler {
         LOGGER.info("Processing blueprint({}:{}) for action({})", header.getBlueprintVersion(),
             header.getBlueprintName(), header.getBlueprintVersion());
 
+<<<<<<< HEAD   (bc072f Add example for pnf policy chaining)
         final CountDownLatch finishLatch = new CountDownLatch(1);
         final BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
         final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
+=======
+        final var finishLatch = new CountDownLatch(1);
+        final BlueprintProcessingServiceStub asyncStub = BlueprintProcessingServiceGrpc.newStub(channel);
+        final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<>() {
+>>>>>>> CHANGE (1755cd Upgrade CDS dependency)
             @Override
             public void onNext(ExecutionServiceOutput output) {
                 NetLoggerUtil.log(EventType.IN, CommInfrastructure.REST, url, output.toString());
