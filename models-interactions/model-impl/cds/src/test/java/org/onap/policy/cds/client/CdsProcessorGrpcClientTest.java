@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 Bell Canada.
+ * Copyright (C) 2019,2021 Bell Canada.
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,7 +44,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceImplBase;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
@@ -95,7 +95,7 @@ public class CdsProcessorGrpcClientTest {
         client = new CdsProcessorGrpcClient(channel, new CdsProcessorHandler(listener, "gRPC://localhost:1234/"));
 
         // Implement the test gRPC server
-        BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
+        BlueprintProcessingServiceImplBase testCdsBlueprintServerImpl = new BlueprintProcessingServiceImplBase() {
             @Override
             public StreamObserver<ExecutionServiceInput> process(
                 final StreamObserver<ExecutionServiceOutput> responseObserver) {

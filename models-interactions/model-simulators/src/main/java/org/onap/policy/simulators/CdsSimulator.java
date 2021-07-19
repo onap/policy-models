@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.EventType;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.Status;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceImplBase;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput.Builder;
@@ -81,7 +81,7 @@ public class CdsSimulator implements Runnable {
         this.port = port;
         this.resourceLocation = resourceLocation;
 
-        BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {
+        BlueprintProcessingServiceImplBase testCdsBlueprintServerImpl = new BlueprintProcessingServiceImplBase() {
 
             @Override
             public StreamObserver<ExecutionServiceInput> process(

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019 Bell Canada.
+ * Copyright (C) 2019,2021 Bell Canada.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,9 +45,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceImplBase;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceImplBase;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.properties.CdsServerProperties;
 
@@ -83,7 +83,7 @@ public class BasicAuthClientHeaderInterceptorTest {
         props.setTimeout(60);
 
         // Implement the test gRPC server
-        BluePrintProcessingServiceImplBase testCdsBlueprintServerImpl = new BluePrintProcessingServiceImplBase() {};
+        BlueprintProcessingServiceImplBase testCdsBlueprintServerImpl = new BlueprintProcessingServiceImplBase() {};
 
         // Create a server, add service, start, and register for automatic graceful shutdown.
         grpcCleanup.register(InProcessServerBuilder.forName(SERVER_NAME).directExecutor()
@@ -96,7 +96,7 @@ public class BasicAuthClientHeaderInterceptorTest {
 
     @Test
     public void testIfBasicAuthHeaderIsDeliveredToCdsServer() {
-        BluePrintProcessingServiceStub bpProcessingSvcStub = BluePrintProcessingServiceGrpc
+        BlueprintProcessingServiceStub bpProcessingSvcStub = BlueprintProcessingServiceGrpc
             .newStub(ClientInterceptors.intercept(channel, new BasicAuthClientHeaderInterceptor(props)));
         ArgumentCaptor<Metadata> metadataCaptor = ArgumentCaptor.forClass(Metadata.class);
         bpProcessingSvcStub.process(new StreamObserver<ExecutionServiceOutput>() {
