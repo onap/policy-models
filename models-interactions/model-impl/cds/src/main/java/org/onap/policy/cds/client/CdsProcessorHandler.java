@@ -23,8 +23,8 @@ import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
 import lombok.AllArgsConstructor;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
@@ -48,7 +48,7 @@ public class CdsProcessorHandler {
             header.getBlueprintName(), header.getBlueprintVersion());
 
         final var finishLatch = new CountDownLatch(1);
-        final BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
+        final BlueprintProcessingServiceStub asyncStub = BlueprintProcessingServiceGrpc.newStub(channel);
         final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(ExecutionServiceOutput output) {
