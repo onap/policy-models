@@ -38,7 +38,7 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
 
-public class GuardSimulatorTest {
+public class XacmlSimulatorTest {
     private static final StandardCoder coder = new StandardCoder();
 
     /**
@@ -47,7 +47,7 @@ public class GuardSimulatorTest {
     @BeforeClass
     public static void setupSimulator() {
         try {
-            org.onap.policy.simulators.Util.buildGuardSim();
+            org.onap.policy.simulators.Util.buildXacmlSim();
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -61,7 +61,7 @@ public class GuardSimulatorTest {
     @Test
     public void testGuard() throws CoderException {
         String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
-        String url = "http://localhost:" + Util.GUARDSIM_SERVER_PORT + "/policy/pdpx/v1/decision";
+        String url = "http://localhost:" + Util.XACMLSIM_SERVER_PORT + "/policy/pdpx/v1/decision";
         Pair<Integer, String> response =
                 new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
         assertNotNull(response);

@@ -32,7 +32,7 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 
 @Path("/policy/pdpx/v1")
-public class GuardSimulatorJaxRs {
+public class XacmlSimulatorJaxRs {
     public static final String DENY_CLNAME = "denyGuard";
 
     /**
