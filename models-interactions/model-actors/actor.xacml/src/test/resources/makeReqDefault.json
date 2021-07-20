@@ -1,0 +1,10 @@
+{
+  "ONAPName": "my-onap-name",
+  "ONAPComponent": "my-onap-component",
+  "ONAPInstance": "my-onap-instance",
+  "requestId": "abcdefghi",
+  "action": "guard",
+  "resource": {
+    "guard": {}
+  }
+}

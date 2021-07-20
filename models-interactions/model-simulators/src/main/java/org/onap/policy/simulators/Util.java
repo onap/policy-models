@@ -40,13 +40,13 @@ public final class Util {
     public static final String AAISIM_SERVER_NAME = "aaiSim";
     public static final String SOSIM_SERVER_NAME = "soSim";
     public static final String VFCSIM_SERVER_NAME = "vfcSim";
-    public static final String GUARDSIM_SERVER_NAME = "guardSim";
+    public static final String XACMLSIM_SERVER_NAME = "guardSim";
     public static final String SDNCSIM_SERVER_NAME = "sdncSim";
 
     public static final int AAISIM_SERVER_PORT = 6666;
     public static final int SOSIM_SERVER_PORT = 6667;
     public static final int VFCSIM_SERVER_PORT = 6668;
-    public static final int GUARDSIM_SERVER_PORT = 6669;
+    public static final int XACMLSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
     public static final int CDSSIM_SERVER_PORT = 6671;
     public static final int DMAAPSIM_SERVER_PORT = 3904;
@@ -137,9 +137,19 @@ public final class Util {
      * @throws InterruptedException if a thread is interrupted
      */
     public static HttpServletServer buildGuardSim() throws InterruptedException {
-        HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(GUARDSIM_SERVER_NAME,
-                LOCALHOST, GUARDSIM_SERVER_PORT, "/", false, true);
-        testServer.addServletClass("/*", GuardSimulatorJaxRs.class.getName());
+        return buildXacmlSim();
+    }
+
+    /**
+     * Build a xacml simulator.
+     *
+     * @return the simulator
+     * @throws InterruptedException if a thread is interrupted
+     */
+    public static HttpServletServer buildXacmlSim() throws InterruptedException {
+        HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(XACMLSIM_SERVER_NAME,
+                LOCALHOST, XACMLSIM_SERVER_PORT, "/", false, true);
+        testServer.addServletClass("/*", XacmlSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
         return testServer;
