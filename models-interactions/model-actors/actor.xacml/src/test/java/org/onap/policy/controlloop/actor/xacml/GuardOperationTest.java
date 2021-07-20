@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.guard;
+package org.onap.policy.controlloop.actor.xacml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -55,22 +55,22 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.XacmlSimulatorJaxRs;
 
-public class DecisionOperationTest extends BasicHttpOperation {
+public class GuardOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;
     @Mock
     private Consumer<OperationOutcome> completed;
 
-    private GuardConfig guardConfig;
-    private DecisionOperation oper;
+    private DecisionConfig guardConfig;
+    private GuardOperation oper;
 
     /**
      * Starts the simulator.
      */
     @BeforeClass
     public static void setUpBeforeClass() throws Exception {
-        org.onap.policy.simulators.Util.buildGuardSim();
+        org.onap.policy.simulators.Util.buildXacmlSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
                         .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
@@ -91,7 +91,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
     public void setUp() throws Exception {
         super.setUpBasic();
 
-        guardConfig = mock(GuardConfig.class);
+        guardConfig = mock(DecisionConfig.class);
         when(guardConfig.makeRequest()).thenAnswer(args -> {
             DecisionRequest req = new DecisionRequest();
             req.setAction("guard");
@@ -106,7 +106,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
 
         params = params.toBuilder().startCallback(started).completeCallback(completed).build();
 
-        oper = new DecisionOperation(params, config);
+        oper = new GuardOperation(params, config);
     }
 
     /**
@@ -114,11 +114,11 @@ public class DecisionOperationTest extends BasicHttpOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        GuardParams opParams = GuardParams.builder().clientName(MY_CLIENT).path("decision").build();
-        config = new GuardConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
+        config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        oper = new DecisionOperation(params, config);
+        oper = new GuardOperation(params, config);
 
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -130,12 +130,12 @@ public class DecisionOperationTest extends BasicHttpOperation {
      */
     @Test
     public void testFailure() throws Exception {
-        GuardParams opParams = GuardParams.builder().clientName(MY_CLIENT).path("decision").build();
-        config = new GuardConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
+        DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
+        config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
                         .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
-        oper = new DecisionOperation(params, config);
+        oper = new GuardOperation(params, config);
 
         outcome = oper.start().get();
         assertEquals(OperationResult.FAILURE, outcome.getResult());
@@ -160,7 +160,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
         assertFalse(future2.isDone());
 
         DecisionResponse resp = new DecisionResponse();
-        resp.setStatus(DecisionOperation.PERMIT);
+        resp.setStatus(GuardOperation.PERMIT);
         when(rawResponse.readEntity(String.class)).thenReturn(Util.translate("", resp, String.class));
 
         verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());
@@ -211,7 +211,7 @@ public class DecisionOperationTest extends BasicHttpOperation {
 
         // null payload - start with fresh parameters and operation
         params = params.toBuilder().payload(null).build();
-        oper = new DecisionOperation(params, config);
+        oper = new GuardOperation(params, config);
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest());
     }
 

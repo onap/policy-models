@@ -19,8 +19,8 @@
             "https": true
         },
         {
-            "name": "Guard simulator",
-            "providerClass": "org.onap.policy.simulators.GuardSimulatorJaxRs",
+            "name": "XACML simulator",
+            "providerClass": "org.onap.policy.simulators.XacmlSimulatorJaxRs",
             "host": "localhost",
             "port": 6667,
             "https": true
