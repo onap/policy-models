@@ -24,6 +24,7 @@ import java.time.Instant;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.onap.policy.models.dao.PfFilterParametersIntfc;
 
 @Getter
@@ -34,6 +35,7 @@ public class PdpFilterParameters implements PfFilterParametersIntfc {
     private Instant startTime;
     private Instant endTime;
 
+    @Setter
     private int recordNum;
     @Builder.Default
     private String sortOrder = "DESC";
