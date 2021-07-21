@@ -46,6 +46,7 @@ import org.onap.policy.models.pdp.persistence.concepts.JpaPdpStatistics;
  * @author Ning Xi (ning.xi@est.tech)
  */
 public class PdpStatisticsProvider {
+    private static final int MAX_RECORD_COUNT = 100;
 
     /**
      * Get PDP statistics.
@@ -57,12 +58,8 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timeStamp)
             throws PfModelException {
-        if (name != null && timeStamp != null) {
-            return asPdpStatisticsList(dao.getByTimestamp(JpaPdpStatistics.class,
-                    new PfGeneratedIdKey(name, PfKey.NULL_KEY_VERSION), timeStamp));
-        } else {
-            return asPdpStatisticsList(dao.getAll(JpaPdpStatistics.class));
-        }
+        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, PdpFilterParameters.builder().name(name)
+                        .startTime(timeStamp).endTime(timeStamp).recordNum(MAX_RECORD_COUNT).build()));
     }
 
     /**
@@ -75,16 +72,8 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name)
             throws PfModelException {
-
-        List<PdpStatistics> pdpStatistics = new ArrayList<>();
-        if (name != null) {
-            pdpStatistics
-                    .add(dao.get(JpaPdpStatistics.class, new PfGeneratedIdKey(name, PfKey.NULL_KEY_VERSION))
-                            .toAuthorative());
-        } else {
-            return asPdpStatisticsList(dao.getAll(JpaPdpStatistics.class));
-        }
-        return pdpStatistics;
+        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class,
+                        PdpFilterParameters.builder().name(name).recordNum(MAX_RECORD_COUNT).build()));
     }
 
     /**
@@ -97,6 +86,14 @@ public class PdpStatisticsProvider {
      */
     public List<PdpStatistics> getFilteredPdpStatistics(@NonNull final PfDao dao,
                     PdpFilterParameters filterParams) {
+
+        /*
+         * Limit the number of records to be returned.  The default is also max record count.
+         */
+        if (filterParams.getRecordNum() <= 0 || filterParams.getRecordNum() > MAX_RECORD_COUNT) {
+            filterParams.setRecordNum(MAX_RECORD_COUNT);
+        }
+
         return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, filterParams));
     }
 
