@@ -21,16 +21,19 @@
 package org.onap.policy.controlloop.actor.xacml;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,15 +43,17 @@ import org.mockito.Mock;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
+import org.onap.policy.controlloop.actorserviceprovider.Util;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
+import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.XacmlSimulatorJaxRs;
 
-public class GuardOperationTest extends BasicHttpOperation {
+public class DecisionOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;
@@ -56,7 +61,7 @@ public class GuardOperationTest extends BasicHttpOperation {
     private Consumer<OperationOutcome> completed;
 
     private DecisionConfig guardConfig;
-    private GuardOperation oper;
+    private MyOper oper;
 
     /**
      * Starts the simulator.
@@ -99,36 +104,20 @@ public class GuardOperationTest extends BasicHttpOperation {
 
         params = params.toBuilder().startCallback(started).completeCallback(completed).build();
 
-        oper = new GuardOperation(params, config);
+        oper = new MyOper(params, config);
     }
 
     /**
-     * Tests "success" case with simulator.
+     * Tests with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
-        DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
-        config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
-
-        params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
-        oper = new GuardOperation(params, config);
-
-        outcome = oper.start().get();
-        assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof DecisionResponse);
-    }
-
-    /**
-     * Tests "failure" case with simulator.
-     */
-    @Test
-    public void testFailure() throws Exception {
+    public void testSimulator() throws Exception {
         DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
                         .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
-        oper = new GuardOperation(params, config);
+        oper = new MyOper(params, config);
 
         outcome = oper.start().get();
         assertEquals(OperationResult.FAILURE, outcome.getResult());
@@ -147,68 +136,63 @@ public class GuardOperationTest extends BasicHttpOperation {
     }
 
     @Test
-    public void testMakeRequest() throws CoderException {
-        oper.generateSubRequestId(2);
+    public void testStartOperationAsync() throws Exception {
+        CompletableFuture<OperationOutcome> future2 = oper.start();
+        executor.runAll(100);
+        assertFalse(future2.isDone());
 
-        verifyPayload("makeReqStd.json", makePayload());
-        verifyPayload("makeReqDefault.json", new TreeMap<>());
+        DecisionResponse resp = new DecisionResponse();
+        resp.setStatus(GuardOperation.PERMIT);
+        when(rawResponse.readEntity(String.class)).thenReturn(Util.translate("", resp, String.class));
 
-        // null payload - start with fresh parameters and operation
-        params = params.toBuilder().payload(null).build();
-        oper = new GuardOperation(params, config);
-        assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest());
+        verify(client).post(callbackCaptor.capture(), any(), requestCaptor.capture(), any());
+        callbackCaptor.getValue().completed(rawResponse);
+
+        executor.runAll(100);
+        assertTrue(future2.isDone());
+
+        outcome = future2.get();
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
+        assertEquals(resp, outcome.getResponse());
+
+        assertNotNull(oper.getSubRequestId());
+        assertEquals(oper.getSubRequestId(), future2.get().getSubRequestId());
     }
 
-    private void verifyPayload(String expectedJsonFile, Map<String, Object> payload) throws CoderException {
-        params.getPayload().clear();
-        params.getPayload().putAll(payload);
-
-        DecisionRequest request = oper.makeRequest();
-
-        assertEquals("guard", request.getAction());
-        assertEquals("my-onap-component", request.getOnapComponent());
-        assertEquals("my-onap-instance", request.getOnapInstance());
-        assertEquals("my-onap-name", request.getOnapName());
-        assertNotNull(request.getRequestId());
-        assertEquals(Map.of("guard", payload), request.getResource());
-
-        verifyRequest(expectedJsonFile, request, "requestId");
-    }
-
+    /**
+     * Tests startOperationAsync() when the guard is disabled.
+     */
     @Test
-    public void testPostProcessResponse() {
-        DecisionResponse response = new DecisionResponse();
+    public void testStartOperationAsyncDisabled() throws Exception {
+        // indicate that it's disabled
+        when(guardConfig.isDisabled()).thenReturn(true);
 
-        // null status
-        response.setStatus(null);
-        verifyOutcome(response, OperationResult.FAILURE, "response contains no status");
+        CompletableFuture<OperationOutcome> future2 = oper.start();
+        executor.runAll(100);
 
-        // permit, mixed case
-        response.setStatus("peRmit");
-        verifyOutcome(response, OperationResult.SUCCESS, "peRmit");
+        verify(client, never()).post(any(), any(), any(), any());
 
-        // indeterminate, mixed case
-        response.setStatus("inDETerminate");
-        verifyOutcome(response, OperationResult.SUCCESS, "inDETerminate");
+        // should already be done
+        assertTrue(future2.isDone());
 
-        // deny, mixed case
-        response.setStatus("deNY");
-        verifyOutcome(response, OperationResult.FAILURE, "deNY");
+        outcome = future2.get();
+        assertEquals(OperationResult.SUCCESS, outcome.getResult());
+        assertNull(outcome.getResponse());
 
-        // unknown status
-        response.setStatus("unknown");
-        verifyOutcome(response, OperationResult.FAILURE, "unknown");
+        // ensure callbacks were invoked
+        verify(started).accept(any());
+        verify(completed).accept(any());
     }
 
-    private void verifyOutcome(DecisionResponse response, OperationResult expectedResult, String expectedMessage) {
-        oper.postProcessResponse(outcome, BASE_URI, rawResponse, response);
-        assertEquals(expectedResult, outcome.getResult());
-        assertEquals(expectedMessage, outcome.getMessage());
-        assertSame(response, outcome.getResponse());
-    }
+    private class MyOper extends DecisionOperation {
 
-    @Override
-    protected Map<String, Object> makePayload() {
-        return new TreeMap<>(Map.of("hello", "world", "abc", "123"));
+        public MyOper(ControlLoopOperationParams params, HttpConfig config) {
+            super(params, config);
+        }
+
+        @Override
+        protected DecisionRequest makeRequest() {
+            return guardConfig.makeRequest();
+        }
     }
 }
