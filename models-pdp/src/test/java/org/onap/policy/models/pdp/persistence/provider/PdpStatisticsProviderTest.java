@@ -23,10 +23,10 @@ package org.onap.policy.models.pdp.persistence.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -50,16 +50,17 @@ public class PdpStatisticsProviderTest {
     private static final String SUBGROUP = "subgroup";
     private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1078884319);
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1078884350);
-    private static final Long GENERATEDID1 = 1L;
-    private static final Long GENERATEDID2 = 2L;
 
     private PfDao pfDao;
 
-    private ArrayList<PdpStatistics> pdpStatisticsTestList = new ArrayList<>();
     private List<PdpEngineWorkerStatistics> engineStats = new ArrayList<>();
-    private String testListStr;
-    private String name1ListStr;
-    private String createdListStr;
+    private PdpStatistics pdpStatistics11;
+    private PdpStatistics pdpStatistics12;
+    private PdpStatistics pdpStatistics22;
+    private PdpStatistics pdpStatistics31;
+
+    // checkstyle complained about this as a local variable; had to make it a field
+    private long genId;
 
     /**
      * Set up test Dao.
@@ -88,42 +89,69 @@ public class PdpStatisticsProviderTest {
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
 
-        PdpStatistics pdpStatistics = new PdpStatistics();
-        pdpStatistics.setPdpInstanceId(NAME);
-        pdpStatistics.setTimeStamp(TIMESTAMP1);
-        pdpStatistics.setGeneratedId(GENERATEDID1);
-        pdpStatistics.setPdpGroupName(GROUP);
-        pdpStatistics.setPdpSubGroupName(SUBGROUP);
-        pdpStatistics.setPolicyDeployCount(2);
-        pdpStatistics.setPolicyDeployFailCount(1);
-        pdpStatistics.setPolicyDeploySuccessCount(1);
-        pdpStatistics.setPolicyExecutedCount(2);
-        pdpStatistics.setPolicyExecutedFailCount(1);
-        pdpStatistics.setPolicyExecutedSuccessCount(1);
-        pdpStatistics.setEngineStats(engineStats);
-        pdpStatisticsTestList.add(pdpStatistics);
-        name1ListStr = pdpStatisticsTestList.toString();
+        genId = 1;
 
-        PdpStatistics pdpStatistics2 = new PdpStatistics();
-        pdpStatistics2.setPdpInstanceId("name2");
-        pdpStatistics2.setTimeStamp(TIMESTAMP2);
-        pdpStatistics2.setGeneratedId(GENERATEDID2);
-        pdpStatistics2.setPdpGroupName(GROUP);
-        pdpStatistics2.setPdpSubGroupName(SUBGROUP);
-        pdpStatistics2.setPolicyDeployCount(2);
-        pdpStatistics2.setPolicyDeployFailCount(1);
-        pdpStatistics2.setPolicyDeploySuccessCount(1);
-        pdpStatistics2.setPolicyExecutedCount(2);
-        pdpStatistics2.setPolicyExecutedFailCount(1);
-        pdpStatistics2.setPolicyExecutedSuccessCount(1);
-        pdpStatistics2.setEngineStats(engineStats);
-        pdpStatisticsTestList.add(pdpStatistics2);
-        testListStr = pdpStatisticsTestList.toString();
+        pdpStatistics11 = new PdpStatistics();
+        pdpStatistics11.setPdpInstanceId(NAME);
+        pdpStatistics11.setTimeStamp(TIMESTAMP1);
+        pdpStatistics11.setGeneratedId(genId++);
+        pdpStatistics11.setPdpGroupName(GROUP);
+        pdpStatistics11.setPdpSubGroupName(SUBGROUP);
+        pdpStatistics11.setPolicyDeployCount(2);
+        pdpStatistics11.setPolicyDeployFailCount(1);
+        pdpStatistics11.setPolicyDeploySuccessCount(1);
+        pdpStatistics11.setPolicyExecutedCount(2);
+        pdpStatistics11.setPolicyExecutedFailCount(1);
+        pdpStatistics11.setPolicyExecutedSuccessCount(1);
+        pdpStatistics11.setEngineStats(engineStats);
 
-        List<PdpStatistics> createdPdpStatisticsList;
-        createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
-        createdListStr = createdPdpStatisticsList.toString();
-        assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
+        pdpStatistics12 = new PdpStatistics();
+        pdpStatistics12.setPdpInstanceId(NAME);
+        pdpStatistics12.setTimeStamp(TIMESTAMP2);
+        pdpStatistics12.setGeneratedId(genId++);
+        pdpStatistics12.setPdpGroupName(GROUP);
+        pdpStatistics12.setPdpSubGroupName(SUBGROUP);
+        pdpStatistics12.setPolicyDeployCount(2);
+        pdpStatistics12.setPolicyDeployFailCount(1);
+        pdpStatistics12.setPolicyDeploySuccessCount(1);
+        pdpStatistics12.setPolicyExecutedCount(2);
+        pdpStatistics12.setPolicyExecutedFailCount(1);
+        pdpStatistics12.setPolicyExecutedSuccessCount(1);
+        pdpStatistics12.setEngineStats(engineStats);
+
+        pdpStatistics22 = new PdpStatistics();
+        pdpStatistics22.setPdpInstanceId("name2");
+        pdpStatistics22.setTimeStamp(TIMESTAMP2);
+        pdpStatistics22.setGeneratedId(genId++);
+        pdpStatistics22.setPdpGroupName(GROUP);
+        pdpStatistics22.setPdpSubGroupName(SUBGROUP);
+        pdpStatistics22.setPolicyDeployCount(2);
+        pdpStatistics22.setPolicyDeployFailCount(1);
+        pdpStatistics22.setPolicyDeploySuccessCount(1);
+        pdpStatistics22.setPolicyExecutedCount(2);
+        pdpStatistics22.setPolicyExecutedFailCount(1);
+        pdpStatistics22.setPolicyExecutedSuccessCount(1);
+        pdpStatistics22.setEngineStats(engineStats);
+
+        pdpStatistics31 = new PdpStatistics();
+        pdpStatistics31.setPdpInstanceId("name3");
+        pdpStatistics31.setTimeStamp(TIMESTAMP1);
+        pdpStatistics31.setGeneratedId(genId++);
+        pdpStatistics31.setPdpGroupName(GROUP);
+        pdpStatistics31.setPdpSubGroupName(SUBGROUP);
+        pdpStatistics31.setPolicyDeployCount(2);
+        pdpStatistics31.setPolicyDeployFailCount(1);
+        pdpStatistics31.setPolicyDeploySuccessCount(1);
+        pdpStatistics31.setPolicyExecutedCount(2);
+        pdpStatistics31.setPolicyExecutedFailCount(1);
+        pdpStatistics31.setPolicyExecutedSuccessCount(1);
+        pdpStatistics31.setEngineStats(engineStats);
+
+        List<PdpStatistics> create = List.of(pdpStatistics11, pdpStatistics22, pdpStatistics31, pdpStatistics12);
+        List<PdpStatistics> createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, create);
+
+        // these should match AND be in the same order
+        assertThat(createdPdpStatisticsList).isEqualTo(create);
     }
 
     @After
@@ -159,7 +187,24 @@ public class PdpStatisticsProviderTest {
     }
 
     @Test
-    public void testGetPdpStatistics() throws Exception {
+    public void testGetPdpStatisticsName() throws Exception {
+        assertThatThrownBy(() -> {
+            new PdpStatisticsProvider().createPdpStatistics(null, null);
+        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> {
+            new PdpStatisticsProvider().getPdpStatistics(null, null);
+        }).hasMessageMatching(DAO_IS_NULL);
+
+        List<PdpStatistics> getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics12, pdpStatistics11));
+
+        // name is null
+        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, null);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics12, pdpStatistics22, pdpStatistics11, pdpStatistics31));
+    }
+
+    @Test
+    public void testGetPdpStatisticsNameTimestamp() throws Exception {
         assertThatThrownBy(() -> {
             new PdpStatisticsProvider().createPdpStatistics(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -169,14 +214,15 @@ public class PdpStatisticsProviderTest {
 
         List<PdpStatistics> getPdpStatisticsList;
         getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME, TIMESTAMP1);
-        assertThat(getPdpStatisticsList).hasSize(1);
-        String gotListStr = getPdpStatisticsList.toString();
-        assertEquals(name1ListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11));
 
         // name is null
         getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, null, TIMESTAMP1);
-        gotListStr = getPdpStatisticsList.toString();
-        assertEquals(testListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics31));
+
+        // timestamp is null
+        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME, null);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics12));
     }
 
     @Test
@@ -186,23 +232,30 @@ public class PdpStatisticsProviderTest {
             new PdpStatisticsProvider().getFilteredPdpStatistics(null, PdpFilterParameters.builder().build());
         }).hasMessageMatching(DAO_IS_NULL);
 
-
-        List<PdpStatistics> createdPdpStatisticsList;
-        createdPdpStatisticsList = new PdpStatisticsProvider().createPdpStatistics(pfDao, pdpStatisticsTestList);
-        createdListStr = createdPdpStatisticsList.toString();
-        assertEquals(createdListStr.replaceAll("\\s+", ""), testListStr.replaceAll("\\s+", ""));
-
         List<PdpStatistics> getPdpStatisticsList;
         getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
                         .builder().name(NAME).group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
-        assertThat(getPdpStatisticsList).hasSize(1);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics12));
+
         getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
                         .builder().name("name2").group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
-        assertThat(getPdpStatisticsList).hasSize(1);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics22));
+
         getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao,
                         PdpFilterParameters.builder().name("name2").group(GROUP).subGroup(SUBGROUP)
                                         .startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
-        assertThat(getPdpStatisticsList).hasSize(1);
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics22));
+
+        // group mismatch
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
+                        .builder().name(NAME).group(GROUP0).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).isEmpty();
+
+        // subgroup mismatch
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao,
+                        PdpFilterParameters.builder().name("name2").group(GROUP).subGroup("subgroup2")
+                                        .startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
+        assertThat(getPdpStatisticsList).isEmpty();
     }
 
     @Test
@@ -211,12 +264,12 @@ public class PdpStatisticsProviderTest {
             new PdpStatisticsProvider().updatePdpStatistics(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
 
-        pdpStatisticsTestList.get(0).setPdpGroupName(GROUP0);
-        testListStr = pdpStatisticsTestList.toString();
-        List<PdpStatistics> updatePdpStatisticsList =
-                new PdpStatisticsProvider().updatePdpStatistics(pfDao, pdpStatisticsTestList);
-        String gotListStr = updatePdpStatisticsList.toString();
-        assertEquals(testListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
+        pdpStatistics11.setPdpGroupName(GROUP0);
+        List<PdpStatistics> update = List.of(pdpStatistics11);
+        List<PdpStatistics> updatePdpStatisticsList = new PdpStatisticsProvider().updatePdpStatistics(pfDao, update);
+
+        // these should match AND be in the same order
+        assertThat(updatePdpStatisticsList).isEqualTo(update);
     }
 
     @Test
@@ -231,8 +284,17 @@ public class PdpStatisticsProviderTest {
 
         List<PdpStatistics> deletedPdpStatisticsList =
                 new PdpStatisticsProvider().deletePdpStatistics(pfDao, NAME, null);
-        String gotListStr = deletedPdpStatisticsList.toString();
-        assertEquals(name1ListStr.replaceAll("\\s+", ""), gotListStr.replaceAll("\\s+", ""));
+        verifyEquals(deletedPdpStatisticsList, List.of(pdpStatistics12, pdpStatistics11));
     }
 
+    private void verifyEquals(List<PdpStatistics> list1, List<PdpStatistics> list2) {
+        assertThat(sort(list1)).isEqualTo(sort(list2));
+    }
+
+    private List<PdpStatistics> sort(List<PdpStatistics> list1) {
+        List<PdpStatistics> list2 = new ArrayList<>(list1);
+        Collections.sort(list2, (stat1, stat2) -> stat1.getGeneratedId().compareTo(stat2.getGeneratedId()));
+
+        return list2;
+    }
 }
