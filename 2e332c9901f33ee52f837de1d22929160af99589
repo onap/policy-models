@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "3e5e6718_7bfc7513",
+        "filename": "models-interactions/model-actors/actor.xacml/src/main/java/org/onap/policy/controlloop/actor/xacml/GuardOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-21T20:58:45Z",
+      "side": 1,
+      "message": "that\u0027s the plan - next review; this review is just a straight clone.",
+      "parentUuid": "7f0438e8_445d2cab",
+      "revId": "2e332c9901f33ee52f837de1d22929160af99589",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df68c2c0_9d24cfb5",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/Util.java",
         "patchSetId": 2
@@ -50,6 +68,24 @@
       "revId": "2e332c9901f33ee52f837de1d22929160af99589",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "686e88f7_06502933",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/Util.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-21T20:58:45Z",
+      "side": 1,
+      "message": "already says 2021",
+      "parentUuid": "df68c2c0_9d24cfb5",
+      "revId": "2e332c9901f33ee52f837de1d22929160af99589",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
