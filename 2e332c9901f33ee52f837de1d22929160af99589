@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4fd5e3c5_153db299",
+        "filename": "models-interactions/model-actors/actor.guard/src/test/java/org/onap/policy/controlloop/actor/guard/DecisionOperationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-21T21:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb936e5a_4206477c",
+      "revId": "2e332c9901f33ee52f837de1d22929160af99589",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0438e8_445d2cab",
         "filename": "models-interactions/model-actors/actor.xacml/src/main/java/org/onap/policy/controlloop/actor/xacml/GuardOperation.java",
         "patchSetId": 2
@@ -103,6 +121,24 @@
       "revId": "2e332c9901f33ee52f837de1d22929160af99589",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a5d0c79_8bbcd439",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/XacmlSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-07-21T21:10:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfd777d6_8593c7a9",
+      "revId": "2e332c9901f33ee52f837de1d22929160af99589",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
