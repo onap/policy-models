@@ -23,21 +23,13 @@ package org.onap.policy.controlloop.actor.xacml;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
-import org.onap.policy.controlloop.actorserviceprovider.CallbackManager;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
-import org.onap.policy.controlloop.actorserviceprovider.impl.HttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Guard Operation. The outcome message is set to the guard response. If the guard is
@@ -54,23 +46,13 @@ import org.slf4j.LoggerFactory;
  * <dd>generated</dd>
  * </dl>
  */
-public class GuardOperation extends HttpOperation<DecisionResponse> {
-    private static final Logger logger = LoggerFactory.getLogger(GuardOperation.class);
-
+public class GuardOperation extends DecisionOperation {
     // operation name
     public static final String NAME = "Guard";
 
     public static final String PERMIT = "Permit";
     public static final String DENY = "Deny";
     public static final String INDETERMINATE = "Indeterminate";
-
-    /**
-     * Prefix for properties in the payload that should be copied to the "resource" field
-     * of the request.
-     */
-    public static final String RESOURCE_PREFIX = "resource.";
-
-    private final DecisionConfig config;
 
 
     /**
@@ -80,46 +62,7 @@ public class GuardOperation extends HttpOperation<DecisionResponse> {
      * @param config configuration for this operation
      */
     public GuardOperation(ControlLoopOperationParams params, HttpConfig config) {
-        super(params, config, DecisionResponse.class, Collections.emptyList());
-        this.config = (DecisionConfig) config;
-    }
-
-    @Override
-    public CompletableFuture<OperationOutcome> start() {
-        if (!config.isDisabled()) {
-            // enabled - do full guard operation
-            return super.start();
-        }
-
-        // guard is disabled, thus it is always treated as a success
-        logger.info("{}: guard disabled, always succeeds for {}", getFullName(), params.getRequestId());
-
-        final var executor = params.getExecutor();
-        final var callbacks = new CallbackManager();
-
-        return CompletableFuture.completedFuture(makeOutcome())
-                        .whenCompleteAsync(callbackStarted(callbacks), executor)
-                        .whenCompleteAsync(callbackCompleted(callbacks), executor);
-    }
-
-    @Override
-    protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
-        DecisionRequest request = makeRequest();
-
-        Map<String, Object> headers = makeHeaders();
-
-        headers.put("Accept", MediaType.APPLICATION_JSON);
-        String url = getUrl();
-
-        String strRequest = prettyPrint(request);
-        logMessage(EventType.OUT, CommInfrastructure.REST, url, strRequest);
-
-        Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
-
-        // @formatter:off
-        return handleResponse(outcome, url,
-            callback -> getClient().post(callback, getPath(), entity, headers));
-        // @formatter:on
+        super(params, config, Collections.emptyList());
     }
 
     /**
