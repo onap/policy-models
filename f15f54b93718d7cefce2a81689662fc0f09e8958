@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c82a5224_e1254c96",
+        "filename": "models-interactions/model-actors/actor.xacml/src/main/java/org/onap/policy/controlloop/actor/xacml/GuardOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-07-21T22:52:35Z",
+      "side": 1,
+      "message": "hate to say this...",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "f15f54b93718d7cefce2a81689662fc0f09e8958",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e9f8f9_2460d5bc",
+        "filename": "models-interactions/model-actors/actor.xacml/src/main/java/org/onap/policy/controlloop/actor/xacml/XacmlActor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-07-21T22:52:35Z",
+      "side": 1,
+      "message": "same 😊",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 8,
+        "endChar": 1
+      },
+      "revId": "f15f54b93718d7cefce2a81689662fc0f09e8958",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82b27db5_64bbe568",
+        "filename": "models-interactions/model-actors/actor.xacml/src/main/java/org/onap/policy/controlloop/actor/xacml/XacmlActorParams.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2021-07-21T22:52:35Z",
+      "side": 1,
+      "message": "I\u0027ll just stop here 😄",
+      "range": {
+        "startLine": 5,
+        "startChar": 17,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "f15f54b93718d7cefce2a81689662fc0f09e8958",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
