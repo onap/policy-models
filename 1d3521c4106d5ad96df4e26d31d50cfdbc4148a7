@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ae6b87d_f193f7b1",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpStatisticsProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-23T18:22:15Z",
+      "side": 1,
+      "message": "May be we can delete these methods, as they are used anymore. StatisticsRestProvider is only using the getFilteredPdpStatistics now.",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 103
+      },
+      "revId": "1d3521c4106d5ad96df4e26d31d50cfdbc4148a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
