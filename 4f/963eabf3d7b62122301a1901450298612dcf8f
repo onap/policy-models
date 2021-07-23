@@ -1,0 +1,11 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+1: Daniel Cruz <dc443y@att.com>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+1: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Code-Review+2: Pamela Dragosh <pd1248@att.com>
+Submitted-by: Jim Hahn <jrh3@att.com>
+Submitted-at: Fri, 23 Jul 2021 13:12:44 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/122824
+Project: policy/models
+Branch: refs/heads/master
