@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a9e9279_b902b824",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-07-23T16:47:06Z",
+      "side": 1,
+      "message": "May be we should have it 10 by default. And someone can choose between 1-100. Same as audit records - https://github.com/onap/policy-models/blob/master/models-pap/src/main/java/org/onap/policy/models/pap/persistence/provider/PolicyAuditProvider.java",
+      "range": {
+        "startLine": 9,
+        "startChar": 35,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "33964e239405fa57a5a7aae5e8f681f73e065f41",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
