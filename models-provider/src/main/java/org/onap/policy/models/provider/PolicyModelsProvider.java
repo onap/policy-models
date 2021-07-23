@@ -320,15 +320,6 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public PdpGroup deletePdpGroup(@NonNull final String name) throws PfModelException;
 
-    /**
-     * Get PDP statistics.
-     *
-     * @param name the name of the PDP group to get statistics for, null to get all PDP groups
-     * @return the statistics found
-     * @throws PfModelException on errors getting statistics
-     */
-    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException;
-
 
     /**
      * Get filtered PdpStatistics.

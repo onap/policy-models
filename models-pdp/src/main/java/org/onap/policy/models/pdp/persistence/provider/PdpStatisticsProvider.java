@@ -50,34 +50,6 @@ public class PdpStatisticsProvider {
     private static final int MAX_RECORD_COUNT = 100;
 
     /**
-     * Get PDP statistics.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the PDP statistics to get, null to get all PDPs
-     * @return the PDP statistics found
-     * @throws PfModelException on errors getting PDP statistics
-     */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name, final Instant timeStamp)
-            throws PfModelException {
-        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class, PdpFilterParameters.builder().name(name)
-                        .startTime(timeStamp).endTime(timeStamp).recordNum(MAX_RECORD_COUNT).build()));
-    }
-
-    /**
-     * Get PDP statistics.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the PDP statistics to get, null to get all PDPs
-     * @return the PDP statistics found
-     * @throws PfModelException on errors getting PDP statistics
-     */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name)
-            throws PfModelException {
-        return asPdpStatisticsList(dao.getFiltered(JpaPdpStatistics.class,
-                        PdpFilterParameters.builder().name(name).recordNum(MAX_RECORD_COUNT).build()));
-    }
-
-    /**
      * Get filtered PDP statistics.
      *
      * @param dao the DAO to use to access the database

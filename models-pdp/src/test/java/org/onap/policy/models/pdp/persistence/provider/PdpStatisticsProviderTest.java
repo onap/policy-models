@@ -187,45 +187,6 @@ public class PdpStatisticsProviderTest {
     }
 
     @Test
-    public void testGetPdpStatisticsName() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().createPdpStatistics(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().getPdpStatistics(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        List<PdpStatistics> getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME);
-        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics12, pdpStatistics11));
-
-        // name is null
-        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, null);
-        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics12, pdpStatistics22, pdpStatistics11, pdpStatistics31));
-    }
-
-    @Test
-    public void testGetPdpStatisticsNameTimestamp() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().createPdpStatistics(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-        assertThatThrownBy(() -> {
-            new PdpStatisticsProvider().getPdpStatistics(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        List<PdpStatistics> getPdpStatisticsList;
-        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME, TIMESTAMP1);
-        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11));
-
-        // name is null
-        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, null, TIMESTAMP1);
-        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics31));
-
-        // timestamp is null
-        getPdpStatisticsList = new PdpStatisticsProvider().getPdpStatistics(pfDao, NAME, null);
-        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics12));
-    }
-
-    @Test
     public void testGetFilteredPdpStatistics() throws Exception {
 
         assertThatThrownBy(() -> {

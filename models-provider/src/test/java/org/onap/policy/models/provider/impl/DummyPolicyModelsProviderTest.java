@@ -113,7 +113,8 @@ public class DummyPolicyModelsProviderTest {
         dummyProvider.updatePdpSubGroup("name", new PdpSubGroup());
         dummyProvider.updatePdp("name", "type", new Pdp());
         dummyProvider.updatePdpStatistics(new ArrayList<>());
-        assertTrue(dummyProvider.getPdpStatistics("name", null).isEmpty());
+        assertThat(dummyProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().name("name").build()))
+                        .isEmpty();
 
         assertTrue(
                 dummyProvider.getFilteredPdpStatistics(

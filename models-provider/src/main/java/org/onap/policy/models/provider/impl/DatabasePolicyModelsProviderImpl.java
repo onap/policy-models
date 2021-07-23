@@ -251,12 +251,6 @@ public class DatabasePolicyModelsProviderImpl extends AbstractModelsProvider imp
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException {
-        assertInitialized();
-        return new PdpStatisticsProvider().getPdpStatistics(getPfDao(), name, timestamp);
-    }
-
-    @Override
     public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
         assertInitialized();
         return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), filterParams);

@@ -412,7 +412,7 @@ public class DatabasePolicyModelsProviderTest {
 
         List<PdpStatistics> statisticsArrayList = makePdpStatisticsList();
 
-        assertThat(databaseProvider.getPdpStatistics(null, null)).isEmpty();
+        assertThat(databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build())).isEmpty();
         assertThat(databaseProvider.createPdpStatistics(statisticsArrayList)).hasSize(1);
         assertThat(databaseProvider.updatePdpStatistics(statisticsArrayList)).hasSize(1);
     }
@@ -422,7 +422,8 @@ public class DatabasePolicyModelsProviderTest {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
         databaseProvider.createPdpStatistics(makePdpStatisticsList());
 
-        assertEquals(NAME, databaseProvider.getPdpStatistics(null, null).get(0).getPdpInstanceId());
+        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build()).get(0)
+                        .getPdpInstanceId());
         assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
                         PdpFilterParameters.builder().group(GROUP).build()).get(0).getPdpInstanceId());
         assertEquals(0, databaseProvider.getFilteredPdpStatistics(
@@ -460,7 +461,7 @@ public class DatabasePolicyModelsProviderTest {
                             .sortOrder(ORDER).recordNum(5).build()).size());
 
         assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getPdpStatistics(null, null).size());
+        assertThat(databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build())).isEmpty();
 
         assertThat(databaseProvider.getAllPolicyStatus()).isEmpty();
         assertThat(databaseProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy", null)))

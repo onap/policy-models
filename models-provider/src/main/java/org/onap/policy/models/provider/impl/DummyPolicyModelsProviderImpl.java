@@ -214,11 +214,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getPdpStatistics(final String name, final Instant timestamp) throws PfModelException {
-        return new ArrayList<>();
-    }
-
-    @Override
     public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
         // Not implemented
         return new ArrayList<>();
