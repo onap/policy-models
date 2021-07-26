@@ -35,7 +35,7 @@ import org.onap.policy.controlloop.actor.xacml.XacmlActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 
-public class DecisionActorParamsTest {
+public class XacmlActorParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
     private static final int TIMEOUT = 10;
