@@ -21,6 +21,7 @@
 
 package org.onap.policy.simulators;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -60,35 +61,98 @@ public class XacmlSimulatorTest {
 
     @Test
     public void testGuard() throws CoderException {
-        String request = makeRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
-        String url = "http://localhost:" + Util.XACMLSIM_SERVER_PORT + "/policy/pdpx/v1/decision";
-        Pair<Integer, String> response =
-                new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
-        assertNotNull(response);
-        assertNotNull(response.getLeft());
-        assertNotNull(response.getRight());
-
-        DecisionResponse decision = coder.decode(response.getRight(), DecisionResponse.class);
+        String request = makeGuardRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
+        DecisionResponse decision = sendRequest(request);
         assertEquals("Permit", decision.getStatus());
 
-        request = makeRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
-        response = new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
-        assertNotNull(response);
-        assertNotNull(response.getLeft());
-        assertNotNull(response.getRight());
-        decision = coder.decode(response.getRight(), DecisionResponse.class);
+        request = makeGuardRequest("test_actor_id", "test_op_id", "test_target", "denyGuard");
+        decision = sendRequest(request);
         assertEquals("Deny", decision.getStatus());
     }
 
-    private static String makeRequest(String actor, String recipe, String target, String clName) throws CoderException {
-        Map<String, String> guard = new HashMap<String, String>();
+    @Test
+    public void testConfigure() throws CoderException {
+        // test retrieving a policy
+        String request = makeConfigureRequest("policy-id", "test-policy");
+        DecisionResponse decision = sendRequest(request);
+        assertNotNull(decision.getPolicies());
+        assertThat(decision.getPolicies()).containsKey("test-policy");
+
+        // test no policy found
+        request = makeConfigureRequest("policy-id", "nonexistent");
+        decision = sendRequest(request);
+        assertNotNull(decision.getPolicies());
+        assertThat(decision.getPolicies()).doesNotContainKey("nonexistent");
+
+        // test unsupported operation
+        request = makeConfigureRequest("policy-type", "test");
+        decision = sendRequest(request);
+        assertEquals("resource must contain policy-id key", decision.getMessage());
+    }
+
+    @Test
+    public void testConfigureMissingFile() throws CoderException {
+        // test retrieving a policy
+        String request = makeConfigureRequest("policy-id", "bogus-policy");
+        DecisionResponse decision = sendRequest(request);
+        assertNotNull(decision.getPolicies());
+        assertEquals("cannot read policy simulator file", decision.getMessage());
+    }
+
+    @Test
+    public void testConfigureInvalidJson() throws CoderException {
+        // test retrieving a policy
+        String request = makeConfigureRequest("policy-id", "invalid-policy");
+        DecisionResponse decision = sendRequest(request);
+        assertNotNull(decision.getPolicies());
+        assertEquals("cannot decode policy", decision.getMessage());
+    }
+
+    @Test
+    public void testUnknownAction() throws CoderException {
+        String request = makeGuardRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
+        request = request.replace("guard", "bogus-action");
+        DecisionResponse decision = sendRequest(request);
+        assertThat(decision.getStatus()).isNull();
+        assertThat(decision.getMessage()).isEqualTo("unsupported action: bogus-action");
+    }
+
+    private DecisionResponse sendRequest(String request) throws CoderException {
+        String url = "http://localhost:" + Util.XACMLSIM_SERVER_PORT + "/policy/pdpx/v1/decision";
+        Pair<Integer, String> response =
+                new RestManager().post(url, "testUname", "testPass", null, "application/json", request);
+
+        // verify the response isn't null
+        assertNotNull(response);
+        assertNotNull(response.getLeft());
+        assertNotNull(response.getRight());
+
+        return coder.decode(response.getRight(), DecisionResponse.class);
+    }
+
+    private String makeGuardRequest(String actor, String recipe, String target, String clName) throws CoderException {
+        Map<String, String> guard = new HashMap<>();
         guard.put("actor", actor);
         guard.put("recipe", recipe);
         guard.put("target", target);
         guard.put("clname", clName);
-        Map<String, Object> resource = new HashMap<String, Object>();
+
+        Map<String, Object> resource = new HashMap<>();
         resource.put("guard", guard);
+
         DecisionRequest request = new DecisionRequest();
+        request.setAction("guard");
+        request.setResource(resource);
+
+        return coder.encode(request);
+    }
+
+    private String makeConfigureRequest(String key, String val) throws CoderException {
+        Map<String, Object> resource = new HashMap<>();
+        resource.put(key, val);
+
+        DecisionRequest request = new DecisionRequest();
+        request.setAction("configure");
         request.setResource(resource);
 
         return coder.encode(request);

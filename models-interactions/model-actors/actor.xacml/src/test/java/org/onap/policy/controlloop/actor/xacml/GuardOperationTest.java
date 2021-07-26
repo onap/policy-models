@@ -107,7 +107,8 @@ public class GuardOperationTest extends BasicHttpOperation {
      */
     @Test
     public void testSuccess() throws Exception {
-        DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
+        DecisionParams opParams =
+                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
@@ -123,7 +124,8 @@ public class GuardOperationTest extends BasicHttpOperation {
      */
     @Test
     public void testFailure() throws Exception {
-        DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
+        DecisionParams opParams =
+                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
