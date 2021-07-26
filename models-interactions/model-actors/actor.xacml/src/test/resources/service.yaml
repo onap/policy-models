@@ -33,3 +33,6 @@ actors:
     operations:
       Guard:
         path: decide
+      Configure:
+        path: decision
+        action: configure

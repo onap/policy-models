@@ -1,0 +1,22 @@
+{
+    "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+    "topology_template": {
+        "policies": [
+            {
+                "test-policy": {
+                    "type": "onap.policies.monitoring.test",
+                    "type_version": "1.0.0",
+                    "version": "1.0.0",
+                    "name": "test-policy",
+                    "metadata": {
+                        "policy-id": "test-policy",
+                        "policy-version": 1
+                    },
+                    "properties": {
+                        "test": "test"
+                    }
+                }
+            }
+        ]
+    }
+}
