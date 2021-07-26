@@ -41,7 +41,6 @@
     <module>actor.cds</module>
     <module>actor.appc</module>
     <module>actor.appclcm</module>
-    <module>actor.guard</module>
     <module>actor.sdnc</module>
     <module>actor.sdnr</module>
     <module>actor.so</module>
