@@ -195,6 +195,11 @@ public class PdpStatisticsProviderTest {
 
         List<PdpStatistics> getPdpStatisticsList;
 
+        // empty filter - should return everything
+        getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
+                        .builder().build());
+        verifyEquals(getPdpStatisticsList, List.of(pdpStatistics11, pdpStatistics12, pdpStatistics22, pdpStatistics31));
+
         // match on name - returns multiple records
         getPdpStatisticsList = new PdpStatisticsProvider().getFilteredPdpStatistics(pfDao, PdpFilterParameters
                         .builder().name(NAME).group(GROUP).startTime(TIMESTAMP1).endTime(TIMESTAMP2).build());
