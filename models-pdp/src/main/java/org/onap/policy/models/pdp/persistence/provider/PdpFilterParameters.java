@@ -30,8 +30,9 @@ import org.onap.policy.models.dao.PfFilterParametersIntfc;
 @Getter
 @Builder
 public class PdpFilterParameters implements PfFilterParametersIntfc {
+    // PDP instance ID
     private String name;
-    private String version;
+
     private Instant startTime;
     private Instant endTime;
 
@@ -62,5 +63,11 @@ public class PdpFilterParameters implements PfFilterParametersIntfc {
             filterMap = Map.of("pdpGroupName", group, "pdpSubGroupName", subGroup);
             return filterMap;
         }
+    }
+
+    @Override
+    public String getVersion() {
+        // version is not used
+        return null;
     }
 }
