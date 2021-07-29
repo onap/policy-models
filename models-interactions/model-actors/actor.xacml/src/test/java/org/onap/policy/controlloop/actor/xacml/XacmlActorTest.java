@@ -28,14 +28,15 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class DecisionActorTest extends BasicActor {
+public class XacmlActorTest extends BasicActor {
 
     @Test
     public void test() {
         final XacmlActor prov = new XacmlActor();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(GuardOperation.NAME).stream().sorted().collect(Collectors.toList());
+        var expected = Arrays.asList(GuardOperation.NAME, ConfigureOperation.NAME).stream().sorted()
+                        .collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
         assertEquals(expected.toString(), actual.toString());
@@ -44,5 +45,6 @@ public class DecisionActorTest extends BasicActor {
         verifyActorService(XacmlActor.NAME, "service.yaml");
 
         assertTrue(prov.getOperator(GuardOperation.NAME) instanceof DecisionOperator);
+        assertTrue(prov.getOperator(ConfigureOperation.NAME) instanceof DecisionOperator);
     }
 }

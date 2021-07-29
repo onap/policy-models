@@ -35,5 +35,6 @@ public class XacmlActor extends HttpActor<XacmlActorParams> {
         super(NAME, XacmlActorParams.class);
 
         addOperator(new DecisionOperator(NAME, GuardOperation.NAME, GuardOperation::new));
+        addOperator(new DecisionOperator(NAME, ConfigureOperation.NAME, ConfigureOperation::new));
     }
 }
