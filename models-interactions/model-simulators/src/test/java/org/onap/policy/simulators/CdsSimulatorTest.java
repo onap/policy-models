@@ -38,8 +38,8 @@ import org.json.simple.parser.ParseException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc;
-import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceStub;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput.Builder;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
@@ -81,7 +81,7 @@ public class CdsSimulatorTest {
             final CompletableFuture<ExecutionServiceOutput> future = new CompletableFuture<>();
             final CountDownLatch completed = new CountDownLatch(1);
 
-            BlueprintProcessingServiceStub asyncStub = BlueprintProcessingServiceGrpc.newStub(channel);
+            BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
 
             StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
                 @Override

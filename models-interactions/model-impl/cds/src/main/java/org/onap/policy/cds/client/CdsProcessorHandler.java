@@ -22,9 +22,15 @@ package org.onap.policy.cds.client;
 import io.grpc.ManagedChannel;
 import io.grpc.stub.StreamObserver;
 import java.util.concurrent.CountDownLatch;
+<<<<<<< HEAD   (82579d Upgrade CDS dependency)
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BlueprintProcessingServiceGrpc.BlueprintProcessingServiceStub;
+=======
+import lombok.AllArgsConstructor;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
+import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
+>>>>>>> CHANGE (35dff8 Upgrade to cds 1.1.5-SNAPSHOT)
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
@@ -52,7 +58,7 @@ public class CdsProcessorHandler {
             header.getBlueprintName(), header.getBlueprintVersion());
 
         final var finishLatch = new CountDownLatch(1);
-        final BlueprintProcessingServiceStub asyncStub = BlueprintProcessingServiceGrpc.newStub(channel);
+        final BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
         final StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<>() {
             @Override
             public void onNext(ExecutionServiceOutput output) {
