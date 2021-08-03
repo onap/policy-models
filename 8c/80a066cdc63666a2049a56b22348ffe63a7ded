@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Jim Hahn <jrh3@att.com>
+Code-Review+1: Jorge Hernandez <jorge.hernandez-herrero@att.com>
+Code-Review+2: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Submitted-by: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Submitted-at: Tue, 03 Aug 2021 13:53:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/122906
+Project: policy/models
+Branch: refs/heads/honolulu
