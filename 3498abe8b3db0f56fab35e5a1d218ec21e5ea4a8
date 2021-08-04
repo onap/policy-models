@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03312beb_58642e76",
+        "filename": "releases/2.4.4.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-08-04T16:47:51Z",
+      "side": 1,
+      "message": "since models includes a docker image (i.e., simulators), should probably add this line:\n\n  tag_release: false",
+      "revId": "3498abe8b3db0f56fab35e5a1d218ec21e5ea4a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
