@@ -34,6 +34,24 @@
       "revId": "3498abe8b3db0f56fab35e5a1d218ec21e5ea4a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58839dad_2057d717",
+        "filename": "releases/2.4.4.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-08-04T17:01:23Z",
+      "side": 1,
+      "message": "oh, right.  we only use the snapshot image in our CSITs",
+      "parentUuid": "944528d5_34572e69",
+      "revId": "3498abe8b3db0f56fab35e5a1d218ec21e5ea4a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
