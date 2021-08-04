@@ -16,6 +16,24 @@
       "revId": "3498abe8b3db0f56fab35e5a1d218ec21e5ea4a8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944528d5_34572e69",
+        "filename": "releases/2.4.4.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-08-04T16:58:35Z",
+      "side": 1,
+      "message": "Agree, but we don\u0027t release simulator docker images from models for official releases. So, we may want to tag the branch just with maven release?",
+      "parentUuid": "03312beb_58642e76",
+      "revId": "3498abe8b3db0f56fab35e5a1d218ec21e5ea4a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
