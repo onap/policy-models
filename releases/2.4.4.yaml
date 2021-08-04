@@ -1,0 +1,4 @@
+distribution_type: 'maven'
+version: '2.4.4'
+project: 'policy-models'
+log_dir: 'policy-models-maven-stage-honolulu/149/'
