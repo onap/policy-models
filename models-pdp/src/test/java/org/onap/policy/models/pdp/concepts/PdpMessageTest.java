@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Models
  * ================================================================================
- * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,7 @@ package org.onap.policy.models.pdp.concepts;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -39,7 +40,7 @@ public class PdpMessageTest {
     private PdpMessage message;
 
     @Test
-    public void testCopyConstructor() {
+    public void testCopyConstructorAndEquals() {
         assertThatThrownBy(() -> new PdpMessage((PdpMessage) null)).isInstanceOf(NullPointerException.class);
 
         // verify with null values
@@ -48,6 +49,7 @@ public class PdpMessageTest {
         newmsg.setRequestId(message.getRequestId());
         newmsg.setTimestampMs(message.getTimestampMs());
         assertEquals(message.toString(), newmsg.toString());
+        assertEquals(message, newmsg);
 
         // verify with all values
         message = makeMessage(PDP_NAME, PDP_GROUP, PDP_SUBGROUP);
@@ -55,6 +57,10 @@ public class PdpMessageTest {
         newmsg.setRequestId(message.getRequestId());
         newmsg.setTimestampMs(message.getTimestampMs());
         assertEquals(message.toString(), newmsg.toString());
+        assertEquals(message, newmsg);
+
+        newmsg.setTimestampMs(1);
+        assertNotEquals(message, newmsg);
     }
 
     @Test

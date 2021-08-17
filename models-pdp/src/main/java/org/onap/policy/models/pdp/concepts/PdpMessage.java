@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.UUID;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
@@ -38,6 +39,7 @@ import org.onap.policy.models.pdp.enums.PdpMessageType;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class PdpMessage {
 
     @Setter(AccessLevel.NONE)
@@ -58,13 +60,13 @@ public class PdpMessage {
 
     /**
      * Group associated with the PDP. For state-change messages, this may be {@code null},
-     * if the {@link #name} is provided.
+     * if the {@link #name} is provided.  Also {@code null} for topic-check messages.
      */
     private String pdpGroup;
 
     /**
      * Group associated with the PDP. For state-change messages, this may be {@code null},
-     * if the {@link #name} is provided.
+     * if the {@link #name} is provided.  Also {@code null} for topic-check messages.
      */
     private String pdpSubgroup;
 
