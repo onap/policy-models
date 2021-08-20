@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -36,6 +37,7 @@ import org.onap.policy.models.pdp.enums.PdpState;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class PdpStateChange extends PdpMessage {
 
     /**

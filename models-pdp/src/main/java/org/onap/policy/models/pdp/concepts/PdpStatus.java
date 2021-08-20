@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -40,6 +41,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class PdpStatus extends PdpMessage {
 
     private String pdpType;

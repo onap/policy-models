@@ -25,6 +25,7 @@ package org.onap.policy.models.pdp.concepts;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -42,6 +43,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class PdpUpdate extends PdpMessage {
 
     /**

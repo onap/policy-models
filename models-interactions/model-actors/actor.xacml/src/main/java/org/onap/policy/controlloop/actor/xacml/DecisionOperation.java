@@ -53,7 +53,7 @@ public abstract class DecisionOperation extends HttpOperation<DecisionResponse> 
      * @param config configuration for this operation
      * @param propertyNames names of properties required by this operation
      */
-    public DecisionOperation(ControlLoopOperationParams params, HttpConfig config,
+    protected DecisionOperation(ControlLoopOperationParams params, HttpConfig config,
                     List<String> propertyNames) {
         super(params, config, DecisionResponse.class, propertyNames);
         this.config = (DecisionConfig) config;

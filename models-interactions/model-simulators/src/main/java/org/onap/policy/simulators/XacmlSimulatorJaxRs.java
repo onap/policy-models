@@ -71,7 +71,7 @@ public class XacmlSimulatorJaxRs {
             return func.apply(req);
         }
 
-        DecisionResponse response = new DecisionResponse();
+        var response = new DecisionResponse();
         response.setMessage("unsupported action: " + req.getAction());
         return response;
     }

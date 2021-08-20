@@ -20,6 +20,7 @@
 
 package org.onap.policy.models.pdp.concepts;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,6 +32,7 @@ import org.onap.policy.models.pdp.enums.PdpMessageType;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 public class PdpTopicCheck extends PdpMessage {
 
     /**
