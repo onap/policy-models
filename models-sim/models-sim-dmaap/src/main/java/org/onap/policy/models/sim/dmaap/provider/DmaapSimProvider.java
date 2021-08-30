@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@
 
 package org.onap.policy.models.sim.dmaap.provider;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -139,6 +141,20 @@ public class DmaapSimProvider extends ServiceManagerContainer {
             Thread.currentThread().interrupt();
             return Response.status(Status.GONE).entity(Collections.emptyList()).build();
         }
+    }
+
+    /**
+     * Returns the list of default topics.
+     *
+     * @return the topic list
+     */
+    public Response processDmaapTopicsGet() {
+
+        LOGGER.debug("Request for listing DMaaP topics");
+        var response = new DmaapGetTopicResponse();
+        response.setTopics(Arrays.asList("POLICY-PDP-PAP", "POLICY-NOTIFICATION", "unauthenticated.DCAE_CL_OUTPUT",
+                        "POLICY-CL-MGT"));
+        return Response.status(Status.OK).entity(response).build();
     }
 
     /**
