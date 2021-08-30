@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +19,7 @@
 
 package org.onap.policy.models.sim.dmaap.rest;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
@@ -82,6 +84,11 @@ public class DmaapSimRestControllerV1Test {
         resp = rest.getDmaapMessage(TOPIC, CONSUMER, CONSUMER_ID, LIMIT, 0);
         assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
         assertEquals("[my-message, my-message-B]", resp.getEntity().toString());
+
+        // verify getDmaapTopics
+        resp = rest.getDmaapTopics();
+        assertEquals(Response.Status.OK.getStatusCode(), resp.getStatus());
+        assertThat(resp.getEntity().toString()).contains("POLICY-PDP-PAP");
     }
 
     private int getCount(Response resp) {
