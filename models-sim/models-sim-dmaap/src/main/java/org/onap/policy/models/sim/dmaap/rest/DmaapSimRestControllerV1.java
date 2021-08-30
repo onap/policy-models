@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019,2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +36,6 @@ import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
 /**
  * Class to provide REST endpoints for DMaaP simulator component statistics.
  */
-@Path("/events")
 @Produces(DmaapSimRestControllerV1.MEDIA_TYPE_APPLICATION_JSON)
 public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
     public static final String MEDIA_TYPE_APPLICATION_JSON = "application/json";
@@ -50,7 +50,7 @@ public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
      * @return the message
      */
     @GET
-    @Path("{topicName}/{consumerGroup}/{consumerId}")
+    @Path("/events/{topicName}/{consumerGroup}/{consumerId}")
     public Response getDmaapMessage(@PathParam("topicName") final String topicName,
                     @PathParam("consumerGroup") final String consumerGroup,
                     @PathParam("consumerId") final String consumerId,
@@ -68,11 +68,23 @@ public class DmaapSimRestControllerV1 extends BaseRestControllerV1 {
      * @return the response to the post
      */
     @POST
-    @Path("{topicName}")
+    @Path("/events/{topicName}")
     @Consumes(value = {CambriaMessageBodyHandler.MEDIA_TYPE_APPLICATION_CAMBRIA,
         TextMessageBodyHandler.MEDIA_TYPE_TEXT_PLAIN, MEDIA_TYPE_APPLICATION_JSON})
     public Response postDmaapMessage(@PathParam("topicName") final String topicName, final Object dmaapMessage) {
 
         return DmaapSimProvider.getInstance().processDmaapMessagePut(topicName, dmaapMessage);
+    }
+
+    /**
+     * Get the list of topics configured.
+     *
+     * @return the message
+     */
+    @GET
+    @Path("/topics")
+    public Response getDmaapTopics() {
+
+        return DmaapSimProvider.getInstance().processDmaapTopicsGet();
     }
 }
