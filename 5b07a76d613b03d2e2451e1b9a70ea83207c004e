@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f34e5d6c_63bd4f1b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-08-31T16:26:06Z",
+      "side": 1,
+      "message": "sonar: nesting is too deep.  Perhaps change line 107 to simply return an empty map if it\u0027s null, then the rest of the lines don\u0027t have to be indented as much\n\nalso: is this condition even possible?",
+      "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79b5e097_35f7c964",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-08-31T16:26:06Z",
+      "side": 1,
+      "message": "is this condition possible?  where does the original key come from in mapOfEntities?",
+      "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
