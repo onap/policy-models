@@ -22,6 +22,30 @@
       "revId": "6861a5a0d39a0c2c4f2699c73b3028578d1f901e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e4d126e_0afbc1c7",
+        "filename": "models-sim/models-sim-dmaap/src/main/java/org/onap/policy/models/sim/dmaap/provider/DmaapSimProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-08-31T13:07:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61bc97db_36dd9c36",
+      "range": {
+        "startLine": 155,
+        "startChar": 27,
+        "endLine": 155,
+        "endChar": 40
+      },
+      "revId": "6861a5a0d39a0c2c4f2699c73b3028578d1f901e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
