@@ -104,13 +104,16 @@ public class ToscaEntity implements PfNameVersion {
         // Declare the return map
         Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
 
+        if (listOfMapsOfEntities == null) {
+            return entityMap;
+        }
+
         for (Map<String, T> mapOfEntities : listOfMapsOfEntities) {
             for (T entityEntry : mapOfEntities.values()) {
                 if (entityMap.containsKey(entityEntry.getKey())) {
                     throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                            "list of map of entities contains more than one entity with key " + entityEntry.getKey());
+                        "list of map of entities contains more than one entity with key " + entityEntry.getKey());
                 }
-
                 entityMap.put(entityEntry.getKey(), entityEntry);
             }
         }
@@ -129,10 +132,14 @@ public class ToscaEntity implements PfNameVersion {
         // Declare the return map
         Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
 
+        if (mapOfEntities == null) {
+            return entityMap;
+        }
+
         for (T entityEntry : mapOfEntities.values()) {
             if (entityMap.containsKey(entityEntry.getKey())) {
                 throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                        "list of map of entities contains more than one entity with key " + entityEntry.getKey());
+                    "list of map of entities contains more than one entity with key " + entityEntry.getKey());
             }
 
             entityMap.put(entityEntry.getKey(), entityEntry);
