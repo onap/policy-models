@@ -104,14 +104,15 @@ public class ToscaEntity implements PfNameVersion {
         // Declare the return map
         Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
 
-        for (Map<String, T> mapOfEntities : listOfMapsOfEntities) {
-            for (T entityEntry : mapOfEntities.values()) {
-                if (entityMap.containsKey(entityEntry.getKey())) {
-                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+        if (listOfMapsOfEntities != null) {
+            for (Map<String, T> mapOfEntities : listOfMapsOfEntities) {
+                for (T entityEntry : mapOfEntities.values()) {
+                    if (entityMap.containsKey(entityEntry.getKey())) {
+                        throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
                             "list of map of entities contains more than one entity with key " + entityEntry.getKey());
+                    }
+                    entityMap.put(entityEntry.getKey(), entityEntry);
                 }
-
-                entityMap.put(entityEntry.getKey(), entityEntry);
             }
         }
 
@@ -129,13 +130,15 @@ public class ToscaEntity implements PfNameVersion {
         // Declare the return map
         Map<ToscaEntityKey, T> entityMap = new LinkedHashMap<>();
 
-        for (T entityEntry : mapOfEntities.values()) {
-            if (entityMap.containsKey(entityEntry.getKey())) {
-                throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
+        if (mapOfEntities != null) {
+            for (T entityEntry : mapOfEntities.values()) {
+                if (entityMap.containsKey(entityEntry.getKey())) {
+                    throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
                         "list of map of entities contains more than one entity with key " + entityEntry.getKey());
-            }
+                }
 
-            entityMap.put(entityEntry.getKey(), entityEntry);
+                entityMap.put(entityEntry.getKey(), entityEntry);
+            }
         }
 
         return entityMap;
