@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "42ec493b_0950b95f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2021-09-01T14:07:07Z",
+      "side": 1,
+      "message": "precaution is good. 😊  Of course, if it fails, then someone will have to manually fix the DB.",
+      "parentUuid": "513e2e33_b9b747f6",
+      "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79b5e097_35f7c964",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
         "patchSetId": 1
