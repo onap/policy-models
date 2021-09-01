@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "513e2e33_b9b747f6",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2021-09-01T13:58:16Z",
+      "side": 1,
+      "message": "Hi Jim. I have fixed the nesting as you suggested. As to whether this condition is possible, it gets triggered if there are duplicate policies or (in the case of the function below) policy types being read from the database. I didn\u0027t write it but I feel it is just an extra precaution to ensure that policies and policy types are not duplicated when reading the template from the db. Shall a remove it?",
+      "parentUuid": "f34e5d6c_63bd4f1b",
+      "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "79b5e097_35f7c964",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2021-08-31T16:26:06Z",
       "side": 1,
       "message": "is this condition possible?  where does the original key come from in mapOfEntities?",
+      "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5493434e_cd629f5d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2021-09-01T13:58:16Z",
+      "side": 1,
+      "message": "For the condition, same comment as above. The key refers to the key of the policy or policy type that is present in the database - originating from whatever Tosca Service Template was used to create the entry in the database. Again, I did not write it but let me know if you want me to remove. Thanks",
+      "parentUuid": "79b5e097_35f7c964",
       "revId": "5b07a76d613b03d2e2451e1b9a70ea83207c004e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
