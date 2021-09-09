@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.4.0-SNAPSHOT</version>
+        <version>3.4.2</version>
         <relativePath />
     </parent>
 
