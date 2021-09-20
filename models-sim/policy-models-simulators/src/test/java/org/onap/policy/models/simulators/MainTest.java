@@ -43,7 +43,6 @@ import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
@@ -66,7 +65,6 @@ public class MainTest {
     /**
      * Saves system properties.
      */
-    @Ignore
     @BeforeClass
     public static void setUpBeforeClass() throws IOException, InterruptedException {
         savedValues = new HashMap<>();
@@ -92,7 +90,6 @@ public class MainTest {
     /**
      * Restores system properties.
      */
-    @Ignore
     @AfterClass
     public static void tearDownAfterClass() {
         for (Entry<String, String> ent : savedValues.entrySet()) {
@@ -107,7 +104,6 @@ public class MainTest {
     /**
      * Shuts down the simulator instance.
      */
-    @Ignore
     @After
     public void tearDown() {
         Main main = Main.getInstance();
@@ -116,7 +112,6 @@ public class MainTest {
         }
     }
 
-    @Ignore
     @Test
     public void testConstructor() throws Exception {
         assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidDmaapProvider.json"))
@@ -127,7 +122,6 @@ public class MainTest {
      * Verifies that all of the simulators are brought up and that HTTPS works with at
      * least one of them.
      */
-    @Ignore
     @Test
     public void testMain() throws Exception {
         Main.main(new String[0]);
@@ -144,7 +138,6 @@ public class MainTest {
         checkAai();
     }
 
-    @Ignore
     @Test
     public void testMainMinimalParameters() {
         Main.main(new String[] {"minParameters.json"});
@@ -167,7 +160,6 @@ public class MainTest {
     /**
      * Tests readParameters() when the file cannot be found.
      */
-    @Ignore
     @Test
     public void testReadParametersNoFile() {
         assertThatIllegalArgumentException().isThrownBy(() -> new Main("missing-file.json"))
@@ -177,7 +169,6 @@ public class MainTest {
     /**
      * Tests readParameters() when the json cannot be decoded.
      */
-    @Ignore
     @Test
     public void testReadParametersInvalidJson() throws CoderException {
         Coder coder = mock(Coder.class);
@@ -194,7 +185,6 @@ public class MainTest {
     /**
      * Tests buildRestServer() when the server port is not open.
      */
-    @Ignore
     @Test
     public void testBuildRestServerNotOpen() {
         HttpServletServer server = mock(HttpServletServer.class);
@@ -217,7 +207,6 @@ public class MainTest {
     /**
      * Tests buildRestServer() when the port checker is interrupted.
      */
-    @Ignore
     @Test
     public void testBuildRestServerInterrupted() throws InterruptedException {
         HttpServletServer server = mock(HttpServletServer.class);
@@ -256,7 +245,6 @@ public class MainTest {
     /**
      * Tests buildTopicServer() when the provider class is invalid.
      */
-    @Ignore
     @Test
     public void testBuildTopicServerInvalidProvider() {
         assertThatThrownBy(() -> new Main("invalidTopicServer.json").start())
@@ -266,7 +254,6 @@ public class MainTest {
     /**
      * Tests buildTopicServer() when the sink is missing.
      */
-    @Ignore
     @Test
     public void testBuildTopicServerNoSink() {
         assertThatThrownBy(() -> new Main("missingSink.json").start())
@@ -276,7 +263,6 @@ public class MainTest {
     /**
      * Tests buildTopicServer() when the sink is missing.
      */
-    @Ignore
     @Test
     public void testBuildTopicServerNoSource() {
         assertThatThrownBy(() -> new Main("missingSource.json").start())
