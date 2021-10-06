@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,4 +56,8 @@ public class ToscaConstraint {
     @ApiModelProperty(name = "less_or_equal")
     @SerializedName("less_or_equal")
     private String lessOrEqual;
+
+    @ApiModelProperty(name = "in_range")
+    @SerializedName("in_range")
+    private List<String> rangeValues;
 }

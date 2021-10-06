@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -53,6 +53,9 @@ public class JpaToscaConstraintTest {
         assertThatThrownBy(() -> new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, null))
                 .hasMessageMatching("compareTo is marked .*on.*ull but is null");
 
+        assertThatThrownBy(() -> new JpaToscaConstraintInRange((List<String>) null))
+                .hasMessageMatching("rangeValues is marked .*on.*ull but is null");
+
         assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 
         assertEquals(0, new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, "")
@@ -73,5 +76,26 @@ public class JpaToscaConstraintTest {
 
         cvv1.fromAuthorative(new ToscaConstraint());
         assertNotNull(cvv1.getValidValues());
+
+        List<String> rangeValues = new ArrayList<>();
+        rangeValues.add("hello");
+        rangeValues.add("goodbye");
+        JpaToscaConstraintInRange cir0 = new JpaToscaConstraintInRange(rangeValues);
+        assertEquals(-1, cir0.compareTo(null));
+        assertEquals(0, cir0.compareTo(cir0));
+        assertNotEquals(0, cir0.compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT)));
+        JpaToscaConstraintInRange cir1 = new JpaToscaConstraintInRange(rangeValues);
+        assertEquals(0, cir0.compareTo(cir1));
+
+        ToscaConstraint tc0 = new ToscaConstraint();
+        tc0.setRangeValues(rangeValues);
+        JpaToscaConstraintInRange cir2 = new JpaToscaConstraintInRange(tc0);
+        assertEquals(0, cir0.compareTo(cir2));
+
+        cir1.fromAuthorative(new ToscaConstraint());
+        assertNotNull(cir1.getRangeValues());
+
+        ToscaConstraint tc1 = cir2.toAuthorative();
+        assertEquals(tc0, tc1);
     }
 }
