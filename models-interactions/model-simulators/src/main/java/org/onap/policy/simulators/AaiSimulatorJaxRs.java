@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018, 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +23,6 @@
 package org.onap.policy.simulators;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
@@ -31,12 +31,17 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import org.apache.commons.io.IOUtils;
+import javax.ws.rs.core.Response;
+import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.common.utils.services.Registry;
 
 @Path("/aai")
 public class AaiSimulatorJaxRs {
 
-    private static final String GETFAIL = "getFail";
+    private static final String DOT_JSON = ".json";
+    private static final String DEFAULT_RESOURCE_LOCATION = "org/onap/policy/simulators/aai/";
+    private static final String INVALID_VNF_FILE_NAME = "invalid-vnf";
+    private static final String INVALID_PNF_FILE_NAME = "invalid-pnf";
 
     /**
      * A&AI get query.
@@ -72,13 +77,12 @@ public class AaiSimulatorJaxRs {
     @Path("/{version:v16|v21}/query")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String aaiPutQuery(final String req) throws IOException {
-        return IOUtils.toString(getClass().getResource("aai/AaiCqResponse.json"),
-            StandardCharsets.UTF_8);
+    public Response aaiPutQuery(final String req) throws IOException {
+        return getResponse("AaiCqResponse", "invalid-cq");
     }
 
     /**
-     * A&AI get PNF query.
+     * A&AI get PNF query using pnfName.
      *
      * @return the result
      * @throws IOException if a response file cannot be read
@@ -87,12 +91,70 @@ public class AaiSimulatorJaxRs {
     @Path("/{version:v16|v21}/network/pnfs/pnf/{pnfName}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String aaiGetPnfQuery(@PathParam("pnfName") final String pnfName) throws IOException {
-        if (GETFAIL.equals(pnfName)) {
-            throw new IllegalArgumentException("query failed, as requested");
-        }
+    public Response aaiGetPnfUsingPnfName(@PathParam("pnfName") final String pnfName) throws IOException {
+        return getResponse(pnfName, INVALID_PNF_FILE_NAME);
+    }
 
-        return IOUtils.toString(getClass().getResource("aai/AaiGetPnfResponse.json"),
-                        StandardCharsets.UTF_8);
+    /**
+     * A&AI get PNF query using pnf-id.
+     *
+     * @return the result
+     * @throws IOException if a response file cannot be read
+     */
+    @GET
+    @Path("/{version:v16|v21}/network/pnfs/pnf")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Response aaiGetPnfUsingPnfId(@QueryParam("pnf-id") final String pnfId) throws IOException {
+        return getResponse(pnfId, INVALID_PNF_FILE_NAME);
+    }
+
+    /**
+     * A&AI get VNF query using vnf-id.
+     *
+     * @return the result
+     * @throws IOException if a response file cannot be read
+     */
+    @GET
+    @Path("/{version:v16|v21}/network/generic-vnfs/generic-vnf/{vnfId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Response aaiGetVnfUsingVnfId(@PathParam("vnfId") final String vnfId) throws IOException {
+        return getResponse(vnfId, INVALID_VNF_FILE_NAME);
+    }
+
+    /**
+     * A&AI get VNF query using vnf-name.
+     *
+     * @return the result
+     * @throws IOException if a response file cannot be read
+     */
+    @GET
+    @Path("/{version:v16|v21}/network/generic-vnfs/generic-vnf")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public Response aaiGetVnfUsingVnfName(@QueryParam("vnf-name") final String vnfName) throws IOException {
+        return getResponse(vnfName, INVALID_VNF_FILE_NAME);
+    }
+
+    private Response getResponse(final String expectedFileName, final String defaultFileName) {
+        String resourceLocation = getResourceLocation();
+        var responseString = ResourceUtils.getResourceAsString(resourceLocation + expectedFileName + DOT_JSON);
+        if (null == responseString) {
+            // if a response file is not found in expected location, look for it in default location
+            responseString = ResourceUtils.getResourceAsString(DEFAULT_RESOURCE_LOCATION + expectedFileName + DOT_JSON);
+        }
+        if (null != responseString) {
+            return Response.ok(responseString).build();
+        } else {
+            // if a response file is not available in expected or default location, return an appropriate 404 response
+            responseString = ResourceUtils.getResourceAsString(DEFAULT_RESOURCE_LOCATION + defaultFileName + DOT_JSON);
+            return Response.status(Response.Status.NOT_FOUND).entity(responseString).build();
+        }
+    }
+
+    private String getResourceLocation() {
+        return Registry.getOrDefault(this.getClass().getName() + "_RESOURCE_LOCATION", String.class,
+            DEFAULT_RESOURCE_LOCATION);
     }
 }
