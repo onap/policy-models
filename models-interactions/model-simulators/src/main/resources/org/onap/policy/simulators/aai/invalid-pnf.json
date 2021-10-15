@@ -1,0 +1,14 @@
+{
+  "requestError": {
+    "serviceException": {
+      "messageId": "SVC3001",
+      "text": "Resource not found for %1 using id %2 (msg=%3) (ec=%4)",
+      "variables": [
+        "GET",
+        "network/pnfs/pnf",
+        "Node Not Found:No Node of type pnf found at: network/pnfs/pnf",
+        "ERR.5.4.6114"
+      ]
+    }
+  }
+}
