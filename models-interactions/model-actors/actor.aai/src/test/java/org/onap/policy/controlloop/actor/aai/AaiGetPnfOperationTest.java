@@ -97,7 +97,7 @@ public class AaiGetPnfOperationTest extends BasicAaiOperation {
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
         oper = new AaiGetPnfOperation(params, config);
-        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "OzVServer");
+        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, "demo-pnf");
 
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
