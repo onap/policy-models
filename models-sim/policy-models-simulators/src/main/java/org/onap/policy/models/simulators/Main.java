@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.AccessLevel;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
@@ -45,6 +46,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.common.utils.services.ServiceManagerContainer;
 import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
@@ -59,6 +61,8 @@ import org.slf4j.LoggerFactory;
  * This class runs all simulators specified in the parameter file.
  */
 public class Main extends ServiceManagerContainer {
+    private static final String RESOURCE_LOCATION = "RESOURCE_LOCATION";
+
     private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     private static final String CANNOT_CONNECT = "cannot connect to port ";
@@ -104,6 +108,12 @@ public class Main extends ServiceManagerContainer {
         // @formatter:off
         for (ClassRestServerParameters restsim : params.getRestServers()) {
             AtomicReference<HttpServletServer> ref = new AtomicReference<>();
+            if (StringUtils.isNotBlank(restsim.getResourceLocation())) {
+                String providerClassName = restsim.getProviderClass();
+                addAction(providerClassName + RESOURCE_LOCATION,
+                    () -> Registry.register(providerClassName + RESOURCE_LOCATION, restsim.getResourceLocation()),
+                    () -> Registry.unregister(providerClassName + RESOURCE_LOCATION));
+            }
             addAction(restsim.getName(),
                 () -> ref.set(buildRestServer(dmaapName, restsim)),
                 () -> ref.get().shutdown());
