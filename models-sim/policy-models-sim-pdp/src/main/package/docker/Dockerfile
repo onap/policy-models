@@ -54,4 +54,4 @@ RUN find /opt/app -type d -perm 755 \
 
 USER policy
 ENV PATH ${POLICY_HOME}/pdp-sim/bin:$PATH
-ENTRYPOINT [ "bash", "pdp-sim.sh" ]
+ENTRYPOINT [ "sh", "/opt/app/policy/pdp-sim/bin/pdp-sim.sh" ]
