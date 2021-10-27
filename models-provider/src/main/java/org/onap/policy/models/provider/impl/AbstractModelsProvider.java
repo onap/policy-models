@@ -22,16 +22,11 @@
 package org.onap.policy.models.provider.impl;
 
 import java.io.Closeable;
-import java.util.Properties;
 import javax.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.NonNull;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.dao.PfDaoFactory;
-import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,33 +68,7 @@ public abstract class AbstractModelsProvider implements Closeable {
             throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
 
-        // Parameters for the DAO
-        final var daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getName());
-        daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
-
-        // @formatter:off
-        var jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, parameters.getDatabasePassword());
-        jdbcProperties.setProperty(PersistenceUnitProperties.TARGET_DATABASE,
-                        (parameters.getDatabaseType() == null ? "MySQL" : parameters.getDatabaseType()));
-        // @formatter:on
-
-        daoParameters.setJdbcProperties(jdbcProperties);
-
-        try {
-            pfDao = new PfDaoFactory().createPfDao(daoParameters);
-            pfDao.init(daoParameters);
-        } catch (Exception exc) {
-            String errorMessage = "could not create Data Access Object (DAO) using url \"" + parameters.getDatabaseUrl()
-                    + "\" and persistence unit \"" + parameters.getPersistenceUnit() + "\"";
-
-            this.close();
-            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage, exc);
-        }
+        pfDao = ModelsProvider.init(parameters);
     }
 
     @Override
