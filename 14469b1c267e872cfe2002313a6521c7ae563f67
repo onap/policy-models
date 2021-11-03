@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9226546d_dfdc8bb9",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/PolicyModelsProviderFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-11-03T11:18:16Z",
+      "side": 1,
+      "message": "Is it necessary to log and rethrow the exception. This might be flagged by sonar. Same comment above.",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 38
+      },
+      "revId": "14469b1c267e872cfe2002313a6521c7ae563f67",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
