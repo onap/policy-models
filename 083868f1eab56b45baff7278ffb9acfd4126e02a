@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33cc2b57_61f0368a",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/ProxyDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2021-11-08T14:58:02Z",
+      "side": 1,
+      "message": "Dao\n\nFeel free to change in another review if you wish.",
+      "range": {
+        "startLine": 50,
+        "startChar": 61,
+        "endLine": 50,
+        "endChar": 69
+      },
+      "revId": "083868f1eab56b45baff7278ffb9acfd4126e02a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
