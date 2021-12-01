@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,6 +35,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -81,7 +81,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     private String description;
 
     // @formatter:off
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @Lob
     private Map<@NotNull String, @NotNull @Valid JpaToscaParameter> inputs;
 

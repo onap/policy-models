@@ -33,6 +33,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -76,7 +77,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     @NotNull
     private PfConceptKey type;
 
-    @Column
+    @Column(length = 500)
     @NotBlank
     private String description;
 
@@ -91,9 +92,10 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     private Status status = Status.SUPPORTED;
 
     @ElementCollection
+    @Lob
     private List<@NotNull @Valid JpaToscaConstraint> constraints;
 
-    @Column
+    @Lob
     @Valid
     private JpaToscaSchemaDefinition entrySchema;
 

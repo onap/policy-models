@@ -27,9 +27,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.persistence.ElementCollection;
+import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -58,7 +60,7 @@ public abstract class JpaToscaWithToscaProperties<T extends ToscaWithToscaProper
                 implements PfAuthorative<T> {
     private static final long serialVersionUID = -563659852901842616L;
 
-    @ElementCollection
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @Lob
     private Map<@NotNull @NotBlank String, @NotNull @Valid JpaToscaProperty> properties;
 

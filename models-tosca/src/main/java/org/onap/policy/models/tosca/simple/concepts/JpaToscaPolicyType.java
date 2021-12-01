@@ -24,6 +24,8 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -59,6 +61,8 @@ public class JpaToscaPolicyType extends JpaToscaWithToscaProperties<ToscaPolicyT
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
+    @AttributeOverride(name = "name", column = @Column(name = "target_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "target_version"))
     private List<@NotNull @Valid PfConceptKey> targets;
 
     @ElementCollection

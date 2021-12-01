@@ -25,6 +25,8 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.persistence.AttributeOverride;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -67,6 +69,8 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     @ElementCollection
+    @AttributeOverride(name = "name", column = @Column(name = "target_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "target_version"))
     private List<@NotNull @Valid PfConceptKey> targets;
 
     /**
