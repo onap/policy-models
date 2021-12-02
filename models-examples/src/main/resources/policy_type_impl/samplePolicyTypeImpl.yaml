@@ -1,0 +1,62 @@
+---
+policyTypeImplList:
+  - policyTypeImplRef:
+      name: droolsPolicyTypeImpl_PowerRules
+      version: 0.0.1
+    policyTypeRef:
+      name: onap.policies.controlloop.operational.common.drools.Power
+      version: 1.0.0
+    pdpType: drools-pdp
+    policyModel:
+      # This field contains metadata for the policy type referenced in the "policyTypeRef" field
+      # This field can contain rule sets, state transition diagrams, or any other information a PDP
+      # needs to execute policies of that type
+      #
+      metadata_field_1_string: "metadata string value"
+      metadata_field_2_boolean: true
+      metadata_field_3_integer: 65536
+      metadata_field_4_list:
+        - name: "hello"
+          value: "there"
+  - policyTypeImplRef:
+      name: xacmlPolicyTypeImpl_PowerAccess
+      version: 0.0.1
+    policyTypeRef:
+      name: onap.policies.optimization.Power
+      version: 1.0.0
+    pdpType: xacml-pdp
+    policyModel:
+      # This field contains metadata for the policy type referenced in the "policyTypeRef" field
+      # This field can contain rule sets, state transition diagrams, or any other information a PDP
+      # needs to execute policies of that type
+      #
+      metadata_field_1_string: "metadata string value"
+      # Other fields go here
+  - policyTypeImplRef:
+      name: apexPolicyTypeImpl_LowPowerStateMachine
+      version: 0.0.1
+    policyTypeRef:
+      name: onap.policies.controlloop.operational.common.apex.Power
+      version: 1.0.0
+    pdpType: apex-pdp
+    policyModel:
+      # This field contains metadata for the policy type referenced in the "policyTypeRef" field
+      # This field can contain rule sets, state transition diagrams, or any other information a PDP
+      # needs to execute policies of that type
+      #
+      metadata_field_1_string: "metadata string value"
+      # Other fields go here
+  - policyTypeImplRef:
+      name: apexPolicyTypeImpl_HighPowerStateMachine
+      version: 0.0.1
+    policyTypeRef:
+      name: onap.policies.controlloop.operational.common.apex.Power
+      version: 1.0.0
+    pdpType: apex-pdp
+    policyModel:
+      # This field contains metadata for the policy type referenced in the "policyTypeRef" field
+      # This field can contain rule sets, state transition diagrams, or any other information a PDP
+      # needs to execute policies of that type
+      #
+      metadata_field_1_string: "metadata string value"
+      # Other fields go here
