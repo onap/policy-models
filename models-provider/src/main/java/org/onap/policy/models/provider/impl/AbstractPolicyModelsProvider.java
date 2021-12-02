@@ -23,6 +23,7 @@ package org.onap.policy.models.provider.impl;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
@@ -46,9 +47,11 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypeImpl;
 
 public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvider {
 
@@ -192,6 +195,47 @@ public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvid
 
         return new AuthorativeToscaProvider().deletePolicy(getPfDao(), name, version);
     }
+
+    @Override
+    public ToscaPolicyTypeImpl createPolicyTypeImpl(@NonNull final ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().createPolicyTypeImpl(getPfDao(), policyImpl);
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl updatePolicyTypeImpl(@NonNull final ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().updatePolicyTypeImpl(getPfDao(), policyImpl);
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl deletePolicyTypeImpl(@NonNull final String name, @NonNull final String version)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().deletePolicyTypeImpl(getPfDao(), name, version);
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl getPolicyTypeImpl(final String name, final String version) throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getPolicyTypeImpl(getPfDao(), name, version);
+    }
+
+    @Override
+    public List<ToscaPolicyTypeImpl> getAllPolicyTypeImpl() throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getAllPolicyTypeImpl(getPfDao());
+    }
+
+    @Override
+    public List<ToscaPolicyTypeImpl> getFilteredPolicyTypeImpl(Map<String, Object> filterMap) throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getFilteredPolicyTypeImpl(getPfDao(), filterMap);
+    }
+
+
 
     @Override
     public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {

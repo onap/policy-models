@@ -37,9 +37,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypeImpl;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.provider.PolicyTypeImplProvider;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.slf4j.Logger;
@@ -577,6 +580,144 @@ public class AuthorativeToscaProvider {
             return Collections.emptyList();
         } else {
             throw pfme;
+        }
+    }
+
+    /**
+     * Create policy type Impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param policyImpl the policy type impl to be created.
+     * @return the policy type impl that were created
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public ToscaPolicyTypeImpl createPolicyTypeImpl(@NonNull final PfDao dao,
+                                                    @NonNull final ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("createPolicyTypeImpl ={}", policyImpl);
+            ToscaPolicyTypeImpl createdPolicyTypeImpl = new PolicyTypeImplProvider()
+                .createPolicyTypeImpl(dao, new JpaToscaPolicyTypeImpl(policyImpl)).toAuthorative();
+
+            LOGGER.debug("createdPolicyTypeImpl ={}", createdPolicyTypeImpl);
+            return createdPolicyTypeImpl;
+        }
+    }
+
+    /**
+     * Update policy type Impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param policyImpl the policy type impl to be created.
+     * @return the policy type impl that were updated
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public ToscaPolicyTypeImpl updatePolicyTypeImpl(@NonNull final PfDao dao,
+                                                    @NonNull final ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("updatePolicyTypeImpl ={}", policyImpl);
+            ToscaPolicyTypeImpl updatedPolicyTypeImpl = new PolicyTypeImplProvider()
+                .updatePolicyTypeImpl(dao, new JpaToscaPolicyTypeImpl(policyImpl)).toAuthorative();
+
+            LOGGER.debug("updatedPolicyTypeImpl ={}", updatedPolicyTypeImpl);
+            return updatedPolicyTypeImpl;
+        }
+    }
+
+    /**
+     * Delete policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type impl to delete.
+     * @param version the version of the policy type impl to delete.
+     * @return the TOSCA policy type impl that was deleted
+     * @throws PfModelException on errors deleting policy type impl
+     */
+    public ToscaPolicyTypeImpl deletePolicyTypeImpl(@NonNull final PfDao dao, @NonNull final String name,
+                                             @NonNull final String version) throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("deletePolicyTypeImpl: name={}, version={}", name, version);
+
+            ToscaPolicyTypeImpl deletedPolicyImpl =
+                new PolicyTypeImplProvider().deletePolicyTypeImpl(dao, new PfConceptKey(name, version)).toAuthorative();
+
+            LOGGER.debug("deletePolicyTypeImpl: name={}, version={}, deleted policy type impl={}", name, version,
+                deletedPolicyImpl);
+            return deletedPolicyImpl;
+        }
+    }
+
+
+    /**
+     * Get policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type impl to get
+     * @param version the version of the policy type impl to get
+     * @return the policy impl found
+     * @throws PfModelException on errors getting policy type impl
+     */
+    public ToscaPolicyTypeImpl getPolicyTypeImpl(@NonNull final PfDao dao, final String name, final String version)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("getPolicyTypeImplList: name={}, version={}", name, version);
+
+            ToscaPolicyTypeImpl policyImpl;
+
+            policyImpl = new PolicyTypeImplProvider().getPolicyTypeImpl(dao, new PfConceptKey(name, version))
+                .toAuthorative();
+
+            return policyImpl;
+
+        }
+    }
+
+    /**
+     * Get all policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the list of policy type impl found
+     * @throws PfModelException on errors getting policy impl
+     */
+    public List<ToscaPolicyTypeImpl> getAllPolicyTypeImpl(@NonNull final PfDao dao)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("getPolicyTypeImplList");
+
+            List<ToscaPolicyTypeImpl> policyImplList = new ArrayList<>();
+
+            new PolicyTypeImplProvider().getAllPolicyTypeImpl(dao).forEach(policyImpl -> policyImplList
+                .add(policyImpl.toAuthorative()));
+
+            return policyImplList;
+        }
+    }
+
+    /**
+     * Get filtered policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the list of policy type impl found
+     * @throws PfModelException on errors getting policy type impl
+     */
+    public List<ToscaPolicyTypeImpl> getFilteredPolicyTypeImpl(@NonNull final PfDao dao, Map<String, Object> filterMap)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("getPolicyTypeImplList");
+
+            List<ToscaPolicyTypeImpl> policyImplList = new ArrayList<>();
+
+            new PolicyTypeImplProvider().getFilteredPolicyTypeImpl(dao, filterMap).forEach(policyImpl -> policyImplList
+                .add(policyImpl.toAuthorative()));
+
+            return policyImplList;
         }
     }
 }

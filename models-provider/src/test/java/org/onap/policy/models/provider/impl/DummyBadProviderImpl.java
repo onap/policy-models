@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
@@ -45,6 +46,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
@@ -131,6 +133,39 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl createPolicyTypeImpl(@NonNull ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl updatePolicyTypeImpl(@NonNull ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl deletePolicyTypeImpl(@NonNull String name, @NonNull String version)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaPolicyTypeImpl getPolicyTypeImpl(String name, String version) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<ToscaPolicyTypeImpl> getAllPolicyTypeImpl() throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<ToscaPolicyTypeImpl> getFilteredPolicyTypeImpl(Map<String, Object> filterMap) throws PfModelException {
         return null;
     }
 
