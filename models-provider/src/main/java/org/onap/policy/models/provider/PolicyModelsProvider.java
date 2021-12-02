@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -25,6 +25,7 @@ package org.onap.policy.models.provider;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
@@ -40,6 +41,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
@@ -253,6 +255,47 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public ToscaServiceTemplate deletePolicy(@NonNull final String name, @NonNull final String version)
             throws PfModelException;
+
+    /**
+     * Create policy type impl.
+     *
+     * @param policyImpl the definitions of the new policy type implementation to be created.
+     * @return the policy type implementation that were created
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public List<ToscaPolicyTypeImpl> createPolicyTypeImpl(@NonNull final List<ToscaPolicyTypeImpl> policyImpl)
+        throws PfModelException;
+
+    /**
+     * Update policy type impl.
+     *
+     * @param policyImpl policy type implementation to be updated.
+     * @return the policy type implementation that were updated
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public ToscaPolicyTypeImpl updatePolicyTypeImpl(@NonNull final ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException;
+
+    /**
+     * Delete policy type impl.
+     *
+     * @param name the name of the policy type impl to delete.
+     * @param version the version of the policy type impl to delete.
+     * @return the policy type implementation that was deleted
+     * @throws PfModelException on errors deleting a policy type impl
+     */
+    public ToscaPolicyTypeImpl deletePolicyTypeImpl(@NonNull final String name, @NonNull final String version)
+        throws PfModelException;
+
+
+    /**
+     * Get filtered policy type impl entities.
+     *
+     * @return the list of PolicyTypeImpl found
+     * @throws PfModelException on errors getting policy type impl
+     */
+    public List<ToscaPolicyTypeImpl> getFilteredPolicyTypeImpl(Map<String, Object> filterMap) throws PfModelException;
+
 
     /**
      * Get PDP groups.

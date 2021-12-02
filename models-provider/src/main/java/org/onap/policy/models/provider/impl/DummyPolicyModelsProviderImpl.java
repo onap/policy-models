@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -47,6 +48,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImpl;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyTypeImplList;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
@@ -179,6 +182,32 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public List<ToscaPolicyTypeImpl> createPolicyTypeImpl(@NonNull List<ToscaPolicyTypeImpl> policyImpl)
+        throws PfModelException {
+        return List.of(getDummyPolicyTypeImplResponse("dummyimpl/DummyPolicyTypeImplResponse.json"));
+    }
+
+
+    @Override
+    public ToscaPolicyTypeImpl updatePolicyTypeImpl(@NonNull ToscaPolicyTypeImpl policyImpl)
+        throws PfModelException {
+        return getDummyPolicyTypeImplResponse("dummyimpl/DummyPolicyTypeImplResponse.json");
+    }
+
+
+    @Override
+    public ToscaPolicyTypeImpl deletePolicyTypeImpl(@NonNull String name, @NonNull String version)
+        throws PfModelException {
+        return getDummyPolicyTypeImplResponse("dummyimpl/DummyPolicyTypeImplResponse.json");
+    }
+
+
+    @Override
+    public List<ToscaPolicyTypeImpl> getFilteredPolicyTypeImpl(Map<String, Object> filterMap) throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {
         return new ArrayList<>();
     }
@@ -296,5 +325,28 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
         }
 
         return serviceTemplate;
+    }
+
+    /**
+     * Return a policy type impl dummy response.
+     *
+     * @param fileName the file name containing the dummy response
+     * @return the policyTypeImpl with the dummy response
+     */
+    protected ToscaPolicyTypeImpl getDummyPolicyTypeImplResponse(final String fileName) {
+        var standardCoder = new StandardCoder();
+        ToscaPolicyTypeImpl toscaPolicyTypeImpl;
+
+        try {
+            toscaPolicyTypeImpl =
+                standardCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaPolicyTypeImpl.class);
+            if (toscaPolicyTypeImpl == null) {
+                throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
+            }
+        } catch (Exception exc) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "error serializing object", exc);
+        }
+
+        return toscaPolicyTypeImpl;
     }
 }
