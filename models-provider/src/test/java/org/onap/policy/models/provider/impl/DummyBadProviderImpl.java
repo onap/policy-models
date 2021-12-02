@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
@@ -41,6 +42,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
+import org.onap.policy.models.tosca.authorative.concepts.PolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
@@ -131,6 +133,29 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<PolicyTypeImpl> createPolicyTypeImpl(@NonNull List<PolicyTypeImpl> policyImpl)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public PolicyTypeImpl updatePolicyTypeImpl(@NonNull PolicyTypeImpl policyImpl)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public PolicyTypeImpl deletePolicyTypeImpl(@NonNull String name, @NonNull String version)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<PolicyTypeImpl> getFilteredPolicyTypeImpl(Map<String, Object> filterMap) throws PfModelException {
         return null;
     }
 
