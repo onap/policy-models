@@ -49,6 +49,7 @@
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate</class>
         <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger</class>
+        <class>org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypeImpl</class>
 
         <properties>
             <property name="eclipselink.target-database" value="MySQL" />

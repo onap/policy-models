@@ -1,0 +1,60 @@
+{
+  "policyTypeImplRef": {
+    "name":"apexPolicyModel",
+    "version":"0.0.1"
+  },
+  "policyTypeRef": {
+    "name": "onap.policies.controlloop.operational.common.Apex",
+    "version": "1.0.0"
+  },
+  "pdpType" : "apex-pdp",
+  "policyModel": {
+    "key":{
+      "name":"PMControlPolicy",
+      "version":"0.0.1"
+    },
+    "keyInformation":{
+
+    },
+    "policies":{
+
+    },
+    "tasks":{
+
+    },
+    "events":{
+
+    },
+    "albums":{
+      "key":{
+        "name":"PMControlPolicy_Albums",
+        "version":"0.0.1"
+      },
+      "albums":{
+        "entry":[
+          {
+            "key":{
+              "name":"PMSubscriptionAlbum",
+              "version":"0.0.1"
+            },
+            "value":{
+              "key":{
+                "name":"PMSubscriptionAlbum",
+                "version":"0.0.1"
+              },
+              "scope":"policy",
+              "isWritable":true,
+              "itemSchema":{
+                "name":"PMSubscriptionType",
+                "version":"0.0.1"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "schemas":{
+
+    }
+  }
+}
