@@ -1,0 +1,184 @@
+{
+  "tosca_definitions_version": "tosca_simple_yaml_1_1_0",
+  "topology_template": {
+    "policies": [
+      {
+        "operational.apex.vCPE": {
+          "type": "onap.policies.controlloop.operational.common.Apex",
+          "type_version": "1.0.0",
+          "derived_from": "tosca.policies.Root",
+          "name": "operational.apex.vCPE",
+          "version": "1.0.0",
+          "metadata": {
+            "policyTypeImplRef": "apexPolicyTypeImpl_HighPowerStateMachine:0.0.1"
+          },
+          "properties": {
+            "engineServiceParameters": {
+              "name": "MyApexEngine",
+              "version": "0.0.1",
+              "id": 45,
+              "instanceCount": 4,
+              "deploymentPort": 12561,
+              "engineParameters": {
+                "executorParameters": {
+                  "JAVASCRIPT": {
+                    "parameterClassName": "org.onap.policy.apex.plugins.executor.javascript.JavascriptExecutorParameters"
+                  }
+                },
+                "contextParameters": {
+                  "parameterClassName": "org.onap.policy.apex.context.parameters.ContextParameters",
+                  "schemaParameters": {
+                    "Avro": {
+                      "parameterClassName": "org.onap.policy.apex.plugins.context.schema.avro.AvroSchemaHelperParameters"
+                    },
+                    "Java": {
+                      "parameterClassName": "org.onap.policy.apex.context.impl.schema.java.JavaSchemaHelperParameters",
+                      "jsonAdapters": {
+                        "Instant": {
+                          "adaptedClass": "java.time.Instant",
+                          "adaptorClass": "org.onap.policy.controlloop.util.Serialization$GsonInstantAdapter"
+                        }
+                      }
+                    }
+                  }
+                },
+                "taskParameters": [
+                  {
+                    "key": "ParameterKey1",
+                    "value": "ParameterValue1"
+                  },
+                  {
+                    "taskId": "AAILookupTask:0.0.1",
+                    "key": "SomeKeyForThisTask",
+                    "value": "Value"
+                  }
+                ]
+              }
+            },
+            "eventInputParameters": {
+              "GuardRequestorConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTREQUESTOR",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restrequestor.RestRequestorCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://111.222.333.444:5555/pdp/api/getDecision",
+                    "httpMethod": "POST",
+                    "restRequestTimeout": 2000,
+                    "httpHeader": "Authorization:aaaaaaaaa== ClientAuth:bbbbbbbbb="
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                },
+                "eventName": "GuardResponseEvent",
+                "eventNameFilter": "GuardResponseEvent",
+                "requestorMode": true,
+                "requestorPeer": "GuardRequestorProducer",
+                "requestorTimeout": 500
+              },
+              "DCAEConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/unauthenticated.DCAE_CL_OUTPUT/APEX/1?timeout=60000"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "nameAlias": "closedLoopControlName",
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "VirtualControlLoopEvent"
+                  }
+                },
+                "eventName": "ControlLoop-vCPE-48f0c2c3-a172-4192-9ae3-052274181b6e"
+              },
+              "APPCConsumer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/APPC-LCM-WRITE/APEX/1?timeout=60000"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "pojoField": "APPCLCMResponseEvent"
+                  }
+                },
+                "eventName": "APPCRestartVNFResponseEvent",
+                "eventNameFilter": "APPCRestartVNFResponseEvent"
+              }
+            },
+            "eventOutputParameters": {
+              "logProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "FILE",
+                  "parameters": {
+                    "fileName": "/tmp/VCPEEventsOut.json"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                }
+              },
+              "GuardRequestorProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTREQUESTOR",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restrequestor.RestRequestorCarrierTechnologyParameters"
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON"
+                },
+                "eventNameFilter": "GuardRequestEvent",
+                "requestorMode": true,
+                "requestorPeer": "GuardRequestorConsumer",
+                "requestorTimeout": 500
+              },
+              "APPCProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/APPC-LCM-READ"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "APPCLCMRequestEvent"
+                  }
+                },
+                "eventNameFilter": "APPCRestartVNFRequestEvent"
+              },
+              "PolicyLogProducer": {
+                "carrierTechnologyParameters": {
+                  "carrierTechnology": "RESTCLIENT",
+                  "parameterClassName": "org.onap.policy.apex.plugins.event.carrier.restclient.RestClientCarrierTechnologyParameters",
+                  "parameters": {
+                    "url": "http://message-router:3904/events/POLICY-CL-MGT"
+                  }
+                },
+                "eventProtocolParameters": {
+                  "eventProtocol": "JSON",
+                  "parameters": {
+                    "versionAlias": "version",
+                    "sourceAlias": "from",
+                    "pojoField": "VirtualControlLoopNotification"
+                  }
+                },
+                "eventNameFilter": "ControlLoopLogEvent"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

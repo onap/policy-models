@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,13 +33,16 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.tosca.authorative.concepts.PolicyTypeImpl;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
+import org.onap.policy.models.tosca.simple.concepts.JpaPolicyTypeImpl;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.provider.PolicyTypeImplProvider;
 import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
 import org.onap.policy.models.tosca.utils.ToscaServiceTemplateUtils;
 import org.slf4j.Logger;
@@ -577,6 +580,98 @@ public class AuthorativeToscaProvider {
             return Collections.emptyList();
         } else {
             throw pfme;
+        }
+    }
+
+    /**
+     * Create policy type Impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param policyImplList the policy type impl to be created.
+     * @return the policy type impl that were created
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public List<PolicyTypeImpl> createPolicyTypeImpl(@NonNull final PfDao dao,
+                                                     @NonNull final List<PolicyTypeImpl> policyImplList)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("createPolicyTypeImpl ={}", policyImplList);
+            List<PolicyTypeImpl> createdPolicyImplList = new ArrayList<>();
+            for (PolicyTypeImpl policyTypeImpl : policyImplList) {
+                createdPolicyImplList.add(new PolicyTypeImplProvider()
+                    .createPolicyTypeImpl(dao, new JpaPolicyTypeImpl(policyTypeImpl)).toAuthorative());
+            }
+            LOGGER.debug("createdPolicyTypeImpl ={}", createdPolicyImplList);
+            return createdPolicyImplList;
+        }
+    }
+
+    /**
+     * Update policy type Impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param policyImpl the policy type impl to be created.
+     * @return the policy type impl that were updated
+     * @throws PfModelException on errors creating policy type impl
+     */
+    public PolicyTypeImpl updatePolicyTypeImpl(@NonNull final PfDao dao,
+                                               @NonNull final PolicyTypeImpl policyImpl)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("updatePolicyTypeImpl ={}", policyImpl);
+            PolicyTypeImpl updatedPolicyTypeImpl = new PolicyTypeImplProvider()
+                .updatePolicyTypeImpl(dao, new JpaPolicyTypeImpl(policyImpl)).toAuthorative();
+
+            LOGGER.debug("updatedPolicyTypeImpl ={}", updatedPolicyTypeImpl);
+            return updatedPolicyTypeImpl;
+        }
+    }
+
+    /**
+     * Delete policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the policy type impl to delete.
+     * @param version the version of the policy type impl to delete.
+     * @return the policy type impl that was deleted
+     * @throws PfModelException on errors deleting policy type impl
+     */
+    public PolicyTypeImpl deletePolicyTypeImpl(@NonNull final PfDao dao, @NonNull final String name,
+                                               @NonNull final String version) throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("deletePolicyTypeImpl: name={}, version={}", name, version);
+
+            PolicyTypeImpl deletedPolicyImpl =
+                new PolicyTypeImplProvider().deletePolicyTypeImpl(dao, new PfConceptKey(name, version)).toAuthorative();
+
+            LOGGER.debug("deleted policy type impl={}", deletedPolicyImpl);
+            return deletedPolicyImpl;
+        }
+    }
+
+
+    /**
+     * Get filtered policy type impl.
+     *
+     * @param dao the DAO to use to access the database
+     * @return the list of policy type impl found
+     * @throws PfModelException on errors getting policy type impl
+     */
+    public List<PolicyTypeImpl> getFilteredPolicyTypeImpl(@NonNull final PfDao dao, Map<String, Object> filterMap)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+
+            List<PolicyTypeImpl> policyImplList = new ArrayList<>();
+            new PolicyTypeImplProvider().getFilteredPolicyTypeImpl(dao, filterMap).forEach(policyImpl -> policyImplList
+                .add(policyImpl.toAuthorative()));
+
+            LOGGER.debug("Policy type impl list retrieved from the database {}", policyImplList);
+
+            return policyImplList;
         }
     }
 }
