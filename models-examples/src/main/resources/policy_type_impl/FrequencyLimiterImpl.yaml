@@ -1,0 +1,22 @@
+#
+# This Policy Type Implementation works with existing XACML Policy Types and Policies, See:
+# Policy Type: onap.policies.controlloop.guard.common.FrequencyLimiter
+#  (https://github.com/onap/policy-models/blob/master/models-examples/src/main/resources/policytypes/onap.policies.controlloop.guard.common.FrequencyLimiter.yaml)
+# Policy: guard.frequency.scaleout
+#  (https://github.com/onap/policy-models/blob/master/models-examples/src/main/resources/policies/vDNS.policy.guard.frequencylimiter.input.tosca.yaml)
+#
+# The guard.frequency.scaleout policy has the following metadata defined in it "policy-id" guard.frequency.scaleout"
+#
+# If, instead, the policyTypeImpl specified in this Yaml file was specified on the guard.frequency.saleout policy,
+# there would be no need to specify that metadata on the policy.
+#
+policyTypeImplList:
+  - policyTypeImplRef:
+      name: guard.common.frequencylimiter.policy-id
+      version: 0.0.1
+    policyTypeRef:
+      name: onap.policies.controlloop.guard.common.FrequencyLimiter
+      version: 1.0.0
+    pdpType: xacml-pdp
+    metadata:
+      policy-id : guard.frequency.scaleout
