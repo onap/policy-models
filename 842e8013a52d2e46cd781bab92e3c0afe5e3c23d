@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73de1ca6_048f456f",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2021-12-08T10:46:14Z",
+      "side": 1,
+      "message": "Seems like these are for the join column names? As I mentioned earlier, we can use a custom naming strategy without breaking any backward compatibility.\nSorry I didn\u0027t catch this part when I looked earlier at this review.\nI was planning to push the stuff in PAP, but its taking time to finish off other things before that. So I will put the code here so that you can try.\n\nimport org.hibernate.boot.model.naming.Identifier;\nimport org.hibernate.boot.model.naming.ImplicitJoinColumnNameSource;\nimport org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;\n\npublic class CustomImplicitNamingStrategy extends ImplicitNamingStrategyJpaCompliantImpl{\n    @Override\n    public Identifier determineJoinColumnName(ImplicitJoinColumnNameSource source) {\n        String name \u003d source.getReferencedColumnName().getText();\n        return toIdentifier( name, source.getBuildingContext() );\n    }\n}\n\nUse this in your spring boot hibernate code, and see if it is working\nBasically the idea is to avoid breaking any backward compatibility (If Possible).",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 83
+      },
+      "revId": "842e8013a52d2e46cd781bab92e3c0afe5e3c23d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
