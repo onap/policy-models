@@ -22,6 +22,30 @@
       "revId": "842e8013a52d2e46cd781bab92e3c0afe5e3c23d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f80a4f_c13fcabc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2021-12-08T11:22:25Z",
+      "side": 1,
+      "message": "I am getting this error:\n[PersistenceUnit: default] Unable to build Hibernate SessionFactory; nested exception is org.hibernate.MappingException: Repeated column in mapping for entity: org.onap.policy.models.tosca.simple.concepts.JpaToscaModel column: name (should be mapped with insert\u003d\"false\" update\u003d\"false\")",
+      "parentUuid": "73de1ca6_048f456f",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 83
+      },
+      "revId": "842e8013a52d2e46cd781bab92e3c0afe5e3c23d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
