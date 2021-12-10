@@ -22,6 +22,121 @@
       "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fcae6e1_67e139cc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 648,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-12-10T16:29:41Z",
+      "side": 1,
+      "message": "looks duplicate",
+      "range": {
+        "startLine": 648,
+        "startChar": 26,
+        "endLine": 648,
+        "endChar": 68
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cf27b06_f3ff86d3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-12-10T16:29:41Z",
+      "side": 1,
+      "message": "is this needed? may be we can add a logger after fetching from db with the content.",
+      "range": {
+        "startLine": 691,
+        "startChar": 12,
+        "endLine": 691,
+        "endChar": 50
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c34b9a1e_b9c84363",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-12-10T16:29:41Z",
+      "side": 1,
+      "message": "same comment as above",
+      "range": {
+        "startLine": 713,
+        "startChar": 12,
+        "endLine": 713,
+        "endChar": 50
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ef337e3_8bc904bf",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/PolicyTypeImplProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-12-10T16:29:41Z",
+      "side": 1,
+      "message": "do we need 3 get methods? or a single getFiletered can handle all 3 cases?\nprobably take a look at pdp statistics or policy audit providers.",
+      "range": {
+        "startLine": 71,
+        "startChar": 40,
+        "endLine": 71,
+        "endChar": 65
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b9facf_7150093d",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/PolicyTypeImplProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2021-12-10T16:29:41Z",
+      "side": 1,
+      "message": "you want to mention what is being deleted?",
+      "range": {
+        "startLine": 177,
+        "startChar": 12,
+        "endLine": 177,
+        "endChar": 52
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
