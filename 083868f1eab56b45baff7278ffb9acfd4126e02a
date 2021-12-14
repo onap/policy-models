@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c772b523_a7a13230",
+        "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/ProxyDao.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7886
+      },
+      "writtenOn": "2021-12-14T20:05:29Z",
+      "side": 1,
+      "message": "hope we plan to create a common superclass in Jakarta (similar to what was done for AbstractPolicyModelProvider) to eliminate all of the duplication between DefaultPfDao and ProxyDao.  They could each have their own implementations of init, close, getEntityMgr, beginTrans, and endTrans, while sharing all of the query code",
+      "revId": "083868f1eab56b45baff7278ffb9acfd4126e02a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "33cc2b57_61f0368a",
         "filename": "models-dao/src/main/java/org/onap/policy/models/dao/impl/ProxyDao.java",
         "patchSetId": 2
