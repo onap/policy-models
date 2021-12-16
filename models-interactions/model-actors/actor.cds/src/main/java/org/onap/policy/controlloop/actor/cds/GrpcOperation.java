@@ -50,6 +50,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Operation that uses gRPC to send request to CDS.
@@ -89,6 +90,11 @@ public class GrpcOperation extends OperationPartial {
                             OperationProperties.AAI_SERVICE,
                             OperationProperties.EVENT_ADDITIONAL_PARAMS,
                             OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+
+    private static final List<String> VNF_NO_TARGET_ENTITY_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_TARGET_ENTITY,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
     // @formatter:on
 
     /**
@@ -110,7 +116,11 @@ public class GrpcOperation extends OperationPartial {
 
     @Override
     public List<String> getPropertyNames() {
-        return (TargetType.PNF.equals(params.getTargetType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
+        if (TargetType.PNF.equals(params.getTargetType())) {
+            return PNF_PROPERTY_NAMES;
+        }
+
+        return isVnfWithTargetEntities() ? VNF_PROPERTY_NAMES : VNF_NO_TARGET_ENTITY_PROPERTY_NAMES;
     }
 
     /**
@@ -119,6 +129,10 @@ public class GrpcOperation extends OperationPartial {
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
         return (timeoutSec == null || timeoutSec == 0 ? config.getTimeoutMs() : super.getTimeoutMs(timeoutSec));
+    }
+
+    private boolean isVnfWithTargetEntities() {
+        return TargetType.VNF.equals(params.getTargetType()) && !CollectionUtils.isEmpty(params.getTargetEntityIds());
     }
 
     /**
@@ -160,8 +174,12 @@ public class GrpcOperation extends OperationPartial {
 
         result = new LinkedHashMap<>();
 
-        result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
-        result.put(AAI_VNF_ID_KEY, getVnfId());
+        if (isVnfWithTargetEntities()) {
+            result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
+            result.put(AAI_VNF_ID_KEY, getVnfId());
+        } else {
+            result.put(AAI_VNF_ID_KEY, getVnfId());
+        }
 
         return result;
     }
@@ -173,8 +191,13 @@ public class GrpcOperation extends OperationPartial {
     }
 
     protected String getVnfId() {
-        var genericVnf = (GenericVnf) getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "Target generic vnf");
-        return genericVnf.getVnfId();
+        if (isVnfWithTargetEntities()) {
+            var genericVnf =
+                (GenericVnf) getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "Target generic vnf");
+            return genericVnf.getVnfId();
+        } else {
+            return getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "vnf id");
+        }
     }
 
     @Override
