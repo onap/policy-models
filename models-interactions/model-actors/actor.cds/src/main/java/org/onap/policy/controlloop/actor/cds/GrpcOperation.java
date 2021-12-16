@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,27 +26,22 @@ import com.google.protobuf.Struct;
 import com.google.protobuf.util.JsonFormat;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 import lombok.Getter;
-import org.onap.aai.domain.yang.GenericVnf;
-import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.CommonHeader;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.policy.cds.client.CdsProcessorGrpcClient;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
+import org.onap.policy.controlloop.actor.cds.properties.GrpcOperationProperties;
 import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
-import org.onap.policy.controlloop.actorserviceprovider.TargetType;
-import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
@@ -60,10 +55,6 @@ public class GrpcOperation extends OperationPartial {
 
     public static final String NAME = "any";
 
-    private static final String AAI_PNF_PREFIX = "pnf.";
-    private static final String AAI_VNF_ID_KEY = "generic-vnf.vnf-id";
-    private static final String AAI_SERVICE_INSTANCE_ID_KEY = "service-instance.service-instance-id";
-
     private CdsProcessorGrpcClient client;
 
     /**
@@ -72,24 +63,9 @@ public class GrpcOperation extends OperationPartial {
     private final GrpcConfig config;
 
     /**
-     * Function to convert the A&AI data associated with the target type.
+     * Operation properties.
      */
-    private final Supplier<Map<String, String>> aaiConverter;
-
-
-    // @formatter:off
-    private static final List<String> PNF_PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_PNF,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-
-
-    private static final List<String> VNF_PROPERTY_NAMES = List.of(
-                            OperationProperties.AAI_RESOURCE_VNF,
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-    // @formatter:on
+    private final GrpcOperationProperties opProperties;
 
     /**
      * Constructs the object.
@@ -100,17 +76,12 @@ public class GrpcOperation extends OperationPartial {
     public GrpcOperation(ControlLoopOperationParams params, GrpcConfig config) {
         super(params, config, Collections.emptyList());
         this.config = config;
-
-        if (TargetType.PNF.equals(params.getTargetType())) {
-            aaiConverter = this::convertPnfToAaiProperties;
-        } else {
-            aaiConverter = this::convertVnfToAaiProperties;
-        }
+        this.opProperties = GrpcOperationProperties.build(params);
     }
 
     @Override
     public List<String> getPropertyNames() {
-        return (TargetType.PNF.equals(params.getTargetType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
+        return this.opProperties.getPropertyNames();
     }
 
     /**
@@ -119,62 +90,6 @@ public class GrpcOperation extends OperationPartial {
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
         return (timeoutSec == null || timeoutSec == 0 ? config.getTimeoutMs() : super.getTimeoutMs(timeoutSec));
-    }
-
-    /**
-     * Converts the A&AI PNF data to a map suitable for passing via the "aaiProperties"
-     * field in the CDS request.
-     *
-     * @return a map of the PNF data
-     */
-    private Map<String, String> convertPnfToAaiProperties() {
-        Map<String, String> result = getProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-        if (result != null) {
-            return result;
-        }
-
-        // convert PNF data to a Map
-        Object pnfData = getRequiredProperty(OperationProperties.AAI_PNF, "PNF");
-        Map<String, Object> source = Util.translateToMap(getFullName(), pnfData);
-
-        result = new LinkedHashMap<>();
-
-        for (Entry<String, Object> ent : source.entrySet()) {
-            result.put(AAI_PNF_PREFIX + ent.getKey(), ent.getValue().toString());
-        }
-
-        return result;
-    }
-
-    /**
-     * Converts the A&AI VNF data to a map suitable for passing via the
-     * "aaiProperties" field in the CDS request.
-     *
-     * @return a map of the VNF data
-     */
-    private Map<String, String> convertVnfToAaiProperties() {
-        Map<String, String> result = getProperty(OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
-        if (result != null) {
-            return result;
-        }
-
-        result = new LinkedHashMap<>();
-
-        result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
-        result.put(AAI_VNF_ID_KEY, getVnfId());
-
-        return result;
-    }
-
-    protected String getServiceInstanceId() {
-        var serviceInstance = (ServiceInstance) getRequiredProperty(OperationProperties.AAI_SERVICE,
-                        "Target service instance");
-        return serviceInstance.getServiceInstanceId();
-    }
-
-    protected String getVnfId() {
-        var genericVnf = (GenericVnf) getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "Target generic vnf");
-        return genericVnf.getVnfId();
     }
 
     @Override
@@ -251,7 +166,7 @@ public class GrpcOperation extends OperationPartial {
         //
         // Note: that is a future enhancement. For now, the actor is hard-coded to
         // use the A&AI query result specific to the target type
-        request.setAaiProperties(aaiConverter.get());
+        request.setAaiProperties(opProperties.convertToAaiProperties(this));
 
         // Inject any additional event parameters that may be present in the onset event
         Map<String, String> additionalParams = getProperty(OperationProperties.EVENT_ADDITIONAL_PARAMS);
