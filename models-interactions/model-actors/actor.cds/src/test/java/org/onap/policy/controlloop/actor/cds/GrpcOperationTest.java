@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ package org.onap.policy.controlloop.actor.cds;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -150,19 +151,33 @@ public class GrpcOperationTest {
 
     @Test
     public void testGetPropertyNames() {
-
         /*
-         * check VNF case
+         * check VNF case with target entities
          */
+        params = params.toBuilder().targetType(TargetType.VNF).targetEntityIds(targetEntityIds).build();
         operation = new GrpcOperation(params, config);
 
         // @formatter:off
         assertThat(operation.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_RESOURCE_VNF,
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
-                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
+                List.of(
+                        OperationProperties.AAI_RESOURCE_VNF,
+                        OperationProperties.AAI_SERVICE,
+                        OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                        OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
+        // @formatter:on
+
+        /*
+         * check VNF case with no target entities
+         */
+        params = params.toBuilder().targetEntityIds(null).build();
+        operation = new GrpcOperation(params, config);
+
+        // @formatter:off
+        assertThat(operation.getPropertyNames()).isEqualTo(
+                List.of(
+                        OperationProperties.AAI_TARGET_ENTITY,
+                        OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                        OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES));
         // @formatter:on
 
         /*
@@ -189,14 +204,32 @@ public class GrpcOperationTest {
 
     @Test
     public void testGetVnfId() {
+        params = params.toBuilder().targetType(TargetType.VNF).targetEntityIds(targetEntityIds).build();
         operation = new GrpcOperation(params, config);
         loadVnfData();
         assertEquals(MY_VNF, operation.getVnfId());
+
+        params = params.toBuilder().targetEntityIds(null).build();
+        operation = new GrpcOperation(params, config);
+        assertThatIllegalStateException().isThrownBy(() -> operation.getVnfId());
+
+        operation.setProperty(OperationProperties.AAI_TARGET_ENTITY, MY_VNF);
+        assertEquals(MY_VNF, operation.getVnfId());
+        operation.setProperty(OperationProperties.AAI_TARGET_ENTITY, null);
     }
 
     @Test
     public void testStartOperationAsync() throws Exception {
-        verifyOperation(TargetType.VNF, this::loadVnfData);
+        ControlLoopOperationParams clop =
+                ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                        .operation(GrpcOperation.NAME)
+                        .requestId(REQUEST_ID)
+                        .actorService(new ActorService())
+                        .targetType(TargetType.VNF)
+                        .build();
+
+        verifyOperation(clop, () -> operation.setProperty(OperationProperties.AAI_TARGET_ENTITY, MY_VNF));
+        verifyOperation(clop.toBuilder().targetEntityIds(targetEntityIds).build(), this::loadVnfData);
     }
 
     /**
@@ -204,7 +237,15 @@ public class GrpcOperationTest {
      */
     @Test
     public void testStartOperationAsyncPnf() throws Exception {
-        verifyOperation(TargetType.PNF, this::loadPnfData);
+        ControlLoopOperationParams clop =
+                ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
+                        .operation(GrpcOperation.NAME)
+                        .requestId(REQUEST_ID)
+                        .actorService(new ActorService())
+                        .targetType(TargetType.PNF)
+                        .build();
+
+        verifyOperation(clop, this::loadPnfData);
     }
 
     @Test
@@ -214,15 +255,11 @@ public class GrpcOperationTest {
                         .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
     }
 
-    private void verifyOperation(TargetType targetType, Runnable loader) {
-
+    private void verifyOperation(ControlLoopOperationParams clop, Runnable loader) {
         Map<String, Object> payloadMap = Map.of(CdsActorConstants.KEY_CBA_NAME, CDS_BLUEPRINT_NAME,
                         CdsActorConstants.KEY_CBA_VERSION, CDS_BLUEPRINT_VERSION, "data",
                         "{\"mapInfo\":{\"key\":\"val\"},\"arrayInfo\":[\"one\",\"two\"],\"paramInfo\":\"val\"}");
-
-        ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
-                        .operation(GrpcOperation.NAME).requestId(REQUEST_ID).actorService(new ActorService())
-                        .targetType(targetType).payload(payloadMap).build();
+        params = clop.toBuilder().payload(payloadMap).build();
 
         GrpcConfig config = new GrpcConfig(executor, cdsProps);
         operation = new GrpcOperation(params, config);
