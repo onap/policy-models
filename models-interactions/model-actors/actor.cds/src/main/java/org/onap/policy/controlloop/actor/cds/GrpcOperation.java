@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +50,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperationPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.pipeline.PipelineControllerFuture;
+import org.springframework.util.CollectionUtils;
 
 /**
  * Operation that uses gRPC to send request to CDS.
@@ -78,15 +79,29 @@ public class GrpcOperation extends OperationPartial {
 
 
     // @formatter:off
+    /**
+     * PNF properties.
+     */
     private static final List<String> PNF_PROPERTY_NAMES = List.of(
                             OperationProperties.AAI_PNF,
                             OperationProperties.EVENT_ADDITIONAL_PARAMS,
                             OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
 
 
+    /**
+     * VNF with target entities properties.
+     */
     private static final List<String> VNF_PROPERTY_NAMES = List.of(
                             OperationProperties.AAI_RESOURCE_VNF,
                             OperationProperties.AAI_SERVICE,
+                            OperationProperties.EVENT_ADDITIONAL_PARAMS,
+                            OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
+
+    /**
+     * VNF without target entities properties.
+     */
+    private static final List<String> VNF_NO_TARGET_ENTITY_PROPERTY_NAMES = List.of(
+                            OperationProperties.AAI_TARGET_ENTITY,
                             OperationProperties.EVENT_ADDITIONAL_PARAMS,
                             OperationProperties.OPT_CDS_GRPC_AAI_PROPERTIES);
     // @formatter:on
@@ -110,7 +125,11 @@ public class GrpcOperation extends OperationPartial {
 
     @Override
     public List<String> getPropertyNames() {
-        return (TargetType.PNF.equals(params.getTargetType()) ? PNF_PROPERTY_NAMES : VNF_PROPERTY_NAMES);
+        if (TargetType.PNF.equals(params.getTargetType())) {
+            return PNF_PROPERTY_NAMES;
+        }
+
+        return isVnfWithTargetEntities() ? VNF_PROPERTY_NAMES : VNF_NO_TARGET_ENTITY_PROPERTY_NAMES;
     }
 
     /**
@@ -119,6 +138,15 @@ public class GrpcOperation extends OperationPartial {
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
         return (timeoutSec == null || timeoutSec == 0 ? config.getTimeoutMs() : super.getTimeoutMs(timeoutSec));
+    }
+
+    /**
+     * Checks if there are target entities associated with the VNF target.
+     *
+     * @return true when there are VNF target entities.
+     */
+    private boolean isVnfWithTargetEntities() {
+        return TargetType.VNF.equals(params.getTargetType()) && !CollectionUtils.isEmpty(params.getTargetEntityIds());
     }
 
     /**
@@ -160,9 +188,11 @@ public class GrpcOperation extends OperationPartial {
 
         result = new LinkedHashMap<>();
 
-        result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
-        result.put(AAI_VNF_ID_KEY, getVnfId());
+        if (isVnfWithTargetEntities()) {
+            result.put(AAI_SERVICE_INSTANCE_ID_KEY, getServiceInstanceId());
+        }
 
+        result.put(AAI_VNF_ID_KEY, getVnfId());
         return result;
     }
 
@@ -173,8 +203,13 @@ public class GrpcOperation extends OperationPartial {
     }
 
     protected String getVnfId() {
-        var genericVnf = (GenericVnf) getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "Target generic vnf");
-        return genericVnf.getVnfId();
+        if (isVnfWithTargetEntities()) {
+            var genericVnf =
+                (GenericVnf) getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "Target generic vnf");
+            return genericVnf.getVnfId();
+        } else {
+            return getRequiredProperty(OperationProperties.AAI_TARGET_ENTITY, "vnf id");
+        }
     }
 
     @Override
