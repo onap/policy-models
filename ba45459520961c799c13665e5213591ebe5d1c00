@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76bd0535_4880f1e1",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2022-01-05T10:33:19Z",
+      "side": 1,
+      "message": "Spring Boot can use repositories and it is more likely that never call these methods",
+      "parentUuid": "3d9f4e44_3deda1ba",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "ba45459520961c799c13665e5213591ebe5d1c00",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3fcae6e1_67e139cc",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 1
