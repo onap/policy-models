@@ -27,6 +27,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -54,7 +55,10 @@ import org.onap.policy.models.base.PfModelService;
 public class JpaToscaModel extends PfModel {
     private static final long serialVersionUID = 8800599637708309945L;
 
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "serviceTemplatesName", referencedColumnName = "name")
+    @JoinColumn(name = "serviceTemplatesVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaServiceTemplates serviceTemplates;
 

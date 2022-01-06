@@ -25,10 +25,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -53,9 +50,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
  * @param <C> the type of concept on which the interface is applied.
  */
 
-@Entity
-@Table(name = "PfModel")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@MappedSuperclass
 @Data
 @EqualsAndHashCode(callSuper = false)
 public abstract class PfModel extends PfConcept {
