@@ -30,10 +30,6 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -58,9 +54,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
  * @author Chenfei Gao (cgao@research.att.com)
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-@Entity
-@Table(name = "ToscaProperty")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaProperty> {
