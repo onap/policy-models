@@ -24,10 +24,12 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -59,6 +61,10 @@ public class JpaToscaPolicyType extends JpaToscaWithToscaProperties<ToscaPolicyT
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection
+    @CollectionTable(joinColumns = {
+        @JoinColumn(name = "ToscaPolicyTypeName",    referencedColumnName = "name"),
+        @JoinColumn(name = "ToscaPolicyTypeVersion",    referencedColumnName = "version")
+    })
     private List<@NotNull @Valid PfConceptKey> targets;
 
     @ElementCollection

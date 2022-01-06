@@ -1,0 +1,14 @@
+{
+    "dmaapProvider": {
+        "name": "DMaaP simulator",
+        "topicSweepSec": 300
+    },
+    "restServers": [
+        {
+            "name": "DMaaP simulator",
+            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
+            "host": "localhost",
+            "port": 3905,
+            "https": false
+        }]
+}

@@ -23,21 +23,25 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.parameters.annotations.Valid;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfModel;
 import org.onap.policy.models.base.PfModelService;
+import org.onap.policy.models.base.validation.annotations.VerifyKey;
 
 /**
  * A container class for a TOSCA model with multiple service templates. This class is a container class that allows a
@@ -54,7 +58,14 @@ import org.onap.policy.models.base.PfModelService;
 public class JpaToscaModel extends PfModel {
     private static final long serialVersionUID = 8800599637708309945L;
 
+    @EmbeddedId
+    @VerifyKey
+    @NotNull
+    private PfConceptKey key;
+
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "toscaServiceTemplatesName", referencedColumnName = "name")
+    @JoinColumn(name = "toscaServiceTemplatesVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaServiceTemplates serviceTemplates;
 

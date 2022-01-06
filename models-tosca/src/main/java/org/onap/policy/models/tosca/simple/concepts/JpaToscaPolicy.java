@@ -25,10 +25,12 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
 import lombok.Data;
@@ -67,6 +69,10 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     @ElementCollection
+    @CollectionTable(joinColumns = {
+        @JoinColumn(name = "ToscaPolicyName",    referencedColumnName = "name"),
+        @JoinColumn(name = "ToscaPolicyVersion",    referencedColumnName = "version")
+    })
     private List<@NotNull @Valid PfConceptKey> targets;
 
     /**

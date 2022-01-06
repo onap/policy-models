@@ -90,10 +90,8 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     // @formatter:off
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @CollectionTable(joinColumns = {
-        @JoinColumn(name = "pdpGroupParentKeyName",    referencedColumnName = "parentKeyName"),
-        @JoinColumn(name = "pdpGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-        @JoinColumn(name = "pdpGroupParentLocalName",  referencedColumnName = "parentLocalName"),
-        @JoinColumn(name = "pdpGroupLocalName",        referencedColumnName = "localName")
+        @JoinColumn(name = "name",    referencedColumnName = "name"),
+        @JoinColumn(name = "version", referencedColumnName = "version")
     })
     // @formatter:on
     @NotNull
