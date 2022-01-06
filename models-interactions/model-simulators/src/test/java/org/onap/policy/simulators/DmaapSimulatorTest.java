@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019, 2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +19,7 @@
 
 package org.onap.policy.simulators;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -85,6 +87,7 @@ public class DmaapSimulatorTest {
                         .register((infra, topic, event) -> queue.add(event));
 
         DmaapTopicSink sink = TopicEndpointManager.getManager().getDmaapTopicSink(TOPIC);
+        assertThat(queue.poll(1, TimeUnit.SECONDS)).isNull();
         sink.send("hello");
         assertEquals("hello", queue.poll(MAX_WAIT_SEC, TimeUnit.SECONDS));
 

@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,10 +26,12 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.ws.rs.core.Response;
 import lombok.Data;
@@ -67,6 +70,10 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     @ElementCollection
+    @CollectionTable(joinColumns = {
+        @JoinColumn(name = "toscaPolicyName",    referencedColumnName = "name"),
+        @JoinColumn(name = "toscaPolicyVersion",    referencedColumnName = "version")
+    })
     private List<@NotNull @Valid PfConceptKey> targets;
 
     /**
