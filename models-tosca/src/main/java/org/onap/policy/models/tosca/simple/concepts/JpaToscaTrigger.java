@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +29,6 @@ import java.time.Duration;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -51,9 +48,6 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
  * @author Chenfei Gao (cgao@research.att.com)
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-@Entity
-@Table(name = "ToscaTrigger")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaTrigger extends PfConcept {

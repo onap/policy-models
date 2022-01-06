@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +25,6 @@ package org.onap.policy.models.tosca.simple.concepts;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -45,9 +42,6 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaParameter;
 /**
  * Class to represent the parameter in TOSCA definition.
  */
-@Entity
-@Table(name = "ToscaParameter")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaParameter extends PfConcept implements PfAuthorative<ToscaParameter> {
