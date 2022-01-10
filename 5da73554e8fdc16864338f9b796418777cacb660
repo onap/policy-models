@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2afc8516_b0eb2279",
+        "filename": "models-interactions/model-actors/actor.cds/src/test/java/org/onap/policy/controlloop/actor/cds/properties/GrpcOperationPnfPropertiesTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-01-10T12:12:40Z",
+      "side": 1,
+      "message": "Sonar might complain asking to extract constants for these.",
+      "range": {
+        "startLine": 80,
+        "startChar": 24,
+        "endLine": 80,
+        "endChar": 30
+      },
+      "revId": "5da73554e8fdc16864338f9b796418777cacb660",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
