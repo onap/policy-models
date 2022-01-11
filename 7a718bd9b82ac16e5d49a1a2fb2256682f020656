@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32904724_ae3fbf14",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/DmaapSimulatorTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-01-11T17:22:07Z",
+      "side": 1,
+      "message": "This is to fix intermittent test failures in models. I thought Jorge\u0027s last review might fix it, but the real problem here is that the consumer is not registered by the time message is send to the topic. Thus the message is lost.\nIn DMaaP simulator, unless a consumer is already listening on a topic, any event coming on the topic is discarded and not kept for future consumers.",
+      "range": {
+        "startLine": 90,
+        "startChar": 8,
+        "endLine": 90,
+        "endChar": 61
+      },
+      "revId": "7a718bd9b82ac16e5d49a1a2fb2256682f020656",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
