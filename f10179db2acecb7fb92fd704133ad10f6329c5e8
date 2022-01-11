@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98eecc9e_1987abf4",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-01-11T19:54:08Z",
+      "side": 1,
+      "message": "Not sure if this is right, Ramesh?   Usually, in this directory we have policies and policy types that can be copied/paste and send to api and pap components.\n\nI don\u0027t see for example this fields if you compare with the other policies in this directory:\n\n  \"tosca_definitions_version\": \"tosca_simple_yaml_1_1_0\",\n  \"topology_template\": { .. }\n\nI think you would embed the new fields within a full policy itself, may be that\u0027s only what is missing.\n\nThere is usually also the json and yaml counterpart so perhaps that should be added.\n\nIf there are any changes in the policy type fields, that should be reflected in the couterpart policyTypes directory.   I don\u0027t remember where the new fields where going to go if it was in the metadata section of the policy or somewhere else.",
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
