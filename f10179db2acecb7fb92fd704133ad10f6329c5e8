@@ -16,6 +16,116 @@
       "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75601ec4_b024f6f2",
+        "filename": "models-examples/src/main/resources/policies/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-11T22:23:06Z",
+      "side": 1,
+      "message": "Agree, may be create another folder under /src/main/resources called \"policy_type_impl\" or similar. And place the file there.",
+      "parentUuid": "98eecc9e_1987abf4",
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a22524d6_d1e5c0bc",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyTypeImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-11T22:23:06Z",
+      "side": 1,
+      "message": "Wondering if this should be called PolicyTypeImpl instead ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 13,
+        "endLine": 39,
+        "endChar": 32
+      },
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c171305_773cbdb0",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyTypeImplList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-11T22:23:06Z",
+      "side": 1,
+      "message": "Wondering if this should be called PolicyTypeImplList instead ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 13,
+        "endLine": 34,
+        "endChar": 36
+      },
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94f70b2d_b197fb53",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPolicyTypeImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-11T22:23:06Z",
+      "side": 1,
+      "message": "Same comment here, \"JpaPolicyTypeImpl\" ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 35
+      },
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f16755e0_3f257ede",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/PolicyTypeImplProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2022-01-11T22:23:06Z",
+      "side": 1,
+      "message": "providing the filters as well will make the logging more useful",
+      "range": {
+        "startLine": 51,
+        "startChar": 8,
+        "endLine": 51,
+        "endChar": 58
+      },
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
