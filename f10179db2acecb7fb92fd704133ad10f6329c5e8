@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "b0236bc2_3fcd9abc",
+        "filename": "models-examples/src/main/resources/policy_type_impl/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2022-01-13T11:18:21Z",
+      "side": 1,
+      "message": "Thanks Jorge and Ram. PolicyTypeImpl will be provided under metadata in policy definition. I have moved this json file to a separate folder and renamed the files accordingly. Please verify the changes",
+      "parentUuid": "75601ec4_b024f6f2",
+      "revId": "f10179db2acecb7fb92fd704133ad10f6329c5e8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a22524d6_d1e5c0bc",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaPolicyTypeImpl.java",
         "patchSetId": 3
