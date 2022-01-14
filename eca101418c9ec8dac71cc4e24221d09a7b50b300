@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0386f4e8_c65bf8e3",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaPolicyTypeImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-14T13:30:14Z",
+      "side": 1,
+      "message": "I would just combine to a single line (sonar may report that) as there is no point to saving it into a variable.\n\nreturn getKey().getKeys()",
+      "range": {
+        "startLine": 193,
+        "startChar": 1,
+        "endLine": 195,
+        "endChar": 0
+      },
+      "revId": "eca101418c9ec8dac71cc4e24221d09a7b50b300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5ba3e7a_87106d8f",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/concepts/PolicyTypeImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-14T13:30:14Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 22
+      },
+      "revId": "eca101418c9ec8dac71cc4e24221d09a7b50b300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "499ea442_895cc4f9",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProviderPolicyTypeImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-14T13:30:14Z",
+      "side": 1,
+      "message": "2022 - or is this a copied file?",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 27
+      },
+      "revId": "eca101418c9ec8dac71cc4e24221d09a7b50b300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474946a6_7997e24c",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaPolicyTypeImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-14T13:30:14Z",
+      "side": 1,
+      "message": "2022",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 22
+      },
+      "revId": "eca101418c9ec8dac71cc4e24221d09a7b50b300",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
