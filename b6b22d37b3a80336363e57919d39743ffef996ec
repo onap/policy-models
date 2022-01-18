@@ -34,6 +34,24 @@
       "revId": "b6b22d37b3a80336363e57919d39743ffef996ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18baac14_95757b72",
+        "filename": "models-examples/src/main/resources/policy_type_impl/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2022-01-18T15:43:20Z",
+      "side": 1,
+      "message": "Thanks Jorge and Liam. Yes that would be useful. I will add the full policy example including the policy type impl as a reference as well as a whole definition.",
+      "parentUuid": "0e1def18_e9bcec4d",
+      "revId": "b6b22d37b3a80336363e57919d39743ffef996ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
