@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8888cf5_0dbb5e2d",
+        "filename": "models-examples/src/main/resources/policy_type_impl/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-01-18T15:35:06Z",
+      "side": 1,
+      "message": "Thanks Ramesh, I am looking though for a full policy that can be used as is and deploy for apex and that points to this policy type reference.   Something that shows how a whole policy can be composed and reuse the implementation.    This will also provide a sample to other components if they want to follow this mode of composing policies this way.   We would need documentation as well going under policy/parent docs to describe its usage too if you could add as an item to the ticket.",
+      "revId": "b6b22d37b3a80336363e57919d39743ffef996ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
