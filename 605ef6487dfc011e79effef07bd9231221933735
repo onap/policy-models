@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ed049fa_8f412b13",
+        "filename": "models-examples/src/main/resources/policy_type_impl/samplePolicyTypeImpl.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-01-19T16:44:39Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fddc4dc2_8cb92721",
+      "revId": "605ef6487dfc011e79effef07bd9231221933735",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62b14eba_e337f3dc",
         "filename": "models-examples/src/main/resources/policy_type_impl/samplePolicyTypeImpl.yaml",
         "patchSetId": 9
@@ -39,6 +57,30 @@
       "revId": "605ef6487dfc011e79effef07bd9231221933735",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec1e21aa_07c95346",
+        "filename": "models-examples/src/main/resources/policy_type_impl/samplePolicyTypeImpl.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-01-19T16:44:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62b14eba_e337f3dc",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "605ef6487dfc011e79effef07bd9231221933735",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
