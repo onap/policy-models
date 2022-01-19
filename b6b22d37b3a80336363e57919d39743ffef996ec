@@ -52,6 +52,24 @@
       "revId": "b6b22d37b3a80336363e57919d39743ffef996ec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf46466_2841d4d1",
+        "filename": "models-examples/src/main/resources/policy_type_impl/vCPE.policy.policytypeimpl.input.tosca.json",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2022-01-19T12:55:22Z",
+      "side": 1,
+      "message": "Hi Jorge, The file vCPE.policy.policytypeimpl.input.yaml contains an example for policy type impl list input including the implementations for all the PDPs that can be persisted independently via policy api. The file vCPE.apex.policy.operational.input.tosca.yaml shows the example of a full tosca policy where we also support passing the policy type impl reference in the metadata. Please let me know if the examples are okay.",
+      "parentUuid": "18baac14_95757b72",
+      "revId": "b6b22d37b3a80336363e57919d39743ffef996ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
