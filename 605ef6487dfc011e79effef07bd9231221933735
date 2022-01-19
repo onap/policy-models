@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fddc4dc2_8cb92721",
+        "filename": "models-examples/src/main/resources/policy_type_impl/samplePolicyTypeImpl.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-01-19T16:04:05Z",
+      "side": 1,
+      "message": "I think this makes things clearer.\n\nWhat we are doing is taking the fields in the \"metadata\" section and adding them to the \"metadata\" of a policy that quotes this policy_type_impl.\n\nSo in the case of a policy type called \"onap.policies.controlloop.operational.common.drools.Power:1.0.0\" that runs on drools-pdp, all policies that quote the \"droolsPolicyTypeImpl_PowerRules:0.0.1\" policyTypeImpl will have \"metadata_field_1\" to \"metadata_field_4\" added to its metadata by PAP.",
+      "revId": "605ef6487dfc011e79effef07bd9231221933735",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62b14eba_e337f3dc",
+        "filename": "models-examples/src/main/resources/policy_type_impl/samplePolicyTypeImpl.yaml",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-01-19T16:04:05Z",
+      "side": 1,
+      "message": "I think we should rename this from \"policyModel\" to \"metadata\", because we are placing the fields in this map in the metadata of any policy that quotes this policy-type-impl. OK, this is \"policyModel\" in the case of Apex bout it could be anything for other PDPs",
+      "range": {
+        "startLine": 10,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "605ef6487dfc011e79effef07bd9231221933735",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
