@@ -16,6 +16,24 @@
       "revId": "81371efdaf29d47e37a1385dff16c3a04a411dda",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c270f955_e21e18d9",
+        "filename": "models-examples/src/main/resources/policy_type_impl/FrequencyLimiterImpl.yaml",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-01-20T17:09:10Z",
+      "side": 1,
+      "message": "The current way of specifying metadata in the policies is still supported and will continue to be supported.\n\nThis example is just to illustrate what\u0027s happening with the metadata, if it\u0027s unhelpful we can remove it.",
+      "parentUuid": "8f6b1544_815678ef",
+      "revId": "81371efdaf29d47e37a1385dff16c3a04a411dda",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
