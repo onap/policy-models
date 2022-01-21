@@ -45,6 +45,12 @@ public class RestServerParameters extends ParameterGroupImpl {
     @Min(value = 1)
     private int port;
 
+    private String userName;
+
+    private String password;
+
+    private boolean useHttps;
+
     public RestServerParameters() {
         super(RestServerParameters.class.getSimpleName());
     }
@@ -69,6 +75,12 @@ public class RestServerParameters extends ParameterGroupImpl {
                         DmaapSimRestControllerV1.class.getName());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "false");
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HTTPS_SUFFIX, Boolean.toString(isUseHttps()));
+
+        if (getUserName() != null && getPassword() != null) {
+            props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_AUTH_USERNAME_SUFFIX, getUserName());
+            props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_AUTH_PASSWORD_SUFFIX, getPassword());
+        }
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
                         String.join(",", CambriaMessageBodyHandler.class.getName(),

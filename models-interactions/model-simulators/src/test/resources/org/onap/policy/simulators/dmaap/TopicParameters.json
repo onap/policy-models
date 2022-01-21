@@ -7,6 +7,18 @@
             ],
             "topicCommInfrastructure": "dmaap",
             "fetchTimeout": 100
+        },
+        {
+            "topic": "MY-AUTH-TOPIC",
+            "servers": [
+                "localhost:${authPort}"
+            ],
+            "topicCommInfrastructure": "dmaap",
+            "fetchTimeout": 100,
+            "useHttps": true,
+            "allowSelfSignedCerts": true,
+            "userName": "my-username",
+            "password": "my-password"
         }
     ],
     "topicSinks": [
@@ -16,6 +28,17 @@
                 "localhost:${port}"
             ],
             "topicCommInfrastructure": "dmaap"
+        },
+        {
+            "topic": "MY-AUTH-TOPIC",
+            "servers": [
+                "localhost:${authPort}"
+            ],
+            "topicCommInfrastructure": "dmaap",
+            "useHttps": true,
+            "allowSelfSignedCerts": true,
+            "userName": "my-username",
+            "password": "my-password"
         }
     ]
 }

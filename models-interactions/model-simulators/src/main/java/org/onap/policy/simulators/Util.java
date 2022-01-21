@@ -156,19 +156,30 @@ public final class Util {
     }
 
     /**
-     * Build a DMaaP simulator.
+     * Builds an unauthenticated HTTP DMaaP simulator.
      *
      * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
     public static HttpServletServer buildDmaapSim() throws InterruptedException {
-        var json = ResourceUtils.getResourceAsString("org/onap/policy/simulators/dmaap/DmaapParameters.json");
+        return buildDmaapSim("org/onap/policy/simulators/dmaap/DmaapParameters.json");
+    }
+
+    /**
+     * Build a DMaaP simulator from a properties file.
+     *
+     * @param resourceName the name of the properties file
+     * @return the simulator
+     * @throws InterruptedException if a thread is interrupted
+     */
+    public static HttpServletServer buildDmaapSim(String resourceName) throws InterruptedException {
+        var json = ResourceUtils.getResourceAsString(resourceName);
         DmaapSimParameterGroup params = null;
         try {
             params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
         } catch (CoderException ce) {
             throw new ParameterRuntimeException(
-                    CANNOT_PROCESS_PARAMETERS + "org/onap/policy/simulators/dmaap/DmaapParameters.json", ce);
+                    CANNOT_PROCESS_PARAMETERS + resourceName, ce);
         }
 
         DmaapSimProvider.setInstance(new DmaapSimProvider(params));
@@ -177,8 +188,6 @@ public final class Util {
 
         final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "."
                 + params.getRestServerParameters().getName();
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_PORT_SUFFIX,
-                Integer.toString(DMAAPSIM_SERVER_PORT));
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
 
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(props).get(0);
