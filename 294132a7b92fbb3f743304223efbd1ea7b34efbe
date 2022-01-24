@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cd16f67_40144557",
+        "filename": "models-provider/src/main/java/org/onap/policy/models/provider/impl/DummyPolicyModelsProviderImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-24T14:40:26Z",
+      "side": 1,
+      "message": "Is this really a \"Dummy\" implementation that needs to be in the non-test code base? Or is it really acting like a \"Default\" or \"Base\" implementation.",
+      "revId": "294132a7b92fbb3f743304223efbd1ea7b34efbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e25ddf2_6178d25f",
+        "filename": "models-provider/src/main/resources/dummyimpl/DummyPolicyTypeImplResponse.json",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-01-24T14:40:26Z",
+      "side": 1,
+      "message": "same question here - perhaps this should be used for testing only?",
+      "revId": "294132a7b92fbb3f743304223efbd1ea7b34efbe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
