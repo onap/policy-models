@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -26,10 +26,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
@@ -45,6 +47,8 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -179,6 +183,38 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
+    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+        return getDummyNodeTemplateResponse("dummyimpl/DummyToscaNodeTemplateResponse.json");
+    }
+
+    @Override
+    public ToscaServiceTemplate updateToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
+        throws PfModelRuntimeException, PfModelException {
+        return getDummyNodeTemplateResponse("dummyimpl/DummyToscaNodeTemplateResponse.json");
+    }
+
+    @Override
+    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull String name, @NonNull String version)
+        throws PfModelException {
+        return getDummyNodeTemplateResponse("dummyimpl/DummyToscaNodeTemplateResponse.json");
+    }
+
+    @Override
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadataSets(@NonNull String name,
+                                                                                      @NonNull String version)
+        throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
+                                                                           final String version)
+        throws PfModelException {
+        return new ArrayList<>();
+    }
+
+    @Override
     public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {
         return new ArrayList<>();
     }
@@ -288,6 +324,29 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
         try {
             serviceTemplate =
                     standardCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
+            if (serviceTemplate == null) {
+                throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
+            }
+        } catch (Exception exc) {
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, "error serializing object", exc);
+        }
+
+        return serviceTemplate;
+    }
+
+    /**
+     * Return a tosca node template dummy response.
+     *
+     * @param fileName the file name containing the dummy response
+     * @return the service template with the dummy response
+     */
+    protected ToscaServiceTemplate getDummyNodeTemplateResponse(final String fileName) {
+        var standardCoder = new StandardCoder();
+        ToscaServiceTemplate serviceTemplate;
+
+        try {
+            serviceTemplate =
+                standardCoder.decode(ResourceUtils.getResourceAsString(fileName), ToscaServiceTemplate.class);
             if (serviceTemplate == null) {
                 throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, "error reading specified file");
             }

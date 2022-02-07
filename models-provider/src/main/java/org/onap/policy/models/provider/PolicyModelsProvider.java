@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -25,8 +25,11 @@ package org.onap.policy.models.provider;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import lombok.NonNull;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
@@ -38,6 +41,8 @@ import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -253,6 +258,59 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public ToscaServiceTemplate deletePolicy(@NonNull final String name, @NonNull final String version)
             throws PfModelException;
+
+
+    /**
+     * Create tosca node templates.
+     *
+     * @param serviceTemplate the definitions of the new node templates to be created.
+     * @return the tosca node templates that were created
+     * @throws PfModelException on errors creating tosca node templates
+     */
+    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelException;
+
+    /**
+     * Update tosca node templates.
+     *
+     * @param serviceTemplate with node templates to be updated.
+     * @return the service template with node templates that were updated
+     * @throws PfModelException on errors updating tosca node templates
+     */
+    public ToscaServiceTemplate updateToscaNodeTemplates(@NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelRuntimeException, PfModelException;
+
+    /**
+     * Delete a tosca node template.
+     *
+     * @param name the name of the node template to delete.
+     * @param version the version of the node template to delete.
+     * @return the service template with node templates that was deleted
+     * @throws PfModelException on errors deleting a node template
+     */
+    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull final String name, @NonNull final String version)
+        throws PfModelException;
+
+
+    /**
+     * Get filtered node template metadataSet entities.
+     *
+     * @return the list of metadataSet found
+     * @throws PfModelException on errors getting node template metadataSet
+     */
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadataSets(final String name,
+                                                                                      final String version)
+        throws PfModelException;
+
+    /**
+     * Get filtered node template entities.
+     *
+     * @return the list of nodeTemplates found
+     * @throws PfModelException on errors getting node template
+     */
+    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
+                                                                           final String version)
+        throws PfModelException;
 
     /**
      * Get PDP groups.

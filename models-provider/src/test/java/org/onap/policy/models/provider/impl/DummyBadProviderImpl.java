@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -27,8 +27,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
@@ -43,6 +45,8 @@ import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -131,6 +135,38 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
 
     @Override
     public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate updateToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
+        throws PfModelRuntimeException, PfModelException {
+        return null;
+    }
+
+    @Override
+    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull String name, @NonNull String version)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadataSets(@NonNull String name,
+                                                                                      @NonNull String version)
+        throws PfModelException {
+        return null;
+    }
+
+    @Override
+    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
+                                                                           final String version)
+        throws PfModelException {
         return null;
     }
 
