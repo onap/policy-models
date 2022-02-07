@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -32,6 +32,7 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -53,9 +54,12 @@ import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
 
 /**
@@ -567,6 +571,31 @@ public class DatabasePolicyModelsProviderTest {
         databaseProvider.close();
     }
 
+    @Test
+    public void testMetadataSetHandling() throws PfModelException {
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        ToscaServiceTemplate serviceTemplate = makeMetadataSet();
+
+        assertEquals("1.0.1",
+            databaseProvider.createPolicyMetadataSet(serviceTemplate).getToscaTopologyTemplate().getNodeTemplates()
+                .get("metadataSet1").getVersion());
+        assertEquals(1, databaseProvider.getPolicyMetadataSets(null, null).size());
+
+        ToscaNodeTemplate nodeTemplate1 = serviceTemplate.getToscaTopologyTemplate().getNodeTemplates()
+            .get("metadataSet1");
+        nodeTemplate1.setMetadata(Map.of("dummyKey", "updatedValue"));
+        serviceTemplate.getToscaTopologyTemplate().setNodeTemplates(Map.of("metadataSet1:1.0.1", nodeTemplate1));
+        assertEquals("updatedValue", databaseProvider.updatePolicyMetadataSet(serviceTemplate)
+            .getToscaTopologyTemplate().getNodeTemplates().get("metadataSet1").getMetadata().get("dummyKey"));
+
+        assertThatThrownBy(() -> {
+            databaseProvider.deletePolicyMetadataSet("invalidName", "1.0.1");
+        }).hasMessage("metadataSet invalidName:1.0.1 not found");
+
+        databaseProvider.close();
+    }
+
     private List<PdpStatistics> makePdpStatisticsList() {
         PdpStatistics pdpStatistics = new PdpStatistics();
         pdpStatistics.setPdpInstanceId(NAME);
@@ -575,5 +604,22 @@ public class DatabasePolicyModelsProviderTest {
         pdpStatistics.setPdpSubGroupName("type");
         List<PdpStatistics> statisticsArrayList = List.of(pdpStatistics);
         return statisticsArrayList;
+    }
+
+    private ToscaServiceTemplate makeMetadataSet() {
+        ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();
+        serviceTemplate.setToscaDefinitionsVersion("sample:1.1.0");
+        serviceTemplate.setToscaTopologyTemplate(new ToscaTopologyTemplate());
+        serviceTemplate.setNodeTypes(Map.of("org.onap.policy.metadataSet:1.0.0", new ToscaNodeType()));
+        ToscaNodeTemplate nodeTemplate1 = new ToscaNodeTemplate();
+        nodeTemplate1.setName("metadataSet1");
+        nodeTemplate1.setVersion("1.0.1");
+        nodeTemplate1.setType("org.onap.policy.metadataSet");
+        nodeTemplate1.setTypeVersion("1.0.0");
+        nodeTemplate1.setMetadata(Map.of("dummyKey", "dummyValue"));
+
+        serviceTemplate.getToscaTopologyTemplate().setNodeTemplates(Map.of("metadataSet1", nodeTemplate1));
+
+        return serviceTemplate;
     }
 }

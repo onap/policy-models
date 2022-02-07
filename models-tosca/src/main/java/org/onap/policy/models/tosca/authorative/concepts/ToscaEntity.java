@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2021 Nordix Foundation.
+ * Copyright (C) 2019-2022 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ public class ToscaEntity implements PfNameVersion {
     @SerializedName("derived_from")
     private String derivedFrom;
 
-    private Map<String, String> metadata;
+    private Map<String, Object> metadata;
     private String description;
 
     /**
@@ -67,7 +67,7 @@ public class ToscaEntity implements PfNameVersion {
 
         if (copyObject.metadata != null) {
             metadata = new LinkedHashMap<>();
-            for (final Entry<String, String> metadataEntry : copyObject.metadata.entrySet()) {
+            for (final Entry<String, Object> metadataEntry : copyObject.metadata.entrySet()) {
                 metadata.put(metadataEntry.getKey(), metadataEntry.getValue());
             }
         }

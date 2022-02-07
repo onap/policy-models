@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021-2022 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,7 @@ package org.onap.policy.models.provider.impl;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
@@ -44,6 +45,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -192,6 +194,36 @@ public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvid
 
         return new AuthorativeToscaProvider().deletePolicy(getPfDao(), name, version);
     }
+
+    @Override
+    public ToscaServiceTemplate createPolicyMetadataSet(@NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().createPolicyMetadata(getPfDao(), serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate updatePolicyMetadataSet(@NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelRuntimeException, PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().updatePolicyMetadataSet(getPfDao(), serviceTemplate);
+    }
+
+    @Override
+    public ToscaServiceTemplate deletePolicyMetadataSet(@NonNull final String name, @NonNull final String version)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().deletePolicyMetadataSet(getPfDao(), name, version);
+    }
+
+    @Override
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getPolicyMetadataSets(final String name, final String version)
+        throws PfModelException {
+        assertInitialized();
+        return new AuthorativeToscaProvider().getPolicyMetadataSets(getPfDao(), name, version);
+    }
+
+
 
     @Override
     public List<PdpGroup> getPdpGroups(final String name) throws PfModelException {

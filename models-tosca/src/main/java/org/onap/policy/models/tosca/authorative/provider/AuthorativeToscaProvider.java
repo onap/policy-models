@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +35,8 @@ import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -547,6 +549,102 @@ public class AuthorativeToscaProvider {
             return deletedServiceTemplate;
         }
     }
+
+    /**
+     * Create policy metadata set.
+     *
+     * @param dao the DAO to use to access the database
+     * @param toscaServiceTemplate the policy type impl to be created.
+     * @return the toscaServiceTemplate that were created
+     * @throws PfModelException on errors creating metadataSet
+     */
+    public ToscaServiceTemplate createPolicyMetadata(@NonNull final PfDao dao,
+                                                  @NonNull final ToscaServiceTemplate toscaServiceTemplate)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("createPolicyMetadataSet ={}", toscaServiceTemplate);
+            ToscaServiceTemplate createdServiceTemplate = new SimpleToscaProvider()
+                .createPolicyMetadataSet(dao, new JpaToscaServiceTemplate(toscaServiceTemplate)).toAuthorative();
+
+            LOGGER.debug("<-createMetadataSet: createdServiceTemplate={}", createdServiceTemplate);
+            return createdServiceTemplate;
+        }
+    }
+
+    /**
+     * Update policy metadata set.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template containing the definitions of the metadataSet to be updated.
+     * @return the TOSCA service template containing the metadataSet that were updated
+     * @throws PfModelRuntimeException on errors updating metadataSet
+     */
+    public ToscaServiceTemplate updatePolicyMetadataSet(@NonNull final PfDao dao,
+                                               @NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("->updatePolicyMetadataSet: serviceTemplate={}", serviceTemplate);
+
+            ToscaServiceTemplate updatedServiceTemplate = new SimpleToscaProvider()
+                .updatePolicyMetadataSet(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+
+            LOGGER.debug("<-updatePolicyMetadataSet: updatedServiceTemplate={}", updatedServiceTemplate);
+            return updatedServiceTemplate;
+        }
+    }
+
+
+    /**
+     * Delete policy metadataSet.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the metadataSet to delete.
+     * @param version the version of the metadataSet to delete.
+     * @return the TOSCA service template containing the metadataSet that was deleted
+     * @throws PfModelException on errors deleting metadataSet
+     */
+    public ToscaServiceTemplate deletePolicyMetadataSet(@NonNull final PfDao dao, @NonNull final String name,
+                                             @NonNull final String version) throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("->deletePolicyMetadataSet: name={}, version={}", name, version);
+
+            ToscaServiceTemplate deletedServiceTemplate =
+                new SimpleToscaProvider().deletePolicyMetadataSet(dao, new PfConceptKey(name, version)).toAuthorative();
+
+            LOGGER.debug("<-deletePolicyMetadataSet: name={}, version={}, deletedServiceTemplate={}", name, version,
+                deletedServiceTemplate);
+            return deletedServiceTemplate;
+        }
+    }
+
+    /**
+     * Get policy metadataSet.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the metadataSet to get, null to get all metadataSets
+     * @param version the version of the metadataSet to get, null to get all versions of a metadataSets
+     * @return the metadataSets found
+     * @throws PfModelException on errors getting policy metadataSet
+     */
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getPolicyMetadataSets(@NonNull final PfDao dao,
+                                                                                final String name, final String version)
+        throws PfModelException {
+
+        synchronized (providerLockObject) {
+            LOGGER.debug("->getPolicyMetadataSets: name={}, version={}", name, version);
+
+            List<Map<ToscaEntityKey, Map<String, Object>>> metadataSets;
+
+            metadataSets = new SimpleToscaProvider().getPolicyMetadataSet(dao, name, version);
+
+            LOGGER.debug("<-getPolicyMetadataSet: name={}, version={}, metadataSets={}", name, version, metadataSets);
+            return metadataSets;
+        }
+    }
+
 
     /**
      * Return the contents of a list of maps as a plain list.

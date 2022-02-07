@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,10 +36,12 @@ import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptContainer;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfNameVersion;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 
@@ -107,6 +109,15 @@ public final class ToscaUtils {
     }
 
     /**
+     * Assert that metadataSets have been specified correctly.
+     *
+     * @param serviceTemplate the service template containing metadataSets to be checked
+     */
+    public static void assertMetadataSetExist(final JpaToscaServiceTemplate serviceTemplate) {
+        assertExist(serviceTemplate, ToscaUtils::checkMetadataSetsExist);
+    }
+
+    /**
      * Check that data types have been specified correctly.
      *
      * @param serviceTemplate the service template containing data types to be checked
@@ -132,6 +143,16 @@ public final class ToscaUtils {
     public static boolean doPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
 
         return doExist(serviceTemplate, ToscaUtils::checkPoliciesExist);
+    }
+
+    /**
+     * Check that policy metadataSet have been specified correctly.
+     *
+     * @param serviceTemplate the service template containing policy metadataSet to be checked
+     */
+    public static boolean doMetadataSetExist(final JpaToscaServiceTemplate serviceTemplate) {
+
+        return doExist(serviceTemplate, ToscaUtils::checkMetadataSetsExist);
     }
 
     /**
@@ -203,6 +224,20 @@ public final class ToscaUtils {
             return "list of policies specified on topology template of service template is empty";
         }
 
+        return null;
+    }
+
+    /**
+     * Check if metadataSets have been specified correctly.
+     */
+    public static String checkMetadataSetsExist(final JpaToscaServiceTemplate serviceTemplate) {
+        if (serviceTemplate.getTopologyTemplate().getNodeTemplates() == null) {
+            return "node templates not present on the service template";
+        }
+
+        if (serviceTemplate.getTopologyTemplate().getNodeTemplates().getConceptMap().isEmpty()) {
+            return "no metadataSet present on the node templates";
+        }
         return null;
     }
 
