@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020,2022 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,6 +24,8 @@ package org.onap.policy.models.tosca.simple.provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
@@ -36,9 +38,15 @@ import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaEntityType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTemplates;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeType;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaNodeTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicy;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
@@ -641,6 +649,195 @@ public class SimpleToscaProvider {
         return deletedServiceTemplate;
     }
 
+
+    /**
+     * Get metadata of tosca node templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the nodeTemplate to get, set to null to get all node templates
+     * @param version the version of the metadataSet to get, set to null to get all versions
+     * @return the list of maps with node template key and metadata values found
+     * @throws PfModelException on errors getting metadataSets
+     */
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadata(
+        @NonNull final PfDao dao, final String name, final String version)
+        throws PfModelException {
+        LOGGER.debug("->getNodeTemplateMetadataSet: name={}, version={}", name, version);
+
+        List<Map<ToscaEntityKey, Map<String, Object>>> metadataSets = new ArrayList<>();
+
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        //Return empty list if no node templates present in db
+        if (!ToscaUtils.doNodeTemplatesExist(dbServiceTemplate)) {
+            return metadataSets;
+        }
+        var returnServiceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+        List<ToscaNodeTemplate> toscaNodeTemplates = new ArrayList<>();
+        returnServiceTemplate.getTopologyTemplate()
+            .getNodeTemplates().getConceptMap().forEach((key, value) -> toscaNodeTemplates.add(value
+            .toAuthorative()));
+
+        //Filter metadataSet for specific node template
+        if (name != null && version != null) {
+            var filterKey = new ToscaEntityKey(name, version);
+            toscaNodeTemplates.removeIf(entity -> !entity.getKey().equals(filterKey));
+        }
+        toscaNodeTemplates.forEach(e -> metadataSets.add(Map.of(e.getKey(), e.getMetadata())));
+        LOGGER.debug("<-getNodeTemplateMetadataSet: name={}, version={}, metadataSets={}", name, version,
+            metadataSets);
+
+        return metadataSets;
+    }
+
+    /**
+     * Get tosca node templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the node template to get, set to null to get all node templates
+     * @param version the version of the node template to get, set to null to get all versions
+     * @return the node templates with the specified key
+     * @throws PfModelException on errors getting node templates
+     */
+    public JpaToscaNodeTemplates getToscaNodeTemplates(@NonNull final PfDao dao, final String name,
+                                                       final String version)
+        throws PfModelException {
+        LOGGER.debug("->getNodeTemplate: name={}, version={}", name, version);
+
+        var nodeTemplates = new JpaToscaNodeTemplates();
+
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        //Return empty if no nodeTemplates present in db
+        if (!ToscaUtils.doNodeTemplatesExist(dbServiceTemplate)) {
+            return nodeTemplates;
+        }
+        var returnServiceTemplate = new JpaToscaServiceTemplate(dbServiceTemplate);
+        nodeTemplates = returnServiceTemplate.getTopologyTemplate().getNodeTemplates();
+
+        //Filter specific nodeTemplates
+        if (name != null && version != null) {
+            var filterKey = new PfConceptKey(name, version);
+            nodeTemplates.getConceptMap().entrySet().removeIf(entity -> !entity.getKey().equals(filterKey));
+        }
+        LOGGER.debug("<-getNodeTemplateMetadataSet: name={}, version={}, nodeTemplates={}", name, version,
+            nodeTemplates);
+
+        return nodeTemplates;
+    }
+
+
+    /**
+     * Update tosca node template.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template containing the definitions of the node templates to be updated.
+     * @return the TOSCA service template containing the node templates that were updated
+     * @throws PfModelRuntimeException on errors updating node templates
+     */
+    public JpaToscaServiceTemplate updateToscaNodeTemplates(@NonNull final PfDao dao,
+                                                            @NonNull final JpaToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+        LOGGER.debug("->updateToscaNodeTemplates: serviceTemplate={}", serviceTemplate);
+
+        ToscaUtils.assertNodeTemplatesExist(serviceTemplate);
+        for (JpaToscaNodeTemplate nodeTemplate : serviceTemplate.getTopologyTemplate().getNodeTemplates()
+            .getAll(null)) {
+
+            //verify if the node template is referenced in the metadata of created policies
+            assertNodeTemplateNotUsedInPolicy(dao, nodeTemplate.getName(), nodeTemplate.getVersion());
+            verifyNodeTypeInDbTemplate(dao, nodeTemplate);
+
+            dao.update(nodeTemplate);
+        }
+        // Return the service template with updated node templates
+        var updatedNodeTemplates = new JpaToscaNodeTemplates();
+        updatedNodeTemplates.setKey(serviceTemplate.getTopologyTemplate().getNodeTemplates().getKey());
+
+        for (PfConceptKey metadataSetKey : serviceTemplate.getTopologyTemplate().getNodeTemplates().getConceptMap()
+            .keySet()) {
+            updatedNodeTemplates.getConceptMap().put(metadataSetKey, dao.get(JpaToscaNodeTemplate.class,
+                metadataSetKey));
+        }
+        serviceTemplate.getTopologyTemplate().setNodeTemplates(updatedNodeTemplates);
+
+        LOGGER.debug("<-updatedToscaNodeTemplates: serviceTemplate={}", serviceTemplate);
+        return serviceTemplate;
+    }
+
+    /**
+     * Delete a tosca node template.
+     *
+     * @param dao the DAO to use to access the database
+     * @param nodeTemplateKey the node template key
+     * @return the TOSCA service template containing the node templates that were deleted
+     * @throws PfModelException on errors deleting node templates
+     */
+    public JpaToscaServiceTemplate deleteToscaNodeTemplate(@NonNull final PfDao dao,
+                                                           @NonNull final PfConceptKey nodeTemplateKey)
+        throws PfModelException {
+        LOGGER.debug("->deleteToscaNodeTemplate: key={}", nodeTemplateKey);
+
+        JpaToscaServiceTemplate dbServiceTemplate = getServiceTemplate(dao);
+
+        if (!ToscaUtils.doNodeTemplatesExist(dbServiceTemplate)) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "no node templates found");
+        }
+        JpaToscaNodeTemplate nodeTemplate4Deletion = dbServiceTemplate.getTopologyTemplate().getNodeTemplates()
+            .get(nodeTemplateKey);
+        if (nodeTemplate4Deletion == null) {
+            throw new PfModelRuntimeException(Response.Status.NOT_FOUND, "node template " + nodeTemplateKey.getId()
+                + NOT_FOUND);
+        }
+
+        //Verify if the node template is referenced in the metadata of created policies
+        assertNodeTemplateNotUsedInPolicy(dao, nodeTemplateKey.getName(), nodeTemplateKey.getVersion());
+
+        dbServiceTemplate.getTopologyTemplate().getNodeTemplates().getConceptMap().remove(nodeTemplateKey);
+        new SimpleToscaServiceTemplateProvider().write(dao, dbServiceTemplate);
+        dao.delete(nodeTemplate4Deletion);
+
+        var deletedServiceTemplate = new JpaToscaServiceTemplate();
+        deletedServiceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        deletedServiceTemplate.getTopologyTemplate().setNodeTemplates(new JpaToscaNodeTemplates());
+        deletedServiceTemplate.getTopologyTemplate().getNodeTemplates().getConceptMap()
+            .put(nodeTemplateKey, nodeTemplate4Deletion);
+
+        LOGGER.debug("<-deleteToscaNodeTemplate: key={}, serviceTemplate={}", nodeTemplateKey, deletedServiceTemplate);
+        return deletedServiceTemplate;
+    }
+
+    /**
+     * Write a node template to the database.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template to be written
+     * @return the service template created by this method
+     * @throws PfModelException on errors writing the metadataSets
+     */
+    public JpaToscaServiceTemplate createToscaNodeTemplates(@NonNull final PfDao dao,
+                                                            @NonNull final JpaToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+
+        LOGGER.debug("->write: tosca nodeTemplates={}", serviceTemplate);
+
+        ToscaUtils.assertNodeTemplatesExist(serviceTemplate);
+
+        Optional<JpaToscaNodeTypes> nodeTypes = Optional.ofNullable(serviceTemplate.getNodeTypes());
+        for (JpaToscaNodeTemplate nodeTemplate : serviceTemplate.getTopologyTemplate().getNodeTemplates()
+            .getAll(null)) {
+
+            // verify node types in the db if mismatch/empty entities in the template
+            if (! (nodeTypes.isPresent() && nodeTypes.get().getKeys().contains(nodeTemplate.getType()))) {
+                verifyNodeTypeInDbTemplate(dao, nodeTemplate);
+            }
+        }
+        JpaToscaServiceTemplate writtenServiceTemplate = appendToServiceTemplate(dao, serviceTemplate);
+        LOGGER.debug("<-createdToscaNodeTemplates: writtenServiceTemplate={}", writtenServiceTemplate);
+
+        return serviceTemplate;
+    }
+
     /**
      * Verify the policy type for a policy exists.
      *
@@ -666,6 +863,28 @@ public class SimpleToscaProvider {
             String errorMessage =
                 POLICY_TYPE + policyTypeKey.getId() + " for policy " + policy.getId() + " does not exist";
             throw new PfModelRuntimeException(Response.Status.NOT_ACCEPTABLE, errorMessage);
+        }
+    }
+
+    /**
+     * Verify the node type for a toscaNodeTemplate metadataSet.
+     *
+     * @param dao the DAO to use to access toscaNodeTemplate types in the database
+     * @param toscaNodeTemplate the toscaNodeTemplate to check the toscaNodeTemplate type for
+     */
+    private void verifyNodeTypeInDbTemplate(final PfDao dao, final JpaToscaNodeTemplate toscaNodeTemplate) throws
+        PfModelException {
+        PfConceptKey nodeTypeKey = toscaNodeTemplate.getType();
+
+        JpaToscaNodeType nodeType = null;
+
+        nodeType = dao.get(JpaToscaNodeType.class, nodeTypeKey);
+
+        if (nodeType == null) {
+            String errorMessage =
+                "NODE_TYPE " + nodeTypeKey + " for toscaNodeTemplate " + toscaNodeTemplate.getId()
+                    + " does not exist";
+            throw new PfModelException(Response.Status.NOT_ACCEPTABLE, errorMessage);
         }
     }
 
@@ -698,5 +917,32 @@ public class SimpleToscaProvider {
         }
 
         return (JpaToscaPolicyType) filterdPolicyTypeList.get(0);
+    }
+
+    /**
+     * Assert that the node template is not referenced in any Tosca policy.
+     *
+     * @param name the name of node template
+     * @param version the version of node template
+     * @throws PfModelException if node template referenced in a policy
+     */
+    private void assertNodeTemplateNotUsedInPolicy(PfDao dao, String name, String version)
+        throws PfModelException {
+        JpaToscaServiceTemplate dbTemplate;
+        try {
+            //Retrieve all the policies from db, return if policies doesn't exist
+            dbTemplate = getPolicies(dao, null, null);
+        } catch (PfModelRuntimeException e) {
+            LOGGER.debug("Could not verify the node template reference in created policies ", e);
+            return;
+        }
+        for (JpaToscaPolicy policy : dbTemplate.getTopologyTemplate().getPolicies().getConceptMap().values()) {
+            if (policy.getMetadata().getOrDefault("metadataSetName", "").equals(name)
+                && policy.getMetadata().getOrDefault("metadataSetVersion", "").equals(version)) {
+                throw new PfModelException(Response.Status.NOT_ACCEPTABLE,
+                    "Node template is in use, it is referenced in Tosca Policy " + policy.getName() + " version "
+                        + policy.getVersion());
+            }
+        }
     }
 }

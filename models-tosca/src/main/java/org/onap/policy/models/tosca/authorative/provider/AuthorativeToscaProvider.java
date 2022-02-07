@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +35,8 @@ import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
@@ -547,6 +549,125 @@ public class AuthorativeToscaProvider {
             return deletedServiceTemplate;
         }
     }
+
+    /**
+     * Create tosca node templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param toscaServiceTemplate the template with node templates entities to be created.
+     * @return the toscaServiceTemplate with node templates that were created
+     * @throws PfModelException on errors creating node templates
+     */
+    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull final PfDao dao,
+                                                         @NonNull final ToscaServiceTemplate toscaServiceTemplate)
+        throws PfModelException {
+        LOGGER.debug("createToscaNodeTemplates ={}", toscaServiceTemplate);
+        ToscaServiceTemplate createdServiceTemplate;
+
+        synchronized (providerLockObject) {
+            createdServiceTemplate = new SimpleToscaProvider()
+                .createToscaNodeTemplates(dao, new JpaToscaServiceTemplate(toscaServiceTemplate)).toAuthorative();
+        }
+
+        LOGGER.debug("<-createToscaNodeTemplates: createdServiceTemplate={}", createdServiceTemplate);
+        return createdServiceTemplate;
+    }
+
+    /**
+     * Update tosca node templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param serviceTemplate the service template containing the definitions of the nodeTemplates to be updated.
+     * @return the TOSCA service template containing the nodeTemplates that were updated
+     * @throws PfModelRuntimeException on errors updating node templates
+     */
+    public ToscaServiceTemplate updateToscaNodeTemplates(@NonNull final PfDao dao,
+                                                         @NonNull final ToscaServiceTemplate serviceTemplate)
+        throws PfModelException {
+        LOGGER.debug("->updateToscaNodeTemplates: serviceTemplate={}", serviceTemplate);
+        ToscaServiceTemplate updatedServiceTemplate;
+
+        synchronized (providerLockObject) {
+            updatedServiceTemplate = new SimpleToscaProvider()
+                .updateToscaNodeTemplates(dao, new JpaToscaServiceTemplate(serviceTemplate)).toAuthorative();
+        }
+
+        LOGGER.debug("<-updateToscaNodeTemplates: updatedServiceTemplate={}", updatedServiceTemplate);
+        return updatedServiceTemplate;
+    }
+
+
+    /**
+     * Delete a tosca node template.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the node template to delete.
+     * @param version the version of the node template to delete.
+     * @return the TOSCA service template containing the node template that was deleted
+     * @throws PfModelException on errors deleting node template
+     */
+    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull final PfDao dao, @NonNull final String name,
+                                                        @NonNull final String version) throws PfModelException {
+        LOGGER.debug("->deleteToscaNodeTemplate: name={}, version={}", name, version);
+        ToscaServiceTemplate deletedServiceTemplate;
+
+        synchronized (providerLockObject) {
+            deletedServiceTemplate =
+                new SimpleToscaProvider().deleteToscaNodeTemplate(dao, new PfConceptKey(name, version)).toAuthorative();
+        }
+        LOGGER.debug("<-deleteToscaNodeTemplate: name={}, version={}, deletedServiceTemplate={}", name, version,
+            deletedServiceTemplate);
+        return deletedServiceTemplate;
+    }
+
+    /**
+     * Get node template metadataSet.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the metadataSet to get, null to get all metadataSets
+     * @param version the version of the metadataSet to get, null to get all versions of a metadataSets
+     * @return the metadataSets found
+     * @throws PfModelException on errors getting policy metadataSet
+     */
+    public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadataSet(
+        @NonNull final PfDao dao, final String name, final String version)
+        throws PfModelException {
+        LOGGER.debug("->getNodeTemplateMetadataSet: name={}, version={}", name, version);
+        List<Map<ToscaEntityKey, Map<String, Object>>> metadataSets;
+
+        synchronized (providerLockObject) {
+            metadataSets = new SimpleToscaProvider().getNodeTemplateMetadata(dao, name, version);
+        }
+        LOGGER.debug("<-getNodeTemplateMetadataSet: name={}, version={}, metadataSets={}", name, version,
+            metadataSets);
+        return metadataSets;
+    }
+
+    /**
+     * Get tosca node templates.
+     *
+     * @param dao the DAO to use to access the database
+     * @param name the name of the node template to get, null to get all node templates
+     * @param version the version of the node template to get, null to get all versions of node template
+     * @return the node templates found
+     * @throws PfModelException on errors getting tosca node templates
+     */
+    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(
+        @NonNull final PfDao dao, final String name, final String version)
+        throws PfModelException {
+        LOGGER.debug("->getNodeTemplate: name={}, version={}", name, version);
+        List<Map<PfConceptKey, ToscaNodeTemplate>> nodeTemplates = new ArrayList<>();
+
+        synchronized (providerLockObject) {
+            new SimpleToscaProvider().getToscaNodeTemplates(dao, name, version)
+                .getConceptMap().forEach((key, value) -> nodeTemplates.add(Map.of(key, value.toAuthorative())));
+        }
+
+        LOGGER.debug("<-getNodeTemplate: name={}, version={}, nodeTemplates={}", name, version,
+            nodeTemplates);
+        return nodeTemplates;
+    }
+
 
     /**
      * Return the contents of a list of maps as a plain list.
