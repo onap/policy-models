@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dcf5786_54042986",
+        "filename": "models-examples/src/main/resources/nodeTemplates/apexDecisionMakerPolicy.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "Since this is a policy it should go under src/main/resources/policies (instead of node templates) and name with conventions under that directory (note the words separated by dots), there is an apex policy already there for reference.   Modify the README.txt in that directory accoringly",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7608c13_268aa6c9",
+        "filename": "models-examples/src/main/resources/nodeTemplates/apexDecisionMakerPolicy_PAP_TO_PDP.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "same comment",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab78ab2_264cbb7d",
+        "filename": "models-examples/src/main/resources/nodeTemplates/sampleMetadataSets.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "for consistency purposes, use same naming convention with lower case in the directory name, ie. src/main/resources/nodetemplates (as src/main/resources/policytypes) either that or rename these 2 directories to use camel case but this will imply cascading changes to other directories.   Just to keep style consistent for existing code.",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a85e473_7a8c9bae",
+        "filename": "models-examples/src/main/resources/nodeTemplates/sampleMetadataSets.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "nodetemplates should stay in this directory, this would be analogous to policies under policies referring to policytypes under policytypes directory.",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "419b3ce7_6081e662",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "are there side effects downstream to components when getting the metadata.   If I recall correctly, the policy-id and policy-version is  made available there within the metadata section for the PDPs and they will access it when the policy is deployed as a string.   Just asking.",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924cc72e_4cf89fce",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "Move debug statements outside critical section for performance optimization, want to avoid holding the lock while perhaps doing IO with the logger statement.   It is not possible to do this in many occasions but here is clear.",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "696f5932_d34235fe",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "same here - this is a general comment in this file.",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f8e2607_12e712a8",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-09T20:15:00Z",
+      "side": 1,
+      "message": "do any of the operations below need synchronization ?",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
