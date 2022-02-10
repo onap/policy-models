@@ -70,6 +70,42 @@
     },
     {
       "key": {
+        "uuid": "b1113114_b214ae00",
+        "filename": "models-examples/src/main/resources/policies/apex.policy.decisionmaker.input.tosca.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8dcf5786_54042986",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "343c4d07_a9210fb1",
+        "filename": "models-examples/src/main/resources/policies/apex.policy.decisionmaker.paptopdp.input.tosca.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c7608c13_268aa6c9",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "419b3ce7_6081e662",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
         "patchSetId": 2
@@ -105,6 +141,24 @@
     },
     {
       "key": {
+        "uuid": "cc2c4249_899d5a66",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "I think after building models locally, then build and run all the junits in drools-pdp, apex-pdp, drools-applications and xacml-pdp to make sure all junits pass and keep an eye on the csits after merging, I think tests will fail if there is a problem.",
+      "parentUuid": "d78d08c7_46dbb2ae",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "924cc72e_4cf89fce",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 2
@@ -122,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "8ed0485d_a4263e8a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "924cc72e_4cf89fce",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "696f5932_d34235fe",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 2
@@ -136,6 +208,24 @@
       "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c47ccf_fa227695",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "696f5932_d34235fe",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -171,6 +261,24 @@
       "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34b3ee63_21d784cd",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-02-10T16:43:28Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "efcf4a86_d360f35a",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
