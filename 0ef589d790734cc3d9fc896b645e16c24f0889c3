@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "d78d08c7_46dbb2ae",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2022-02-10T14:43:01Z",
+      "side": 1,
+      "message": "Hi Jorge, I see the XacmlSimulatorJaxRs.java where the policy-id was fetched from resource field which is a map\u003cString, Object\u003e. Is this the place in xacml its consumed from metadata? Do you suggest to do any explicit testing to make sure it doesn\u0027t affect the existing functionality?\n\nhttps://github.com/onap/policy-models/blob/master/models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/XacmlSimulatorJaxRs.java#L97 \n\nhttps://github.com/onap/policy-models/blob/master/models-decisions/src/main/java/org/onap/policy/models/decisions/concepts/DecisionRequest.java#L73",
+      "parentUuid": "419b3ce7_6081e662",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "924cc72e_4cf89fce",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 2
@@ -132,6 +150,24 @@
       "writtenOn": "2022-02-09T20:15:00Z",
       "side": 1,
       "message": "do any of the operations below need synchronization ?",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efcf4a86_d360f35a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/provider/SimpleToscaProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2022-02-10T14:43:01Z",
+      "side": 1,
+      "message": "I don\u0027t think we need synchronization for these methods. These are being invoked only from the AuthorativeProvider where the methods are synchronized. Also the upcoming changes for spring migration is going to replace these providers I guess.",
+      "parentUuid": "4f8e2607_12e712a8",
       "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
