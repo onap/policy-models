@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020,2022 Nordix Foundation.
+ * Copyright (C) 2020 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,8 +67,6 @@ public final class ToscaServiceTemplateUtils {
                 addFragmentEntitites(compositeTemplate.getDataTypes(), fragmentTemplate.getDataTypes(), result));
         compositeTemplate.setPolicyTypes(
                 addFragmentEntitites(compositeTemplate.getPolicyTypes(), fragmentTemplate.getPolicyTypes(), result));
-        compositeTemplate.setNodeTypes(
-                addFragmentEntitites(compositeTemplate.getNodeTypes(), fragmentTemplate.getNodeTypes(), result));
 
         if (originalTemplate.getTopologyTemplate() != null && fragmentTemplate.getTopologyTemplate() != null) {
             if (originalTemplate.getTopologyTemplate()
@@ -76,9 +74,6 @@ public final class ToscaServiceTemplateUtils {
                 compositeTemplate.getTopologyTemplate()
                         .setPolicies(addFragmentEntitites(compositeTemplate.getTopologyTemplate().getPolicies(),
                                 fragmentTemplate.getTopologyTemplate().getPolicies(), result));
-                compositeTemplate.getTopologyTemplate()
-                    .setNodeTemplates(addFragmentEntitites(compositeTemplate.getTopologyTemplate().getNodeTemplates(),
-                        fragmentTemplate.getTopologyTemplate().getNodeTemplates(), result));
             } else {
                 Validated.addResult(result, "topology template",
                                 originalTemplate.getTopologyTemplate().getKey(),

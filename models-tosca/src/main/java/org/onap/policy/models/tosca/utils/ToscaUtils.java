@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2022 Nordix Foundation.
+ *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -107,15 +107,6 @@ public final class ToscaUtils {
     }
 
     /**
-     * Assert that node templates have been specified correctly.
-     *
-     * @param serviceTemplate the service template containing node templates to be checked
-     */
-    public static void assertNodeTemplatesExist(final JpaToscaServiceTemplate serviceTemplate) {
-        assertExist(serviceTemplate, ToscaUtils::checkNodeTemplateExist);
-    }
-
-    /**
      * Check that data types have been specified correctly.
      *
      * @param serviceTemplate the service template containing data types to be checked
@@ -141,16 +132,6 @@ public final class ToscaUtils {
     public static boolean doPoliciesExist(final JpaToscaServiceTemplate serviceTemplate) {
 
         return doExist(serviceTemplate, ToscaUtils::checkPoliciesExist);
-    }
-
-    /**
-     * Check that tosca node templates have been specified correctly.
-     *
-     * @param serviceTemplate the service template containing node templates to be checked
-     */
-    public static boolean doNodeTemplatesExist(final JpaToscaServiceTemplate serviceTemplate) {
-
-        return doExist(serviceTemplate, ToscaUtils::checkNodeTemplateExist);
     }
 
     /**
@@ -222,20 +203,6 @@ public final class ToscaUtils {
             return "list of policies specified on topology template of service template is empty";
         }
 
-        return null;
-    }
-
-    /**
-     * Check if node templates have been specified correctly.
-     */
-    public static String checkNodeTemplateExist(final JpaToscaServiceTemplate serviceTemplate) {
-        if (serviceTemplate.getTopologyTemplate().getNodeTemplates() == null) {
-            return "node templates not present on the service template";
-        }
-
-        if (serviceTemplate.getTopologyTemplate().getNodeTemplates().getConceptMap().isEmpty()) {
-            return "no parameters present on the node templates";
-        }
         return null;
     }
 

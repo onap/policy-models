@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2022 Nordix Foundation.
+ *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,6 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
-import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -67,7 +66,6 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
     private PfConceptKey derivedFrom;
 
     @ElementCollection
-    @Lob
     private Map<@NotNull @NotBlank String, @NotNull @NotBlank String> metadata;
 
     @Column
@@ -158,7 +156,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             description = toscaEntity.getDescription();
         }
 
-        metadata = PfUtils.mapMap(toscaEntity.getMetadata(), Object::toString);
+        metadata = PfUtils.mapMap(toscaEntity.getMetadata(), item -> item);
     }
 
     @Override
