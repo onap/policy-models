@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "e117c765_475c4fc2",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/concepts/ToscaEntity.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-02-11T10:53:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c75d705c_b73bf322",
+      "revId": "0ef589d790734cc3d9fc896b645e16c24f0889c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "924cc72e_4cf89fce",
         "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/authorative/provider/AuthorativeToscaProvider.java",
         "patchSetId": 2
