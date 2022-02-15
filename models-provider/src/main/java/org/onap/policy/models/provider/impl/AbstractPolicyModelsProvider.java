@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021-2022 Nordix Foundation.
+ *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@
 
 package org.onap.policy.models.provider.impl;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -30,18 +30,12 @@ import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.dao.PfDao;
-import org.onap.policy.models.pap.concepts.PolicyAudit;
-import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider;
-import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.pdp.persistence.provider.PdpProvider;
-import org.onap.policy.models.pdp.persistence.provider.PdpStatisticsProvider;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -280,33 +274,6 @@ public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvid
     }
 
     @Override
-    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
-        assertInitialized();
-        return new PdpStatisticsProvider().getFilteredPdpStatistics(getPfDao(), filterParams);
-    }
-
-    @Override
-    public List<PdpStatistics> createPdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException {
-        assertInitialized();
-        return new PdpStatisticsProvider().createPdpStatistics(getPfDao(), pdpStatisticsList);
-    }
-
-    @Override
-    public List<PdpStatistics> updatePdpStatistics(@NonNull final List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException {
-        assertInitialized();
-        return new PdpStatisticsProvider().updatePdpStatistics(getPfDao(), pdpStatisticsList);
-    }
-
-    @Override
-    public List<PdpStatistics> deletePdpStatistics(@NonNull final String name, final Instant timestamp)
-            throws PfModelException {
-        assertInitialized();
-        return new PdpStatisticsProvider().deletePdpStatistics(getPfDao(), name, timestamp);
-    }
-
-    @Override
     public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
         assertInitialized();
         return new PdpProvider().getAllPolicyStatus(getPfDao());
@@ -330,18 +297,6 @@ public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvid
             Collection<PdpPolicyStatus> deleteObjs) {
         assertInitialized();
         new PdpProvider().cudPolicyStatus(getPfDao(), createObjs, updateObjs, deleteObjs);
-    }
-
-    @Override
-    public void createAuditRecords(List<PolicyAudit> auditRecords) {
-        assertInitialized();
-        new PolicyAuditProvider().createAuditRecords(getPfDao(), auditRecords);
-    }
-
-    @Override
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter) {
-        assertInitialized();
-        return new PolicyAuditProvider().getAuditRecords(getPfDao(), auditFilter);
     }
 
     /**

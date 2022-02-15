@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,6 @@
 
 package org.onap.policy.models.dao.impl;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfReferenceTimestampKey;
@@ -58,7 +56,6 @@ public class ProxyDao implements PfDao {
     private static final String NAME           = "name";
     private static final String VERSION        = "version";
     private static final String TIMESTAMP      = "timeStamp";
-    private static final String GENERATEDID    = "Id";
     private static final String PARENT_NAME    = "parentname";
     private static final String PARENT_VERSION = "parentversion";
     private static final String LOCAL_NAME     = "localname";
@@ -76,8 +73,6 @@ public class ProxyDao implements PfDao {
     private static final String NAME_FILTER            = "c.key.name = :name";
     private static final String VERSION_FILTER         = "c.key.version = :version";
     private static final String TIMESTAMP_FILTER       = "c.key.timeStamp = :timeStamp";
-    private static final String TIMESTAMP_FILTER_NOKEY = "c.timeStamp = :timeStamp";
-    private static final String GENERATED_ID_FILTER    = "c.key.generatedId = :Id";
     private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
     private static final String PARENT_VERSION_FILTER  = "c.key.parentKeyVersion = :parentversion";
     private static final String LOCAL_NAME_FILTER      = "c.key.localName = :localname";
@@ -89,9 +84,6 @@ public class ProxyDao implements PfDao {
 
     private static final String DELETE_BY_TIMESTAMP_KEY =
             DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + TIMESTAMP_FILTER;
-
-    private static final String DELETE_BY_GENERATED_ID_KEY =
-            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + GENERATED_ID_FILTER;
 
     private static final String DELETE_BY_REFERENCE_KEY =
             DELETE_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
@@ -106,9 +98,6 @@ public class ProxyDao implements PfDao {
 
     private static final String SELECT_BY_CONCEPT_KEY =
             SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
-
-    private static final String SELECT_BY_TIMESTAMP_NOKEY =
-            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER + AND + TIMESTAMP_FILTER_NOKEY;
 
     private static final String SELECT_BY_REFERENCE_KEY =
             SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
@@ -182,21 +171,6 @@ public class ProxyDao implements PfDao {
                 .setParameter(NAME,    key.getName())
                 .setParameter(VERSION, key.getVersion())
                 .setParameter(TIMESTAMP, key.getTimeStamp())
-                .executeUpdate();
-        // @formatter:on
-    }
-
-    @Override
-    public <T extends PfConcept> void delete(final Class<T> someClass, final PfGeneratedIdKey key) {
-        if (key == null) {
-            return;
-        }
-
-        // @formatter:off
-        mg.createQuery(setQueryTable(DELETE_BY_GENERATED_ID_KEY, someClass), someClass)
-                .setParameter(NAME,    key.getName())
-                .setParameter(VERSION, key.getVersion())
-                .setParameter(GENERATEDID, key.getGeneratedId())
                 .executeUpdate();
         // @formatter:on
     }
@@ -308,11 +282,6 @@ public class ProxyDao implements PfDao {
     }
 
     @Override
-    public <T extends PfConcept> T get(final Class<T> someClass, final PfGeneratedIdKey key) {
-        return genericGet(someClass, key);
-    }
-
-    @Override
     public <T extends PfConcept> T get(final Class<T> someClass, final PfTimestampKey key) {
         return genericGet(someClass, key);
     }
@@ -392,22 +361,6 @@ public class ProxyDao implements PfDao {
         // @formatter:off
         return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
                 .setParameter(NAME, conceptName)
-                .getResultList();
-        // @formatter:on
-    }
-
-    @Override
-    public <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass, final PfGeneratedIdKey key,
-            final Instant timeStamp) {
-        if (someClass == null || key == null || timeStamp == null) {
-            return Collections.emptyList();
-        }
-
-        // @formatter:off
-        return mg.createQuery(setQueryTable(SELECT_BY_TIMESTAMP_NOKEY, someClass), someClass)
-                .setParameter(NAME,    key.getName())
-                .setParameter(VERSION, key.getVersion())
-                .setParameter(TIMESTAMP, Timestamp.from(timeStamp))
                 .getResultList();
         // @formatter:on
     }
