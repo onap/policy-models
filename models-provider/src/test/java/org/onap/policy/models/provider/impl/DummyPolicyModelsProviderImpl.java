@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@
 
 package org.onap.policy.models.provider.impl;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -34,15 +33,11 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.pap.concepts.PolicyAudit;
-import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -250,32 +245,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException {
-        // Not implemented
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<PdpStatistics> createPdpStatistics(final List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException {
-        // Not implemented
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<PdpStatistics> updatePdpStatistics(final List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException {
-        // Not implemented
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<PdpStatistics> deletePdpStatistics(final String name, final Instant timestamp) {
-        // Not implemented
-        return new ArrayList<>();
-    }
-
-    @Override
     public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
         // Not implemented
         return new ArrayList<>();
@@ -298,17 +267,6 @@ public class DummyPolicyModelsProviderImpl implements PolicyModelsProvider {
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
             Collection<PdpPolicyStatus> deleteObjs) {
         // Not implemented
-    }
-
-    @Override
-    public void createAuditRecords(List<PolicyAudit> auditRecords) {
-        // Not implemented
-    }
-
-    @Override
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter) {
-        // Not implemented
-        return new ArrayList<>();
     }
 
     /**

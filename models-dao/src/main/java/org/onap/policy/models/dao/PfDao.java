@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +22,10 @@
 
 package org.onap.policy.models.dao;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfReferenceTimestampKey;
@@ -93,15 +92,6 @@ public interface PfDao {
      * @param timeStampKey the PfTimestampKey of the object to delete
      */
     <T extends PfConcept> void delete(Class<T> someClass, PfTimestampKey timeStampKey);
-
-    /**
-     * Delete an Policy Framework concept on the database.
-     *
-     * @param <T> the type of the object to delete, a subclass of {@link PfConcept}
-     * @param someClass the class of the object to delete, a subclass of {@link PfConcept}
-     * @param idKey the PfConceptIdKey of the object to delete
-     */
-    <T extends PfConcept> void delete(Class<T> someClass, PfGeneratedIdKey idKey);
 
     /**
      * Create a collection of objects in the database.
@@ -203,16 +193,6 @@ public interface PfDao {
     <T extends PfConcept> T get(Class<T> someClass, PfTimestampKey timestampKey);
 
     /**
-     * Get an object from the database, referred to by reference key.
-     *
-     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
-     * @param someClass the class of the object to get, a subclass of {@link PfConcept}
-     * @param idKey the PfConceptIdKey of the object to get
-     * @return the object that was retrieved from the database or null if the object was not retrieved
-     */
-    <T extends PfConcept> T get(Class<T> someClass, PfGeneratedIdKey idKey);
-
-    /**
      * Get an object from the database, referred to by reference timestamp key.
      *
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
@@ -271,18 +251,6 @@ public interface PfDao {
      * @return the objects or null if no objects were retrieved
      */
     <T extends PfConcept> List<T> getAllVersionsByParent(Class<T> someClass, final String parentKeyName);
-
-    /**
-     * Get all the objects in the database of a given type.
-     *
-     * @param <T> the type of the objects to get, a subclass of {@link PfConcept}
-     * @param someClass the class of the objects to get, a subclass of {@link PfConcept}
-     * @param key the key of the PfGeneratedIdKey to get
-     * @param timeStamp the timeStamp of the concepts to get
-     * @return the objects or null if no objects were retrieved
-     */
-    <T extends PfConcept> List<T> getByTimestamp(final Class<T> someClass,
-                                                 final PfGeneratedIdKey key, final Instant timeStamp);
 
     /**
      * Get a concept from the database with the given concept key.

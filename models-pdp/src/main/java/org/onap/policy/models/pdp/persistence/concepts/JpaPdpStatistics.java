@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2019-2021 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,15 +26,19 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
@@ -42,13 +47,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.eclipse.persistence.annotations.Index;
-import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfGeneratedIdKey;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
-import org.onap.policy.models.base.validation.annotations.VerifyKey;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
@@ -67,10 +74,24 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStatistics>, Serializable {
     private static final long serialVersionUID = -7312974966820980659L;
 
-    @EmbeddedId
-    @VerifyKey
-    @NotNull
-    private PfGeneratedIdKey key;
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "sequence")
+    @TableGenerator(
+        name = "sequence",
+        table = "sequence",
+        pkColumnName = "SEQ_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "SEQ_GEN")
+    private Long generatedId;
+
+    @Column(name = "name", length = 120)
+    @Pattern(regexp = PfKey.NAME_REGEXP)
+    private String name;
+
+    @Column(name = "version", length = 20)
+    @Pattern(regexp = PfKey.VERSION_REGEXP)
+    private String version;
 
     @Column(precision = 3)
     @Temporal(TemporalType.TIMESTAMP)
@@ -116,16 +137,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      * The Default Constructor creates a {@link JpaPdpStatistics} object with a null key.
      */
     public JpaPdpStatistics() {
-        this(new PfGeneratedIdKey());
-    }
-
-    /**
-     * The Key Constructor creates a {@link JpaPdpStatistics} object with the given concept key.
-     *
-     * @param key the key
-     */
-    public JpaPdpStatistics(@NonNull final PfGeneratedIdKey key) {
-        this.key = new PfGeneratedIdKey(key);
+        this.setName(PfKey.NULL_KEY_NAME);
+        this.setVersion(PfKey.NULL_KEY_VERSION);
     }
 
     /**
@@ -135,7 +148,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
      */
     public JpaPdpStatistics(@NonNull final JpaPdpStatistics copyConcept) {
         super(copyConcept);
-        this.key = new PfGeneratedIdKey(copyConcept.key);
+        this.name = copyConcept.name;
+        this.version = copyConcept.version;
+        this.generatedId = copyConcept.generatedId;
         this.timeStamp = copyConcept.timeStamp;
         this.pdpGroupName = copyConcept.pdpGroupName;
         this.pdpSubGroupName = copyConcept.pdpSubGroupName;
@@ -174,7 +189,9 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
         final JpaPdpStatistics other = (JpaPdpStatistics) otherConcept;
         return new CompareToBuilder()
-                .append(this.key, other.key)
+                .append(this.name, other.name)
+                .append(this.version, other.version)
+                .append(this.generatedId, other.generatedId)
                 .append(this.timeStamp, other.timeStamp)
                 .append(this.pdpGroupName, other.pdpGroupName)
                 .append(this.pdpSubGroupName, other.pdpSubGroupName)
@@ -192,8 +209,8 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @Override
     public PdpStatistics toAuthorative() {
         var pdpStatistics = new PdpStatistics();
-        pdpStatistics.setPdpInstanceId(key.getName());
-        pdpStatistics.setGeneratedId(key.getGeneratedId());
+        pdpStatistics.setPdpInstanceId(name);
+        pdpStatistics.setGeneratedId(generatedId);
         pdpStatistics.setTimeStamp(timeStamp.toInstant());
         pdpStatistics.setPdpGroupName(pdpGroupName);
         pdpStatistics.setPdpSubGroupName(pdpSubGroupName);
@@ -213,12 +230,11 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
     @Override
     public void fromAuthorative(@NonNull final PdpStatistics pdpStatistics) {
-        if (pdpStatistics.getGeneratedId() == null) {
-            this.setKey(new PfGeneratedIdKey(pdpStatistics.getPdpInstanceId(), PfKey.NULL_KEY_VERSION));
-        } else {
-            this.setKey(new PfGeneratedIdKey(pdpStatistics.getPdpInstanceId(),
-                        PfKey.NULL_KEY_VERSION, pdpStatistics.getGeneratedId()));
+        if (pdpStatistics.getGeneratedId() != null) {
+            this.setGeneratedId(pdpStatistics.getGeneratedId());
         }
+        this.setName(pdpStatistics.getPdpInstanceId());
+        this.setVersion(PfKey.NULL_KEY_VERSION);
         if (pdpStatistics.getTimeStamp() == null) {
             this.setTimeStamp(Date.from(Instant.EPOCH));
         } else {
@@ -241,12 +257,18 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
     @Override
     public List<PfKey> getKeys() {
-        return getKey().getKeys();
+        final List<PfKey> keyList = new ArrayList<>();
+        keyList.add(getKey());
+        return keyList;
+    }
+
+    @Override
+    public PfKey getKey() {
+        return new PfConceptKey(name, version);
     }
 
     @Override
     public void clean() {
-        key.clean();
         pdpGroupName = pdpGroupName.trim();
         pdpSubGroupName = pdpSubGroupName.trim();
         if (engineStats != null) {
@@ -254,5 +276,14 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
                 engineStat.clean();
             }
         }
+    }
+
+    @Override
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
+        if (PfKey.NULL_KEY_NAME.equals(name)) {
+            result.addResult("name", name, ValidationStatus.INVALID, Validated.IS_NULL);
+        }
+        return result;
     }
 }
