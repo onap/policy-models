@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2022 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,11 @@
 
 package org.onap.policy.models.provider.impl;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,22 +34,16 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.models.base.PfModelException;
-import org.onap.policy.models.pap.concepts.PolicyAudit;
-import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
-import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
-import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
-import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
@@ -83,10 +74,6 @@ public class DatabasePolicyModelsProviderTest {
     private static final String GROUP = "group";
 
     private static final String VERSION_100 = "1.0.0";
-
-    private static final Instant TIMESTAMP = Instant.EPOCH;
-
-    private static final String ORDER = "DESC";
 
     private PolicyModelsProviderParameters parameters;
 
@@ -282,18 +269,6 @@ public class DatabasePolicyModelsProviderTest {
             databaseProvider.deletePdpGroup(null);
         }).hasMessageMatching(NAME_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            databaseProvider.createPdpStatistics(null);
-        }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.updatePdpStatistics(null);
-        }).hasMessageMatching("^pdpStatisticsList is marked .*on.*ull but is null$");
-
-        assertThatThrownBy(() -> {
-            databaseProvider.deletePdpStatistics(null, TIMESTAMP);
-        }).hasMessageMatching(NAME_IS_NULL);
-
         databaseProvider.close();
     }
 
@@ -413,68 +388,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
 
         assertEquals(pdpGroup.getName(), databaseProvider.deletePdpGroup(GROUP).getName());
-
-        List<PdpStatistics> statisticsArrayList = makePdpStatisticsList();
-
-        assertThat(databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build())).isEmpty();
-        assertThat(databaseProvider.createPdpStatistics(statisticsArrayList)).hasSize(1);
-        assertThat(databaseProvider.updatePdpStatistics(statisticsArrayList)).hasSize(1);
-    }
-
-    @Test
-    public void testProviderMethodsStatistics() throws PfModelException {
-        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-        databaseProvider.createPdpStatistics(makePdpStatisticsList());
-
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build()).get(0)
-                        .getPdpInstanceId());
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().group(GROUP).build()).get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().group(GROUP).startTime(Instant.now()).build()).size());
-        assertEquals(NAME, databaseProvider
-                        .getFilteredPdpStatistics(PdpFilterParameters.builder().group(GROUP).endTime(TIMESTAMP).build())
-                        .get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().group(GROUP)
-                        .startTime(Instant.now()).endTime(Instant.now()).build()).size());
-
-        assertEquals(NAME, databaseProvider
-                        .getFilteredPdpStatistics(PdpFilterParameters.builder().name(NAME).group(GROUP).build()).get(0)
-                        .getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().name(NAME).group(GROUP)
-                        .startTime(Instant.now()).endTime(Instant.now()).build()).size());
-
-        assertEquals(NAME,
-                        databaseProvider.getFilteredPdpStatistics(
-                                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type").build())
-                                        .get(0).getPdpInstanceId());
-
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
-                            .startTime(Instant.now()).endTime(Instant.now()).build()).size());
-
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
-                            .sortOrder(ORDER).recordNum(1).build()).get(0).getPdpInstanceId());
-        assertEquals(NAME, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
-                            .sortOrder(ORDER).recordNum(5).build()).get(0).getPdpInstanceId());
-        assertEquals(0, databaseProvider.getFilteredPdpStatistics(
-                        PdpFilterParameters.builder().name(NAME).group(GROUP).subGroup("type")
-                            .startTime(Instant.now()).endTime(Instant.now())
-                            .sortOrder(ORDER).recordNum(5).build()).size());
-
-        assertEquals(NAME, databaseProvider.deletePdpStatistics(NAME, null).get(0).getPdpInstanceId());
-        assertThat(databaseProvider.getFilteredPdpStatistics(PdpFilterParameters.builder().build())).isEmpty();
-
-        assertThat(databaseProvider.getAllPolicyStatus()).isEmpty();
-        assertThat(databaseProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion("MyPolicy", null)))
-                .isEmpty();
-        assertThat(databaseProvider.getGroupPolicyStatus(GROUP)).isEmpty();
-        assertThatCode(() -> databaseProvider.cudPolicyStatus(null, null, null))
-            .doesNotThrowAnyException();
-
-        databaseProvider.close();
     }
 
     @Test
@@ -551,27 +464,6 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testCreateAuditRecords() throws PfModelException {
-        PolicyAudit audit = PolicyAudit.builder().action(AuditAction.DEPLOYMENT).pdpGroup(GROUP).pdpType(GROUP)
-                .policy(new ToscaConceptIdentifier(NAME, VERSION_100)).user("user").build();
-
-        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
-
-        databaseProvider.createAuditRecords(List.of(audit));
-        List<PolicyAudit> createdAudits = databaseProvider.getAuditRecords(AuditFilter.builder().recordNum(10).build());
-        assertThat(createdAudits).hasSize(1);
-
-        List<PolicyAudit> emptyList = databaseProvider
-                        .getAuditRecords(AuditFilter.builder().action(AuditAction.UNDEPLOYMENT).recordNum(10).build());
-        assertThat(emptyList).isEmpty();
-
-        assertThatThrownBy(() -> databaseProvider.createAuditRecords(null))
-                .hasMessageContaining("audits is marked non-null but is null");
-
-        databaseProvider.close();
-    }
-
-    @Test
     public void testToscaNodeTemplateHandling() throws PfModelException {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
@@ -594,16 +486,6 @@ public class DatabasePolicyModelsProviderTest {
         }).hasMessage("node template invalidName:1.0.1 not found");
 
         databaseProvider.close();
-    }
-
-    private List<PdpStatistics> makePdpStatisticsList() {
-        PdpStatistics pdpStatistics = new PdpStatistics();
-        pdpStatistics.setPdpInstanceId(NAME);
-        pdpStatistics.setTimeStamp(TIMESTAMP);
-        pdpStatistics.setPdpGroupName(GROUP);
-        pdpStatistics.setPdpSubGroupName("type");
-        List<PdpStatistics> statisticsArrayList = List.of(pdpStatistics);
-        return statisticsArrayList;
     }
 
     private ToscaServiceTemplate makeNodeTemplate() {

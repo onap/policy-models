@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2022 Nordix Foundation.
- *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 
 package org.onap.policy.models.provider;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -30,15 +29,11 @@ import lombok.NonNull;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
-import org.onap.policy.models.pap.concepts.PolicyAudit;
-import org.onap.policy.models.pap.persistence.provider.PolicyAuditProvider.AuditFilter;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
-import org.onap.policy.models.pdp.persistence.provider.PdpFilterParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityKey;
@@ -378,46 +373,6 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public PdpGroup deletePdpGroup(@NonNull final String name) throws PfModelException;
 
-
-    /**
-     * Get filtered PdpStatistics.
-     *
-     * @param filterParams filter parameters
-     * @return the PDP statistics found
-     * @throws PfModelException on errors getting policies
-     */
-    public List<PdpStatistics> getFilteredPdpStatistics(PdpFilterParameters filterParams) throws PfModelException;
-
-    /**
-     * Creates PDP statistics.
-     *
-     * @param pdpStatisticsList a specification of the PDP statistics to create
-     * @return the PDP statistics created
-     * @throws PfModelException on errors creating PDP statistics
-     */
-    public List<PdpStatistics> createPdpStatistics(@NonNull List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException;
-
-    /**
-     * Updates PDP statistics.
-     *
-     * @param pdpStatisticsList a specification of the PDP statistics to update
-     * @return the PDP statistics updated
-     * @throws PfModelException on errors updating PDP statistics
-     */
-    public List<PdpStatistics> updatePdpStatistics(@NonNull List<PdpStatistics> pdpStatisticsList)
-            throws PfModelException;
-
-    /**
-     * Delete a PDP statistics.
-     *
-     * @param name the name of the policy to get, null to get all PDP statistics
-     * @param timestamp the timestamp of statistics to delete, null to delete all statistics record of given pdp
-     * @return the PDP statistics deleted
-     * @throws PfModelException on errors deleting PDP statistics
-     */
-    public List<PdpStatistics> deletePdpStatistics(@NonNull String name, Instant timestamp) throws PfModelException;
-
     /**
      * Gets all policy deployments.
      *
@@ -453,18 +408,4 @@ public interface PolicyModelsProvider extends AutoCloseable {
      */
     public void cudPolicyStatus(Collection<PdpPolicyStatus> createObjs, Collection<PdpPolicyStatus> updateObjs,
             Collection<PdpPolicyStatus> deleteObjs);
-
-    /**
-     * Creates records for audit actions on policies.
-     *
-     * @param auditRecords the objects to create
-     */
-    public void createAuditRecords(@NonNull List<PolicyAudit> auditRecords);
-
-    /**
-     * Collect the audit records.
-     * @param auditFilter filter for search
-     * @return list of {@link PolicyAudit} or empty if none or not match with filter
-     */
-    public List<PolicyAudit> getAuditRecords(AuditFilter auditFilter);
 }

@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Nordix Foundation.
- *  Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2021-2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,13 @@
 package org.onap.policy.models.pap.persistence.concepts;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -36,14 +38,18 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.onap.policy.common.parameters.BeanValidationResult;
+import org.onap.policy.common.parameters.ValidationStatus;
+import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
-import org.onap.policy.models.base.PfGeneratedIdKey;
+import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
-import org.onap.policy.models.base.validation.annotations.VerifyKey;
+import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
@@ -62,11 +68,18 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAudit> {
     private static final long serialVersionUID = -2935734300607322191L;
 
-    @EmbeddedId
-    @Column
-    @NotNull
-    @VerifyKey(versionNotNull = true)
-    private PfGeneratedIdKey key;
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue
+    private Long generatedId;
+
+    @Column(name = "name", length = 120)
+    @Pattern(regexp = PfKey.NAME_REGEXP)
+    private String name;
+
+    @Column(name = "version", length = 20)
+    @Pattern(regexp = PfKey.VERSION_REGEXP)
+    private String version;
 
     @Column
     private String pdpGroup;
@@ -90,7 +103,8 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
      * Default constructor.
      */
     public JpaPolicyAudit() {
-        key = new PfGeneratedIdKey();
+        this.setName(PfKey.NULL_KEY_NAME);
+        this.setVersion(PfKey.NULL_KEY_VERSION);
     }
 
     /**
@@ -108,7 +122,9 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
      * @param copyConcept original entity to be copied
      */
     public JpaPolicyAudit(JpaPolicyAudit copyConcept) {
-        this.key = new PfGeneratedIdKey(copyConcept.getKey());
+        this.name = copyConcept.name;
+        this.version = copyConcept.version;
+        this.generatedId = copyConcept.generatedId;
         this.pdpGroup = copyConcept.getPdpGroup();
         this.pdpType = copyConcept.getPdpType();
         this.action = copyConcept.getAction();
@@ -132,7 +148,9 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
 
         // @formatter:off
         return new CompareToBuilder()
-                        .append(key, other.key)
+                        .append(name, other.name)
+                        .append(version, other.version)
+                        .append(generatedId, other.generatedId)
                         .append(pdpGroup, other.pdpGroup)
                         .append(pdpType, other.pdpType)
                         .append(action, other.action)
@@ -144,11 +162,11 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
 
     @Override
     public PolicyAudit toAuthorative() {
-        var policyIdent = new ToscaConceptIdentifier(key.getName(), key.getVersion());
+        var policyIdent = new ToscaConceptIdentifier(name, version);
 
         // @formatter:off
         return PolicyAudit.builder()
-                        .auditId(key.getGeneratedId())
+                        .auditId(generatedId)
                         .pdpGroup(pdpGroup)
                         .pdpType(pdpType)
                         .policy(policyIdent)
@@ -163,11 +181,13 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
     public void fromAuthorative(PolicyAudit authorativeConcept) {
         if (authorativeConcept.getPolicy() != null) {
             final ToscaConceptIdentifier policy = authorativeConcept.getPolicy();
-            key = new PfGeneratedIdKey(policy.getName(), policy.getVersion(), authorativeConcept.getAuditId());
+            this.setName(policy.getName());
+            this.setVersion(policy.getVersion());
         } else {
-            key = new PfGeneratedIdKey();
+            this.setName(PfKey.NULL_KEY_NAME);
+            this.setVersion(PfKey.NULL_KEY_VERSION);
         }
-
+        this.setGeneratedId(authorativeConcept.getAuditId());
         pdpGroup = authorativeConcept.getPdpGroup();
         pdpType = authorativeConcept.getPdpType();
         action = authorativeConcept.getAction();
@@ -176,17 +196,35 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
         user = authorativeConcept.getUser();
     }
 
+
     @Override
     public List<PfKey> getKeys() {
-        return getKey().getKeys();
+        final List<PfKey> keyList = new ArrayList<>();
+        keyList.add(getKey());
+        return keyList;
+    }
+
+    @Override
+    public PfKey getKey() {
+        return new PfConceptKey(name, version);
     }
 
     @Override
     public void clean() {
-        key.clean();
+        setName(getName());
+        setVersion(getVersion());
 
         pdpGroup = Assertions.validateStringParameter("pdpGroup", pdpGroup, PfReferenceKey.LOCAL_NAME_REGEXP);
         pdpType = Assertions.validateStringParameter("pdpType", pdpType, PfReferenceKey.LOCAL_NAME_REGEXP);
         user = Assertions.validateStringParameter("user", user, PfReferenceKey.LOCAL_NAME_REGEXP);
+    }
+
+    @Override
+    public BeanValidationResult validate(@NonNull String fieldName) {
+        BeanValidationResult result = super.validate(fieldName);
+        if (PfKey.NULL_KEY_NAME.equals(name)) {
+            result.addResult("name", name, ValidationStatus.INVALID, Validated.IS_NULL);
+        }
+        return result;
     }
 }
