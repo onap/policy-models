@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +31,6 @@ import static org.junit.Assert.assertNull;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,7 +42,6 @@ import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
-import org.onap.policy.models.base.PfGeneratedIdKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.PfReferenceTimestampKey;
@@ -66,9 +65,6 @@ public class EntityTest {
     private static final Instant TIMESTAMP0 = Instant.ofEpochSecond(1613494293);
     private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1613494293).plusSeconds(55);
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1613494293).plusSeconds(90);
-    private static final Long GENERATEDID0 = 10000L;
-    private static final Long GENERATEDID1 = 10001L;
-    private static final Long GENERATEDID2 = 10002L;
 
     private PfDao pfDao;
 
@@ -134,15 +130,11 @@ public class EntityTest {
 
         testAllOps();
 
-        testGeneratedId();
-
         testReferenceTimestamp();
 
         testVersionOps();
 
         testgetFilteredOps();
-
-        testgetFilteredOps2();
 
         testgetFilteredOps3();
     }
@@ -384,111 +376,6 @@ public class EntityTest {
         assertEquals(0, pfDao.size(DummyTimestampEntity.class));
     }
 
-    private void testGeneratedId() {
-        final PfGeneratedIdKey agKey0 = new PfGeneratedIdKey("AT-KEY0", VERSION001, GENERATEDID0);
-        final PfGeneratedIdKey agKey1 = new PfGeneratedIdKey("AT-KEY1", VERSION001, GENERATEDID1);
-        final PfGeneratedIdKey agKey2 = new PfGeneratedIdKey("AT-KEY2", VERSION001, GENERATEDID2);
-        final DummyGeneratedIdEntity gkeyInfo0 = new DummyGeneratedIdEntity(agKey0, Date.from(TIMESTAMP0));
-        final DummyGeneratedIdEntity gkeyInfo1 = new DummyGeneratedIdEntity(agKey1, Date.from(TIMESTAMP1));
-        final DummyGeneratedIdEntity gkeyInfo2 = new DummyGeneratedIdEntity(agKey2, Date.from(TIMESTAMP2));
-
-        pfDao.create(gkeyInfo0);
-
-        final DummyGeneratedIdEntity gkeyInfoBack0 = pfDao.get(DummyGeneratedIdEntity.class, agKey0);
-        assertEquals(gkeyInfo0, gkeyInfoBack0);
-
-        assertEquals(1, pfDao.getByTimestamp(DummyGeneratedIdEntity.class, agKey0, TIMESTAMP0).size());
-
-        final DummyGeneratedIdEntity gkeyInfoBackNull =
-                pfDao.get(DummyGeneratedIdEntity.class, PfGeneratedIdKey.getNullKey());
-        assertNull(gkeyInfoBackNull);
-
-        final Set<DummyGeneratedIdEntity> gkeyInfoSetIn = new TreeSet<>();
-        gkeyInfoSetIn.add(gkeyInfo1);
-        gkeyInfoSetIn.add(gkeyInfo2);
-
-        pfDao.createCollection(gkeyInfoSetIn);
-
-        Set<DummyGeneratedIdEntity> gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-
-        gkeyInfoSetIn.add(gkeyInfo0);
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.delete(gkeyInfo1);
-        gkeyInfoSetIn.remove(gkeyInfo1);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.deleteCollection(gkeyInfoSetIn);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(0, gkeyInfoSetOut.size());
-
-        gkeyInfoSetIn.add(gkeyInfo2);
-        pfDao.createCollection(gkeyInfoSetIn);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.delete(DummyGeneratedIdEntity.class, agKey2);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetOut.size(), pfDao.size(DummyGeneratedIdEntity.class));
-
-        pfDao.deleteAll(DummyGeneratedIdEntity.class);
-        assertEquals(0, pfDao.size(DummyGeneratedIdEntity.class));
-
-        final PfGeneratedIdKey agKey3 = new PfGeneratedIdKey("AT-KEY0", VERSION001);
-        final PfGeneratedIdKey agKey4 = new PfGeneratedIdKey("AT-KEY1", VERSION001);
-        final PfGeneratedIdKey agKey5 = new PfGeneratedIdKey("AT-KEY2", VERSION001);
-        final DummyGeneratedIdEntity gkeyInfo3 = new DummyGeneratedIdEntity(agKey3, Date.from(TIMESTAMP0));
-        final DummyGeneratedIdEntity gkeyInfo4 = new DummyGeneratedIdEntity(agKey4, Date.from(TIMESTAMP1));
-        final DummyGeneratedIdEntity gkeyInfo5 = new DummyGeneratedIdEntity(agKey5, Date.from(TIMESTAMP2));
-
-        pfDao.create(gkeyInfo3);
-
-        final DummyGeneratedIdEntity gkeyInfoBack3 = pfDao.get(DummyGeneratedIdEntity.class, agKey3);
-        assertEquals(gkeyInfo3, gkeyInfoBack3);
-
-        assertEquals(1, pfDao.getByTimestamp(DummyGeneratedIdEntity.class, agKey3, TIMESTAMP0).size());
-
-        assertEquals(1, gkeyInfo3.getKeys().size());
-
-        assertEquals(1, gkeyInfo4.compareTo(gkeyInfo3));
-
-        assertNull(gkeyInfo4.validate(VERSION002).getResult());
-
-
-        gkeyInfoSetIn.clear();
-        gkeyInfoSetIn.add(gkeyInfo4);
-        gkeyInfoSetIn.add(gkeyInfo5);
-
-        pfDao.createCollection(gkeyInfoSetIn);
-
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-
-        gkeyInfoSetIn.add(gkeyInfo3);
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.delete(gkeyInfo4);
-        gkeyInfoSetIn.remove(gkeyInfo4);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.deleteCollection(gkeyInfoSetIn);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(0, gkeyInfoSetOut.size());
-
-        gkeyInfoSetIn.add(gkeyInfo5);
-        pfDao.createCollection(gkeyInfoSetIn);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetIn, gkeyInfoSetOut);
-
-        pfDao.delete(DummyGeneratedIdEntity.class, agKey5);
-        gkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyGeneratedIdEntity.class));
-        assertEquals(gkeyInfoSetOut.size(), pfDao.size(DummyGeneratedIdEntity.class));
-
-        pfDao.deleteAll(DummyGeneratedIdEntity.class);
-        assertEquals(0, pfDao.size(DummyGeneratedIdEntity.class));
-    }
-
     private void testReferenceTimestamp() {
         final PfConceptKey owner0Key = new PfConceptKey("Owner0", VERSION001);
         final PfConceptKey owner1Key = new PfConceptKey("Owner1", VERSION001);
@@ -635,41 +522,6 @@ public class EntityTest {
         Map<String, Object> filterMap = new HashMap<>();
         filterMap.put("doubleValue", 200.1);
         assertThat(pfDao.getFiltered(DummyTimestampEntity.class,
-                        PfFilterParameters.builder().filterMap(filterMap).build())).hasSize(1);
-    }
-
-    private void testgetFilteredOps2() {
-        Map<String, Object> filterMap = new HashMap<>();
-        filterMap.put("doubleValue", 200.1);
-
-        final PfGeneratedIdKey agKey0 = new PfGeneratedIdKey("AT-KEY0", VERSION001);
-        final PfGeneratedIdKey agKey1 = new PfGeneratedIdKey("AT-KEY1", VERSION001);
-        final PfGeneratedIdKey agKey2 = new PfGeneratedIdKey("AT-KEY2", VERSION001);
-        final DummyGeneratedIdEntity gkeyInfo0 = new DummyGeneratedIdEntity(agKey0, Date.from(TIMESTAMP0), 200.0);
-        final DummyGeneratedIdEntity gkeyInfo1 = new DummyGeneratedIdEntity(agKey1, Date.from(TIMESTAMP1), 200.1);
-        final DummyGeneratedIdEntity gkeyInfo2 = new DummyGeneratedIdEntity(agKey2, Date.from(TIMESTAMP2), 200.2);
-
-        pfDao.create(gkeyInfo0);
-        pfDao.create(gkeyInfo1);
-        pfDao.create(gkeyInfo2);
-
-
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
-                        PfFilterParameters.builder().name("AT-KEY0").version(VERSION001).build())).hasSize(1);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
-                        PfFilterParameters.builder().name("AT-KEY0").build())).hasSize(1);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().version(VERSION001)
-                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(3);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().name("AT-KEY0")
-                        .version(VERSION001).startTime(TIMESTAMP0).endTime(TIMESTAMP2).build())).hasSize(1);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
-                        PfFilterParameters.builder().version(VERSION001).endTime(TIMESTAMP2).build())).hasSize(3);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
-                        PfFilterParameters.builder().version(VERSION001).startTime(TIMESTAMP0).build())).hasSize(3);
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class, PfFilterParameters.builder().version(VERSION001)
-                        .startTime(TIMESTAMP0).endTime(TIMESTAMP2).sortOrder("DESC").recordNum(2).build())).hasSize(2);
-
-        assertThat(pfDao.getFiltered(DummyGeneratedIdEntity.class,
                         PfFilterParameters.builder().filterMap(filterMap).build())).hasSize(1);
     }
 
