@@ -129,9 +129,6 @@ public class AuthorativeToscaProviderNodeTemplateTest {
 
         assertNotNull(toscaServiceTemplate);
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
-        List<Map<PfConceptKey, ToscaNodeTemplate>> gotPolicyMetadataSets1 = authorativeToscaProvider
-            .getToscaNodeTemplate(pfDao, null, null);
-        assertEquals(3, gotPolicyMetadataSets1.size());
 
         //Fetch all metadataSet if id is null
         List<Map<ToscaEntityKey, Map<String, Object>>> gotPolicyMetadataSets = authorativeToscaProvider
@@ -160,17 +157,17 @@ public class AuthorativeToscaProviderNodeTemplateTest {
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
 
         //Fetch all node templates if id is null
-        List<Map<PfConceptKey, ToscaNodeTemplate>> gotToscaNodeTemplates = authorativeToscaProvider
+        List<ToscaNodeTemplate> gotToscaNodeTemplates = authorativeToscaProvider
             .getToscaNodeTemplate(pfDao, null, null);
         assertEquals(3, gotToscaNodeTemplates.size());
 
         // Get filtered node templates
-        List<Map<PfConceptKey, ToscaNodeTemplate>> filteredNodeTemplates = authorativeToscaProvider
+        List<ToscaNodeTemplate> filteredNodeTemplates = authorativeToscaProvider
             .getToscaNodeTemplate(pfDao, "apexMetadata_adaptive", "2.3.1");
         assertEquals(1, filteredNodeTemplates.size());
 
         //Get invalid node template
-        List<Map<PfConceptKey, ToscaNodeTemplate>> filteredNodeTemplatesInvalid = authorativeToscaProvider
+        List<ToscaNodeTemplate> filteredNodeTemplatesInvalid = authorativeToscaProvider
             .getToscaNodeTemplate(pfDao, "invalidname", "1.0.0");
         assertThat(filteredNodeTemplatesInvalid).isEmpty();
     }

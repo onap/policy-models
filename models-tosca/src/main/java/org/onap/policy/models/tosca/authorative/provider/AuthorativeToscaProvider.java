@@ -652,15 +652,15 @@ public class AuthorativeToscaProvider {
      * @return the node templates found
      * @throws PfModelException on errors getting tosca node templates
      */
-    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(
+    public List<ToscaNodeTemplate> getToscaNodeTemplate(
         @NonNull final PfDao dao, final String name, final String version)
         throws PfModelException {
         LOGGER.debug("->getNodeTemplate: name={}, version={}", name, version);
-        List<Map<PfConceptKey, ToscaNodeTemplate>> nodeTemplates = new ArrayList<>();
+        List<ToscaNodeTemplate> nodeTemplates = new ArrayList<>();
 
         synchronized (providerLockObject) {
             new SimpleToscaProvider().getToscaNodeTemplates(dao, name, version)
-                .getConceptMap().forEach((key, value) -> nodeTemplates.add(Map.of(key, value.toAuthorative())));
+                .getConceptMap().forEach((key, value) -> nodeTemplates.add(value.toAuthorative()));
         }
 
         LOGGER.debug("<-getNodeTemplate: name={}, version={}, nodeTemplates={}", name, version,

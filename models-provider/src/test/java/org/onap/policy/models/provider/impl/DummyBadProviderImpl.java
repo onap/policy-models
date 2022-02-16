@@ -158,8 +158,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
-                                                                           final String version)
+    public List<ToscaNodeTemplate> getToscaNodeTemplate(final String name, final String version)
         throws PfModelException {
         return null;
     }

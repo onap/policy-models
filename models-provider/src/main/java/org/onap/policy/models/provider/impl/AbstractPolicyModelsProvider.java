@@ -221,8 +221,7 @@ public abstract class AbstractPolicyModelsProvider implements PolicyModelsProvid
     }
 
     @Override
-    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
-                                                                           final String version)
+    public List<ToscaNodeTemplate> getToscaNodeTemplate(final String name, final String version)
         throws PfModelException {
         assertInitialized();
         return new AuthorativeToscaProvider().getToscaNodeTemplate(getPfDao(), name, version);

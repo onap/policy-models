@@ -303,8 +303,7 @@ public interface PolicyModelsProvider extends AutoCloseable {
      * @return the list of nodeTemplates found
      * @throws PfModelException on errors getting node template
      */
-    public List<Map<PfConceptKey, ToscaNodeTemplate>> getToscaNodeTemplate(final String name,
-                                                                           final String version)
+    public List<ToscaNodeTemplate> getToscaNodeTemplate(final String name, final String version)
         throws PfModelException;
 
     /**
