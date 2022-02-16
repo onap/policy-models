@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ebe08b3_d9261ee6",
+        "filename": "models-pap/src/main/java/org/onap/policy/models/pap/persistence/concepts/JpaPolicyAudit.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-02-16T12:02:04Z",
+      "side": 1,
+      "message": "In policyadmin schema today, there is this table called \"sequence\" (which eclipselink used for GenerationType.Table strategy which was the default). Maintaining the same generation strategy (instead of using GenerationType.IDENTITY which uses AUTO INCREMENT) so that there is backward compatibility, and upgrade/downgrade can work smoothly on tables with data.",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 81,
+        "endChar": 33
+      },
+      "revId": "676194789a8b880e2416f9d3bf2484a9fc6be1bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
