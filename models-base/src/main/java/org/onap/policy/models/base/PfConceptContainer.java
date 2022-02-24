@@ -331,30 +331,37 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
         if (conceptKey.isNullVersion()) {
             return get(conceptKey.getName());
         } else {
-            return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKey);
+            return new PfConceptGetterImpl<>(getNavigableConceptMap()).get(conceptKey);
         }
     }
 
     @Override
     public C get(final String conceptKeyName) {
-        return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKeyName);
+        return new PfConceptGetterImpl<>(getNavigableConceptMap()).get(conceptKeyName);
     }
 
     @Override
     public C get(final String conceptKeyName, final String conceptKeyVersion) {
-        return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).get(conceptKeyName,
-                conceptKeyVersion);
+        return new PfConceptGetterImpl<>(getNavigableConceptMap()).get(conceptKeyName, conceptKeyVersion);
     }
 
     @Override
     public Set<C> getAll(final String conceptKeyName) {
-        return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).getAll(conceptKeyName);
+        return new PfConceptGetterImpl<>(getNavigableConceptMap()).getAll(conceptKeyName);
     }
 
     @Override
     public Set<C> getAll(final String conceptKeyName, final String conceptKeyVersion) {
-        return new PfConceptGetterImpl<>((NavigableMap<PfConceptKey, C>) conceptMap).getAll(conceptKeyName,
-                conceptKeyVersion);
+        return new PfConceptGetterImpl<>(getNavigableConceptMap()).getAll(conceptKeyName, conceptKeyVersion);
+    }
+
+    /**
+     * Get the concept map as a NavigableMap object.
+     *
+     * @return NavigableMap conceptMap instance.
+     */
+    private NavigableMap<PfConceptKey, C> getNavigableConceptMap() {
+        return new TreeMap<>(conceptMap);
     }
 
     /**
