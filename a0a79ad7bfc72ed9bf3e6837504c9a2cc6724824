@@ -16,6 +16,24 @@
       "revId": "a0a79ad7bfc72ed9bf3e6837504c9a2cc6724824",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba52e254_42d989b2",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 159
+      },
+      "writtenOn": "2022-02-24T15:51:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8dc4432b_244fcdbe",
+      "revId": "a0a79ad7bfc72ed9bf3e6837504c9a2cc6724824",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
