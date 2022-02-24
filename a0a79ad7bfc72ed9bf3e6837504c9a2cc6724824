@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dc4432b_244fcdbe",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4903
+      },
+      "writtenOn": "2022-02-24T10:51:31Z",
+      "side": 1,
+      "message": "Update license.",
+      "revId": "a0a79ad7bfc72ed9bf3e6837504c9a2cc6724824",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
