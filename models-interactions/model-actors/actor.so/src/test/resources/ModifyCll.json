@@ -1,0 +1,16 @@
+{
+  "name": "cloud-leased-line-101",
+  "globalSubscriberId": "IBNCustomer",
+  "subscriptionServiceType": "IBN",
+  "serviceType": "CLL",
+  "serviceInstanceID": "cll-instance-01",
+  "additionalProperties": {
+    "modifyAction": "bandwdith",
+    "enableSdnc": "true",
+    "transportNetworks": [
+      { "id": "cll-101-network-001",
+        "sla":
+        { "latency": 2, "maxBandwidth": 8000 }
+      }]
+  }
+}

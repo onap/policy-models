@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2022 CTC, Inc. and others.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,5 +39,6 @@ public class SoActor extends HttpActor<HttpPollingActorParams> {
         addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
         addOperator(new HttpPollingOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
         addOperator(new HttpPollingOperator(NAME, ModifyNssi.NAME, ModifyNssi::new));
+        addOperator(new HttpPollingOperator(NAME, ModifyNssi.NAME, ModifyCll::new));
     }
 }

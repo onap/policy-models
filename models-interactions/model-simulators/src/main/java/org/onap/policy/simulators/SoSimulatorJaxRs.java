@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2022 CTC, Inc. and others.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -132,6 +133,14 @@ public class SoSimulatorJaxRs {
     @Produces("application/json")
     public String soPost3gpp(@ApiParam(required = true) SoRequest3gpp request) {
         return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.3gpp.success.json");
+    }
+
+    @PUT
+    @Path("/infra/serviceIntent/v1/modify")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String soPostModifyCll(@ApiParam(required = true) SoRequest3gpp request) {
+        return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.cll.success.json");
     }
 
     private String makeStarted() {
