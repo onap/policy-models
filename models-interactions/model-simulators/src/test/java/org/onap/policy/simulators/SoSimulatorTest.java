@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019-2020 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2022 CTC, Inc. and others.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +43,7 @@ import org.onap.policy.so.SoRelatedInstance;
 import org.onap.policy.so.SoRelatedInstanceListElement;
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoRequest3gpp;
+import org.onap.policy.so.SoRequestCll;
 import org.onap.policy.so.SoRequestDetails;
 import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestParameters;
@@ -243,6 +245,32 @@ public class SoSimulatorTest {
         request.setGlobalSubscriberId("5G Customer");
         request.setSubscriptionServiceType("5G");
         request.setNetworkType("an");
+        request.setAdditionalProperties(new HashMap<String, Object>());
+
+        return request;
+    }
+
+    @Test
+    public void testModifyCll() {
+        SoSimulatorJaxRs.setRequirePolling(false);
+        String request = Serialization.gsonPretty.toJson(this.createCllRequest());
+        Pair<Integer, String> httpDetails = new RestManager().put(
+                "http://localhost:6667/infra/serviceIntent/v1/modify",
+                "username",
+                "password", new HashMap<>(), "application/json", request);
+        assertNotNull(httpDetails);
+        assertEquals(200, httpDetails.getLeft().intValue());
+        assertThat(httpDetails.getRight()).contains("jobId").contains("status");
+    }
+
+    private SoRequestCll createCllRequest() {
+        SoRequestCll request = new SoRequestCll();
+
+        request.setName("cloud-leased-line-101");
+        request.setServiceInstanceId("cll-instance-01");
+        request.setGlobalSubscriberId("IBNCustomer");
+        request.setSubscriptionServiceType("ibn");
+        request.setServiceType("CLL");
         request.setAdditionalProperties(new HashMap<String, Object>());
 
         return request;

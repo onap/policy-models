@@ -3,6 +3,7 @@
 # ONAP
 # ===============================================================================
 # Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+# Modifications Copyright (C) 2022 CTC, Inc. and others.
 # ===============================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,3 +37,5 @@ actors:
         path: serviceInstances/v7
       Modify NSSI:
         path: 3gppservices/v7/modify
+      ModifyCloudLeasedLine:
+        path: infra/serviceIntent/v1/modify
