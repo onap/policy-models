@@ -134,6 +134,14 @@ public class SoSimulatorJaxRs {
         return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.3gpp.success.json");
     }
 
+    @PUT
+    @Path("/infra/serviceIntent/v1/modify")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces("application/json")
+    public String soPostModifyCll(@ApiParam(required = true) SoRequest3gpp request) {
+        return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.cll.success.json");
+    }
+
     private String makeStarted() {
         var requestId = UUID.randomUUID().toString();
 

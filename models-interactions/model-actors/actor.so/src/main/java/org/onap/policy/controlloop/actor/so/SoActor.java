@@ -38,5 +38,6 @@ public class SoActor extends HttpActor<HttpPollingActorParams> {
         addOperator(new HttpPollingOperator(NAME, VfModuleCreate.NAME, VfModuleCreate::new));
         addOperator(new HttpPollingOperator(NAME, VfModuleDelete.NAME, VfModuleDelete::new));
         addOperator(new HttpPollingOperator(NAME, ModifyNssi.NAME, ModifyNssi::new));
+        addOperator(new HttpPollingOperator(NAME, ModifyNssi.NAME, ModifyCll::new));
     }
 }
