@@ -36,3 +36,5 @@ actors:
         path: serviceInstances/v7
       Modify NSSI:
         path: 3gppservices/v7/modify
+      ModifyCloudLeasedLine:
+        path: infra/serviceIntent/v1/modify
