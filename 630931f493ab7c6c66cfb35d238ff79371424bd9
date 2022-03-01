@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8b4710b_a5b87303",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyCll.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-03-01T15:08:21Z",
+      "side": 1,
+      "message": "New file, then let\u0027s ensure the Copyright is correct.\n2022 and what company are you working for?",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 84
+      },
+      "revId": "630931f493ab7c6c66cfb35d238ff79371424bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97287def_ff24d4de",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyCllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-03-01T15:08:21Z",
+      "side": 1,
+      "message": "same - and 2022 Wipro",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "630931f493ab7c6c66cfb35d238ff79371424bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
