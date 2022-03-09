@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "39cb7723_bec694a4",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoActor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-09T14:56:22Z",
+      "side": 1,
+      "message": "hello zhao, the license should be added to all files that you touched, so here shoud a \n\"Modifications Copyright (C) 2022 CTC\" line.   Same comment for other files that you modified.",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b34e9a15_d1888f21",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequestCll.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-09T14:56:22Z",
+      "side": 1,
+      "message": "Delete this line and add license only for CTC since you are creating this file and nobody",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "076acf2f_600e8bbf",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequestCllTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-09T14:56:22Z",
+      "side": 1,
+      "message": "same comment since you representing your company added this line, should have your company name instead.",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b30ae39c_f0f37d11",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-09T14:56:22Z",
+      "side": 1,
+      "message": "add a modified compyright  line for your company",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9d74f2_8acdca48",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-03-09T14:56:22Z",
+      "side": 1,
+      "message": "add modified copyrihgt line for your company",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
