@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7fe71d7c_2c4293d5",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/ModifyCll.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d8b4710b_a5b87303",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 84
+      },
+      "revId": "630931f493ab7c6c66cfb35d238ff79371424bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "97287def_ff24d4de",
         "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyCllTest.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "630931f493ab7c6c66cfb35d238ff79371424bd9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc02cab4_7ea07bb5",
+        "filename": "models-interactions/model-actors/actor.so/src/test/java/org/onap/policy/controlloop/actor/so/ModifyCllTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "97287def_ff24d4de",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "630931f493ab7c6c66cfb35d238ff79371424bd9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }

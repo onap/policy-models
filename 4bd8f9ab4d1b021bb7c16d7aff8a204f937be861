@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0d4685da_a22363f7",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/SoActor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "39cb7723_bec694a4",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b34e9a15_d1888f21",
         "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequestCll.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebe9577d_6f35f954",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequestCll.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b34e9a15_d1888f21",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "e2af4e0a_c4a88029",
+        "filename": "models-interactions/model-impl/so/src/test/java/org/onap/policy/so/SoRequestCllTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "076acf2f_600e8bbf",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b30ae39c_f0f37d11",
         "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
         "patchSetId": 2
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "6ad43aae_820c9011",
+        "filename": "models-interactions/model-simulators/src/main/java/org/onap/policy/simulators/SoSimulatorJaxRs.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b30ae39c_f0f37d11",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c9d74f2_8acdca48",
         "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
         "patchSetId": 2
@@ -84,6 +156,24 @@
       "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "733e1d04_b3c42920",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/SoSimulatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2022-03-14T14:50:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0c9d74f2_8acdca48",
+      "revId": "4bd8f9ab4d1b021bb7c16d7aff8a204f937be861",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
