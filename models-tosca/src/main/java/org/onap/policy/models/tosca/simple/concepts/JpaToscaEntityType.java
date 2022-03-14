@@ -31,16 +31,20 @@ import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Lob;
 import javax.persistence.MappedSuperclass;
+import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.ObjectUtils;
 import org.onap.policy.common.parameters.annotations.NotBlank;
 import org.onap.policy.common.parameters.annotations.NotNull;
+import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.PfAuthorative;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfUtils;
 import org.onap.policy.models.base.validation.annotations.VerifyKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
@@ -53,6 +57,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept implements PfAuthorative<T> {
     private static final long serialVersionUID = -1330661834220739393L;
+
+    private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     @EmbeddedId
     @VerifyKey
@@ -128,7 +134,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             toscaEntity.setDescription(description);
         }
 
-        toscaEntity.setMetadata(PfUtils.mapMap(metadata, item -> item));
+        toscaEntity.setMetadata(PfUtils.mapMap(metadata, this::deserializeMetadataValue));
 
         return toscaEntity;
     }
@@ -158,7 +164,7 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
             description = toscaEntity.getDescription();
         }
 
-        metadata = PfUtils.mapMap(toscaEntity.getMetadata(), Object::toString);
+        metadata = PfUtils.mapMap(toscaEntity.getMetadata(), this::serializeMetadataValue);
     }
 
     @Override
@@ -218,5 +224,23 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
         }
 
         return ObjectUtils.compare(description, other.description);
+    }
+
+    protected Object deserializeMetadataValue(String metadataValue) {
+        try {
+            return STANDARD_CODER.decode(metadataValue, Object.class);
+        } catch (CoderException ce) {
+            String errorMessage = "error decoding metadata JSON value read from database: " + metadataValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+        }
+    }
+
+    protected String serializeMetadataValue(Object metadataValue) {
+        try {
+            return STANDARD_CODER.encode(metadataValue);
+        } catch (CoderException ce) {
+            String errorMessage = "error encoding metadata JSON value for database: " + metadataValue;
+            throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ce);
+        }
     }
 }

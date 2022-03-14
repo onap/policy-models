@@ -62,6 +62,8 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @EqualsAndHashCode(callSuper = true)
 public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPolicy> {
     private static final long serialVersionUID = 3265174757061982805L;
+    private static final String METADATA_METADATA_SET_NAME_TAG = "metadataSetName";
+    private static final String METADATA_METADATA_SET_VERSION_TAG = "metadataSetVersion";
 
     // Tags for metadata
     private static final String METADATA_POLICY_ID_TAG = "policy-id";
@@ -143,6 +145,16 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
         // Add the policy name and version fields to the metadata
         getMetadata().put(METADATA_POLICY_ID_TAG, getKey().getName());
         getMetadata().put(METADATA_POLICY_VERSION_TAG, getKey().getVersion());
+
+        // Add metadataSet name and version to the metadata
+        if (getMetadata().containsKey(METADATA_METADATA_SET_NAME_TAG)
+                && getMetadata().containsKey(METADATA_METADATA_SET_VERSION_TAG)) {
+            getMetadata().put(METADATA_METADATA_SET_NAME_TAG, getMetadata().get(METADATA_METADATA_SET_NAME_TAG)
+                    .replaceAll("^\"|\"$", ""));
+
+            getMetadata().put(METADATA_METADATA_SET_VERSION_TAG, getMetadata().get(METADATA_METADATA_SET_VERSION_TAG)
+                    .replaceAll("^\"|\"$", ""));
+        }
     }
 
     @Override
