@@ -37,7 +37,7 @@ public class SoActorTest extends BasicActor {
         SoActor prov = new SoActor();
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(VfModuleCreate.NAME, VfModuleDelete.NAME, ModifyNssi.NAME).stream()
+        var expected = Arrays.asList(VfModuleCreate.NAME, VfModuleDelete.NAME, ModifyNssi.NAME, ModifyCll.NAME).stream()
                 .sorted().collect(Collectors.toList());
         var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
 
