@@ -27,13 +27,13 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.5.3</version>
+        <version>3.5.4-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.policy.models</groupId>
     <artifactId>policy-models</artifactId>
-    <version>2.6.3-SNAPSHOT</version>
+    <version>2.6.4-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>policy-models</name>
@@ -42,7 +42,7 @@
     <properties>
         <derby.version>10.13.1.1</derby.version>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-        <policy.common.version>1.10.3</policy.common.version>
+        <policy.common.version>1.10.4-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
