@@ -5,6 +5,7 @@
 # ================================================================================
 # Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
 # Modifications copyright (C) 2020 Bell Canada. All rights reserved.
+# Modifications Copyright (C) 2022 Nordix Foundation.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,7 +28,6 @@ then
     SIMULATOR_HOME=${POLICY_HOME}/simulators
 fi
 
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 KEYSTORE="${SIMULATOR_HOME}/etc/ssl/policy-keystore"
 KEYSTORE_PASSWD="Pol1cy_0nap"
 TRUSTSTORE="${SIMULATOR_HOME}/etc/ssl/policy-truststore"
