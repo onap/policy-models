@@ -53,9 +53,9 @@
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -63,21 +63,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                println 'Project version: ' + project.properties['dist.project.version']
-                                if (project.properties['dist.project.version'] != null) {
-                                    def versionArray = project.properties['dist.project.version'].split('-')
-                                    def minMaxVersionArray = versionArray[0].tokenize('.')
-                                    if (project.properties['dist.project.version'].endsWith("-SNAPSHOT")) {
-                                        project.properties['project.docker.latest.minmax.tag.version'] =
-                                          minMaxVersionArray[0] + "." + minMaxVersionArray[1] + "-SNAPSHOT-latest"
-                                    } else {
-                                        project.properties['project.docker.latest.minmax.tag.version'] =
-                                          minMaxVersionArray[0] + "." + minMaxVersionArray[1] + "-STAGING-latest"
-                                    }
-                                    println 'New tag for docker: ' + project.properties['project.docker.latest.minmax.tag.version']
-                                }
-                            </source>
+                            <source>https://github.com/onap/policy-docker/raw/master/utils/groovy/docker-tag.groovy</source>
                         </configuration>
                     </execution>
                 </executions>
