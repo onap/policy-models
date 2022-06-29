@@ -51,6 +51,7 @@
             </directory>
             <includes>
                 <include>*.xml</include>
+                <include>*.json</include>
             </includes>
             <outputDirectory>etc</outputDirectory>
             <lineEnding>unix</lineEnding>

@@ -21,40 +21,28 @@
 # ============LICENSE_END=========================================================
 #
 
-#
-# Docker file to build an image that runs the simulators
-#
-
-FROM onap/policy-jre-alpine:2.3.1
+FROM onap/policy-jre-alpine:2.4.3
 
 LABEL maintainer="Policy Team"
 
 ARG POLICY_LOGS=/var/log/onap/policy/simulators
 
-ENV POLICY_HOME /opt/app/policy
-ENV POLICY_LOGS ${POLICY_LOGS}
+ENV POLICY_LOGS=$POLICY_LOGS
+ENV POLICY_HOME=$POLICY_HOME/simulators
 
-# Create DMaaP simulator user and group
-# Add simulator-specific directories and set ownership as the simulator user
-RUN mkdir -p ${POLICY_HOME}/simulators \
-    && mkdir -p ${POLICY_HOME}/simulators/bin \
-    && mkdir -p ${POLICY_LOGS} \
-    && mkdir /packages
+RUN mkdir -p $POLICY_HOME $POLICY_LOGS $POLICY_HOME/bin && \
+    chown  -R policy:policy $POLICY_HOME $POLICY_LOGS && \
+    mkdir /packages
+COPY /maven/lib/models-simulator.tar.gz /packages
 
-# Unpack the tarball
-COPY /maven/* /packages
-RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME}/simulators \
+RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME} \
     && rm /packages/models-simulator.tar.gz
 
-# Ensure everything has the correct permissions
-# Copy scripts simulator user area
-COPY simulators.sh ${POLICY_HOME}/simulators/bin
-RUN find /opt/app -type d -perm 755 \
-    && find /opt/app -type f -perm 644 \
-    && chmod 755 ${POLICY_HOME}/simulators/bin/* \
-    && chown -R policy:policy $POLICY_HOME $POLICY_LOGS
+WORKDIR $POLICY_HOME
+COPY simulators.sh bin/.
 
-USER policy:policy
+RUN chown -R policy:policy * && chmod 755 bin/*.sh && chown -R policy:policy /app
 
-ENV PATH ${POLICY_HOME}/simulators/bin:$PATH
-ENTRYPOINT [ "simulators.sh" ]
+USER policy
+WORKDIR $POLICY_HOME/bin
+ENTRYPOINT [ "./simulators.sh" ]
