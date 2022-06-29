@@ -23,21 +23,43 @@
 # ============LICENSE_END=========================================================
 #
 
-if [ -z "$SIMULATOR_HOME" ]
-then
-    SIMULATOR_HOME=${POLICY_HOME}/simulators
+KEYSTORE="${KEYSTORE:-$POLICY_HOME/etc/ssl/policy-keystore}"
+TRUSTSTORE="${TRUSTSTORE:-$POLICY_HOME/etc/ssl/policy-truststore}"
+KEYSTORE_PASSWD="${KEYSTORE_PASSWD:-Pol1cy_0nap}"
+TRUSTSTORE_PASSWD="${TRUSTSTORE_PASSWD:-Pol1cy_0nap}"
+
+if [ "$#" -ge 1 ]; then
+    CONFIG_FILE=$1
+else
+    CONFIG_FILE=${CONFIG_FILE}
 fi
 
-KEYSTORE="${SIMULATOR_HOME}/etc/ssl/policy-keystore"
-KEYSTORE_PASSWD="Pol1cy_0nap"
-TRUSTSTORE="${SIMULATOR_HOME}/etc/ssl/policy-truststore"
-TRUSTSTORE_PASSWD="Pol1cy_0nap"
+if [ -z "$CONFIG_FILE" ]; then
+    CONFIG_FILE="${POLICY_HOME}/etc/simParameters.json"
+fi
+
+echo "Policy simulator config file: $CONFIG_FILE"
+
+if [ -f "${POLICY_HOME}/etc/mounted/policy-truststore" ]; then
+    echo "overriding policy-truststore"
+    cp -f "${POLICY_HOME}"/etc/mounted/policy-truststore "${TRUSTSTORE}"
+fi
+
+if [ -f "${POLICY_HOME}/etc/mounted/policy-keystore" ]; then
+    echo "overriding policy-keystore"
+    cp -f "${POLICY_HOME}"/etc/mounted/policy-keystore "${KEYSTORE}"
+fi
+
+if [ -f "${POLICY_HOME}/etc/mounted/logback.xml" ]; then
+    echo "overriding logback.xml"
+    cp -f "${POLICY_HOME}"/etc/mounted/logback.xml "${POLICY_HOME}"/etc/
+fi
 
 ${JAVA_HOME}/bin/java \
-    -cp "${SIMULATOR_HOME}/etc:${SIMULATOR_HOME}/lib/*" \
+    -cp "${POLICY_HOME}/etc:${POLICY_HOME}/lib/*" \
+    -Dlogging.config="${POLICY_HOME}/etc/logback.xml" \
     -Djavax.net.ssl.keyStore="${KEYSTORE}" \
     -Djavax.net.ssl.keyStorePassword="${KEYSTORE_PASSWD}" \
     -Djavax.net.ssl.trustStore="${TRUSTSTORE}" \
     -Djavax.net.ssl.trustStorePassword="${TRUSTSTORE_PASSWD}" \
-    org.onap.policy.models.simulators.Main \
-        ${SIMULATOR_HOME}/etc/mounted/simParameters.json
+    org.onap.policy.models.simulators.Main ${CONFIG_FILE}
