@@ -27,6 +27,14 @@
 FROM opensuse/leap:15.3
 
 LABEL maintainer="Policy Team"
+LABEL org.opencontainers.image.title="Policy Models Simulator"
+LABEL org.opencontainers.image.description="Policy Models Simulator image based on OpenSuse"
+LABEL org.opencontainers.image.url="https://github.com/onap/policy-models"
+LABEL org.opencontainers.image.vendor="ONAP Policy Team"
+LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.created="${git.build.time}"
+LABEL org.opencontainers.image.version="${git.build.version}"
+LABEL org.opencontainers.image.revision="${git.commit.id.abbrev}"
 
 ARG POLICY_LOGS=/var/log/onap/policy/simulators
 
