@@ -20,10 +20,6 @@
 # ============LICENSE_END=========================================================
 #
 
-#
-# Docker file to build an image that runs the simulators
-#
-
 FROM opensuse/leap:15.3
 
 LABEL maintainer="Policy Team"
@@ -39,34 +35,27 @@ LABEL org.opencontainers.image.revision="${git.commit.id.abbrev}"
 ARG POLICY_LOGS=/var/log/onap/policy/simulators
 
 ENV POLICY_LOGS=$POLICY_LOGS
-ENV POLICY_HOME=/opt/app/policy
+ENV POLICY_HOME=/opt/app/policy/simulators
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 ENV JAVA_HOME=/usr/lib64/jvm/java-11-openjdk-11
 
-# Create DMaaP simulator user and group
-# Add simulator-specific directories and set ownership as the simulator user
 RUN zypper -n -q install --no-recommends gzip java-11-openjdk-headless netcat-openbsd tar && \
     zypper -n -q update; zypper -n -q clean --all && \
     groupadd --system policy && \
     useradd --system --shell /bin/sh -G policy policy && \
-    mkdir -p /opt/app $POLICY_LOGS $POLICY_HOME/simulators $POLICY_HOME/simulators/bin && \
-    chown -R policy:policy /opt/app $POLICY_HOME $POLICY_LOGS && \
+    mkdir -p /app $POLICY_LOGS $POLICY_HOME $POLICY_HOME/bin && \
+    chown -R policy:policy /app $POLICY_HOME $POLICY_LOGS && \
     mkdir /packages
+COPY /maven/lib/models-simulator.tar.gz /packages
 
-# Unpack the tarball
-COPY /maven/* /packages
-RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME}/simulators \
+RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME} \
     && rm /packages/models-simulator.tar.gz
 
-# Ensure everything has the correct permissions
-# Copy scripts simulator user area
-COPY simulators.sh ${POLICY_HOME}/simulators/bin
-RUN find /opt/app -type d -perm 755 \
-    && find /opt/app -type f -perm 644 \
-    && chmod 755 ${POLICY_HOME}/simulators/bin/* \
-    && chown -R policy:policy $POLICY_HOME $POLICY_LOGS
+WORKDIR $POLICY_HOME
+COPY simulators.sh bin/.
 
-USER policy:policy
+RUN chown -R policy:policy * && chmod 755 bin/*.sh && chown -R policy:policy /app
 
-ENV PATH ${POLICY_HOME}/simulators/bin:$PATH
-ENTRYPOINT [ "simulators.sh" ]
+USER policy
+WORKDIR $POLICY_HOME/bin
+ENTRYPOINT [ "./simulators.sh" ]
