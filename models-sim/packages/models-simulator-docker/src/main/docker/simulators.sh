@@ -35,7 +35,7 @@ else
 fi
 
 if [ -z "$CONFIG_FILE" ]; then
-    CONFIG_FILE="${POLICY_HOME}/etc/simParameters.json"
+    CONFIG_FILE="${POLICY_HOME}/etc/mounted/simParameters.json"
 fi
 
 echo "Policy simulator config file: $CONFIG_FILE"
