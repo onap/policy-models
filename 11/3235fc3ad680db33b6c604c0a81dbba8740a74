@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+2: Pamela Dragosh <pd1248@att.com>
+Code-Review+2: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Submitted-by: Ajith Sreekumar <ajith.sreekumar@bell.ca>
+Submitted-at: Wed, 06 Jul 2022 13:05:19 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/129802
+Project: policy/models
+Branch: refs/heads/istanbul
