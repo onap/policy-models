@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '2.5.3'
+project: 'policy-models'
+log_dir: 'policy-models-maven-docker-stage-istanbul/25'
+ref: 5141d911c19652c38d0eec7be81427cf00e9d8c7
+containers:
+    - name: 'policy-models-simulator'
+      version: '2.5.3-20220707T1020'
