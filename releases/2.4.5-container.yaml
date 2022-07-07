@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '2.4.5'
+project: 'policy-models'
+log_dir: 'policy-models-maven-docker-stage-honolulu/25'
+ref: 6d8c3d65026a07032095035f8d70c37ac0307397
+containers:
+    - name: 'policy-models-simulator'
+      version: '2.4.5-20220707T1022'
