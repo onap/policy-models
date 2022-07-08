@@ -21,6 +21,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
+FROM busybox AS tarball
+RUN mkdir /packages /extracted
+COPY /maven/lib/models-simulator.tar.gz /packages/
+RUN tar xvzf /packages/models-simulator.tar.gz --directory /extracted/
 
 FROM onap/policy-jre-alpine:2.4.3
 
@@ -39,18 +43,15 @@ ARG POLICY_LOGS=/var/log/onap/policy/simulators
 ENV POLICY_LOGS=$POLICY_LOGS
 ENV POLICY_HOME=$POLICY_HOME/simulators
 
-RUN mkdir -p $POLICY_HOME $POLICY_LOGS $POLICY_HOME/bin && \
-    chown  -R policy:policy $POLICY_HOME $POLICY_LOGS && \
-    mkdir /packages
-COPY /maven/lib/models-simulator.tar.gz /packages
+RUN mkdir -p $POLICY_HOME $POLICY_LOGS && \
+    chown -R policy:policy $POLICY_HOME $POLICY_LOGS
 
-RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME} \
-    && rm /packages/models-simulator.tar.gz
+COPY --chown=policy:policy --from=tarball /extracted $POLICY_HOME
 
 WORKDIR $POLICY_HOME
-COPY simulators.sh bin/.
+COPY --chown=policy:policy simulators.sh bin/
 
-RUN chown -R policy:policy * && chmod 755 bin/*.sh && chown -R policy:policy /app
+RUN chmod 755 bin/*.sh
 
 USER policy
 WORKDIR $POLICY_HOME/bin

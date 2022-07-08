@@ -19,6 +19,10 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 #
+FROM busybox AS tarball
+RUN mkdir /packages /extracted
+COPY /maven/lib/models-simulator.tar.gz /packages/
+RUN tar xvzf /packages/models-simulator.tar.gz --directory /extracted/
 
 FROM opensuse/leap:15.4
 
@@ -39,22 +43,19 @@ ENV POLICY_HOME=/opt/app/policy/simulators
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 ENV JAVA_HOME=/usr/lib64/jvm/java-11-openjdk-11
 
-RUN zypper -n -q install --no-recommends gzip java-11-openjdk-headless netcat-openbsd tar && \
+RUN zypper -n -q install --no-recommends java-11-openjdk-headless netcat-openbsd && \
     zypper -n -q update; zypper -n -q clean --all && \
     groupadd --system policy && \
     useradd --system --shell /bin/sh -G policy policy && \
-    mkdir -p /app $POLICY_LOGS $POLICY_HOME $POLICY_HOME/bin && \
-    chown -R policy:policy /app $POLICY_HOME $POLICY_LOGS && \
-    mkdir /packages
-COPY /maven/lib/models-simulator.tar.gz /packages
+    mkdir -p $POLICY_HOME $POLICY_LOGS && \
+    chown -R policy:policy $POLICY_HOME $POLICY_LOGS
 
-RUN tar xvfz /packages/models-simulator.tar.gz --directory ${POLICY_HOME} \
-    && rm /packages/models-simulator.tar.gz
+COPY --chown=policy:policy --from=tarball /extracted $POLICY_HOME
 
 WORKDIR $POLICY_HOME
-COPY simulators.sh bin/.
+COPY --chown=policy:policy simulators.sh bin/
 
-RUN chown -R policy:policy * && chmod 755 bin/*.sh && chown -R policy:policy /app
+RUN chmod 755 bin/*.sh
 
 USER policy
 WORKDIR $POLICY_HOME/bin
