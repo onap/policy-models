@@ -38,7 +38,7 @@ import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.utils.coder.StandardCoder;
 
 public class DmaapSimulatorTest {
-    private static final int MAX_WAIT_SEC = 2;
+    private static final int MAX_WAIT_SEC = 5;
     private static final String TOPIC = "MY-TOPIC";
 
     /**
