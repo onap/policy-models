@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2020,2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -186,7 +186,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
      * Filter PDP groups on PDP state.
      *
      * @param pdpGroup the PDP group to check
-     * @param policyFilter the policy regular expressions to check for
+     * @param pdpState the state to check for
      * @return true if the filter should let this PDP group through
      */
     private boolean filterOnPdpState(final PdpGroup pdpGroup, final PdpState pdpState) {

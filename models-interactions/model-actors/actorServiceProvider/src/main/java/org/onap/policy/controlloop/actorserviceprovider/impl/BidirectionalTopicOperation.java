@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -178,9 +178,8 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
     /**
      * Processes a response.
      *
-     * @param infra communication infrastructure on which the response was received
      * @param outcome outcome to be populated
-     * @param response raw response to process
+     * @param rawResponse raw response to process
      * @param scoResponse response, as a {@link StandardCoderObject}
      * @return the outcome, or {@code null} if still waiting for completion
      */

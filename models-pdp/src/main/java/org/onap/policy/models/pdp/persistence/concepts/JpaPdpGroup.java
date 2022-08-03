@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2019-2022 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -90,10 +90,10 @@ public class JpaPdpGroup extends PfConcept implements PfAuthorative<PdpGroup> {
     // @formatter:off
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @CollectionTable(joinColumns = {
-            @JoinColumn(name = "pdpGroupParentKeyName",    referencedColumnName = "parentKeyName"),
-            @JoinColumn(name = "pdpGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-            @JoinColumn(name = "pdpGroupParentLocalName",  referencedColumnName = "parentLocalName"),
-            @JoinColumn(name = "pdpGroupLocalName",        referencedColumnName = "localName")
+        @JoinColumn(name = "pdpGroupParentKeyName",    referencedColumnName = "parentKeyName"),
+        @JoinColumn(name = "pdpGroupParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+        @JoinColumn(name = "pdpGroupParentLocalName",  referencedColumnName = "parentLocalName"),
+        @JoinColumn(name = "pdpGroupLocalName",        referencedColumnName = "localName")
         })
     // @formatter:on
     @NotNull
