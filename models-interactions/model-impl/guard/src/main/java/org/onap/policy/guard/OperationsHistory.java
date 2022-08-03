@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020,2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ import lombok.Data;
 @Entity
 @Table(name = "operationshistory",
                 indexes = {@Index(name = "operationshistory_clreqid_index", columnList = "closedLoopName,requestId"),
-                                @Index(name = "operationshistory_target_index", columnList = "target,operation,actor")})
+                              @Index(name = "operationshistory_target_index", columnList = "target,operation,actor")})
 @Data
 public class OperationsHistory implements Serializable {
 

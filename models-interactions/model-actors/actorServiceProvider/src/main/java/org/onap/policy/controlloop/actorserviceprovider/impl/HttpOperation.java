@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -215,7 +215,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      *
      * @param outcome outcome to be populate
      * @param url URL to which to request was sent
-     * @param response raw response to process
+     * @param rawResponse raw response to process
      * @return a future to cancel or await the outcome
      */
     protected CompletableFuture<OperationOutcome> processResponse(OperationOutcome outcome, String url,

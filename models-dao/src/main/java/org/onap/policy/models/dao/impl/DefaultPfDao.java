@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
- *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2019-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -623,8 +623,8 @@ public class DefaultPfDao implements PfDao {
      * Check that a query returned one and only one entry and return that entry.
      *
      * @param someClass the class being searched for
-     * @param conceptName the concept name being searched for
-     * @param resultList the result list returned by the query
+     * @param searchFilter the concept name being searched for
+     * @param ret the result list returned by the query
      * @return the single unique result
      */
     private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter, List<T> ret) {
@@ -682,7 +682,7 @@ public class DefaultPfDao implements PfDao {
      *
      * @param <T> the type of the object to get, a subclass of {@link PfConcept}
      * @param someClass the class of the object to get, a subclass of {@link PfConcept}
-     * @param t the object that was retrieved from the database
+     * @param objToCheck the object that was retrieved from the database
      * @return the checked object or null
      */
     private <T extends PfConcept> T checkAndReturn(final Class<T> someClass, final T objToCheck) {
