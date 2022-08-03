@@ -437,7 +437,6 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
     private void initConfig(String clientName) {
@@ -447,8 +446,8 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration with a real client.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
+     * @param factory client factory
      */
     private void initConfig(String clientName, HttpClientFactory factory) {
         HttpParams params = HttpParams.builder().clientName(clientName).path(PATH).timeoutSec(1).build();
@@ -458,7 +457,6 @@ public class HttpOperationTest {
     /**
      * Initializes the configuration with a real client.
      *
-     * @param operator operator to be initialized
      * @param clientName name of the client which it should use
      */
     private void initRealConfig(String clientName) {

@@ -215,7 +215,7 @@ public abstract class HttpOperation<T> extends OperationPartial {
      *
      * @param outcome outcome to be populate
      * @param url URL to which to request was sent
-     * @param response raw response to process
+     * @param rawResponse raw response to process
      * @return a future to cancel or await the outcome
      */
     protected CompletableFuture<OperationOutcome> processResponse(OperationOutcome outcome, String url,
