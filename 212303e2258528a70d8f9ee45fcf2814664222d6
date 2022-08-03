@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "556313f2_b809e63f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-08-03T14:39:43Z",
+      "side": 1,
+      "message": "3.2.1",
+      "revId": "212303e2258528a70d8f9ee45fcf2814664222d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "029f5578_aff9b371",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-08-03T14:39:43Z",
+      "side": 1,
+      "message": "licenses",
+      "revId": "212303e2258528a70d8f9ee45fcf2814664222d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
