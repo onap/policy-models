@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "79cfe45b_fa450f67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-08-03T15:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "556313f2_b809e63f",
+      "revId": "212303e2258528a70d8f9ee45fcf2814664222d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "029f5578_aff9b371",
         "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "212303e2258528a70d8f9ee45fcf2814664222d6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0ca222b_12920c00",
+        "filename": "models-interactions/model-actors/actor.appclcm/src/main/java/org/onap/policy/controlloop/actor/appclcm/AppcLcmOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-08-03T15:15:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "029f5578_aff9b371",
+      "revId": "212303e2258528a70d8f9ee45fcf2814664222d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
