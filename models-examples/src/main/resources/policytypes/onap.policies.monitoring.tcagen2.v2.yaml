@@ -1,0 +1,162 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+   onap.policies.Monitoring:
+      derived_from: tosca.policies.Root
+      version: 1.0.0
+      name: onap.policies.Monitoring
+      description: a base policy type for all policies that govern monitoring provisioning
+   onap.policies.monitoring.tcagen2:
+      derived_from: onap.policies.Monitoring
+      version: 2.0.0
+      name: onap.policies.monitoring.tcagen2
+      properties:
+         tca.policy:
+            type: list
+            description: TCA Policy JSON
+            required: true
+            entry_schema:
+                type: onap.datatypes.monitoring.tca_policy
+data_types:
+   onap.datatypes.monitoring.metricsPerEventName:
+      derived_from: tosca.datatypes.Root
+      properties:
+         controlLoopSchemaType:
+            type: string
+            required: true
+            description: Specifies Control Loop Schema Type for the event Name e.g. VNF, VM
+            constraints:
+            -  valid_values:
+               - VM
+               - VNF
+         eventName:
+            type: string
+            required: true
+            description: Event name to which thresholds need to be applied
+         policyName:
+            type: string
+            required: true
+            description: TCA Policy Scope Name
+         policyScope:
+            type: string
+            required: true
+            description: TCA Policy Scope
+         policyVersion:
+            type: string
+            required: true
+            description: TCA Policy Scope Version
+         thresholds:
+            type: list
+            required: true
+            description: Thresholds associated with eventName
+            entry_schema:
+               type: onap.datatypes.monitoring.thresholds
+   onap.datatypes.monitoring.tca_policy:
+      derived_from: tosca.datatypes.Root
+      properties:
+         domain:
+            type: string
+            required: true
+            description: Domain name to which TCA needs to be applied
+            default: measurementsForVfScaling
+            constraints:
+            -  equal: measurementsForVfScaling
+         metricsPerEventName:
+            type: list
+            required: true
+            description: Contains eventName and threshold details that need to be applied to given eventName
+            entry_schema:
+               type: onap.datatypes.monitoring.metricsPerEventName
+   onap.datatypes.monitoring.thresholds:
+      derived_from: tosca.datatypes.Root
+      properties:
+         closedLoopControlName:
+            type: string
+            required: true
+            description: Closed Loop Control Name associated with the threshold
+         closedLoopEventStatus:
+            type: string
+            required: true
+            description: Closed Loop Event Status of the threshold
+            constraints:
+            -  valid_values:
+               - ONSET
+               - ABATED
+         direction:
+            type: string
+            required: true
+            description: Direction of the threshold
+            constraints:
+            -  valid_values:
+               - LESS
+               - LESS_OR_EQUAL
+               - GREATER
+               - GREATER_OR_EQUAL
+               - EQUAL
+         fieldPath:
+            type: string
+            required: true
+            description: Json field Path as per CEF message which needs to be analyzed for TCA
+            constraints:
+            -  valid_values:
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedOctetsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedUnicastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedMulticastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedDiscardedPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedErrorPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedTotalPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedOctetsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedUnicastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedMulticastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedBroadcastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedDiscardedPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].receivedErrorPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedTotalPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedOctetsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedUnicastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedMulticastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedBroadcastPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedDiscardedPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedErrorPacketsDelta
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedTotalPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedOctetsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedUnicastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedMulticastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedBroadcastPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedDiscardedPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.vNicPerformanceArray[*].transmittedErrorPacketsAccumulated
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuIdle
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuUsageInterrupt
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuUsageNice
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuUsageSoftIrq
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuUsageSteal
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuUsageSystem
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].cpuWait
+               - $.event.measurementsForVfScalingFields.cpuUsageArray[*].percentUsage
+               - $.event.measurementsForVfScalingFields.meanRequestLatency
+               - $.event.measurementsForVfScalingFields.memoryUsageArray[*].memoryBuffered
+               - $.event.measurementsForVfScalingFields.memoryUsageArray[*].memoryCached
+               - $.event.measurementsForVfScalingFields.memoryUsageArray[*].memoryConfigured
+               - $.event.measurementsForVfScalingFields.memoryUsageArray[*].memoryFree
+               - $.event.measurementsForVfScalingFields.memoryUsageArray[*].memoryUsed
+               - $.event.measurementsForVfScalingFields.additionalMeasurements[*].arrayOfFields[0].value
+         severity:
+            type: string
+            required: true
+            description: Threshold Event Severity
+            constraints:
+            -  valid_values:
+               - CRITICAL
+               - MAJOR
+               - MINOR
+               - WARNING
+               - NORMAL
+         thresholdValue:
+            type: integer
+            required: true
+            description: Threshold value for the field Path inside CEF message
+         version:
+            type: string
+            required: true
+            description: Version number associated with the threshold

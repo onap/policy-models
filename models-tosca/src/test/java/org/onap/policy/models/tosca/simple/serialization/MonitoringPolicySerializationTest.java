@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
- *  Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Copyright (C) 2019-2020,2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,6 +79,7 @@ public class MonitoringPolicySerializationTest {
     private static final String METADATA = "metadata";
 
     private static final String VERSION_100 = "1.0.0";
+    private static final String VERSION_200 = "2.0.0";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MonitoringPolicySerializationTest.class);
 
@@ -88,9 +89,11 @@ public class MonitoringPolicySerializationTest {
     private static final String VDNS_MON_INPUT_YAML = "policies/vDNS.policy.monitoring.input.tosca.yaml";
     private static final String VFW_MON_INPUT_JSON = "policies/vFirewall.policy.monitoring.input.tosca.json";
     private static final String VFW_MON_INPUT_YAML = "policies/vFirewall.policy.monitoring.input.tosca.yaml";
+    private static final String VFW_MON_INPUT_V2_JSON = "policies/vFirewall.policy.monitoring.input.tosca.v2.json";
+    private static final String VFW_MON_INPUT_V2_YAML = "policies/vFirewall.policy.monitoring.input.tosca.v2.yaml";
 
-    private StandardCoder standardCoder = new StandardCoder();
-    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
+    private final StandardCoder standardCoder = new StandardCoder();
+    private final YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
     @Test
     public void testDeserialization() throws Exception {
@@ -122,9 +125,11 @@ public class MonitoringPolicySerializationTest {
         serviceTemplateFromJson = deserializeMonitoringInputJson(VFW_MON_INPUT_JSON);
         mergedServiceTemplate =
                 ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, serviceTemplateFromJson);
-        verifyVfwMonitoringInputDeserialization(mergedServiceTemplate);
+        verifyVfwMonitoringInputDeserialization(mergedServiceTemplate, VERSION_100);
         serviceTemplateFromYaml = deserializeMonitoringInputYaml(VFW_MON_INPUT_YAML);
         assertEquals(0, serviceTemplateFromJson.compareTo(serviceTemplateFromYaml));
+
+        testDeserializationMonitoringV2();
     }
 
     @Test
@@ -143,13 +148,34 @@ public class MonitoringPolicySerializationTest {
             // vFirewall
             serviceTemplate = deserializeMonitoringInputJson(VFW_MON_INPUT_JSON);
             serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
-            verifyVfwMonitoringOutputserialization(serializedServiceTemplate);
+            verifyVfwMonitoringOutputserialization(serializedServiceTemplate, VERSION_100);
 
+            // vFirewall v2
+            serviceTemplate = deserializeMonitoringInputJson(VFW_MON_INPUT_V2_JSON);
+            serializedServiceTemplate = serializeMonitoringServiceTemplate(serviceTemplate);
+            verifyVfwMonitoringOutputserialization(serializedServiceTemplate, VERSION_200);
         }).as("No exception should be thrown").doesNotThrowAnyException();
     }
 
-    private JpaToscaServiceTemplate deserializeMonitoringInputJson(String resourcePath) throws Exception {
+    private void testDeserializationMonitoringV2() throws Exception {
+        String policyTypeInputJson =
+            ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.v2.yaml");
+        ToscaServiceTemplate plainPolicyTypes =
+            yamlJsonTranslator.fromYaml(policyTypeInputJson, ToscaServiceTemplate.class);
 
+        JpaToscaServiceTemplate policyTypeServiceTemplate = new JpaToscaServiceTemplate();
+        policyTypeServiceTemplate.fromAuthorative(plainPolicyTypes);
+
+        JpaToscaServiceTemplate serviceTemplateFromJson = deserializeMonitoringInputJson(VFW_MON_INPUT_V2_JSON);
+        JpaToscaServiceTemplate mergedServiceTemplate =
+            ToscaServiceTemplateUtils.addFragment(policyTypeServiceTemplate, serviceTemplateFromJson);
+        verifyVfwMonitoringInputDeserialization(mergedServiceTemplate, VERSION_200);
+
+        JpaToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(VFW_MON_INPUT_V2_YAML);
+        assertEquals(0, serviceTemplateFromJson.compareTo(serviceTemplateFromYaml));
+    }
+
+    private JpaToscaServiceTemplate deserializeMonitoringInputJson(String resourcePath) throws Exception {
         String policyJson = ResourceUtils.getResourceAsString(resourcePath);
         ToscaServiceTemplate serviceTemplate = standardCoder.decode(policyJson, ToscaServiceTemplate.class);
         JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
@@ -238,7 +264,7 @@ public class MonitoringPolicySerializationTest {
         assertNotNull(policyVal.getProperties().values().iterator().next());
     }
 
-    private void verifyVfwMonitoringInputDeserialization(JpaToscaServiceTemplate serviceTemplate) {
+    private void verifyVfwMonitoringInputDeserialization(JpaToscaServiceTemplate serviceTemplate, String version) {
 
         // Sanity check the entire structure
         assertNotNull(serviceTemplate);
@@ -254,7 +280,7 @@ public class MonitoringPolicySerializationTest {
         // Check policies
         assertEquals(1, policiesConceptMap.size());
         assertEquals(POLICY3, policiesConceptMap.keySet().iterator().next().getName());
-        assertEquals("onap.vfirewall.tca:1.0.0",
+        assertEquals("onap.vfirewall.tca:" + version,
                 serviceTemplate.getTopologyTemplate().getPolicies().get(POLICY3).getId());
 
         JpaToscaPolicy policyVal = policiesConceptMap.values().iterator().next();
@@ -304,7 +330,7 @@ public class MonitoringPolicySerializationTest {
         assertNotNull(properties.get(TCA_POLICY));
     }
 
-    private void verifyVfwMonitoringOutputserialization(String serializedServiceTemplate) {
+    private void verifyVfwMonitoringOutputserialization(String serializedServiceTemplate, String version) {
 
         JsonObject serviceTemplateJsonObject = JsonParser.parseString(serializedServiceTemplate).getAsJsonObject();
         assertEquals(YAML_VERSION, serviceTemplateJsonObject.get(DEFINITION_VERSION).getAsString());
@@ -315,7 +341,7 @@ public class MonitoringPolicySerializationTest {
         assertNotNull(policy.get(POLICY3));
         JsonObject policyVal = policy.get(POLICY3).getAsJsonObject();
         assertEquals(TYPE1, policyVal.get("type").getAsString());
-        assertEquals(VERSION_100, policyVal.get(VERSION).getAsString());
+        assertEquals(version, policyVal.get(VERSION).getAsString());
         assertEquals(POLICY3, policyVal.get(METADATA).getAsJsonObject().get(POLICY_ID).getAsString());
         JsonObject properties = policyVal.get(PROPERTIES2).getAsJsonObject();
         assertNotNull(properties.get(TCA_POLICY));
