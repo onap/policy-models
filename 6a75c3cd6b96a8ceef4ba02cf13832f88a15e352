@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db711c71_99113c3f",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.tcagen2.v2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-08-22T14:19:44Z",
+      "side": 1,
+      "message": "Did any part of the datatypes change? I don\u0027t think, just checking. I just recall clashing on these versions since they don\u0027t get deleted. Probably not an issue here if they are identical to 1.0.0 version.",
+      "revId": "6a75c3cd6b96a8ceef4ba02cf13832f88a15e352",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
