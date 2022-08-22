@@ -34,6 +34,24 @@
       "revId": "6a75c3cd6b96a8ceef4ba02cf13832f88a15e352",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a75e2a19_08336825",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.tcagen2.v2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-08-22T14:24:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b443fc6_ced3d77f",
+      "revId": "6a75c3cd6b96a8ceef4ba02cf13832f88a15e352",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
