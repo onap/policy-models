@@ -16,6 +16,24 @@
       "revId": "6a75c3cd6b96a8ceef4ba02cf13832f88a15e352",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b443fc6_ced3d77f",
+        "filename": "models-examples/src/main/resources/policytypes/onap.policies.monitoring.tcagen2.v2.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-08-22T14:22:49Z",
+      "side": 1,
+      "message": "Right Pam, the data types stayed the same.",
+      "parentUuid": "db711c71_99113c3f",
+      "revId": "6a75c3cd6b96a8ceef4ba02cf13832f88a15e352",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
