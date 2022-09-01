@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Pamela Dragosh <pd1248@att.com>
+Code-Review+1: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Code-Review+1: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-by: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-at: Thu, 01 Sep 2022 07:50:29 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/130525
+Project: policy/models
+Branch: refs/heads/master
