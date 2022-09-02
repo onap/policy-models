@@ -1,0 +1,5 @@
+distribution_type: 'maven'
+version: '2.6.5'
+project: 'policy-models'
+tag_release: false
+log_dir: 'policy-models-maven-stage-jakarta/119/'
