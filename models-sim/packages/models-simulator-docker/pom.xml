@@ -44,6 +44,7 @@
         <docker.skip.push>false</docker.skip.push>
         <docker.pull.registry>nexus3.onap.org:10001</docker.pull.registry>
         <docker.push.registry>nexus3.onap.org:10003</docker.push.registry>
+        <docker.contextDir>${project.basedir}/src/main/docker</docker.contextDir>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
         <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
         <sonar.skip>true</sonar.skip>
@@ -109,6 +110,7 @@
                             <build>
                                 <cleanup>try</cleanup>
                                 <dockerFile>${dockerFile}</dockerFile>
+                                <contextDir>${docker.contextDir}</contextDir>
                                 <tags>
                                     <tag>${project.version}</tag>
                                     <tag>${project.version}-${maven.build.timestamp}</tag>
@@ -180,7 +182,7 @@
         <dependency>
             <groupId>org.onap.policy.models.sim</groupId>
             <artifactId>models-simulator-tarball</artifactId>
-	    <version>${project.version}</version>
+            <version>${project.version}</version>
             <classifier>tarball</classifier>
             <type>tar.gz</type>
         </dependency>
