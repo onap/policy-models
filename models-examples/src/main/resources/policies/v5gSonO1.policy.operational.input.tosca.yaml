@@ -11,7 +11,7 @@ properties:
   trigger: modify-o1-config
   operations:
   - id: modify-o1-config
-    description: Control Loop Modify O1 Policy
+    description: Control Loop Modify O1 Configuration
     operation:
       actor: SDNR
       operation: ModifyO1Config
