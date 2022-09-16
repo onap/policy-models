@@ -29,7 +29,6 @@ import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.policy.common.parameters.ValidationResult;
-import org.onap.policy.controlloop.actor.xacml.DecisionParams;
 import org.onap.policy.controlloop.actor.xacml.DecisionParams.DecisionParamsBuilder;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams.HttpParamsBuilder;
 

@@ -47,8 +47,8 @@ public enum OperationResult {
     FAILURE_GUARD("Failure_Guard")
     ;
 
-
     private String result;
+
     private OperationResult(String result) {
         this.result = result;
     }

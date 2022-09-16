@@ -34,8 +34,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
-import org.onap.policy.controlloop.actor.xacml.DecisionConfig;
-import org.onap.policy.controlloop.actor.xacml.DecisionParams;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 
 @RunWith(MockitoJUnitRunner.class)
