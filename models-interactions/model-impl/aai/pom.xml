@@ -78,6 +78,10 @@
                     <groupId>com.google.code.javaparser</groupId>
                     <artifactId>javaparser</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.googlecode.json-simple</groupId>
+                    <artifactId>json-simple</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>
