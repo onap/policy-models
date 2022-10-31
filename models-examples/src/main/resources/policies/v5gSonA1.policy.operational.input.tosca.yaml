@@ -1,28 +1,33 @@
-type: onap.policies.controlloop.operational.common.Drools
-type_version: 1.0.0
-name: op.5g.son.a1
-version: 1.0.0
-metadata:
-  policy-id: op.5g.son.a1
-properties:
-  id: ControlLoop-SONA1-7d4baf04-8875-4d1f-946d-06b874048b61
-  timeout: 1200
-  abatement: false
-  trigger: modify-a1-policy
-  operations:
-  - id: modify-a1-policy
-    description: Control Loop Modify A1 Policy
-    operation:
-      actor: SDNR
-      operation: ModifyA1Policy
-      target:
-        targetType: PNF
-    timeout: 60
-    retries: 0
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - op.5g.son.a1:
+        type: onap.policies.controlloop.operational.common.Drools
+        type_version: 1.0.0
+        name: op.5g.son.a1
+        version: 1.0.0
+        metadata:
+          policy-id: op.5g.son.a1
+        properties:
+          id: ControlLoop-SONA1-7d4baf04-8875-4d1f-946d-06b874048b61
+          timeout: 1200
+          abatement: false
+          trigger: modify-a1-policy
+          operations:
+            - id: modify-a1-policy
+              description: Control Loop Modify A1 Policy
+              operation:
+                actor: SDNR
+                operation: ModifyA1Policy
+                target:
+                  targetType: PNF
+              timeout: 60
+              retries: 0
+              success: final_success
+              failure: final_failure
+              failure_timeout: final_failure_timeout
+              failure_retries: final_failure_retries
+              failure_exception: final_failure_exception
+              failure_guard: final_failure_guard
+
 
