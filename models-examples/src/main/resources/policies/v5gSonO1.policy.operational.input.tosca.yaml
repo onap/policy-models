@@ -1,28 +1,31 @@
-type: onap.policies.controlloop.operational.common.Drools
-type_version: 1.0.0
-name: op.5g.son.o1
-version: 1.0.0
-metadata:
-  policy-id: op.5g.son.o1
-properties:
-  id: ControlLoop-SONO1-fb41f388-a5f2-11e8-98d0-529269fb1459
-  timeout: 1200
-  abatement: false
-  trigger: modify-o1-config
-  operations:
-  - id: modify-o1-config
-    description: Control Loop Modify O1 Configuration
-    operation:
-      actor: SDNR
-      operation: ModifyO1Config
-      target:
-        targetType: PNF
-    timeout: 60
-    retries: 0
-    success: final_success
-    failure: final_failure
-    failure_timeout: final_failure_timeout
-    failure_retries: final_failure_retries
-    failure_exception: final_failure_exception
-    failure_guard: final_failure_guard
-
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - op.5g.son.o1:
+        type: onap.policies.controlloop.operational.common.Drools
+        type_version: 1.0.0
+        name: op.5g.son.o1
+        version: 1.0.0
+        metadata:
+          policy-id: op.5g.son.o1
+        properties:
+          id: ControlLoop-SONO1-fb41f388-a5f2-11e8-98d0-529269fb1459
+          timeout: 1200
+          abatement: false
+          trigger: modify-o1-config
+          operations:
+            - id: modify-o1-config
+              description: Control Loop Modify O1 Configuration
+              operation:
+                actor: SDNR
+                operation: ModifyO1Config
+                target:
+                  targetType: PNF
+              timeout: 60
+              retries: 0
+              success: final_success
+              failure: final_failure
+              failure_timeout: final_failure_timeout
+              failure_retries: final_failure_retries
+              failure_exception: final_failure_exception
+              failure_guard: final_failure_guard
