@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Liam Fallon <liam.fallon@est.tech>
+Code-Review+2: Pamela Dragosh <pd1248@att.com>
+Code-Review+1: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Submitted-by: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Submitted-at: Wed, 02 Nov 2022 15:21:46 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/131965
+Project: policy/models
+Branch: refs/heads/kohn
