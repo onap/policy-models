@@ -34,6 +34,24 @@
       "revId": "8dece848c0775833013e2fa6ff801478fccb4a52",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3db5ec46_fa79457e",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-11-04T21:22:33Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "775df424_6e75e8de",
+      "revId": "8dece848c0775833013e2fa6ff801478fccb4a52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
