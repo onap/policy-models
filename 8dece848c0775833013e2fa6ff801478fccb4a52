@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54640ac4_b6b73c8d",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2022-11-04T17:10:04Z",
+      "side": 1,
+      "message": "seems this is replacing the other operator, I believe you would simply add another statement? Or is this fixing code?",
+      "revId": "8dece848c0775833013e2fa6ff801478fccb4a52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
