@@ -16,6 +16,24 @@
       "revId": "8dece848c0775833013e2fa6ff801478fccb4a52",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "775df424_6e75e8de",
+        "filename": "models-interactions/model-actors/actor.sdnr/src/main/java/org/onap/policy/controlloop/actor/sdnr/SdnrActor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 477
+      },
+      "writtenOn": "2022-11-04T17:34:33Z",
+      "side": 1,
+      "message": "good question, in essence no change in this file, just formatting I leaked here.\nthe A1pActor use the same SdnrOperation class as SdnrActor.  It\ndoes not inherit from SdnrActor (it was giving me some trouble when I tried it out).\nThe A1pOperation does inherit from SdnrOperation and all that code  from SdnrOperation\nis pretty much reused.\nSo, here it just calls the 2-arguments super constructor from Bidirectional...  \nAs a note, at runtime both actors use the same Operations and message format but over different topics.   I couldn\u0027t figure out a better way than creating another actor to go through\ndifferent request/response topics.   Here is the a1p constructor for convenience comparing it:\n\npublic class A1pActor extends BidirectionalTopicActor\u003cBidirectionalTopicActorParams\u003e\n..\n    public A1pActor() {\n        super(NAME, BidirectionalTopicActorParams.class);\n\n        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,\n            A1pOperation::new));\n    }",
+      "parentUuid": "54640ac4_b6b73c8d",
+      "revId": "8dece848c0775833013e2fa6ff801478fccb4a52",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
     }
   ]
 }
