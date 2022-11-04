@@ -12,13 +12,13 @@ topology_template:
           id: ControlLoop-SONA1-7d4baf04-8875-4d1f-946d-06b874048b61
           timeout: 1200
           abatement: false
-          trigger: modify-a1-policy
+          trigger: put-a1-policy
           operations:
-            - id: modify-a1-policy
-              description: Control Loop Modify A1 Policy
+            - id: put-a1-policy
+              description: Control Loop Put A1 Policy
               operation:
-                actor: SDNR
-                operation: ModifyA1Policy
+                actor: A1P
+                operation: PutA1Policy
                 target:
                   targetType: PNF
               timeout: 60
@@ -29,5 +29,3 @@ topology_template:
               failure_retries: final_failure_retries
               failure_exception: final_failure_exception
               failure_guard: final_failure_guard
-
-
