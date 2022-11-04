@@ -43,6 +43,7 @@
     <module>actor.appclcm</module>
     <module>actor.sdnc</module>
     <module>actor.sdnr</module>
+    <module>actor.a1p</module>
     <module>actor.so</module>
     <module>actor.vfc</module>
     <module>actor.xacml</module>

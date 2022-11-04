@@ -1,0 +1,61 @@
+/*-
+ * ONAP
+ * ================================================================================
+ * Copyright (C) 2022 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.policy.controlloop.actor.a1p;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.junit.Test;
+import org.onap.policy.controlloop.actor.test.BasicActor;
+import org.onap.policy.controlloop.actorserviceprovider.Operator;
+
+public class A1pActorTest extends BasicActor {
+
+    @Test
+    public void testConstructor() {
+        A1pActor prov = new A1pActor();
+        assertEquals(0, prov.getSequenceNumber());
+
+        // verify that it has the operators we expect
+        var expected = Stream.of(A1pOperation.NAME).collect(Collectors.toList());
+        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+
+        assertEquals(expected.toString(), actual.toString());
+    }
+
+    @Test
+    public void testActorService() {
+        // verify that it all plugs into the ActorService
+        verifyActorService(A1pActor.NAME, "service.yaml");
+    }
+
+    @Test
+    public void testGetOperator() {
+        A1pActor sp = new A1pActor();
+
+        // should always return the same operator regardless of the name
+        Operator oper = sp.getOperator("unknown");
+        assertNotNull(oper);
+        assertSame(oper, sp.getOperator("another"));
+    }
+}

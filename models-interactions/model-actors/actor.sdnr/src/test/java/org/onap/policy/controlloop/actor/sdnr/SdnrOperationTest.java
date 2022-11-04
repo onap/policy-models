@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * SdnrOperation
  * ================================================================================
- * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -112,7 +111,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    public void testMakeRequestMissingProperty() throws Exception {
+    public void testMakeRequestMissingProperty() {
         operation = new SdnrOperation(params, config);
 
         operation.generateSubRequestId(1);
@@ -127,7 +126,7 @@ public class SdnrOperationTest extends BasicSdnrOperation {
         operation.generateSubRequestId(1);
 
         PciMessage request = operation.makeRequest(1);
-        assertEquals(Arrays.asList(request.getBody().getInput().getCommonHeader().getSubRequestId()),
+        assertEquals(List.of(request.getBody().getInput().getCommonHeader().getSubRequestId()),
                         operation.getExpectedKeyValues(50, request));
     }
 

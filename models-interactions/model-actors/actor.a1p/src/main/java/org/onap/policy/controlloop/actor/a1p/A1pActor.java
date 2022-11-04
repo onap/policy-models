@@ -2,8 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP
  * ================================================================================
- * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020, 2022 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +18,29 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.controlloop.actor.sdnr;
+package org.onap.policy.controlloop.actor.a1p;
 
+import org.onap.policy.controlloop.actor.sdnr.SdnrOperation;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicActor;
 import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicOperator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicActorParams;
 
 /**
- * SDNR is an unusual actor in that it uses a single, generic operator to initiate all
- * operation types. The action taken is always the same, only the operation name changes.
+ * A1-PMS actor extends the SDN-R Actor and observes the same protocol but over
+ * different topics.
  */
-public class SdnrActor extends BidirectionalTopicActor<BidirectionalTopicActorParams>  {
-
-    public static final String NAME = "SDNR";
+public class A1pActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
+    public static final String NAME = "A1P";
 
     /**
      * Constructor.
      */
-    public SdnrActor() {
+    public A1pActor() {
         super(NAME, BidirectionalTopicActorParams.class);
 
-        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this,
-            SdnrOperation.SELECTOR_KEYS, SdnrOperation::new));
+        addOperator(new BidirectionalTopicOperator(NAME, SdnrOperation.NAME, this, SdnrOperation.SELECTOR_KEYS,
+            A1pOperation::new));
     }
 
     @Override
