@@ -22,7 +22,7 @@
                 "description": "Control Loop Put A1 Policy",
                 "operation": {
                   "actor": "A1P",
-                  "operation": "PutA1Policy",
+                  "operation": "putA1Policy",
                   "target": {
                     "targetType": "PNF"
                   }
