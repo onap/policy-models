@@ -46,7 +46,6 @@
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
-            <version>${version.javax.bind}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

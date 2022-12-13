@@ -189,7 +189,6 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
-            <version>${version.javax.json}</version>
         </dependency>
     </dependencies>
 
