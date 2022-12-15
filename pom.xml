@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>3.7.0-SNAPSHOT</version>
+        <version>3.7.0</version>
         <relativePath />
     </parent>
 
@@ -42,7 +42,7 @@
     <properties>
         <derby.version>10.13.1.1</derby.version>
         <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
-        <policy.common.version>1.12.0-SNAPSHOT</policy.common.version>
+        <policy.common.version>1.12.0</policy.common.version>
     </properties>
 
     <modules>
