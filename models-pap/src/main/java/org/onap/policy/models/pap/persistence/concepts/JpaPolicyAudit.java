@@ -63,7 +63,9 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
  *
  */
 @Entity
-@Table(name = "JpaPolicyAudit", indexes = {@Index(name = "JpaPolicyAuditIndex_timestamp", columnList = "timeStamp")})
+@Table(name = "JpaPolicyAudit", indexes = {
+    @Index(name = "JpaPolicyAuditIndex_timestamp", columnList = "timeStamp")
+})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -105,7 +107,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
     private Date timeStamp;
 
     @Column
-    private String user;
+    private String userName;
 
     /**
      * Default constructor.
@@ -137,7 +139,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
         this.pdpType = copyConcept.getPdpType();
         this.action = copyConcept.getAction();
         this.timeStamp = copyConcept.getTimeStamp();
-        this.user = copyConcept.getUser();
+        this.userName = copyConcept.getUserName();
     }
 
     @Override
@@ -163,7 +165,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
                         .append(pdpType, other.pdpType)
                         .append(action, other.action)
                         .append(timeStamp, other.timeStamp)
-                        .append(user, other.user)
+                        .append(userName, other.userName)
                         .toComparison();
         // @formatter:on
     }
@@ -180,7 +182,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
                         .policy(policyIdent)
                         .action(action)
                         .timestamp(timeStamp == null ? null : timeStamp.toInstant())
-                        .user(user)
+                        .user(userName)
                         .build();
         // @formatter:on
     }
@@ -200,10 +202,9 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
         pdpType = authorativeConcept.getPdpType();
         action = authorativeConcept.getAction();
         timeStamp = authorativeConcept.getTimestamp() == null ? Date.from(Instant.now())
-                : Date.from(authorativeConcept.getTimestamp());
-        user = authorativeConcept.getUser();
+            : Date.from(authorativeConcept.getTimestamp());
+        userName = authorativeConcept.getUser();
     }
-
 
     @Override
     public List<PfKey> getKeys() {
@@ -221,7 +222,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
     public void clean() {
         pdpGroup = Assertions.validateStringParameter("pdpGroup", pdpGroup, PfReferenceKey.LOCAL_NAME_REGEXP);
         pdpType = Assertions.validateStringParameter("pdpType", pdpType, PfReferenceKey.LOCAL_NAME_REGEXP);
-        user = Assertions.validateStringParameter("user", user, PfReferenceKey.LOCAL_NAME_REGEXP);
+        userName = Assertions.validateStringParameter("user", userName, PfReferenceKey.LOCAL_NAME_REGEXP);
     }
 
     @Override

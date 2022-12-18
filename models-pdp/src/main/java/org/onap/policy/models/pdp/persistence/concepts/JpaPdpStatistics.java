@@ -59,14 +59,15 @@ import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.pdp.concepts.PdpEngineWorkerStatistics;
 import org.onap.policy.models.pdp.concepts.PdpStatistics;
 
-
 /**
  * Class to represent a PDP statistics in the database.
  *
  */
 @Entity
 @Table(name = "PdpStatistics")
-@Index(name = "IDX_TSIDX1", columnNames = {"timeStamp", "name", "version"})
+@Index(name = "IDXTSIDX1", columnNames = {
+    "timeStamp", "name", "version"
+})
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @AllArgsConstructor
@@ -189,21 +190,21 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
 
         final JpaPdpStatistics other = (JpaPdpStatistics) otherConcept;
         return new CompareToBuilder()
-                .append(this.name, other.name)
-                .append(this.version, other.version)
-                .append(this.generatedId, other.generatedId)
-                .append(this.timeStamp, other.timeStamp)
-                .append(this.pdpGroupName, other.pdpGroupName)
-                .append(this.pdpSubGroupName, other.pdpSubGroupName)
-                .append(this.policyDeployCount, other.policyDeployCount)
-                .append(this.policyDeployFailCount, other.policyDeployFailCount)
-                .append(this.policyDeploySuccessCount, other.policyDeploySuccessCount)
-                .append(this.policyUndeployCount, other.policyUndeployCount)
-                .append(this.policyUndeployFailCount, other.policyUndeployFailCount)
-                .append(this.policyUndeploySuccessCount, other.policyUndeploySuccessCount)
-                .append(this.policyExecutedCount, other.policyExecutedCount)
-                .append(this.policyExecutedFailCount, other.policyExecutedFailCount)
-                .append(this.policyExecutedSuccessCount, other.policyExecutedSuccessCount).toComparison();
+            .append(this.name, other.name)
+            .append(this.version, other.version)
+            .append(this.generatedId, other.generatedId)
+            .append(this.timeStamp, other.timeStamp)
+            .append(this.pdpGroupName, other.pdpGroupName)
+            .append(this.pdpSubGroupName, other.pdpSubGroupName)
+            .append(this.policyDeployCount, other.policyDeployCount)
+            .append(this.policyDeployFailCount, other.policyDeployFailCount)
+            .append(this.policyDeploySuccessCount, other.policyDeploySuccessCount)
+            .append(this.policyUndeployCount, other.policyUndeployCount)
+            .append(this.policyUndeployFailCount, other.policyUndeployFailCount)
+            .append(this.policyUndeploySuccessCount, other.policyUndeploySuccessCount)
+            .append(this.policyExecutedCount, other.policyExecutedCount)
+            .append(this.policyExecutedFailCount, other.policyExecutedFailCount)
+            .append(this.policyExecutedSuccessCount, other.policyExecutedSuccessCount).toComparison();
     }
 
     @Override
@@ -252,7 +253,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
         this.setPolicyExecutedFailCount(pdpStatistics.getPolicyExecutedFailCount());
         this.setPolicyExecutedSuccessCount(pdpStatistics.getPolicyExecutedSuccessCount());
         this.setEngineStats(
-                PfUtils.mapList(pdpStatistics.getEngineStats(), PdpEngineWorkerStatistics::new, null));
+            PfUtils.mapList(pdpStatistics.getEngineStats(), PdpEngineWorkerStatistics::new, null));
     }
 
     @Override

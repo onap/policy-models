@@ -82,7 +82,7 @@ public class JpaPdpPolicyStatus extends PfConcept implements PfAuthorative<PdpPo
     @VerifyKey(versionNotNull = true)
     private PfConceptKey policyType;
 
-    @Column
+    @Column(columnDefinition = "TINYINT DEFAULT 1")
     private boolean deploy;
 
     @Column

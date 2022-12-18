@@ -84,7 +84,7 @@ public class JpaPolicyAuditTest {
         audit.setUser("   user");
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(audit);
         assertThatNoException().isThrownBy(() -> jpaAudit.clean());
-        assertEquals(USER, jpaAudit.getUser());
+        assertEquals(USER, jpaAudit.getUserName());
     }
 
     @Test
