@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@
 
 package org.onap.policy.controlloop.actor.so;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -124,8 +125,8 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
         response.setRequestReferences(ref);
         ref.setRequestId(REQ_ID.toString());
 
-        when(rawResponse.getStatus()).thenReturn(200);
-        when(rawResponse.readEntity(String.class)).thenReturn(coder.encode(response));
+        lenient().when(rawResponse.getStatus()).thenReturn(200);
+        lenient().when(rawResponse.readEntity(String.class)).thenReturn(coder.encode(response));
 
         initConfig();
     }
@@ -133,11 +134,11 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
     @Override
     protected void initConfig() {
         super.initConfig();
-        when(config.getClient()).thenReturn(client);
-        when(config.getPath()).thenReturn(MY_PATH);
-        when(config.getMaxPolls()).thenReturn(MAX_POLLS);
-        when(config.getPollPath()).thenReturn(POLL_PATH);
-        when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
+        lenient().when(config.getClient()).thenReturn(client);
+        lenient().when(config.getPath()).thenReturn(MY_PATH);
+        lenient().when(config.getMaxPolls()).thenReturn(MAX_POLLS);
+        lenient().when(config.getPollPath()).thenReturn(POLL_PATH);
+        lenient().when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
     }
 
     @Override

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 package org.onap.policy.controlloop.actor.test;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -95,21 +96,21 @@ public class BasicHttpOperation extends BasicOperation {
     public void setUpBasic() {
         super.setUpBasic();
 
-        when(factory.get(MY_CLIENT)).thenReturn(client);
+        lenient().when(factory.get(MY_CLIENT)).thenReturn(client);
 
-        when(rawResponse.getStatus()).thenReturn(200);
+        lenient().when(rawResponse.getStatus()).thenReturn(200);
 
-        when(webBuilder.async()).thenReturn(webAsync);
-        when(webBuilder.accept(any(MediaType.class))).thenReturn(webBuilder);
-        when(webBuilder.accept(any(String.class))).thenReturn(webBuilder);
+        lenient().when(webBuilder.async()).thenReturn(webAsync);
+        lenient().when(webBuilder.accept(any(MediaType.class))).thenReturn(webBuilder);
+        lenient().when(webBuilder.accept(any(String.class))).thenReturn(webBuilder);
 
-        when(webTarget.request()).thenReturn(webBuilder);
-        when(webTarget.path(any())).thenReturn(webTarget);
-        when(webTarget.queryParam(any(), any())).thenReturn(webTarget);
+        lenient().when(webTarget.request()).thenReturn(webBuilder);
+        lenient().when(webTarget.path(any())).thenReturn(webTarget);
+        lenient().when(webTarget.queryParam(any(), any())).thenReturn(webTarget);
 
-        when(client.getWebTarget()).thenReturn(webTarget);
+        lenient().when(client.getWebTarget()).thenReturn(webTarget);
 
-        when(client.getBaseUrl()).thenReturn(BASE_URI);
+        lenient().when(client.getBaseUrl()).thenReturn(BASE_URI);
 
         initConfig();
     }
@@ -118,8 +119,8 @@ public class BasicHttpOperation extends BasicOperation {
      * Initializes a configuration.
      */
     protected void initConfig() {
-        when(config.getClient()).thenReturn(client);
-        when(config.getPath()).thenReturn(PATH);
+        lenient().when(config.getClient()).thenReturn(client);
+        lenient().when(config.getPath()).thenReturn(PATH);
     }
 
     /**

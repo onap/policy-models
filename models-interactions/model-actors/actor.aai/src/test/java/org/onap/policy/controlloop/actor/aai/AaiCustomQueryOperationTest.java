@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,6 +43,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
@@ -51,6 +55,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
+@RunWith(MockitoJUnitRunner.class)
 public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     private static final StandardCoder coder = new StandardCoder();
 
@@ -124,7 +129,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     public void testStartOperationAsync_testMakeRequest() throws Exception {
         // need two responses
         when(rawResponse.readEntity(String.class)).thenReturn(makeTenantReply()).thenReturn(makeCqReply());
-        when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
+        lenient().when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
         when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
         CompletableFuture<OperationOutcome> future2 = oper.start();

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,10 +28,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.sdnc.SdncHealRequest;
 import org.onap.policy.sdnc.SdncHealRequestHeaderInfo;
 import org.onap.policy.sdnc.SdncRequest;
 
+@RunWith(MockitoJUnitRunner.class)
 public class SdncOperationTest extends BasicSdncOperation {
 
     private static final String MY_URI = "my-uri";
@@ -41,6 +45,7 @@ public class SdncOperationTest extends BasicSdncOperation {
     /**
      * Sets up.
      */
+    @Override
     @Before
     public void setUp() throws Exception {
         super.setUp();

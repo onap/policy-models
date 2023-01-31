@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +29,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
@@ -53,8 +54,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -70,6 +73,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
+@RunWith(MockitoJUnitRunner.class)
 public class VfModuleDeleteTest extends BasicSoOperation {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
@@ -203,8 +207,8 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         // indicate that the response was incomplete
         configureResponse(coder.encode(response).replace("COMPLETE", "incomplete"));
 
-        when(rawResponse.getStatus()).thenReturn(500, 500, 500, 200, 200);
-        when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
+        lenient().when(rawResponse.getStatus()).thenReturn(500, 500, 500, 200, 200);
+        lenient().when(client.get(any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
@@ -277,7 +281,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
         // need a new future, with an exception
         javaFuture = CompletableFuture.failedFuture(thrown);
-        when(javaClient.sendAsync(any(), any(BodyHandlers.ofString().getClass()))).thenReturn(javaFuture);
+        lenient().when(javaClient.sendAsync(any(), any(BodyHandlers.ofString().getClass()))).thenReturn(javaFuture);
 
         SoRequest req = new SoRequest();
         req.setRequestId(REQ_ID);
@@ -300,8 +304,8 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     @Test
     public void testAddAuthHeader() {
         Builder builder = mock(Builder.class);
-        when(client.getUserName()).thenReturn("the-user");
-        when(client.getPassword()).thenReturn("the-password");
+        lenient().when(client.getUserName()).thenReturn("the-user");
+        lenient().when(client.getPassword()).thenReturn("the-password");
         oper.addAuthHeader(builder);
 
         ArgumentCaptor<String> keyCaptor = ArgumentCaptor.forClass(String.class);
@@ -321,12 +325,12 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     @Test
     public void testAddAuthHeaderNoUser() {
         Builder builder = mock(Builder.class);
-        when(client.getPassword()).thenReturn("world");
+        lenient().when(client.getPassword()).thenReturn("world");
         oper.addAuthHeader(builder);
         verify(builder, never()).header(any(), any());
 
         // repeat with empty username
-        when(client.getUserName()).thenReturn("");
+        lenient().when(client.getUserName()).thenReturn("");
         oper.addAuthHeader(builder);
         verify(builder, never()).header(any(), any());
     }
@@ -337,7 +341,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     @Test
     public void testAddAuthHeaderUserOnly() {
         Builder builder = mock(Builder.class);
-        when(client.getUserName()).thenReturn("my-user");
+        lenient().when(client.getUserName()).thenReturn("my-user");
         oper.addAuthHeader(builder);
 
         ArgumentCaptor<String> keyCaptor = ArgumentCaptor.forClass(String.class);
@@ -372,17 +376,17 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     private void initHostPort() {
-        when(client.getBaseUrl()).thenReturn("http://my-host:6969/");
+        lenient().when(client.getBaseUrl()).thenReturn("http://my-host:6969/");
     }
 
     @SuppressWarnings("unchecked")
     private void configureResponse(String responseText) throws CoderException {
         // indicate that the response was completed
-        when(javaResp.statusCode()).thenReturn(200);
-        when(javaResp.body()).thenReturn(responseText);
+        lenient().when(javaResp.statusCode()).thenReturn(200);
+        lenient().when(javaResp.body()).thenReturn(responseText);
 
         javaFuture = CompletableFuture.completedFuture(javaResp);
-        when(javaClient.sendAsync(any(), any(BodyHandlers.ofString().getClass()))).thenReturn(javaFuture);
+        lenient().when(javaClient.sendAsync(any(), any(BodyHandlers.ofString().getClass()))).thenReturn(javaFuture);
     }
 
     private class MyOperation extends VfModuleDelete {

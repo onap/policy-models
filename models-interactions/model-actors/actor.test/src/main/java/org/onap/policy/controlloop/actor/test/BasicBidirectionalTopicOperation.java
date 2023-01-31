@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -170,9 +171,9 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
      * Initializes a configuration.
      */
     protected void initConfig() {
-        when(config.getTopicHandler()).thenReturn(topicHandler);
-        when(config.getForwarder()).thenReturn(forwarder);
-        when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
+        lenient().when(config.getTopicHandler()).thenReturn(topicHandler);
+        lenient().when(config.getForwarder()).thenReturn(forwarder);
+        lenient().when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
     }
 
     /**

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,10 +29,13 @@ import static org.junit.Assert.assertSame;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BasicOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";

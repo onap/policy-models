@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.lenient;
 
 import java.time.LocalDateTime;
 import java.time.Month;
@@ -37,6 +38,8 @@ import java.util.List;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.common.utils.coder.Coder;
@@ -50,6 +53,7 @@ import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
 
+@RunWith(MockitoJUnitRunner.class)
 public class SoOperationTest extends BasicSoOperation {
 
     private static final List<String> PROP_NAMES = Collections.emptyList();
@@ -126,14 +130,14 @@ public class SoOperationTest extends BasicSoOperation {
 
         assertTrue(oper.isSuccess(rawResponse, response));
 
-        when(rawResponse.getStatus()).thenReturn(500);
+        lenient().when(rawResponse.getStatus()).thenReturn(500);
         assertTrue(oper.isSuccess(rawResponse, response));
     }
 
     @Test
     public void testSetOutcome() {
         // success case
-        when(rawResponse.getStatus()).thenReturn(200);
+        lenient().when(rawResponse.getStatus()).thenReturn(200);
         assertSame(outcome, oper.setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
 
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -141,7 +145,7 @@ public class SoOperationTest extends BasicSoOperation {
         assertSame(response, outcome.getResponse());
 
         // failure case
-        when(rawResponse.getStatus()).thenReturn(500);
+        lenient().when(rawResponse.getStatus()).thenReturn(500);
         assertSame(outcome, oper.setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
 
         assertEquals(OperationResult.FAILURE, outcome.getResult());

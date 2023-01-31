@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020 Wipro Limited.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020,2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -42,6 +44,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.so.SoResponse;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ModifyNssiTest extends BasicSoOperation {
 
     private ModifyNssi oper;

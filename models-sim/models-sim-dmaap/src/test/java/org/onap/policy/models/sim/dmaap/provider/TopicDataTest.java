@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +46,7 @@ import org.junit.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
-import org.powermock.reflect.Whitebox;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public class TopicDataTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -208,6 +209,6 @@ public class TopicDataTest {
      */
     @SuppressWarnings("unchecked")
     private Map<String, ConsumerGroupData> getGroups() {
-        return (Map<String, ConsumerGroupData>) Whitebox.getInternalState(data, "group2data");
+        return (Map<String, ConsumerGroupData>) ReflectionTestUtils.getField(data, "group2data");
     }
 }

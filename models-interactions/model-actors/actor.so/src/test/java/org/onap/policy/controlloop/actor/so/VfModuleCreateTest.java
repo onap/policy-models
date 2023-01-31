@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,6 +39,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -53,6 +56,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
+@RunWith(MockitoJUnitRunner.class)
 public class VfModuleCreateTest extends BasicSoOperation {
 
 
