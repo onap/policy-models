@@ -2,7 +2,7 @@
 <!--
   ============LICENSE_START=======================================================
    Copyright (C) 2018 Ericsson. All rights reserved.
-   Copyright (C) 2019-2020, 2022 Nordix Foundation.
+   Copyright (C) 2019-2020,2022-2023 Nordix Foundation.
    Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
    Modifications Copyright (C) 2020 Bell Canada.
   ================================================================================
@@ -119,10 +119,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>eclipselink</artifactId>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

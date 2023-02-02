@@ -3,6 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +21,13 @@
 
 package org.onap.policy.aai;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.transform.stream.StreamSource;
-import org.eclipse.persistence.jaxb.JAXBContextFactory;
-import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.aai.domain.yang.CloudRegion;
@@ -44,8 +39,6 @@ import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.aai.domain.yang.VfModule;
 import org.onap.aai.domain.yang.Vserver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AaiCqResponse implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -53,39 +46,11 @@ public class AaiCqResponse implements Serializable {
     public static final String OPERATION = "CustomQuery";
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
-    private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponse.class);
-    private static JAXBContext jaxbContext;
-
-    // JABX initial stuff
-    static {
-        Map<String, Object> properties = new HashMap<>();
-        properties.put(JAXBContextProperties.MEDIA_TYPE, "application/json");
-        properties.put(JAXBContextProperties.JSON_INCLUDE_ROOT, false);
-        // Define JAXB context
-        try {
-            // @formatter:off
-            jaxbContext = JAXBContextFactory.createContext(new Class[] {
-                Vserver.class,
-                GenericVnf.class,
-                VfModule.class,
-                CloudRegion.class,
-                ServiceInstance.class,
-                Tenant.class,
-                ModelVer.class
-            }, properties);
-            // @formatter:on
-
-            // verify that we can create an unmarshaller
-            jaxbContext.createUnmarshaller();
-
-        } catch (JAXBException e) {
-            LOGGER.error("Could not initialize JAXBContext", e);
-            LOGGER.info("Problem initiatlizing JAXBContext", e);
-        }
-    }
 
     @SerializedName("results")
     private List<Serializable> inventoryResponseItems = new LinkedList<>();
+
+    private final Gson gson;
 
     /**
      * Constructor creates a custom query response from a valid json string.
@@ -93,6 +58,9 @@ public class AaiCqResponse implements Serializable {
      * @param jsonString A&AI Custom Query response JSON string
      */
     public AaiCqResponse(String jsonString) {
+        gson = new GsonBuilder()
+            .setFieldNamingStrategy(new XmlElementFieldNamingStrategy())
+            .create();
 
         // Read JSON String and add all AaiObjects
         var responseObj = new JSONObject(jsonString);
@@ -118,11 +86,10 @@ public class AaiCqResponse implements Serializable {
 
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject("vserver").toString()));
+            var json = resultObject.getJSONObject("vserver").toString();
 
             // Getting the vserver pojo again from the json
-            var vserver = this.getAaiObject(json, Vserver.class);
+            var vserver = gson.fromJson(json, Vserver.class);
             this.inventoryResponseItems.add(vserver);
         }
     }
@@ -131,12 +98,10 @@ public class AaiCqResponse implements Serializable {
         if (resultObject.has(GENERIC_VNF)) {
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject(GENERIC_VNF).toString()));
+            var json = resultObject.getJSONObject(GENERIC_VNF).toString();
 
             // Getting the generic vnf pojo again from the json
-            var genericVnf = this.getAaiObject(json, GenericVnf.class);
-
+            var genericVnf = gson.fromJson(json, GenericVnf.class);
             this.inventoryResponseItems.add(genericVnf);
         }
     }
@@ -146,12 +111,10 @@ public class AaiCqResponse implements Serializable {
 
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject("service-instance").toString()));
+            var json = resultObject.getJSONObject("service-instance").toString();
 
             // Getting the employee pojo again from the json
-            var serviceInstance = this.getAaiObject(json, ServiceInstance.class);
-
+            var serviceInstance = gson.fromJson(json, ServiceInstance.class);
             this.inventoryResponseItems.add(serviceInstance);
         }
     }
@@ -160,12 +123,10 @@ public class AaiCqResponse implements Serializable {
         if (resultObject.has(VF_MODULE)) {
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject(VF_MODULE).toString()));
+            var json = resultObject.getJSONObject(VF_MODULE).toString();
 
             // Getting the vf module pojo again from the json
-            var vfModule = this.getAaiObject(json, VfModule.class);
-
+            var vfModule = gson.fromJson(json, VfModule.class);
             this.inventoryResponseItems.add(vfModule);
         }
     }
@@ -174,12 +135,10 @@ public class AaiCqResponse implements Serializable {
         if (resultObject.has("cloud-region")) {
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject("cloud-region").toString()));
+            var json = resultObject.getJSONObject("cloud-region").toString();
 
             // Getting the cloud region pojo again from the json
-            var cloudRegion = this.getAaiObject(json, CloudRegion.class);
-
+            var cloudRegion = gson.fromJson(json, CloudRegion.class);
             this.inventoryResponseItems.add(cloudRegion);
         }
     }
@@ -188,12 +147,10 @@ public class AaiCqResponse implements Serializable {
         if (resultObject.has("tenant")) {
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject("tenant").toString()));
+            var json = resultObject.getJSONObject("tenant").toString();
 
             // Getting the tenant pojo again from the json
-            var tenant = this.getAaiObject(json, Tenant.class);
-
+            var tenant = gson.fromJson(json, Tenant.class);
             this.inventoryResponseItems.add(tenant);
         }
     }
@@ -202,22 +159,11 @@ public class AaiCqResponse implements Serializable {
         if (resultObject.has("model-ver")) {
             // Create the StreamSource by creating StringReader using the
             // JSON input
-            var json = new StreamSource(
-                    new StringReader(resultObject.getJSONObject("model-ver").toString()));
+            var json = resultObject.getJSONObject("model-ver").toString();
 
             // Getting the ModelVer pojo again from the json
-            var modelVer = this.getAaiObject(json, ModelVer.class);
-
+            var modelVer = gson.fromJson(json, ModelVer.class);
             this.inventoryResponseItems.add(modelVer);
-        }
-    }
-
-    private <T> T getAaiObject(StreamSource json, final Class<T> classOfResponse) {
-        try {
-            return jaxbContext.createUnmarshaller().unmarshal(json, classOfResponse).getValue();
-        } catch (JAXBException e) {
-            LOGGER.error("JAXBCOntext error", e);
-            return null;
         }
     }
 
@@ -374,7 +320,7 @@ public class AaiCqResponse implements Serializable {
             // Iterate through all the vfModules of that generic Vnf
             for (VfModule vfMod : genVnf.getVfModules().getVfModule()) {
                 if (vfMod.getModelInvariantId() != null
-                        && vfMod.getModelInvariantId().equals(vfModuleModelInvariantId)) {
+                    && vfMod.getModelInvariantId().equals(vfModuleModelInvariantId)) {
                     return genVnf;
                 }
             }
@@ -608,12 +554,12 @@ public class AaiCqResponse implements Serializable {
         var count = 0;
         for (VfModule vfModule : vfModuleList) {
             if (vfModule.getModelCustomizationId() == null || vfModule.getModelInvariantId() == null
-                    || vfModule.getModelVersionId() == null) {
+                || vfModule.getModelVersionId() == null) {
                 continue;
             }
 
             if (vfModule.getModelCustomizationId().equals(custId) && vfModule.getModelInvariantId().equals(invId)
-                    && vfModule.getModelVersionId().equals(verId)) {
+                && vfModule.getModelVersionId().equals(verId)) {
                 count = count + 1;
             }
         }

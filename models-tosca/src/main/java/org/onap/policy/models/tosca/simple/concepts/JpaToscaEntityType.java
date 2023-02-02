@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2022 Nordix Foundation.
+ *  Copyright (C) 2019-2020,2022-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -67,8 +68,10 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
     // @formatter:off
     @Column
-    @AttributeOverride(name = "name", column = @Column(name = "derived_from_name"))
-    @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
+    @AttributeOverrides({
+        @AttributeOverride(name = "name", column = @Column(name = "derived_from_name")),
+        @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
+    })
     @VerifyKey
     private PfConceptKey derivedFrom;
 

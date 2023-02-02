@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -38,7 +38,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Test;
 import org.onap.policy.models.base.PfConceptKey;
@@ -85,10 +84,10 @@ public class EntityTest {
 
         Properties jdbcProperties = new Properties();
         // @formatter:off
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   "org.h2.Driver");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     "sa");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "");
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver",   "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url",      "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("javax.persistence.jdbc.user",     "sa");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
         // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
@@ -144,6 +143,14 @@ public class EntityTest {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit("DaoTest");
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+
+        daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
