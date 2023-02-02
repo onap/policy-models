@@ -55,6 +55,7 @@ public class HierarchyFetchTest {
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
+        parameters.setDatabaseType("org.hibernate.dialect.H2Dialect");
     }
 
     /**
@@ -95,29 +96,28 @@ public class HierarchyFetchTest {
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         ToscaPolicyType fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
-                "3.0.0", fetchedServiceTemplate, 3);
-
+            "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.0.0");
         assertOldDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
-                "1.0.0", fetchedServiceTemplate, 1);
+            "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.1.0");
         assertOldDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
-                "2.0.0", fetchedServiceTemplate, 1);
+            "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
         assertEquals(1, fetchedServiceTemplate.getPolicyTypes().size());
         fetchedPolicyType = fetchedServiceTemplate.getPolicyTypes().values().iterator().next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0",
-                "3.0.0", fetchedServiceTemplate, 1);
+            "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -128,7 +128,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
-                "3.0.0", fetchedServiceTemplate, 3);
+            "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -138,7 +138,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
-                "1.0.0", fetchedServiceTemplate, 1);
+            "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -148,7 +148,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
-                "2.0.0", fetchedServiceTemplate, 1);
+            "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -158,7 +158,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1",
-                "3.0.0", fetchedServiceTemplate, 1);
+            "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -170,7 +170,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
-                "3.0.0", fetchedServiceTemplate, 3);
+            "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -182,7 +182,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
-                "1.0.0", fetchedServiceTemplate, 1);
+            "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -194,7 +194,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
-                "2.0.0", fetchedServiceTemplate, 1);
+            "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -206,7 +206,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2",
-                "3.0.0", fetchedServiceTemplate, 1);
+            "3.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", null);
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -220,7 +220,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
-                "3.0.0", fetchedServiceTemplate, 3);
+            "3.0.0", fetchedServiceTemplate, 3);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.0.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -234,7 +234,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
-                "1.0.0", fetchedServiceTemplate, 1);
+            "1.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.1.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -248,7 +248,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
-                "2.0.0", fetchedServiceTemplate, 1);
+            "2.0.0", fetchedServiceTemplate, 1);
 
         fetchedServiceTemplate = databaseProvider.getPolicies("onap.policies.PolicyLevel0.1.2.3", "1.2.0");
         assertLatestDataTypesAreReturned(fetchedServiceTemplate);
@@ -262,7 +262,7 @@ public class HierarchyFetchTest {
         checkNameVersion(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2", "3.0.0");
         fetchedPolicyType = fetchedPolicyTypeIterator.next();
         checkEqualsPolicyType(fetchedPolicyType, "onap.policies.PolicyTypeLevel0.1.2.3",
-                "3.0.0", fetchedServiceTemplate, 1);
+            "3.0.0", fetchedServiceTemplate, 1);
 
         databaseProvider.close();
     }
@@ -273,7 +273,7 @@ public class HierarchyFetchTest {
     }
 
     private void checkEqualsPolicyType(ToscaPolicyType fetchedPolicyType, String name, String ver,
-            ToscaServiceTemplate fetchedServiceTemplate, int policies) {
+        ToscaServiceTemplate fetchedServiceTemplate, int policies) {
         checkNameVersion(fetchedPolicyType, name, ver);
         assertEquals(policies, countReturnedPolicies(fetchedServiceTemplate));
     }

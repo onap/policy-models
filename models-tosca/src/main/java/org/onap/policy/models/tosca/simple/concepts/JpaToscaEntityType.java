@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.EmbeddedId;
@@ -67,8 +68,10 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
     // @formatter:off
     @Column
-    @AttributeOverride(name = "name", column = @Column(name = "derived_from_name"))
-    @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
+    @AttributeOverrides({
+        @AttributeOverride(name = "name", column = @Column(name = "derived_from_name")),
+        @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
+    })
     @VerifyKey
     private PfConceptKey derivedFrom;
 

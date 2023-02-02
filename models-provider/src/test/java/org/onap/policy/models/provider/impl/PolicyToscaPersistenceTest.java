@@ -81,9 +81,11 @@ public class PolicyToscaPersistenceTest {
         if (System.getProperty("USE-MARIADB") != null) {
             parameters.setDatabaseDriver("org.mariadb.jdbc.Driver");
             parameters.setDatabaseUrl("jdbc:mariadb://localhost:3306/policy");
+            parameters.setDatabaseType("org.hibernate.dialect.MariaDBDialect");
         } else {
             parameters.setDatabaseDriver("org.h2.Driver");
             parameters.setDatabaseUrl("jdbc:h2:mem:PolicyToscaPersistenceTest");
+            parameters.setDatabaseType("org.hibernate.dialect.H2Dialect");
         }
 
         parameters.setDatabaseUser("policy");

@@ -25,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Lob;
@@ -56,8 +57,10 @@ public abstract class JpaToscaWithTypeAndStringProperties<T extends ToscaWithTyp
     private static final long serialVersionUID = 2785481541573683089L;
 
     @Column
-    @AttributeOverride(name = "name", column = @Column(name = "type_name"))
-    @AttributeOverride(name = "version", column = @Column(name = "type_version"))
+    @AttributeOverrides ({
+        @AttributeOverride(name = "name", column = @Column(name = "type_name")),
+        @AttributeOverride(name = "version", column = @Column(name = "type_version"))
+    })
     @VerifyKey
     @NotNull
     private PfConceptKey type;

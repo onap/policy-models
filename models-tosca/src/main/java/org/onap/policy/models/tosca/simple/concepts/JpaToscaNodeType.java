@@ -28,6 +28,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -58,8 +59,10 @@ public class JpaToscaNodeType extends JpaToscaWithToscaProperties<ToscaNodeType>
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "requirementsName", referencedColumnName = "name")
-    @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "requirementsName", referencedColumnName = "name"),
+        @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")
+    })
     // @formatter:on
     @Valid
     private JpaToscaRequirements requirements;

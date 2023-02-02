@@ -35,6 +35,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -86,15 +87,20 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     private Map<@NotNull String, @NotNull @Valid JpaToscaParameter> inputs;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nodeTemplatesName", referencedColumnName = "name")
-    @JoinColumn(name = "nodeTemplatessVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "nodeTemplatesName", referencedColumnName = "name"),
+        @JoinColumn(name = "nodeTemplatessVersion", referencedColumnName = "version")
+    })
     @SerializedName("data_types")
     @Valid
     private JpaToscaNodeTemplates nodeTemplates;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "policyName",    referencedColumnName = "name")
-    @JoinColumn(name = "policyVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "policyName",    referencedColumnName = "name"),
+        @JoinColumn(name = "policyVersion", referencedColumnName = "version")
+
+    })
     // @formatter:on
     @Valid
     private JpaToscaPolicies policies;

@@ -77,7 +77,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "auditIdGen")
     @TableGenerator(
         name = "auditIdGen",
-        table = "sequence",
+        table = "audit_sequence",
         pkColumnName = "SEQ_NAME",
         valueColumnName = "SEQ_COUNT",
         pkColumnValue = "SEQ_GEN")

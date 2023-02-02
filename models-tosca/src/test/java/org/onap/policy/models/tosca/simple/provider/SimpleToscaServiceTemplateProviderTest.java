@@ -25,8 +25,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Properties;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
+import java.util.TreeMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,11 +38,14 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
+import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
 
 /**
  * Test the {@link SimpleToscaProvider} class.
@@ -66,15 +71,15 @@ public class SimpleToscaServiceTemplateProviderTest {
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER, "policy");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "P01icY");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
 
         if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:mariadb://localhost:3306/policy");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
         } else {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
                             "jdbc:h2:mem:SimpleToscaServiceTemplateProviderTest");
         }
 
@@ -92,6 +97,7 @@ public class SimpleToscaServiceTemplateProviderTest {
     @Test
     public void testCreateUpdateGetDeleteDataType() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
+        serviceTemplate.setMetadata(new TreeMap<String, String>());
 
         JpaToscaServiceTemplate dbServiceTemplate =
             new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
@@ -106,6 +112,9 @@ public class SimpleToscaServiceTemplateProviderTest {
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
         JpaToscaDataType dataType0 = new JpaToscaDataType();
         dataType0.setKey(dataType0Key);
+        dataType0.setConstraints(new ArrayList<JpaToscaConstraint>());
+        dataType0.setMetadata(new TreeMap<String, String>());
+        dataType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         serviceTemplate.getDataTypes().getConceptMap().put(dataType0Key, dataType0);
 
@@ -135,6 +144,10 @@ public class SimpleToscaServiceTemplateProviderTest {
         JpaToscaPolicyType policyType0 = new JpaToscaPolicyType();
 
         policyType0.setKey(policyType0Key);
+        policyType0.setMetadata(new TreeMap<String, String>());
+        policyType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        policyType0.setTargets(new ArrayList<PfConceptKey>());
+        policyType0.setTriggers(new ArrayList<JpaToscaTrigger>());
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         serviceTemplate.getPolicyTypes().getConceptMap().put(policyType0Key, policyType0);
