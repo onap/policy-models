@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2022 Nordix Foundation.
+ *  Copyright (C) 2019-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -90,6 +90,7 @@ public class DatabasePolicyModelsProviderTest {
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
         parameters.setPersistenceUnit("ToscaConceptTest");
+        parameters.setDatabaseType("org.hibernate.dialect.H2Dialect");
     }
 
     /**
@@ -110,20 +111,23 @@ public class DatabasePolicyModelsProviderTest {
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
+        final String savedDatabaseUrl = parameters.getDatabaseUrl();
         parameters.setDatabaseUrl("jdbc://www.acmecorp.nonexist");
 
         databaseProvider.close();
-        databaseProvider.init();
+        assertThatThrownBy(() -> {
+            databaseProvider.init();
+        }).hasMessageContaining("could not create Data Access Object (DAO)");
 
         databaseProvider.close();
 
-        parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
+        parameters.setDatabaseUrl(savedDatabaseUrl);
 
+        final String savedPersistenceUnit = parameters.getPersistenceUnit();
         parameters.setPersistenceUnit("WileECoyote");
 
         assertThatThrownBy(databaseProvider::init).hasMessageContaining("could not create Data Access Object (DAO)");
-
-        parameters.setPersistenceUnit("ToscaConceptTest");
+        parameters.setPersistenceUnit(savedPersistenceUnit);
 
         databaseProvider.init();
         databaseProvider.close();

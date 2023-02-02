@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -113,16 +113,16 @@ public class DefaultPfDao implements PfDao {
         if (daoParameters == null || daoParameters.getPersistenceUnit() == null) {
             LOGGER.error("Policy Framework persistence unit parameter not set");
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "Policy Framework persistence unit parameter not set");
+                "Policy Framework persistence unit parameter not set");
         }
 
         LOGGER.debug("Creating Policy Framework persistence unit \"{}\" . . .", daoParameters.getPersistenceUnit());
         try {
             emf = Persistence.createEntityManagerFactory(daoParameters.getPersistenceUnit(),
-                    daoParameters.getJdbcProperties());
+                daoParameters.getJdbcProperties());
         } catch (final Exception ex) {
             String errorMessage = "Creation of Policy Framework persistence unit \""
-                    + daoParameters.getPersistenceUnit() + "\" failed";
+                + daoParameters.getPersistenceUnit() + "\" failed";
             LOGGER.warn(errorMessage);
             throw new PfModelException(Response.Status.INTERNAL_SERVER_ERROR, errorMessage, ex);
         }
@@ -138,7 +138,7 @@ public class DefaultPfDao implements PfDao {
         if (emf == null) {
             LOGGER.warn("Policy Framework DAO has not been initialized");
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "Policy Framework DAO has not been initialized");
+                "Policy Framework DAO has not been initialized");
         }
 
         return emf.createEntityManager();
@@ -190,7 +190,7 @@ public class DefaultPfDao implements PfDao {
         try {
             // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+            mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass))
                 .setParameter(NAME,    key.getName())
                 .setParameter(VERSION, key.getVersion())
                 .executeUpdate();
@@ -210,7 +210,7 @@ public class DefaultPfDao implements PfDao {
         try {
             // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass), someClass)
+            mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass))
                 .setParameter(PARENT_NAME,    key.getParentKeyName())
                 .setParameter(PARENT_VERSION, key.getParentKeyVersion())
                 .setParameter(LOCAL_NAME,     key.getLocalName())
@@ -231,7 +231,7 @@ public class DefaultPfDao implements PfDao {
         try {
             // @formatter:off
             mg.getTransaction().begin();
-            mg.createQuery(setQueryTable(DELETE_BY_TIMESTAMP_KEY, someClass), someClass)
+            mg.createQuery(setQueryTable(DELETE_BY_TIMESTAMP_KEY, someClass))
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
                     .setParameter(TIMESTAMP, key.getTimeStamp())
@@ -288,7 +288,7 @@ public class DefaultPfDao implements PfDao {
             // @formatter:off
             mg.getTransaction().begin();
             for (final PfConceptKey key : keys) {
-                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass), someClass)
+                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass))
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
                     .executeUpdate();
@@ -303,7 +303,7 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> int deleteByReferenceKey(final Class<T> someClass,
-            final Collection<PfReferenceKey> keys) {
+        final Collection<PfReferenceKey> keys) {
         if (keys == null || keys.isEmpty()) {
             return 0;
         }
@@ -313,7 +313,7 @@ public class DefaultPfDao implements PfDao {
             // @formatter:off
             mg.getTransaction().begin();
             for (final PfReferenceKey key : keys) {
-                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass), someClass)
+                deletedCount += mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass))
                     .setParameter(PARENT_NAME,    key.getParentKeyName())
                     .setParameter(PARENT_VERSION, key.getParentKeyVersion())
                     .setParameter(LOCAL_NAME,     key.getLocalName())
@@ -332,7 +332,7 @@ public class DefaultPfDao implements PfDao {
         final var mg = getEntityManager();
         try {
             mg.getTransaction().begin();
-            mg.createQuery(setQueryTable(DELETE_FROM_TABLE, someClass), someClass).executeUpdate();
+            mg.createQuery(setQueryTable(DELETE_FROM_TABLE, someClass)).executeUpdate();
             mg.getTransaction().commit();
         } finally {
             mg.close();
@@ -341,7 +341,7 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name,
-            final String version) {
+        final String version) {
         if (name == null) {
             return getAll(someClass);
         }
@@ -362,8 +362,8 @@ public class DefaultPfDao implements PfDao {
         try {
             PfFilter filter = new PfFilterFactory().createFilter(someClass);
             var filterQueryString = SELECT_FROM_TABLE
-                            + filter.genWhereClause(filterParams)
-                            + filter.genOrderClause(filterParams);
+                + filter.genWhereClause(filterParams)
+                + filter.genOrderClause(filterParams);
 
             TypedQuery<T> query = mg.createQuery(setQueryTable(filterQueryString, someClass), someClass);
             filter.setParams(query, filterParams);
@@ -457,7 +457,7 @@ public class DefaultPfDao implements PfDao {
             }
 
             return mg.createQuery(query, someClass).setMaxResults(numRecords)
-                    .getResultList();
+                .getResultList();
         } finally {
             mg.close();
         }
@@ -567,8 +567,8 @@ public class DefaultPfDao implements PfDao {
              * The invoking code only passes well-known classes into this method, thus
              * disabling the sonar about SQL injection.
              */
-            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)   // NOSONAR
-                    .getSingleResult();
+            size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class) // NOSONAR
+                .getSingleResult();
         } finally {
             mg.close();
         }
@@ -595,13 +595,13 @@ public class DefaultPfDao implements PfDao {
      * @return the single unique result
      */
     private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter,
-                    List<T> resultList) {
+        List<T> resultList) {
         if (resultList == null || resultList.isEmpty()) {
             return null;
         }
         if (resultList.size() > 1) {
             throw new IllegalArgumentException("More than one result was returned query on " + someClass
-                    + " with filter " + searchFilter + ": " + resultList);
+                + " with filter " + searchFilter + ": " + resultList);
         }
         return resultList.get(0);
     }

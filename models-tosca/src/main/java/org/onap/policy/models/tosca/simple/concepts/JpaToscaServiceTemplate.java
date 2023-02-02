@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +34,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -78,45 +79,57 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     private String toscaDefinitionsVersion;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "dataTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "dataTypesName",    referencedColumnName = "name"),
+        @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
+    })
     @SerializedName("data_types")
     @Valid
     private JpaToscaDataTypes dataTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name"),
+        @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
+    })
     @SerializedName("capability_types")
     @Valid
     private JpaToscaCapabilityTypes capabilityTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name"),
+        @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
+    })
     @SerializedName("relationship_types")
     @Valid
     private JpaToscaRelationshipTypes relationshipTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name"),
+        @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
+    })
     @SerializedName("node_types")
     @Valid
     private JpaToscaNodeTypes nodeTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "policyTypesName",    referencedColumnName = "name")
-    @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
+    @JoinColumns({
+        @JoinColumn(name = "policyTypesName",    referencedColumnName = "name"),
+        @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
+    })
     @SerializedName("policy_types")
     @Valid
     private JpaToscaPolicyTypes policyTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName")
-    @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion")
-    @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName")
-    @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
+    @JoinColumns({
+        @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName"),
+        @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion"),
+        @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName"),
+        @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
+    })
     @SerializedName("topology_template")
     @Valid
     private JpaToscaTopologyTemplate topologyTemplate;

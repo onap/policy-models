@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020-2021 Nordix Foundation.
+ *  Copyright (C) 2020-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,7 +30,6 @@ import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.lang3.ObjectUtils;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -86,18 +85,16 @@ public class AuthorativeToscaProviderGenericTest {
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER, "policy");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "P01icY");
-
+        jdbcProperties.setProperty("javax.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", "P01icY");
         if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:mariadb://localhost:3306/policy");
+            jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+            jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
         } else {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,
-                            "jdbc:h2:mem:AuthorativeToscaProviderGenericTest");
+            jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
+            jdbcProperties.setProperty("javax.persistence.jdbc.url",
+                "jdbc:h2:mem:AuthorativeToscaProviderGenericTest");
         }
-
         daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
@@ -127,7 +124,7 @@ public class AuthorativeToscaProviderGenericTest {
 
         assertNotNull(toscaServiceTemplate);
         ToscaServiceTemplate createdServiceTemplate =
-                new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
+            new AuthorativeToscaProvider().createServiceTemplate(pfDao, toscaServiceTemplate);
 
         PfConceptKey policyTypeKey = new PfConceptKey(POLICY_NO_VERSION_VERSION1);
 
@@ -137,14 +134,14 @@ public class AuthorativeToscaProviderGenericTest {
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaServiceTemplate> gotServiceTemplateList =
-                new AuthorativeToscaProvider().getServiceTemplateList(pfDao, null, null);
+            new AuthorativeToscaProvider().getServiceTemplateList(pfDao, null, null);
 
         ToscaPolicyType gotPolicyType = gotServiceTemplateList.get(0).getPolicyTypes().get(policyTypeKey.getName());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList =
-                new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
+            new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
@@ -161,48 +158,48 @@ public class AuthorativeToscaProviderGenericTest {
         assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(new DefaultPfDao(), POLICY_NO_VERSION,
-                VERSION_001)).hasMessageContaining("Policy Framework DAO has not been initialized");
+            VERSION_001)).hasMessageContaining("Policy Framework DAO has not been initialized");
 
         assertTrue(new AuthorativeToscaProvider().getPolicyTypeList(pfDao, "i.dont.Exist", VERSION_001).isEmpty());
 
         ToscaServiceTemplate deletedServiceTemplate =
-                new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, "Dummy", "0.0.1");
+            new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, "Dummy", "0.0.1");
         assertEquals(2, deletedServiceTemplate.getPolicyTypes().size());
     }
 
     @Test
     public void testNullParameters() throws Exception {
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getServiceTemplateList(null, null, null))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().createServiceTemplate(null, null))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().createServiceTemplate(pfDao, null))
-                .hasMessageMatching("^serviceTemplate is marked .*on.*ull but is null$");
+            .hasMessageMatching("^serviceTemplate is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().createServiceTemplate(null, new ToscaServiceTemplate()))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(null, null, null))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(null, null, "0.0.1"))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(null, "Dummy", null))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(null, "Dummy", "0.0.1"))
-                .hasMessageMatching("^dao is marked .*on.*ull but is null$");
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, null, null))
-                .hasMessageMatching("^name is marked .*on.*ull but is null$");
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, null, "0.0.1"))
-                .hasMessageMatching("^name is marked .*on.*ull but is null$");
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().deleteServiceTemplate(pfDao, "Dummy", null))
-                .hasMessageMatching("^version is marked .*on.*ull but is null$");
+            .hasMessageMatching("^version is marked .*on.*ull but is null$");
     }
 }
