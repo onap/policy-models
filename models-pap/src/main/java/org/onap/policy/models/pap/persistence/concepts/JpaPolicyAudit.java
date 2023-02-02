@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021-2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,7 +77,7 @@ public class JpaPolicyAudit extends PfConcept implements PfAuthorative<PolicyAud
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "auditIdGen")
     @TableGenerator(
         name = "auditIdGen",
-        table = "sequence",
+        table = "audit_sequence",
         pkColumnName = "SEQ_NAME",
         valueColumnName = "SEQ_COUNT",
         pkColumnValue = "SEQ_GEN")

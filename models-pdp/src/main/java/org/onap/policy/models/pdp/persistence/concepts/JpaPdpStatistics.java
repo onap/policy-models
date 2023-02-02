@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2021 Nordix Foundation.
+ * Copyright (C) 2019-2021,2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -35,6 +35,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
@@ -46,7 +47,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import org.apache.commons.lang3.builder.CompareToBuilder;
-import org.eclipse.persistence.annotations.Index;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.parameters.annotations.Pattern;
@@ -64,10 +64,16 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
  *
  */
 @Entity
-@Table(name = "PdpStatistics")
-@Index(name = "IDXTSIDX1", columnNames = {
-    "timeStamp", "name", "version"
-})
+@Table(
+    name = "PdpStatistics",
+    indexes = {
+        @Index(
+            name = "IDXTSIDX1",
+            columnList = "timeStamp,name,version",
+            unique = true
+            )
+    }
+)
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 @AllArgsConstructor
@@ -80,7 +86,7 @@ public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStat
     @GeneratedValue(strategy = GenerationType.TABLE, generator = "statisticsIdGen")
     @TableGenerator(
         name = "statisticsIdGen",
-        table = "sequence",
+        table = "statistics_sequence",
         pkColumnName = "SEQ_NAME",
         valueColumnName = "SEQ_COUNT",
         pkColumnValue = "SEQ_GEN")

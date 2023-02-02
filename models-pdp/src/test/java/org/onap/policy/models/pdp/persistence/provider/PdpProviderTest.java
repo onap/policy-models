@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -81,7 +80,6 @@ public class PdpProviderTest {
     private StandardCoder standardCoder;
     private PdpPolicyStatusBuilder statusBuilder;
 
-
     /**
      * Set up the DAO towards the database.
      *
@@ -95,15 +93,15 @@ public class PdpProviderTest {
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER, "policy");
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, "P01icY");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
 
         if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:mariadb://localhost:3306/policy");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
         } else {
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER, "org.h2.Driver");
-            jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL, "jdbc:h2:mem:PdpProviderTest");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:PdpProviderTest");
         }
 
         daoParameters.setJdbcProperties(jdbcProperties);
@@ -128,7 +126,7 @@ public class PdpProviderTest {
         ToscaConceptIdentifier policyType = new ToscaConceptIdentifier("MyPolicyType", "1.2.4");
 
         statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(MY_POLICY)
-                        .policyType(policyType).state(State.SUCCESS);
+            .policyType(policyType).state(State.SUCCESS);
     }
 
     @After
@@ -234,7 +232,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups());
         }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
-                        .hasMessageContaining(Validated.IS_NULL);
+            .hasMessageContaining(Validated.IS_NULL);
     }
 
     @Test
@@ -300,7 +298,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(pfDao, pdpGroups0.getGroups());
         }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
-                    .hasMessageContaining(Validated.IS_NULL);
+            .hasMessageContaining(Validated.IS_NULL);
     }
 
     @Test
@@ -407,7 +405,7 @@ public class PdpProviderTest {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
         }).hasMessageContaining("PDP sub group").hasMessageContaining("desiredInstanceCount")
-                        .hasMessageContaining("below the minimum value");
+            .hasMessageContaining("below the minimum value");
         existingSubGroup.setDesiredInstanceCount(10);
     }
 
@@ -498,9 +496,9 @@ public class PdpProviderTest {
 
         List<PdpGroup> afterUpdatePdpGroups = new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0);
         assertEquals(PdpState.TEST,
-                afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getPdpState());
+            afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getPdpState());
         assertEquals(PdpHealthStatus.TEST_IN_PROGRESS,
-                afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getHealthy());
+            afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getHealthy());
 
         existingPdp.setMessage("");
         assertThatThrownBy(() -> {
@@ -693,12 +691,12 @@ public class PdpProviderTest {
         }).hasMessageContaining("policy").hasMessageContaining("null");
 
         assertThat(new PdpProvider().getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion("somePdp", null)))
-                        .isEmpty();
+            .isEmpty();
 
         PdpProvider provider = loadDeployments();
         assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY))).hasSize(2);
         assertThat(provider.getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion(MY_POLICY.getName(), null)))
-                        .hasSize(3);
+            .hasSize(3);
     }
 
     @Test
@@ -722,7 +720,7 @@ public class PdpProviderTest {
         PdpProvider prov = new PdpProvider();
 
         assertThatThrownBy(() -> prov.cudPolicyStatus(null, List.of(), List.of(), List.of()))
-                        .hasMessageMatching(DAO_IS_NULL);
+            .hasMessageMatching(DAO_IS_NULL);
 
         // null collections should be OK
         assertThatCode(() -> prov.cudPolicyStatus(pfDao, null, null, null)).doesNotThrowAnyException();

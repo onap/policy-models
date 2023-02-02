@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021,2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,11 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import lombok.Data;
 
 @Entity
@@ -44,7 +46,13 @@ public class OperationsHistory implements Serializable {
     private static final long serialVersionUID = -551420180714993577L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "opHistoryIdGen")
+    @TableGenerator(
+        name = "opHistoryIdGen",
+        table = "ophistory_id_sequence",
+        pkColumnName = "SEQ_NAME",
+        valueColumnName = "SEQ_COUNT",
+        pkColumnValue = "SEQ_GEN")
     @Column(name = "id")
     private Long id;
 

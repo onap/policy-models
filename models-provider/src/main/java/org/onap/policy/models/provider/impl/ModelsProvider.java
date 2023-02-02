@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021,2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ import java.util.Properties;
 import javax.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
@@ -48,13 +47,14 @@ public final class ModelsProvider {
 
         // @formatter:off
         var jdbcProperties = new Properties();
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_DRIVER,   parameters.getDatabaseDriver());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_URL,      parameters.getDatabaseUrl());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_USER,     parameters.getDatabaseUser());
-        jdbcProperties.setProperty(PersistenceUnitProperties.JDBC_PASSWORD, parameters.getDatabasePassword());
-        jdbcProperties.setProperty(PersistenceUnitProperties.TARGET_DATABASE,
-                        (parameters.getDatabaseType() == null ? "MySQL" : parameters.getDatabaseType()));
-        // @formatter:on
+        jdbcProperties.setProperty("javax.persistence.jdbc.driver",   parameters.getDatabaseDriver());
+        jdbcProperties.setProperty("javax.persistence.jdbc.url",      parameters.getDatabaseUrl());
+        jdbcProperties.setProperty("javax.persistence.jdbc.user",     parameters.getDatabaseUser());
+        jdbcProperties.setProperty("javax.persistence.jdbc.password", parameters.getDatabasePassword());
+        jdbcProperties.setProperty("hibernate.dialect",
+            (parameters.getDatabaseType() == null
+                ? "org.hibernate.dialect.MariaDBDialect"
+                    : parameters.getDatabaseType()));        // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
