@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cc25e99_300d58f1",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2023-02-03T18:30:28Z",
+      "side": 1,
+      "message": "Channeling Jim Hahn - perhaps we could clean these extra spaces up?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "4ecb900ab7638e4736e9140348f82955e3a501f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f589a1a_e40b61e0",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 57
+      },
+      "writtenOn": "2023-02-03T18:30:28Z",
+      "side": 1,
+      "message": "Ugh - stray tab here",
+      "range": {
+        "startLine": 130,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "4ecb900ab7638e4736e9140348f82955e3a501f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
