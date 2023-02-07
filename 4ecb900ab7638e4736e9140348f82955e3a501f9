@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61aedc38_caca67e9",
+        "filename": "models-pdp/src/test/resources/META-INF/persistence.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2023-02-07T09:18:54Z",
+      "side": 1,
+      "message": ":-D",
+      "parentUuid": "6cc25e99_300d58f1",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 2
+      },
+      "revId": "4ecb900ab7638e4736e9140348f82955e3a501f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f589a1a_e40b61e0",
         "filename": "pom.xml",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "4ecb900ab7638e4736e9140348f82955e3a501f9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b2a0b2_4cde8189",
+        "filename": "pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2023-02-07T09:18:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f589a1a_e40b61e0",
+      "range": {
+        "startLine": 130,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 8
+      },
+      "revId": "4ecb900ab7638e4736e9140348f82955e3a501f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
