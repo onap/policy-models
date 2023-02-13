@@ -24,7 +24,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import lombok.Data;
 
@@ -35,29 +34,23 @@ import lombok.Data;
  */
 @Data
 public class ToscaConstraint {
-    @ApiModelProperty(name = "valid_values")
     @SerializedName("valid_values")
     private List<String> validValues;
 
     private String equal;
 
-    @ApiModelProperty(name = "greater_than")
     @SerializedName("greater_than")
     private String greaterThan;
 
-    @ApiModelProperty(name = "greater_or_equal")
     @SerializedName("greater_or_equal")
     private String greaterOrEqual;
 
-    @ApiModelProperty(name = "less_than")
     @SerializedName("less_than")
     private String lessThan;
 
-    @ApiModelProperty(name = "less_or_equal")
     @SerializedName("less_or_equal")
     private String lessOrEqual;
 
-    @ApiModelProperty(name = "in_range")
     @SerializedName("in_range")
     private List<String> rangeValues;
 }

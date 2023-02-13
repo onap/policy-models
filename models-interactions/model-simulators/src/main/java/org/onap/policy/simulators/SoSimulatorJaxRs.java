@@ -23,7 +23,6 @@
 
 package org.onap.policy.simulators;
 
-import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,7 +77,7 @@ public class SoSimulatorJaxRs {
     @Produces("application/json")
     public String soPostQuery(@PathParam("serviceInstanceId") final String serviceInstanceId,
                     @PathParam("vnfInstanceId") final String vnfInstanceId,
-                    @ApiParam(required = true) SoRequest request) {
+                    SoRequest request) {
 
         List<Map<String, String>> userParam = null;
         userParam = request.getRequestDetails().getRequestParameters().getUserParams();
@@ -131,7 +130,7 @@ public class SoSimulatorJaxRs {
     @Path("/3gppservices/v7/modify")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String soPost3gpp(@ApiParam(required = true) SoRequest3gpp request) {
+    public String soPost3gpp(SoRequest3gpp request) {
         return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.3gpp.success.json");
     }
 
@@ -139,7 +138,7 @@ public class SoSimulatorJaxRs {
     @Path("/infra/serviceIntent/v1/modify")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String soPostModifyCll(@ApiParam(required = true) SoRequest3gpp request) {
+    public String soPostModifyCll(SoRequest3gpp request) {
         return ResourceUtils.getResourceAsString("org/onap/policy/simulators/so/so.cll.success.json");
     }
 
