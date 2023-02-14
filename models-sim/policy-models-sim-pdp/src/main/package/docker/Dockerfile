@@ -1,6 +1,6 @@
 #
 # ============LICENSE_START=======================================================
-#  Copyright (C) 2019-2021 Nordix Foundation.
+#  Copyright (C) 2019-2021,2023 Nordix Foundation.
 #  Modifications Copyright (C) 2019 AT&T Intellectual Property.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,6 +34,7 @@ ENV POLICY_LOGS=${POLICY_LOGS}
 
 # Create PDP simulator user and group
 # Add simulator-specific directories and set ownership as the simulator user
+USER root
 RUN mkdir -p ${POLICY_HOME}/pdp-sim \
     && mkdir -p ${POLICY_HOME}/pdp-sim/bin \
     && mkdir -p ${POLICY_LOGS} \
