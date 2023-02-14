@@ -20,38 +20,17 @@
 
 package org.onap.policy.models.sim.dmaap.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.BasicAuthDefinition;
-import io.swagger.annotations.Info;
-import io.swagger.annotations.SecurityDefinition;
-import io.swagger.annotations.SwaggerDefinition;
-import io.swagger.annotations.Tag;
 import java.net.HttpURLConnection;
 import java.util.UUID;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
 /**
  * Version v1 common superclass to provide DMaaP endpoints for the DMaaP simulator component.
  */
-// @formatter:off
-@Api(value = "DMaaP Simulator API")
 @Produces("application/json")
 @Consumes({"application/cambria", "application/json"})
-@SwaggerDefinition(
-    info = @Info(description =
-                    "Simulator for DMaaP, follows API as described at "
-                  + "\"https://onap.readthedocs.io/en/amsterdam/submodules/dmaap/messagerouter/messageservice.git/"
-                  + "docs/message-router/message-router.html", version = "v1.0",
-                    title = "Policy Administration"),
-    consumes = {MediaType.APPLICATION_JSON},
-    produces = {MediaType.APPLICATION_JSON},
-    schemes = {SwaggerDefinition.Scheme.HTTP, SwaggerDefinition.Scheme.HTTPS},
-    tags = {@Tag(name = "dmaap-simulator", description = "DMaaP simulation")},
-    securityDefinition = @SecurityDefinition(basicAuthDefinitions = {@BasicAuthDefinition(key = "basicAuth")}))
-// @formatter:on
 public class BaseRestControllerV1 {
     public static final String EXTENSION_NAME = "interface info";
 

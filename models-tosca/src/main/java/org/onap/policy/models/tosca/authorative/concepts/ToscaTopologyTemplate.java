@@ -24,7 +24,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,7 +44,6 @@ public class ToscaTopologyTemplate {
 
     private Map<String, ToscaParameter> inputs;
 
-    @ApiModelProperty(name = "node_templates")
     @SerializedName("node_templates")
     private Map<String, ToscaNodeTemplate> nodeTemplates;
 

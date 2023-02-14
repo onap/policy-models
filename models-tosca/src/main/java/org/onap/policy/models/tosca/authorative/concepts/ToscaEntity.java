@@ -23,7 +23,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,6 @@ public class ToscaEntity implements PfNameVersion {
     private String name = PfKey.NULL_KEY_NAME;
     private String version = PfKey.NULL_KEY_VERSION;
 
-    @ApiModelProperty(name = "derived_from")
     @SerializedName("derived_from")
     private String derivedFrom;
 

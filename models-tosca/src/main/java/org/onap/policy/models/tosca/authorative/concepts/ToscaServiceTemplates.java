@@ -23,7 +23,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,7 +33,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode
 public class ToscaServiceTemplates {
-    @ApiModelProperty(name = "service_templates")
     @SerializedName("service_templates")
     private List<ToscaServiceTemplate> serviceTemplates;
 }

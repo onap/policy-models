@@ -24,7 +24,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import lombok.Data;
@@ -41,31 +40,24 @@ import lombok.NonNull;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class ToscaServiceTemplate extends ToscaEntity {
-    @ApiModelProperty(name = "tosca_definitions_version")
     @SerializedName("tosca_definitions_version")
     private String toscaDefinitionsVersion;
 
-    @ApiModelProperty(name = "data_types")
     @SerializedName("data_types")
     private Map<String, ToscaDataType> dataTypes;
 
-    @ApiModelProperty(name = "capability_types")
     @SerializedName("capability_types")
     private Map<String, ToscaCapabilityType> capabilityTypes;
 
-    @ApiModelProperty(name = "node_types")
     @SerializedName("node_types")
     private Map<String, ToscaNodeType> nodeTypes;
 
-    @ApiModelProperty(name = "relationship_types")
     @SerializedName("relationship_types")
     private Map<String, ToscaRelationshipType> relationshipTypes;
 
-    @ApiModelProperty(name = "policy_types")
     @SerializedName("policy_types")
     private Map<String, ToscaPolicyType> policyTypes;
 
-    @ApiModelProperty(name = "topology_template")
     @SerializedName("topology_template")
     private ToscaTopologyTemplate toscaTopologyTemplate;
 

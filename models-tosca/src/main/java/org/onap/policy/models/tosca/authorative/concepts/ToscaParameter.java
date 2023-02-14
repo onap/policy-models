@@ -23,7 +23,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,7 +32,6 @@ public class ToscaParameter {
     private String name;
     private String type;
 
-    @ApiModelProperty(name = "type_version")
     @SerializedName("type_version")
 
     private String typeVersion;

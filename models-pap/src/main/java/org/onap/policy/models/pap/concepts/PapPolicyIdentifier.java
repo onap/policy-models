@@ -21,7 +21,6 @@
 package org.onap.policy.models.pap.concepts;
 
 import com.google.gson.annotations.SerializedName;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.NonNull;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
@@ -34,11 +33,9 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
  */
 public class PapPolicyIdentifier {
     @NonNull
-    @ApiModelProperty(name = "policy-id")
     @SerializedName("policy-id")
     private String name;
 
-    @ApiModelProperty(name = "policy-version")
     @SerializedName("policy-version")
     private String version;
 
