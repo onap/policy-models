@@ -40,8 +40,6 @@
     <description>This repo holds model code agnostic to PDP engines</description>
 
     <properties>
-        <derby.version>10.13.1.1</derby.version>
-        <javax.ws.rs-api.version>2.1.1</javax.ws.rs-api.version>
         <policy.common.version>1.12.1-SNAPSHOT</policy.common.version>
     </properties>
 
@@ -105,7 +103,6 @@
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
-            <version>${javax.ws.rs-api.version}</version>
         </dependency>
 
         <dependency>
@@ -178,14 +175,8 @@
             <artifactId>httpclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-annotations</artifactId>
-            <version>${version.swagger}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
-            <version>4.4</version>
         </dependency>
         <dependency>
             <groupId>com.att.nsa</groupId>
