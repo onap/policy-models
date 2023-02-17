@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,6 @@
 
 package org.onap.policy.models.pdp.concepts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -30,6 +29,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.onap.policy.common.gson.annotation.GsonJsonIgnore;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
@@ -124,14 +124,14 @@ public class PdpGroup implements PfNameVersion, Comparable<PdpGroup> {
     }
 
     @Override
-    @JsonIgnore
+    @GsonJsonIgnore
     public String getVersion() {
         // We need to pass a version for keying in the database
         return PfKey.NULL_KEY_VERSION;
     }
 
     @Override
-    @JsonIgnore
+    @GsonJsonIgnore
     public void setVersion(String version) {
         // Just ignore any version that is set
     }
