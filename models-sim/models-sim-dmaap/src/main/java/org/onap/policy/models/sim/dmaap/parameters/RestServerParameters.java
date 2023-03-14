@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,6 +51,8 @@ public class RestServerParameters extends ParameterGroupImpl {
 
     private boolean useHttps;
 
+    private boolean sniHostCheck;
+
     public RestServerParameters() {
         super(RestServerParameters.class.getSimpleName());
     }
@@ -66,16 +68,18 @@ public class RestServerParameters extends ParameterGroupImpl {
         props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, getName());
 
         final String svcpfx =
-                        PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + getName();
+            PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + getName();
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HOST_SUFFIX, getHost());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_PORT_SUFFIX,
-                        Integer.toString(getPort()));
+            Integer.toString(getPort()));
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_REST_CLASSES_SUFFIX,
-                        DmaapSimRestControllerV1.class.getName());
+            DmaapSimRestControllerV1.class.getName());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "false");
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HTTPS_SUFFIX, Boolean.toString(isUseHttps()));
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SNI_HOST_CHECK_SUFFIX,
+            Boolean.toString(isSniHostCheck()));
 
         if (getUserName() != null && getPassword() != null) {
             props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_AUTH_USERNAME_SUFFIX, getUserName());
@@ -83,9 +87,9 @@ public class RestServerParameters extends ParameterGroupImpl {
         }
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
-                        String.join(",", CambriaMessageBodyHandler.class.getName(),
-                                        GsonMessageBodyHandler.class.getName(),
-                                        TextMessageBodyHandler.class.getName()));
+            String.join(",", CambriaMessageBodyHandler.class.getName(),
+                GsonMessageBodyHandler.class.getName(),
+                TextMessageBodyHandler.class.getName()));
         return props;
     }
 }
