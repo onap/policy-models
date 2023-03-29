@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +52,6 @@ import org.onap.policy.models.pdp.concepts.PdpGroups;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.PdpPolicyStatusBuilder;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.State;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
@@ -505,151 +505,6 @@ public class PdpProviderTest {
             new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp);
         }).hasMessageContaining("PDP").hasMessageContaining("message").hasMessageContaining(Validated.IS_BLANK);
         existingPdp.setMessage("A Message");
-    }
-
-    @Test
-    public void testGetPdpStatistics() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getPdpStatistics(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().getPdpStatistics(null, "name");
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertEquals(0, new PdpProvider().getPdpStatistics(pfDao, "name").size());
-    }
-
-    @Test
-    public void testUpdatePdpStatisticsDao() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, null, null, new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, null, "inst", null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, null, "inst", new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, "TYPE", null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, "TYPE", null, new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, "TYPE", "inst", null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, null, "TYPE", "inst", new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", null, null, new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", null, "inst", null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", null, "inst", new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", "TYPE", null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", "TYPE", null, new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", "TYPE", "inst", null);
-        }).hasMessageMatching(DAO_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(null, "name", "TYPE", "inst", new PdpStatistics());
-        }).hasMessageMatching(DAO_IS_NULL);
-    }
-
-    @Test
-    public void testUpdatePdpStatisticsGroup() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, null, null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, null, null, new PdpStatistics());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, null, "inst", null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, null, "inst", new PdpStatistics());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", null, new PdpStatistics());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", "inst", null);
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, null, "TYPE", "inst", new PdpStatistics());
-        }).hasMessageMatching(GROUP_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", null, null, null);
-        }).hasMessageMatching(PDP_TYPE_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", null, null, new PdpStatistics());
-        }).hasMessageMatching(PDP_TYPE_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", null, "inst", null);
-        }).hasMessageMatching(PDP_TYPE_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", null, "inst", new PdpStatistics());
-        }).hasMessageMatching(PDP_TYPE_IS_NULL);
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", null, null);
-        }).hasMessageMatching("pdpInstanceId is marked .*ull but is null");
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", null, new PdpStatistics());
-        }).hasMessageMatching("pdpInstanceId is marked .*ull but is null");
-
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", "inst", null);
-        }).hasMessageMatching("pdpStatistics is marked .*ull but is null");
-
-        new PdpProvider().updatePdpStatistics(pfDao, "name", "TYPE", "inst", new PdpStatistics());
     }
 
     @Test
