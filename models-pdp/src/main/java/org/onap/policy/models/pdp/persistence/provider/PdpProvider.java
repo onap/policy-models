@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,7 +42,6 @@ import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus;
-import org.onap.policy.models.pdp.concepts.PdpStatistics;
 import org.onap.policy.models.pdp.concepts.PdpSubGroup;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdp;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpGroup;
@@ -225,34 +225,6 @@ public class PdpProvider {
         dao.delete(jpaDeletePdpGroup);
 
         return jpaDeletePdpGroup.toAuthorative();
-    }
-
-    /**
-     * Get PDP statistics.
-     *
-     * @param dao the DAO to use to access the database
-     * @param name the name of the PDP group to get statistics for, null to get all PDP groups
-     * @return the statistics found
-     * @throws PfModelException on errors getting statistics
-     */
-    public List<PdpStatistics> getPdpStatistics(@NonNull final PfDao dao, final String name) throws PfModelException {
-        return new ArrayList<>();
-    }
-
-    /**
-     * Update PDP statistics for a PDP.
-     *
-     * @param dao the DAO to use to access the database
-     * @param pdpGroupName the name of the PDP group containing the PDP that the statistics are for
-     * @param pdpType the PDP type of the subgroup containing the PDP that the statistics are for
-     * @param pdpInstanceId the instance ID of the PDP to update statistics for
-     * @param pdpStatistics the statistics to update
-     * @throws PfModelException on errors updating statistics
-     */
-    public void updatePdpStatistics(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final String pdpType, @NonNull final String pdpInstanceId,
-            @NonNull final PdpStatistics pdpStatistics) throws PfModelException {
-        // Not implemented yet
     }
 
     /**
