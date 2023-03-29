@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
+ *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +57,6 @@ public class PdpStatus extends PdpMessage {
     private List<ToscaConceptIdentifier> policies;
     private String deploymentInstanceInfo;
     private String properties;
-    private PdpStatistics statistics;
     private PdpResponseDetails response;
 
     /**
@@ -82,7 +82,6 @@ public class PdpStatus extends PdpMessage {
         this.policies = PfUtils.mapList(source.policies, ToscaConceptIdentifier::new, new ArrayList<>(0));
         this.deploymentInstanceInfo = source.deploymentInstanceInfo;
         this.properties = source.properties;
-        this.statistics = (source.statistics == null ? null : new PdpStatistics(source.statistics));
         this.response = (source.response == null ? null : new PdpResponseDetails(source.response));
     }
 }
