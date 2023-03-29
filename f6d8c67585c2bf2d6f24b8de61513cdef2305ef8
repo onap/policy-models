@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec9369c8_5408c118",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2023-03-29T17:45:08Z",
+      "side": 1,
+      "message": "Not required, as the change is already pointing to the correct repo.",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 51
+      },
+      "revId": "f6d8c67585c2bf2d6f24b8de61513cdef2305ef8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
