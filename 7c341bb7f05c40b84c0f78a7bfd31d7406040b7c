@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3bf8d25_7779de58",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3239
+      },
+      "writtenOn": "2023-03-29T17:40:12Z",
+      "side": 0,
+      "message": "Just to highlight, this removal will result in build failures across multiple repos, csit \u0026 gating tests. Are we ready with other changes? Are we sure that we want to do it in L release, mainly considering the timelines?",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "7c341bb7f05c40b84c0f78a7bfd31d7406040b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
