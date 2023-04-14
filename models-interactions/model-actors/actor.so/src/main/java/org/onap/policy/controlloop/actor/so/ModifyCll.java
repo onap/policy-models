@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2022 CTC, Inc. and others. All rights reserved.
+ * Copyright (C) 2022 Huawei, Inc. Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import lombok.SneakyThrows;
 import org.onap.policy.common.endpoints.event.comm.Topic;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -40,6 +42,8 @@ public class ModifyCll extends SoOperation {
     private static final List<String> PROPERTY_NAMES = List.of(
             OperationProperties.EVENT_PAYLOAD);
 
+    private ModifyCllClient modifyCllClient = new ModifyCllClient();
+
     /**
      * Constructs the object.
      *
@@ -50,6 +54,7 @@ public class ModifyCll extends SoOperation {
         super(params, config, PROPERTY_NAMES);
     }
 
+    @SneakyThrows
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
@@ -64,7 +69,10 @@ public class ModifyCll extends SoOperation {
         Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
         Map<String, Object> headers = createSimpleHeaders();
 
-        return handleResponse(outcome, url, callback -> getClient().put(callback, path, entity, headers));
+        CompletableFuture<OperationOutcome> completableFuture = handleResponse(outcome, url, callback -> getClient().put(callback, path, entity, headers));
+        modifyCllClient.NotifyResponsetoUUI(completableFuture.get().getResponse());
+
+        return completableFuture;
     }
 
     protected SoRequestCll makeRequest() {
