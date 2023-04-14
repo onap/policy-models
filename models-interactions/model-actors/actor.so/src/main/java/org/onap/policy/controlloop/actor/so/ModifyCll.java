@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2022 CTC, Inc. and others. All rights reserved.
+ * Copyright (C) 2022 Huawei, Inc. Limited.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +24,13 @@ package org.onap.policy.controlloop.actor.so;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import lombok.SneakyThrows;
 import org.onap.policy.common.endpoints.event.comm.Topic;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -33,12 +39,15 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.so.SoRequestCll;
+import org.onap.policy.so.SoResponse;
 
 public class ModifyCll extends SoOperation {
     public static final String NAME = "ModifyCloudLeasedLine";
 
     private static final List<String> PROPERTY_NAMES = List.of(
             OperationProperties.EVENT_PAYLOAD);
+
+    private ModifyCllClient modifyCllClient = new ModifyCllClient();
 
     /**
      * Constructs the object.
@@ -50,6 +59,7 @@ public class ModifyCll extends SoOperation {
         super(params, config, PROPERTY_NAMES);
     }
 
+    @SneakyThrows
     @Override
     protected CompletableFuture<OperationOutcome> startOperationAsync(int attempt, OperationOutcome outcome) {
 
@@ -64,7 +74,10 @@ public class ModifyCll extends SoOperation {
         Entity<String> entity = Entity.entity(strRequest, MediaType.APPLICATION_JSON);
         Map<String, Object> headers = createSimpleHeaders();
 
-        return handleResponse(outcome, url, callback -> getClient().put(callback, path, entity, headers));
+        CompletableFuture<OperationOutcome> completableFuture = handleResponse(outcome, url, callback -> getClient().put(callback, path, entity, headers));
+        modifyCllClient.NotifyResponsetoUUI(completableFuture.get().getResponse());
+
+        return completableFuture;
     }
 
     protected SoRequestCll makeRequest() {
