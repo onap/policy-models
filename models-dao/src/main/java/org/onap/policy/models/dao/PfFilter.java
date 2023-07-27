@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,9 +21,9 @@
 
 package org.onap.policy.models.dao;
 
+import jakarta.persistence.TypedQuery;
 import java.sql.Timestamp;
 import java.util.Map;
-import javax.persistence.TypedQuery;
 import lombok.Data;
 import org.onap.policy.models.base.PfConcept;
 

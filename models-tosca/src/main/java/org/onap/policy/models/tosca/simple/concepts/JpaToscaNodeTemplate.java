@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020-2021,2023 Nordix Foundation.
+ * Copyright (C) 2020-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,20 +21,20 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -58,24 +58,21 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaNodeTemplate extends JpaToscaWithTypeAndStringProperties<ToscaNodeTemplate> {
+    @Serial
     private static final long serialVersionUID = 1675770231921107988L;
 
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
 
     // formatter:off
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "requirementsName", referencedColumnName = "name"),
-        @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "requirementsName", referencedColumnName = "name")
+    @JoinColumn(name = "requirementsVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaRequirements requirements;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "capabilitiesName", referencedColumnName = "name"),
-        @JoinColumn(name = "capabilitiesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "capabilitiesName", referencedColumnName = "name")
+    @JoinColumn(name = "capabilitiesVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaCapabilityAssignments capabilities;
     // @formatter:on

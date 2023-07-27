@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021,2023 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Lob;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -54,13 +54,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaWithTypeAndObjectP
 public abstract class JpaToscaWithTypeAndStringProperties<T extends ToscaWithTypeAndObjectProperties>
         extends JpaToscaEntityType<T> implements PfAuthorative<T> {
 
+    @Serial
     private static final long serialVersionUID = 2785481541573683089L;
 
     @Column
-    @AttributeOverrides ({
-        @AttributeOverride(name = "name", column = @Column(name = "type_name")),
-        @AttributeOverride(name = "version", column = @Column(name = "type_version"))
-    })
+    @AttributeOverride(name = "name", column = @Column(name = "type_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "type_version"))
     @VerifyKey
     @NotNull
     private PfConceptKey type;

@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2018, 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2021 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,16 +22,15 @@
 
 package org.onap.policy.simulators;
 
-import java.io.IOException;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.common.utils.services.Registry;
 
@@ -71,13 +70,12 @@ public class AaiSimulatorJaxRs {
      *
      * @param req the request
      * @return the response
-     * @throws IOException if a response file cannot be read
      */
     @PUT
     @Path("/{version:v16|v21}/query")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public Response aaiPutQuery(final String req) throws IOException {
+    public Response aaiPutQuery(final String req) {
         return getResponse("AaiCqResponse", "invalid-cq");
     }
 
@@ -85,13 +83,12 @@ public class AaiSimulatorJaxRs {
      * A&AI get PNF query using pnfName.
      *
      * @return the result
-     * @throws IOException if a response file cannot be read
      */
     @GET
     @Path("/{version:v16|v21}/network/pnfs/pnf/{pnfName}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public Response aaiGetPnfUsingPnfName(@PathParam("pnfName") final String pnfName) throws IOException {
+    public Response aaiGetPnfUsingPnfName(@PathParam("pnfName") final String pnfName) {
         return getResponse(pnfName, INVALID_PNF_FILE_NAME);
     }
 
@@ -99,13 +96,12 @@ public class AaiSimulatorJaxRs {
      * A&AI get PNF query using pnf-id.
      *
      * @return the result
-     * @throws IOException if a response file cannot be read
      */
     @GET
     @Path("/{version:v16|v21}/network/pnfs/pnf")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public Response aaiGetPnfUsingPnfId(@QueryParam("pnf-id") final String pnfId) throws IOException {
+    public Response aaiGetPnfUsingPnfId(@QueryParam("pnf-id") final String pnfId) {
         return getResponse(pnfId, INVALID_PNF_FILE_NAME);
     }
 
@@ -113,13 +109,12 @@ public class AaiSimulatorJaxRs {
      * A&AI get VNF query using vnf-id.
      *
      * @return the result
-     * @throws IOException if a response file cannot be read
      */
     @GET
     @Path("/{version:v16|v21}/network/generic-vnfs/generic-vnf/{vnfId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public Response aaiGetVnfUsingVnfId(@PathParam("vnfId") final String vnfId) throws IOException {
+    public Response aaiGetVnfUsingVnfId(@PathParam("vnfId") final String vnfId) {
         return getResponse(vnfId, INVALID_VNF_FILE_NAME);
     }
 
@@ -127,13 +122,12 @@ public class AaiSimulatorJaxRs {
      * A&AI get VNF query using vnf-name.
      *
      * @return the result
-     * @throws IOException if a response file cannot be read
      */
     @GET
     @Path("/{version:v16|v21}/network/generic-vnfs/generic-vnf")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public Response aaiGetVnfUsingVnfName(@QueryParam("vnf-name") final String vnfName) throws IOException {
+    public Response aaiGetVnfUsingVnfName(@QueryParam("vnf-name") final String vnfName) {
         return getResponse(vnfName, INVALID_VNF_FILE_NAME);
     }
 

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2022 Nordix Foundation.
+ *  Copyright (C) 2019-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,12 @@
 
 package org.onap.policy.models.tosca.authorative.provider;
 
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.models.base.PfConceptKey;
@@ -678,9 +678,7 @@ public class AuthorativeToscaProvider {
     private <T> List<T> asConceptList(final List<Map<String, T>> listOfMaps) {
         List<T> returnList = new ArrayList<>();
         for (Map<String, T> conceptMap : listOfMaps) {
-            for (T concept : conceptMap.values()) {
-                returnList.add(concept);
-            }
+            returnList.addAll(conceptMap.values());
         }
 
         return returnList;

@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,10 +21,10 @@
 
 package org.onap.policy.rest;
 
+import jakarta.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -52,7 +52,7 @@ public class RestManager {
      * Perform REST PUT.
      *
      * @param url the url
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      * @param contentType what the content type is
@@ -79,7 +79,7 @@ public class RestManager {
      * Perform REST Post.
      *
      * @param url the url
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      * @param contentType what the content type is
@@ -106,7 +106,7 @@ public class RestManager {
      * Do a REST get.
      *
      * @param url URL
-     * @param username user name
+     * @param username user
      * @param password password
      * @param headers any headers to add
      * @return a Pair for the response status and the body
@@ -122,7 +122,7 @@ public class RestManager {
      * <i>Note: Many REST endpoints will return a 400 error for delete requests with a non-empty body</i>
      *
      * @param url the url
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      * @param contentType what the content type is
@@ -151,7 +151,7 @@ public class RestManager {
      * Perform REST Delete.
      *
      * @param url the url
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      * @return the response status code and the body
@@ -166,7 +166,7 @@ public class RestManager {
      * Perform REST Patch.
      *
      * @param url the url
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      * @param body body to send
@@ -224,7 +224,7 @@ public class RestManager {
      * Add header to the request.
      *
      * @param request http request to send
-     * @param username the user name
+     * @param username the user
      * @param password the password
      * @param headers any headers
      */

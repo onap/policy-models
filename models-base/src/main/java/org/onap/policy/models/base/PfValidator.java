@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,11 +49,10 @@ public class PfValidator extends BeanValidator {
      * @return {@code true} if the next check should be performed, {@code false} otherwise
      */
     public boolean verPfMin(BeanValidationResult result, String fieldName, PfMin annot, Object value) {
-        if (!(value instanceof Number)) {
+        if (!(value instanceof Number num)) {
             return true;
         }
 
-        Number num = (Number) value;
         if (num.longValue() == annot.allowed()) {
             // this value is always allowed
             return true;
@@ -93,11 +93,10 @@ public class PfValidator extends BeanValidator {
      * @return {@code true} if the next check should be performed, {@code false} otherwise
      */
     public boolean verKey(BeanValidationResult result, String fieldName, VerifyKey annot, Object value) {
-        if (!(value instanceof PfKey)) {
+        if (!(value instanceof PfKey pfkey)) {
             return true;
         }
 
-        var pfkey = (PfKey) value;
         if (annot.keyNotNull() && pfkey.isNullKey()) {
             result.addResult(fieldName, xlate(pfkey), ValidationStatus.INVALID, Validated.IS_A_NULL_KEY);
             return false;
@@ -107,13 +106,11 @@ public class PfValidator extends BeanValidator {
             verCascade(result, fieldName, value);
         }
 
-        if (!(pfkey instanceof PfKeyImpl)) {
+        if (!(pfkey instanceof PfKeyImpl keyimpl)) {
             return true;
         }
 
         var result2 = new BeanValidationResult(fieldName, value);
-
-        PfKeyImpl keyimpl = (PfKeyImpl) pfkey;
 
         if (annot.nameNotNull() && keyimpl.isNullName()) {
             result2.addResult("name", pfkey.getName(), ValidationStatus.INVALID, Validated.IS_NULL);

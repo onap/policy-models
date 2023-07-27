@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2022-2023 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2022-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,18 +21,18 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Lob;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -57,6 +57,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaEntity;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept implements PfAuthorative<T> {
+    @Serial
     private static final long serialVersionUID = -1330661834220739393L;
 
     private static final StandardCoder STANDARD_CODER = new StandardCoder();
@@ -68,10 +69,8 @@ public class JpaToscaEntityType<T extends ToscaEntity> extends PfConcept impleme
 
     // @formatter:off
     @Column
-    @AttributeOverrides({
-        @AttributeOverride(name = "name", column = @Column(name = "derived_from_name")),
-        @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
-    })
+    @AttributeOverride(name = "name", column = @Column(name = "derived_from_name"))
+    @AttributeOverride(name = "version", column = @Column(name = "derived_from_version"))
     @VerifyKey
     private PfConceptKey derivedFrom;
 

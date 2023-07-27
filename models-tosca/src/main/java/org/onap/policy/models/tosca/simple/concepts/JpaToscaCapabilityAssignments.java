@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,14 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -55,6 +56,7 @@ public class JpaToscaCapabilityAssignments
                 implements PfAuthorative<List<Map<String, ToscaCapabilityAssignment>>> {
     public static final String DEFAULT_NAME = "ToscaCapabilityAssignmentsSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
+    @Serial
     private static final long serialVersionUID = -7526648702327776101L;
 
     /**
@@ -76,7 +78,7 @@ public class JpaToscaCapabilityAssignments
     }
 
     /**
-     * This Constructor creates an concept container with all of its fields defined.
+     * This Constructor creates a concept container with all of its fields defined.
      *
      * @param key the concept container key
      * @param conceptMap the concepts to be stored in the concept container

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +28,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorPara
 
 /**
  * Actor that uses HTTP, where the only additional property that an operator needs is a
- * URL. The actor's operator parameters are expected to be an {@link HttpParams}.
+ * URL. The actor's operator parameters are expected to be an
+ * {@link org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams}.
  *
  * @param <P> type of parameters
  */

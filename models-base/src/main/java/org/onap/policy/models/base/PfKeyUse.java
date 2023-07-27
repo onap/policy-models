@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import java.io.Serial;
 import java.util.List;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -41,6 +42,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class PfKeyUse extends PfKey {
+    @Serial
     private static final long serialVersionUID = 2007147220109881705L;
 
     @VerifyKey
@@ -139,7 +141,7 @@ public class PfKeyUse extends PfKey {
     }
 
     @Override
-    public int compareTo(final PfConcept otherObj) {
+    public int compareTo(@NonNull final PfConcept otherObj) {
         Assertions.argumentNotNull(otherObj, "comparison object may not be null");
 
         if (this == otherObj) {

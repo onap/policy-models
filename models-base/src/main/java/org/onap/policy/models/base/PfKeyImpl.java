@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -34,6 +35,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @Getter
 @ToString
 public abstract class PfKeyImpl extends PfKey {
+    @Serial
     private static final long serialVersionUID = 8932717618579392561L;
 
     public static final String NAME_TOKEN = "name";
@@ -134,10 +136,9 @@ public abstract class PfKeyImpl extends PfKey {
 
     @Override
     public PfKey.Compatibility getCompatibility(@NonNull final PfKey otherKey) {
-        if (!(otherKey instanceof PfKeyImpl)) {
+        if (!(otherKey instanceof PfKeyImpl otherConceptKey)) {
             return Compatibility.DIFFERENT;
         }
-        final PfKeyImpl otherConceptKey = (PfKeyImpl) otherKey;
 
         if (this.equals(otherConceptKey)) {
             return Compatibility.IDENTICAL;
@@ -164,10 +165,9 @@ public abstract class PfKeyImpl extends PfKey {
 
     @Override
     public boolean isCompatible(@NonNull final PfKey otherKey) {
-        if (!(otherKey instanceof PfKeyImpl)) {
+        if (!(otherKey instanceof PfKeyImpl otherConceptKey)) {
             return false;
         }
-        final PfKeyImpl otherConceptKey = (PfKeyImpl) otherKey;
 
         final var compatibility = this.getCompatibility(otherConceptKey);
 
@@ -193,17 +193,17 @@ public abstract class PfKeyImpl extends PfKey {
 
         // There must always be at least one element in each version
         if (!thisVersionArray[0].equals(otherVersionArray[0])) {
-            return Integer.valueOf(thisVersionArray[0]) > Integer.valueOf(otherVersionArray[0]);
+            return Integer.parseInt(thisVersionArray[0]) > Integer.parseInt(otherVersionArray[0]);
         }
 
         if (thisVersionArray.length >= 2 && otherVersionArray.length >= 2
             && !thisVersionArray[1].equals(otherVersionArray[1])) {
-            return Integer.valueOf(thisVersionArray[1]) > Integer.valueOf(otherVersionArray[1]);
+            return Integer.parseInt(thisVersionArray[1]) > Integer.parseInt(otherVersionArray[1]);
         }
 
         if (thisVersionArray.length >= 3 && otherVersionArray.length >= 3
             && !thisVersionArray[2].equals(otherVersionArray[2])) {
-            return Integer.valueOf(thisVersionArray[2]) > Integer.valueOf(otherVersionArray[2]);
+            return Integer.parseInt(thisVersionArray[2]) > Integer.parseInt(otherVersionArray[2]);
         }
 
         return false;

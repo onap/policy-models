@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -96,6 +96,87 @@ public class JpaToscaServiceTemplateTest {
         tst.setTopologyTemplate(ttt);
         assertEquals(ttt, tst.getTopologyTemplate());
 
+        assertCloneAndCopies(tstKey, tst, dataTypes, policyTypes, ttt);
+
+        assertTrue(new JpaToscaServiceTemplate().validate("").isValid());
+        assertTrue(tst.validate("").isValid());
+
+        tst.setDescription(null);
+        assertTrue(tst.validate("").isValid());
+        tst.setDescription("");
+        assertFalse(tst.validate("").isValid());
+        tst.setDescription("A Description");
+        assertTrue(tst.validate("").isValid());
+
+        assertThatThrownBy(() -> tst.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
+
+        tst.setToscaDefinitionsVersion(null);
+        BeanValidationResult result = tst.validate("");
+        assertThat(result.getResult()).contains("tosca_definitions_version").contains(Validated.IS_NULL);
+
+        tst.setToscaDefinitionsVersion(JpaToscaServiceTemplate.DEFAULT_TOSCA_DEFINITIONS_VERSION);
+        tst.setDataTypes(null);
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        JpaToscaPolicyType pt0 = new JpaToscaPolicyType(new PfConceptKey("pt0:0.0.1"));
+        tst.getPolicyTypes().getConceptMap().put(pt0.getKey(), pt0);
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
+        JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop0"));
+        prop0.setType(dt0.getKey());
+
+        assertDataTypesAndToscaTopology(tst, pt0, dt0, prop0);
+
+        tst.setPolicyTypes(null);
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        assertNoPolicyType(tst, policyTypes, pt0, dt0);
+
+    }
+
+    private static void assertDataTypesAndToscaTopology(JpaToscaServiceTemplate tst, JpaToscaPolicyType pt0,
+                                                        JpaToscaDataType dt0, JpaToscaProperty prop0) {
+        BeanValidationResult result;
+        pt0.setProperties(new LinkedHashMap<>());
+        pt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
+        result = tst.validate("");
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
+
+        tst.setDataTypes(null);
+        result = tst.validate("");
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
+
+        tst.setDataTypes(new JpaToscaDataTypes());
+        result = tst.validate("");
+        assertFalse(result.isValid());
+        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
+
+        tst.getDataTypes().getConceptMap().put(dt0.getKey(), dt0);
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        tst.setTopologyTemplate(null);
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        tst.setTopologyTemplate(new JpaToscaTopologyTemplate());
+        result = tst.validate("");
+        assertTrue(result.isValid());
+
+        tst.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
+        result = tst.validate("");
+        assertTrue(result.isValid());
+    }
+
+    private static void assertCloneAndCopies(PfConceptKey tstKey, JpaToscaServiceTemplate tst,
+                                             JpaToscaDataTypes dataTypes, JpaToscaPolicyTypes policyTypes,
+                                             JpaToscaTopologyTemplate ttt) {
         JpaToscaServiceTemplate tttClone0 = new JpaToscaServiceTemplate(tst);
         assertEquals(tst, tttClone0);
         assertEquals(0, tst.compareTo(tttClone0));
@@ -129,73 +210,11 @@ public class JpaToscaServiceTemplateTest {
         new JpaToscaServiceTemplate().clean();
         tst.clean();
         assertEquals(tttClone0, tst);
+    }
 
-        assertTrue(new JpaToscaServiceTemplate().validate("").isValid());
-        assertTrue(tst.validate("").isValid());
-
-        tst.setDescription(null);
-        assertTrue(tst.validate("").isValid());
-        tst.setDescription("");
-        assertFalse(tst.validate("").isValid());
-        tst.setDescription("A Description");
-        assertTrue(tst.validate("").isValid());
-
-        assertThatThrownBy(() -> tst.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
-
-        tst.setToscaDefinitionsVersion(null);
-        BeanValidationResult result = tst.validate("");
-        assertThat(result.getResult()).contains("tosca_definitions_version").contains(Validated.IS_NULL);
-
-        tst.setToscaDefinitionsVersion(JpaToscaServiceTemplate.DEFAULT_TOSCA_DEFINTIONS_VERISON);
-        tst.setDataTypes(null);
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        JpaToscaPolicyType pt0 = new JpaToscaPolicyType(new PfConceptKey("pt0:0.0.1"));
-        tst.getPolicyTypes().getConceptMap().put(pt0.getKey(), pt0);
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
-        JpaToscaProperty prop0 = new JpaToscaProperty(new PfReferenceKey(pt0.getKey(), "prop0"));
-        prop0.setType(dt0.getKey());
-
-        pt0.setProperties(new LinkedHashMap<>());
-        pt0.getProperties().put(prop0.getKey().getLocalName(), prop0);
-        result = tst.validate("");
-        assertFalse(result.isValid());
-        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
-
-        tst.setDataTypes(null);
-        result = tst.validate("");
-        assertFalse(result.isValid());
-        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
-
-        tst.setDataTypes(new JpaToscaDataTypes());
-        result = tst.validate("");
-        assertFalse(result.isValid());
-        assertThat(result.getResult()).contains("data type").contains("dt0:0.0.1").contains(Validated.NOT_FOUND);
-
-        tst.getDataTypes().getConceptMap().put(dt0.getKey(), dt0);
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        tst.setTopologyTemplate(null);
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        tst.setTopologyTemplate(new JpaToscaTopologyTemplate());
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        tst.getTopologyTemplate().setPolicies(new JpaToscaPolicies());
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
-        tst.setPolicyTypes(null);
-        result = tst.validate("");
-        assertTrue(result.isValid());
-
+    private static void assertNoPolicyType(JpaToscaServiceTemplate tst, JpaToscaPolicyTypes policyTypes,
+                                           JpaToscaPolicyType pt0, JpaToscaDataType dt0) {
+        BeanValidationResult result;
         JpaToscaPolicy pol0 = new JpaToscaPolicy(new PfConceptKey("pol0:0.0.1"));
         tst.getTopologyTemplate().getPolicies().getConceptMap().put(pol0.getKey(), pol0);
         result = tst.validate("");
@@ -239,6 +258,5 @@ public class JpaToscaServiceTemplateTest {
         assertFalse(result.isValid());
         assertThat(result.getResult()).contains(
                 "no policy types are defined on the service template for the policies in the topology template");
-
     }
 }

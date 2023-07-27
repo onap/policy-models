@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +22,9 @@
 package org.onap.policy.models.dao.converters;
 
 import com.google.re2j.Pattern;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The Class CDataConditioner converts a CDATA String to and from database format by removing spaces
@@ -62,7 +62,7 @@ public class CDataConditioner extends XmlAdapter<String, String> implements Attr
      * @param in the in
      * @return the string
      */
-    public static final String clean(final String in) {
+    public static String clean(final String in) {
         if (in == null) {
             return null;
         } else {

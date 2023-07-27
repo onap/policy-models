@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,16 +22,16 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -44,7 +44,7 @@ import org.onap.policy.models.base.PfModelService;
 
 /**
  * A container class for a TOSCA model with multiple service templates. This class is a container class that allows a
- * model with many service templates to be constructed that contains a well formed overall TOSCA model.
+ * model with many service templates to be constructed that contains a well-formed overall TOSCA model.
  *
  * <p>Validation runs {@link JpaToscaModel} validation on the model and all its sub concepts.
  */
@@ -58,10 +58,8 @@ public class JpaToscaModel extends PfModel {
     private static final long serialVersionUID = 8800599637708309945L;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "serviceTemplatesName", referencedColumnName = "name"),
-        @JoinColumn(name = "serviceTemplatesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "serviceTemplatesName", referencedColumnName = "name")
+    @JoinColumn(name = "serviceTemplatesVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaServiceTemplates serviceTemplates;
 
