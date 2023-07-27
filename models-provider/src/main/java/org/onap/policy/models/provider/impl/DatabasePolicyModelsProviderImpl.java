@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,7 +22,7 @@
 
 package org.onap.policy.models.provider.impl;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import lombok.Getter;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;

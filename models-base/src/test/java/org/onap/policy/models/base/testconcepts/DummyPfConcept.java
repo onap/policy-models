@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,9 @@
 
 package org.onap.policy.models.base.testconcepts;
 
+import jakarta.persistence.EmbeddedId;
+import java.io.Serial;
 import java.util.List;
-import javax.persistence.EmbeddedId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -38,6 +39,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DummyPfConcept extends PfConcept implements PfAuthorative<DummyAuthorativeConcept> {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId

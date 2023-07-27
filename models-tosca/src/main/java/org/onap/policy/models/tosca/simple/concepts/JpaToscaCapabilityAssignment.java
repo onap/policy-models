@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020-2021 Nordix Foundation.
+ * Copyright (C) 2020-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +21,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Lob;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -52,6 +53,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignme
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaCapabilityAssignment extends JpaToscaWithTypeAndStringProperties<ToscaCapabilityAssignment> {
 
+    @Serial
     private static final long serialVersionUID = 1675770231921107988L;
 
     private static final String AUTHORATIVE_UNBOUNDED_LITERAL = "UNBOUNDED";

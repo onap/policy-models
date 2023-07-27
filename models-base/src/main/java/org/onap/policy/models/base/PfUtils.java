@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.ws.rs.core.Response;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -29,7 +30,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
@@ -46,7 +46,7 @@ public final class PfUtils {
     /**
      * Compare two objects using their equals methods, nulls are allowed.
      *
-     * @param leftObject the first object
+     * @param leftObject  the first object
      * @param rightObject the second object
      * @return a measure of the comparison
      */
@@ -73,7 +73,7 @@ public final class PfUtils {
     /**
      * Compare two collections of the same type, nulls are allowed.
      *
-     * @param leftCollection the first collection
+     * @param leftCollection  the first collection
      * @param rightCollection the second collection
      * @return a measure of the comparison
      */
@@ -89,7 +89,7 @@ public final class PfUtils {
     /**
      * Compare two maps of the same type, nulls are allowed.
      *
-     * @param leftMap the first map
+     * @param leftMap  the first map
      * @param rightMap the second map
      * @return a measure of the comparison
      */
@@ -102,12 +102,12 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the elements of a list, generating a new list.
+     * Convenience method to apply a mapping function to all the elements of a list, generating a new list.
      *
-     * @param source list whose elements are to be mapped, or {@code null}
-     * @param mapFunc mapping function
+     * @param source       list whose elements are to be mapped, or {@code null}
+     * @param mapFunc      mapping function
      * @param defaultValue value to be returned if source is {@code null}
-     * @return a new list, containing mappings of all of the items in the original list
+     * @return a new list, containing mappings of all the items in the original list
      */
     public static <T, R> List<R> mapList(List<T> source, Function<T, R> mapFunc, List<R> defaultValue) {
         if (source == null) {
@@ -118,27 +118,26 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the elements of a list, generating a new list.
+     * Convenience method to apply a mapping function to all the elements of a list, generating a new list.
      *
-     * @param source list whose elements are to be mapped, or {@code null}
+     * @param source  list whose elements are to be mapped, or {@code null}
      * @param mapFunc mapping function
-     * @return a new list, containing mappings of all of the items in the original list, or {@code null} if the source
-     *         is {@code null}
+     * @return a new list, containing mappings of all the items in the original list, or {@code null} if the source
+     *      is {@code null}
      */
     public static <T, R> List<R> mapList(List<T> source, Function<T, R> mapFunc) {
         return mapList(source, mapFunc, null);
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the values of a map, generating a new map.
+     * Convenience method to apply a mapping function to all the values of a map, generating a new map.
      *
-     * @param source map whose values are to be mapped, or {@code null}
-     * @param mapFunc mapping function
+     * @param source       map whose values are to be mapped, or {@code null}
+     * @param mapFunc      mapping function
      * @param defaultValue value to be returned if source is {@code null}
-     * @return a new map, containing mappings of all of the items in the original map
+     * @return a new map, containing mappings of all the items in the original map
      */
-    public static <K, T, R> Map<K, R> mapMap(Map<K, T> source, Function<T, R> mapFunc,
-            Map<K, R> defaultValue) {
+    public static <K, T, R> Map<K, R> mapMap(Map<K, T> source, Function<T, R> mapFunc, Map<K, R> defaultValue) {
         if (source == null) {
             return defaultValue;
         }
@@ -152,12 +151,12 @@ public final class PfUtils {
     }
 
     /**
-     * Convenience method to apply a mapping function to all of the values of a map, generating a new map.
+     * Convenience method to apply a mapping function to all the values of a map, generating a new map.
      *
-     * @param source map whose values are to be mapped, or {@code null}
+     * @param source  map whose values are to be mapped, or {@code null}
      * @param mapFunc mapping function
-     * @return a new map, containing mappings of all of the items in the original map, or {@code null} if the source is
-     *         {@code null}
+     * @return a new map, containing mappings of all the items in the original map, or {@code null} if the source is
+     *      {@code null}
      */
     public static <K, T, R> Map<K, R> mapMap(Map<K, T> source, Function<T, R> mapFunc) {
         return mapMap(source, mapFunc, null);
@@ -176,15 +175,14 @@ public final class PfUtils {
         }
 
         try {
-            @SuppressWarnings("unchecked")
-            Class<? extends T> clazz = (Class<? extends T>) source.getClass();
+            @SuppressWarnings("unchecked") Class<? extends T> clazz = (Class<? extends T>) source.getClass();
 
             return clazz.getConstructor(clazz).newInstance(source);
 
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
-                | RuntimeException e) {
+                 | RuntimeException e) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "error copying concept key class: " + source.getClass().getName(), e);
+                "error copying concept key class: " + source.getClass().getName(), e);
         }
     }
 }

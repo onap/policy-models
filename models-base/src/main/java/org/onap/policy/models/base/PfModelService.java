@@ -21,9 +21,9 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -42,14 +42,14 @@ import lombok.NonNull;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PfModelService {
     // The map holding the models
-    private static Map<String, PfConcept> modelMap = new ConcurrentHashMap<>();
+    private static final Map<String, PfConcept> modelMap = new ConcurrentHashMap<>();
 
     /**
      * Register a model with the model service.
      *
-     * @param <M> the generic type
+     * @param <M>      the generic type
      * @param modelKey the key of the model, used to index the model
-     * @param model The model
+     * @param model    The model
      */
     public static <M extends PfConcept> void registerModel(@NonNull final String modelKey, @NonNull final M model) {
         modelMap.put(modelKey, model);
@@ -67,7 +67,7 @@ public final class PfModelService {
     /**
      * Get a model from the model service.
      *
-     * @param <M> the generic type
+     * @param <M>      the generic type
      * @param modelKey the key of the model, used to index the model
      * @return The model
      */
@@ -77,7 +77,7 @@ public final class PfModelService {
 
         if (model == null) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "Model for name " + modelKey + " not found in model service");
+                "Model for name " + modelKey + " not found in model service");
         }
 
         return model;

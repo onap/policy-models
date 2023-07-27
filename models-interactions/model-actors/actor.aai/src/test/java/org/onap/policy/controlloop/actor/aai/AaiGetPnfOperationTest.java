@@ -29,10 +29,10 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import jakarta.ws.rs.client.InvocationCallback;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import javax.ws.rs.client.InvocationCallback;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;

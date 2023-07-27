@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,8 @@
 
 package org.onap.policy.models.base;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import lombok.Getter;
 import lombok.ToString;
 import org.onap.policy.models.errors.concepts.ErrorResponse;
@@ -28,11 +29,12 @@ import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 import org.onap.policy.models.errors.concepts.ErrorResponseUtils;
 
 /**
- * This class is a base exception from which all model exceptions are sub classes.
+ * This class is a base exception from which all model exceptions are subclasses.
  */
 @Getter
 @ToString
 public class PfModelException extends Exception implements ErrorResponseInfo {
+    @Serial
     private static final long serialVersionUID = -8507246953751956974L;
 
     // The error response of the exception
@@ -45,7 +47,7 @@ public class PfModelException extends Exception implements ErrorResponseInfo {
      * Instantiates a new model exception.
      *
      * @param statusCode the return code for the exception
-     * @param message the message on the exception
+     * @param message    the message on the exception
      */
     public PfModelException(final Response.Status statusCode, final String message) {
         this(statusCode, message, null);
@@ -55,8 +57,8 @@ public class PfModelException extends Exception implements ErrorResponseInfo {
      * Instantiates a new model exception.
      *
      * @param statusCode the return code for the exception
-     * @param message the message on the exception
-     * @param object the object that the exception was thrown on
+     * @param message    the message on the exception
+     * @param object     the object that the exception was thrown on
      */
     public PfModelException(final Response.Status statusCode, final String message, final Object object) {
         super(message);
@@ -69,8 +71,8 @@ public class PfModelException extends Exception implements ErrorResponseInfo {
      * Instantiates a new model exception.
      *
      * @param statusCode the return code for the exception
-     * @param message the message on the exception
-     * @param exception the exception that caused this exception
+     * @param message    the message on the exception
+     * @param exception  the exception that caused this exception
      */
     public PfModelException(final Response.Status statusCode, final String message, final Exception exception) {
         this(statusCode, message, exception, null);
@@ -80,12 +82,12 @@ public class PfModelException extends Exception implements ErrorResponseInfo {
      * Instantiates a new exception.
      *
      * @param statusCode the return code for the exception
-     * @param message the message on the exception
-     * @param exception the exception that caused this exception
-     * @param object the object that the exception was thrown on
+     * @param message    the message on the exception
+     * @param exception  the exception that caused this exception
+     * @param object     the object that the exception was thrown on
      */
     public PfModelException(final Response.Status statusCode, final String message, final Exception exception,
-            final Object object) {
+                            final Object object) {
         super(message, exception);
         errorResponse.setResponseCode(statusCode);
         ErrorResponseUtils.getExceptionMessages(errorResponse, this);

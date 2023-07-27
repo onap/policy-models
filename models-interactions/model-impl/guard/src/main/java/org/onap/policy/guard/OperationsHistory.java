@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021,2023 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +23,17 @@
 
 package org.onap.policy.guard;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
 import lombok.Data;
 
 @Entity
@@ -43,6 +44,7 @@ import lombok.Data;
 @Data
 public class OperationsHistory implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -551420180714993577L;
 
     @Id

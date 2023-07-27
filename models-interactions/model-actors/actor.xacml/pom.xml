@@ -59,11 +59,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.test</artifactId>
             <version>${project.version}</version>

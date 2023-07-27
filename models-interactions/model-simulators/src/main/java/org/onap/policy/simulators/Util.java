@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,21 +53,19 @@ public final class Util {
 
     private static final String CANNOT_PROCESS_PARAMETERS = "cannot parse parameters ";
     private static final String CANNOT_CONNECT = "cannot connect to port ";
-    public static final String LOCALHOST = "localhost";
+    public static final String LOCALHOST = "127.0.0.1";
 
     /**
      * Build an A&AI simulator.
      *
-     * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
-    public static HttpServletServer buildAaiSim() throws InterruptedException {
+    public static void buildAaiSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                 .build(AAISIM_SERVER_NAME, LOCALHOST, AAISIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", AaiSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
-        return testServer;
     }
 
     /**
@@ -87,72 +85,54 @@ public final class Util {
     /**
      * Build an SDNC simulator.
      *
-     * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
-    public static HttpServletServer buildSdncSim() throws InterruptedException {
+    public static void buildSdncSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                 .build(SDNCSIM_SERVER_NAME, LOCALHOST, SDNCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SdncSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
-        return testServer;
     }
 
 
     /**
      * Build an SO simulator.
      *
-     * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
-    public static HttpServletServer buildSoSim() throws InterruptedException {
+    public static void buildSoSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                 .build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
-        return testServer;
     }
 
     /**
      * Build a VFC simulator.
      *
-     * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
-    public static HttpServletServer buildVfcSim() throws InterruptedException {
+    public static void buildVfcSim() throws InterruptedException {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                 .build(VFCSIM_SERVER_NAME, LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
-        return testServer;
-    }
-
-    /**
-     * Build a guard simulator.
-     *
-     * @return the simulator
-     * @throws InterruptedException if a thread is interrupted
-     */
-    public static HttpServletServer buildGuardSim() throws InterruptedException {
-        return buildXacmlSim();
     }
 
     /**
      * Build a xacml simulator.
      *
-     * @return the simulator
      * @throws InterruptedException if a thread is interrupted
      */
-    public static HttpServletServer buildXacmlSim() throws InterruptedException {
+    public static void buildXacmlSim() throws InterruptedException {
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(XACMLSIM_SERVER_NAME,
                 LOCALHOST, XACMLSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", XacmlSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
-        return testServer;
     }
 
     /**
@@ -174,7 +154,7 @@ public final class Util {
      */
     public static HttpServletServer buildDmaapSim(String resourceName) throws InterruptedException {
         var json = ResourceUtils.getResourceAsString(resourceName);
-        DmaapSimParameterGroup params = null;
+        DmaapSimParameterGroup params;
         try {
             params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
         } catch (CoderException ce) {

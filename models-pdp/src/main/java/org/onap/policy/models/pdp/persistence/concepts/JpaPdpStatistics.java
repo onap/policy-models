@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2021,2023 Nordix Foundation.
+ * Copyright (C) 2019-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -24,24 +24,25 @@
 
 package org.onap.policy.models.pdp.persistence.concepts;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+import jakarta.persistence.TableGenerator;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Index;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -79,6 +80,7 @@ import org.onap.policy.models.pdp.concepts.PdpStatistics;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class JpaPdpStatistics extends PfConcept implements PfAuthorative<PdpStatistics>, Serializable {
+    @Serial
     private static final long serialVersionUID = -7312974966820980659L;
 
     @Id

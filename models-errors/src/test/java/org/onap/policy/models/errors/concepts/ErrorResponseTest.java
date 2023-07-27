@@ -3,6 +3,7 @@
  * ONAP Policy Decision Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +24,8 @@ package org.onap.policy.models.errors.concepts;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
+import java.util.List;
 import org.junit.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.slf4j.Logger;
@@ -42,9 +43,9 @@ public class ErrorResponseTest {
             error.setResponseCode(Response.Status.NOT_ACCEPTABLE);
             error.setErrorMessage("Missing metadata section");
 
-            error.setErrorDetails(Arrays.asList("You must have a metadata section with policy-id value"));
+            error.setErrorDetails(List.of("You must have a metadata section with policy-id value"));
 
-            error.setWarningDetails(Arrays.asList("Please make sure topology template field is included."));
+            error.setWarningDetails(List.of("Please make sure topology template field is included."));
 
             StandardCoder coder = new StandardCoder();
             String jsonOutput = coder.encode(error);

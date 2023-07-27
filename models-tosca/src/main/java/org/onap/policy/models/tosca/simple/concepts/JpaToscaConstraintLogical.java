@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,8 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import javax.persistence.Column;
+import jakarta.persistence.Column;
+import java.io.Serial;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -35,6 +36,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class JpaToscaConstraintLogical extends JpaToscaConstraint {
+    @Serial
     private static final long serialVersionUID = -2730203215911880756L;
 
     @Column
@@ -78,28 +80,14 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
         }
 
         switch (operation) {
-            case EQ:
-                toscaConstraint.setEqual(compareTo);
-                break;
-
-            case GT:
-                toscaConstraint.setGreaterThan(compareTo);
-                break;
-
-            case GE:
-                toscaConstraint.setGreaterOrEqual(compareTo);
-                break;
-
-            case LT:
-                toscaConstraint.setLessThan(compareTo);
-                break;
-
-            case LE:
-                toscaConstraint.setLessOrEqual(compareTo);
-                break;
-
-            default:
-                // Can't happen
+            case EQ -> toscaConstraint.setEqual(compareTo);
+            case GT -> toscaConstraint.setGreaterThan(compareTo);
+            case GE -> toscaConstraint.setGreaterOrEqual(compareTo);
+            case LT -> toscaConstraint.setLessThan(compareTo);
+            case LE -> toscaConstraint.setLessOrEqual(compareTo);
+            default -> {
+                return null;
+            }
         }
 
         return toscaConstraint;
@@ -128,10 +116,7 @@ public class JpaToscaConstraintLogical extends JpaToscaConstraint {
     }
 
     @Override
-    public int compareTo(JpaToscaConstraint otherConstraint) {
-        if (otherConstraint == null) {
-            return -1;
-        }
+    public int compareTo(@NonNull JpaToscaConstraint otherConstraint) {
         if (this == otherConstraint) {
             return 0;
         }

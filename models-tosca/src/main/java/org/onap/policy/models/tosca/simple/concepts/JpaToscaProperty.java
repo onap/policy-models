@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,13 +24,14 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EmbeddedId;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EmbeddedId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -58,6 +59,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty.Status;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaProperty> {
+    @Serial
     private static final long serialVersionUID = 1675770231921107988L;
 
     @EmbeddedId
@@ -243,10 +245,7 @@ public class JpaToscaProperty extends PfConcept implements PfAuthorative<ToscaPr
     }
 
     @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
+    public int compareTo(@NonNull final PfConcept otherConcept) {
         if (this == otherConcept) {
             return 0;
         }

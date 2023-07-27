@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,10 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import java.time.Duration;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;

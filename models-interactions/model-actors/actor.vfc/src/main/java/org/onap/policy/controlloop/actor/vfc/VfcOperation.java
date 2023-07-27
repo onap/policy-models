@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,8 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
+import jakarta.ws.rs.core.Response;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -131,7 +132,7 @@ public abstract class VfcOperation extends HttpOperation<VfcResponse> {
 
     /**
      * Treats everything as a success, so we always go into
-     * {@link #postProcessResponse(OperationOutcome, String, Response, SoResponse)}.
+     * {@link #postProcessResponse (OperationOutcome, String, Response, SoResponse)}.
      */
     @Override
     protected boolean isSuccess(Response rawResponse, VfcResponse response) {

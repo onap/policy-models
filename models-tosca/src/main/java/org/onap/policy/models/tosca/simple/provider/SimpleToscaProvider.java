@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2022 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2022-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,12 @@
 
 package org.onap.policy.models.tosca.simple.provider;
 
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.apache.commons.collections4.CollectionUtils;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -492,7 +492,7 @@ public class SimpleToscaProvider {
         deletedServiceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
         deletedServiceTemplate.getPolicyTypes().getConceptMap().put(policyTypeKey, policyType4Deletion);
 
-        LOGGER.debug("<-deletePolicyType: key={}, serviceTempalate={}", policyTypeKey, deletedServiceTemplate);
+        LOGGER.debug("<-deletePolicyType: key={}, serviceTemplate={}", policyTypeKey, deletedServiceTemplate);
         return deletedServiceTemplate;
     }
 

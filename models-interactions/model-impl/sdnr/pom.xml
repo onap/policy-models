@@ -4,14 +4,14 @@
   ================================================================================
   Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
   Modifications Copyright (C) 2018-2020 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019 Nordix Foundation.
+  Modifications Copyright (C) 2019, 2023 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,27 +21,23 @@
   -->
 
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
+    <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
         <artifactId>model-impl</artifactId>
         <version>3.0.0-SNAPSHOT</version>
-   </parent>
+    </parent>
 
-  <artifactId>sdnr</artifactId>
+    <artifactId>sdnr</artifactId>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.gson</groupId>
-      <artifactId>gson</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 </project>

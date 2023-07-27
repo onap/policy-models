@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +21,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NonNull;
 import lombok.ToString;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptContainer;
@@ -49,6 +51,7 @@ import org.onap.policy.models.tosca.utils.ToscaUtils;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, ToscaDataType> {
+    @Serial
     private static final long serialVersionUID = 2941102271022190348L;
 
     public static final String DEFAULT_NAME = "ToscaDataTypesSimple";
@@ -73,7 +76,7 @@ public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, Tosc
     }
 
     /**
-     * This Constructor creates an concept container with all of its fields defined.
+     * This Constructor creates a concept container with all of its fields defined.
      *
      * @param key the concept container key
      * @param conceptMap the concepts to be stored in the concept container
@@ -102,7 +105,7 @@ public class JpaToscaDataTypes extends PfConceptContainer<JpaToscaDataType, Tosc
     }
 
     @Override
-    public BeanValidationResult validate(String fieldName) {
+    public BeanValidationResult validate(@NonNull String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
         for (JpaToscaDataType dataType : this.getConceptMap().values()) {

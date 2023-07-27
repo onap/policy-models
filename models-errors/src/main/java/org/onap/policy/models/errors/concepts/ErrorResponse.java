@@ -3,6 +3,7 @@
  * ONAP Policy Decision Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +22,10 @@
 package org.onap.policy.models.errors.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 
 /**
@@ -31,19 +33,19 @@ import lombok.Data;
  * response from API calls in the Policy Framework.
  *
  * @author pameladragosh
- *
  */
 @Data
 public class ErrorResponse implements Serializable {
+    @Serial
     private static final long serialVersionUID = 6760066094588944729L;
 
     @SerializedName("code")
-    private Response.Status  responseCode;
+    private Response.Status responseCode;
     @SerializedName("error")
-    private String  errorMessage;
+    private String errorMessage;
     @SerializedName("details")
-    private List<String>    errorDetails;
+    private List<String> errorDetails;
     @SerializedName("warnings")
-    private List<String>    warningDetails;
+    private List<String> warningDetails;
 
 }

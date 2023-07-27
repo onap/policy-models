@@ -3,6 +3,7 @@
   ONAP
   ================================================================================
   Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2023 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -18,16 +19,16 @@
   ============LICENSE_END=========================================================
   -->
 
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+        <artifactId>model-impl</artifactId>
+        <version>3.0.0-SNAPSHOT</version>
+    </parent>
 
-  <parent>
-    <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-    <artifactId>model-impl</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
-  </parent>
-
-  <artifactId>guard</artifactId>
+    <artifactId>guard</artifactId>
 
 </project>
