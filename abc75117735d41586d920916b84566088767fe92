@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca08551d_0acdf636",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfKeyUse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exceptio",
+      "range": {
+        "startLine": 144,
+        "startChar": 25,
+        "endLine": 144,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad629da4_096a1676",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfReferenceKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exceptio",
+      "range": {
+        "startLine": 346,
+        "startChar": 25,
+        "endLine": 346,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "152a73ed_580c348c",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/testconcepts/DummyPfKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "List.of",
+      "range": {
+        "startLine": 76,
+        "startChar": 15,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cafaa0ad_23c29c2e",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintInRange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exception",
+      "range": {
+        "startLine": 86,
+        "startChar": 25,
+        "endLine": 86,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10af629c_a1a3214b",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintLogical.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exception",
+      "range": {
+        "startLine": 119,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1356b5b4_188cb99a",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintValidValues.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exception",
+      "range": {
+        "startLine": 89,
+        "startChar": 25,
+        "endLine": 89,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "264a23ad_c42e87a5",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "not sure here, it return a NullPointerException when before was -1 (not equal) with no exception",
+      "range": {
+        "startLine": 248,
+        "startChar": 25,
+        "endLine": 248,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f3afa25_46492b12",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintLogicalTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "the value \"-1\" means is not equal, it should not throw an exception",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 95
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c904603b_f2a991ee",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "the value \"-1\" means is not equal, it should not throw an exception",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 96
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa7d789a_004145e5",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "the value \"-1\" means is not equal, it should not throw an exception",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 84,
+        "endChar": 96
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6bb8350_818e494b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaPropertyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 7565
+      },
+      "writtenOn": "2023-07-27T13:24:27Z",
+      "side": 1,
+      "message": "the value \"-1\" means is not equal, it should not throw an exception",
+      "range": {
+        "startLine": 116,
+        "startChar": 8,
+        "endLine": 116,
+        "endChar": 94
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
