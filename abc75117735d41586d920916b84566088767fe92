@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c61a6ff_4d573283",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-07-27T15:00:48Z",
+      "side": 1,
+      "message": "Same answer for the @NonNull comments",
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca08551d_0acdf636",
@@ -164,6 +181,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81340644_149a1abf",
+        "filename": "models-tosca/src/main/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaProperty.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-07-27T15:00:48Z",
+      "side": 1,
+      "message": "Sonar was complaining about it because Comparator doesn\u0027t accept null values already. So it only returns -1 if different, if null, will throw NullPointerException from Comparator",
+      "parentUuid": "264a23ad_c42e87a5",
+      "range": {
+        "startLine": 248,
+        "startChar": 25,
+        "endLine": 248,
+        "endChar": 33
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f3afa25_46492b12",
         "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintLogicalTest.java",
         "patchSetId": 1
@@ -175,6 +216,30 @@
       "writtenOn": "2023-07-27T13:24:27Z",
       "side": 1,
       "message": "the value \"-1\" means is not equal, it should not throw an exception",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 95
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "675f064f_eb383a3c",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaConstraintLogicalTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-07-27T15:00:48Z",
+      "side": 1,
+      "message": "the annotation @NonNull throws the exception.",
+      "parentUuid": "5f3afa25_46492b12",
       "range": {
         "startLine": 73,
         "startChar": 8,
