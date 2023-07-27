@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +33,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,8 +42,6 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -104,7 +105,7 @@ public class DmaapSimProviderTest {
     }
 
     /**
-     * Verifies that the constructor adds all of the expected actions to the service
+     * Verifies that the constructor adds all the expected actions to the service
      * manager container.
      */
     @Test
@@ -202,7 +203,7 @@ public class DmaapSimProviderTest {
     public void testProcessDmaapMessageGet_Ex() throws InterruptedException {
         BlockingQueue<Response> respQueue = new LinkedBlockingQueue<>();
 
-        // put in a background thread so it doesn't interrupt the tester thread
+        // put in a background thread, so it doesn't interrupt the tester thread
         new Thread(() -> {
             try {
                 when(data1.read(any(), anyInt(), anyLong())).thenThrow(new InterruptedException(EXPECTED_EXCEPTION));
@@ -240,15 +241,15 @@ public class DmaapSimProviderTest {
 
     @Test
     public void testMakeTimerPool() {
-        // use a real provider so we can test the real makeTimer() method
+        // use a real provider, so we can test the real makeTimer() method
         DmaapSimProvider prov2 = new DmaapSimProvider(params);
         prov2.start();
-        assertThatCode(() -> prov2.stop()).doesNotThrowAnyException();
+        assertThatCode(prov2::stop).doesNotThrowAnyException();
     }
 
     @Test
     public void testMakeTopicData() {
-        // use a real provider so we can test the real makeTopicData() method
+        // use a real provider, so we can test the real makeTopicData() method
         DmaapSimProvider prov2 = new DmaapSimProvider(params);
         assertThatCode(() -> prov2.processDmaapMessageGet(TOPIC1, CONSUMER1, CONSUMER_ID1, 0, 0))
                         .doesNotThrowAnyException();
@@ -277,14 +278,11 @@ public class DmaapSimProviderTest {
 
         @Override
         protected TopicData makeTopicData(String topicName) {
-            switch (topicName) {
-                case TOPIC1:
-                    return data1;
-                case TOPIC2:
-                    return data2;
-                default:
-                    throw new IllegalArgumentException("unknown topic name: " + topicName);
-            }
+            return switch (topicName) {
+                case TOPIC1 -> data1;
+                case TOPIC2 -> data2;
+                default -> throw new IllegalArgumentException("unknown topic name: " + topicName);
+            };
         }
     }
 }

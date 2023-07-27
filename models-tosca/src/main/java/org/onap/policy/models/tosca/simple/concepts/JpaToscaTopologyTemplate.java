@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,23 +22,24 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinColumns;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.Lob;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -68,6 +69,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaTopologyTemplate;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative<ToscaTopologyTemplate> {
+    @Serial
     private static final long serialVersionUID = 8969698734673232603L;
 
     public static final String DEFAULT_LOCAL_NAME = "ToscaTopologyTemplateSimple";
@@ -81,27 +83,20 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
     @NotBlank
     private String description;
 
-    // @formatter:off
     @ElementCollection
     @Lob
     private Map<@NotNull String, @NotNull @Valid JpaToscaParameter> inputs;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "nodeTemplatesName", referencedColumnName = "name"),
-        @JoinColumn(name = "nodeTemplatessVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "nodeTemplatesName", referencedColumnName = "name")
+    @JoinColumn(name = "nodeTemplatessVersion", referencedColumnName = "version")
     @SerializedName("data_types")
     @Valid
     private JpaToscaNodeTemplates nodeTemplates;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "policyName",    referencedColumnName = "name"),
-        @JoinColumn(name = "policyVersion", referencedColumnName = "version")
-
-    })
-    // @formatter:on
+    @JoinColumn(name = "policyName", referencedColumnName = "name")
+    @JoinColumn(name = "policyVersion", referencedColumnName = "version")
     @Valid
     private JpaToscaPolicies policies;
 
@@ -110,7 +105,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
      */
     public JpaToscaTopologyTemplate() {
         this(new PfReferenceKey(JpaToscaServiceTemplate.DEFAULT_NAME, JpaToscaServiceTemplate.DEFAULT_VERSION,
-                DEFAULT_LOCAL_NAME));
+            DEFAULT_LOCAL_NAME));
     }
 
     /**
@@ -133,7 +128,7 @@ public class JpaToscaTopologyTemplate extends PfConcept implements PfAuthorative
         this.description = copyConcept.description;
         this.inputs = PfUtils.mapMap(copyConcept.inputs, JpaToscaParameter::new);
         this.nodeTemplates =
-                (copyConcept.nodeTemplates != null ? new JpaToscaNodeTemplates(copyConcept.nodeTemplates) : null);
+            (copyConcept.nodeTemplates != null ? new JpaToscaNodeTemplates(copyConcept.nodeTemplates) : null);
         this.policies = (copyConcept.policies != null ? new JpaToscaPolicies(copyConcept.policies) : null);
     }
 

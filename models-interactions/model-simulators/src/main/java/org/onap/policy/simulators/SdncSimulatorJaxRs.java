@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2018 Huawei. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,12 +22,12 @@
 
 package org.onap.policy.simulators;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.UUID;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import org.onap.policy.sdnc.SdncResponse;
 import org.onap.policy.sdnc.SdncResponseOutput;
 import org.onap.policy.sdnc.util.Serialization;

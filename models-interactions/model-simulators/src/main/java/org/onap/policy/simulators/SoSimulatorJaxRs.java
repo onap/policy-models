@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * Modifications Copyright (C) 2022 CTC, Inc. and others.
  * ================================================================================
@@ -23,20 +23,20 @@
 
 package org.onap.policy.simulators;
 
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import lombok.Setter;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.so.SoRequest;
@@ -67,8 +67,8 @@ public class SoSimulatorJaxRs {
     /**
      * SO post query.
      *
-     * @param serviceInstanceId the service instance Id
-     * @param vnfInstanceId the VNF Id
+     * @param serviceInstanceId the service instance ID
+     * @param vnfInstanceId the VNF ID
      * @return the response
      */
     @POST
@@ -91,8 +91,8 @@ public class SoSimulatorJaxRs {
     /**
      * SO Delete.
      *
-     * @param serviceInstanceId the service instance Id
-     * @param vnfInstanceId the VNF Id
+     * @param serviceInstanceId the service instance ID
+     * @param vnfInstanceId the VNF ID
      * @return the response
      */
     @DELETE

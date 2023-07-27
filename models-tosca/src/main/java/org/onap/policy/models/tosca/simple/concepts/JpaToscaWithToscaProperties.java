@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,10 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Lob;
+import jakarta.persistence.MappedSuperclass;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -27,9 +32,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import javax.persistence.ElementCollection;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -56,6 +58,7 @@ import org.onap.policy.models.tosca.utils.ToscaUtils;
 @EqualsAndHashCode(callSuper = true)
 public abstract class JpaToscaWithToscaProperties<T extends ToscaWithToscaProperties> extends JpaToscaEntityType<T>
                 implements PfAuthorative<T> {
+    @Serial
     private static final long serialVersionUID = -563659852901842616L;
 
     @ElementCollection

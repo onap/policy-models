@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -23,6 +23,15 @@
 package org.onap.policy.models.base;
 
 import com.google.re2j.Pattern;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.Table;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -34,14 +43,6 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.function.Function;
-import javax.persistence.CascadeType;
-import javax.persistence.EmbeddedId;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.Table;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -61,7 +62,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
  * Each concept entry is checked to ensure that its key and value are not null and that the key matches the key in the
  * map value. Each concept entry is then validated individually.
  *
- * @param C the concept being contained
+ * @param <C> the concept being contained
  */
 //@formatter:on
 @MappedSuperclass
@@ -70,7 +71,8 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
 @EqualsAndHashCode(callSuper = false)
 
 public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> extends PfConcept
-        implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
+    implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
+    @Serial
     private static final long serialVersionUID = -324211738823208318L;
 
     private static final String VALUE_FIELD = "value";
@@ -115,9 +117,9 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     }
 
     /**
-     * This Constructor creates an concept container with all of its fields defined.
+     * This Constructor creates a concept container with all of its fields defined.
      *
-     * @param key the concept container key
+     * @param key        the concept container key
      * @param conceptMap the concepts to be stored in the concept container
      */
     public PfConceptContainer(@NonNull final PfConceptKey key, @NonNull final Map<PfConceptKey, C> conceptMap) {
@@ -200,9 +202,9 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
                 }
 
                 incomingConceptEntry.getValue().setName(findConceptField(conceptKey, conceptKey.getName(),
-                        incomingConceptEntry.getValue(), PfNameVersion::getDefinedName));
+                    incomingConceptEntry.getValue(), PfNameVersion::getDefinedName));
                 incomingConceptEntry.getValue().setVersion(findConceptField(conceptKey, conceptKey.getVersion(),
-                        incomingConceptEntry.getValue(), PfNameVersion::getDefinedVersion));
+                    incomingConceptEntry.getValue(), PfNameVersion::getDefinedVersion));
 
                 var jpaConcept = getConceptNewInstance();
                 // This cast allows us to call the fromAuthorative method
@@ -219,7 +221,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
 
         if (conceptMap.isEmpty()) {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST,
-                    "An incoming list of concepts must have at least one entry");
+                "An incoming list of concepts must have at least one entry");
         }
     }
 
@@ -286,10 +288,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     }
 
     @Override
-    public int compareTo(final PfConcept otherConcept) {
-        if (otherConcept == null) {
-            return -1;
-        }
+    public int compareTo(@NonNull final PfConcept otherConcept) {
         if (this == otherConcept) {
             return 0;
         }
@@ -297,8 +296,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return getClass().getName().compareTo(otherConcept.getClass().getName());
         }
 
-        @SuppressWarnings("unchecked")
-        final PfConceptContainer<C, A> other = (PfConceptContainer<C, A>) otherConcept;
+        @SuppressWarnings("unchecked") final PfConceptContainer<C, A> other = (PfConceptContainer<C, A>) otherConcept;
         int retVal = key.compareTo(other.key);
         if (retVal != 0) {
             return retVal;
@@ -310,7 +308,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     /**
      * Get all the concepts that match the given name and version.
      *
-     * @param conceptKeyName the name of the concept, if null, return all names
+     * @param conceptKeyName    the name of the concept, if null, return all names
      * @param conceptKeyVersion the version of the concept, if null, return all versions
      * @return conceptKeyVersion
      */
@@ -374,16 +372,17 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
     private C getConceptNewInstance() {
         try {
             String conceptClassName =
-                    ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
+                ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0].getTypeName();
             return (C) Class.forName(conceptClassName).getDeclaredConstructor().newInstance();
         } catch (Exception ex) {
             throw new PfModelRuntimeException(Response.Status.INTERNAL_SERVER_ERROR,
-                    "failed to instantiate instance of container concept class", ex);
+                "failed to instantiate instance of container concept class", ex);
         }
     }
 
     private String findConceptField(final PfConceptKey conceptKey, final String keyFieldValue,
-            final PfNameVersion concept, final Function<PfNameVersion, String> fieldGetterFunction) {
+                                    final PfNameVersion concept,
+                                    final Function<PfNameVersion, String> fieldGetterFunction) {
 
         String conceptField = fieldGetterFunction.apply(concept);
 
@@ -391,7 +390,7 @@ public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> ex
             return keyFieldValue;
         } else {
             throw new PfModelRuntimeException(Response.Status.BAD_REQUEST, "Key " + conceptKey.getId() + " field "
-                    + keyFieldValue + " does not match the value " + conceptField + " in the concept field");
+                + keyFieldValue + " does not match the value " + conceptField + " in the concept field");
         }
     }
 }

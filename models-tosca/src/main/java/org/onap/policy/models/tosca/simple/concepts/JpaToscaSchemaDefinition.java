@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,12 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -58,6 +59,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaSchemaDefinition;
 public class JpaToscaSchemaDefinition extends Validated
         implements PfAuthorative<ToscaSchemaDefinition>, Serializable, Comparable<JpaToscaSchemaDefinition> {
 
+    @Serial
     private static final long serialVersionUID = 3645882081163287058L;
 
     @Column
@@ -180,10 +182,8 @@ public class JpaToscaSchemaDefinition extends Validated
         copy.setDescription(description);
 
         if (constraints != null) {
-            final List<JpaToscaConstraint> newConstraints = new ArrayList<>();
-            for (final JpaToscaConstraint constraint : constraints) {
-                newConstraints.add(constraint); // Constraints are immutable
-            }
+            // Constraints are immutable
+            final List<JpaToscaConstraint> newConstraints = new ArrayList<>(constraints);
             copy.setConstraints(newConstraints);
         }
 

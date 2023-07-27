@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,14 +22,14 @@
 
 package org.onap.policy.models.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-import javax.ws.rs.core.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfConceptKey;
@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class DefaultPfDao is an JPA implementation of the {@link PfDao} class for Policy Framework concepts
- * ({@link PfConcept}). It uses the default JPA implementation in the javax {@link Persistence} class.
+ * ({@link PfConcept}). It uses the default JPA implementation in the jakarta {@link Persistence} class.
  */
 public class DefaultPfDao implements PfDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
@@ -156,13 +156,10 @@ public class DefaultPfDao implements PfDao {
         if (obj == null) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             mg.merge(obj);
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
     }
 
@@ -171,13 +168,10 @@ public class DefaultPfDao implements PfDao {
         if (obj == null) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             mg.remove(mg.contains(obj) ? obj : mg.merge(obj));
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
     }
 
@@ -186,8 +180,7 @@ public class DefaultPfDao implements PfDao {
         if (key == null) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             mg.getTransaction().begin();
             mg.createQuery(setQueryTable(DELETE_BY_CONCEPT_KEY, someClass))
@@ -196,8 +189,6 @@ public class DefaultPfDao implements PfDao {
                 .executeUpdate();
             mg.getTransaction().commit();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -206,8 +197,7 @@ public class DefaultPfDao implements PfDao {
         if (key == null) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             mg.getTransaction().begin();
             mg.createQuery(setQueryTable(DELETE_BY_REFERENCE_KEY, someClass))
@@ -217,8 +207,6 @@ public class DefaultPfDao implements PfDao {
                 .executeUpdate();
             mg.getTransaction().commit();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -227,8 +215,7 @@ public class DefaultPfDao implements PfDao {
         if (key == null) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             mg.getTransaction().begin();
             mg.createQuery(setQueryTable(DELETE_BY_TIMESTAMP_KEY, someClass))
@@ -238,8 +225,6 @@ public class DefaultPfDao implements PfDao {
                     .executeUpdate();
             mg.getTransaction().commit();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -248,15 +233,12 @@ public class DefaultPfDao implements PfDao {
         if (objs == null || objs.isEmpty()) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             for (final T t : objs) {
                 mg.merge(t);
             }
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
     }
 
@@ -265,15 +247,12 @@ public class DefaultPfDao implements PfDao {
         if (objs == null || objs.isEmpty()) {
             return;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             for (final T t : objs) {
                 mg.remove(mg.contains(t) ? t : mg.merge(t));
             }
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
     }
 
@@ -283,8 +262,7 @@ public class DefaultPfDao implements PfDao {
             return 0;
         }
         var deletedCount = 0;
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             mg.getTransaction().begin();
             for (final PfConceptKey key : keys) {
@@ -295,21 +273,18 @@ public class DefaultPfDao implements PfDao {
             }
             mg.getTransaction().commit();
             // @formatter:on
-        } finally {
-            mg.close();
         }
         return deletedCount;
     }
 
     @Override
     public <T extends PfConcept> int deleteByReferenceKey(final Class<T> someClass,
-        final Collection<PfReferenceKey> keys) {
+                                                          final Collection<PfReferenceKey> keys) {
         if (keys == null || keys.isEmpty()) {
             return 0;
         }
         var deletedCount = 0;
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             mg.getTransaction().begin();
             for (final PfReferenceKey key : keys) {
@@ -321,27 +296,22 @@ public class DefaultPfDao implements PfDao {
             }
             mg.getTransaction().commit();
             // @formatter:on
-        } finally {
-            mg.close();
         }
         return deletedCount;
     }
 
     @Override
     public <T extends PfConcept> void deleteAll(final Class<T> someClass) {
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             mg.createQuery(setQueryTable(DELETE_FROM_TABLE, someClass)).executeUpdate();
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
     }
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, final String name,
-        final String version) {
+                                                     final String version) {
         if (name == null) {
             return getAll(someClass);
         }
@@ -357,9 +327,8 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> List<T> getFiltered(final Class<T> someClass, PfFilterParametersIntfc filterParams) {
-        final var mg = getEntityManager();
 
-        try {
+        try (var mg = getEntityManager()) {
             PfFilter filter = new PfFilterFactory().createFilter(someClass);
             var filterQueryString = SELECT_FROM_TABLE
                 + filter.genWhereClause(filterParams)
@@ -370,8 +339,6 @@ public class DefaultPfDao implements PfDao {
 
             LOGGER.debug("filterQueryString is  \"{}\"", filterQueryString);
             return query.getResultList();
-        } finally {
-            mg.close();
         }
     }
 
@@ -399,15 +366,12 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null) {
             return null;
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             final var t = mg.find(someClass, key);
             if (t != null) {
                 mg.refresh(t);
             }
             return checkAndReturn(someClass, t);
-        } finally {
-            mg.close();
         }
     }
 
@@ -416,11 +380,8 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null) {
             return Collections.emptyList();
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             return mg.createQuery(setQueryTable(SELECT_FROM_TABLE, someClass), someClass).getResultList();
-        } finally {
-            mg.close();
         }
     }
 
@@ -429,16 +390,13 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null) {
             return Collections.emptyList();
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             return mg.createQuery(setQueryTable(SELECT_ALL_FOR_PARENT, someClass), someClass)
                     .setParameter(PARENT_NAME,    parentKey.getName())
                     .setParameter(PARENT_VERSION, parentKey.getVersion())
                     .getResultList();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -448,8 +406,7 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null) {
             return Collections.emptyList();
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             String query = setQueryTable(SELECT_FROM_TABLE, someClass);
 
             if (StringUtils.isNotBlank(orderBy)) {
@@ -458,8 +415,6 @@ public class DefaultPfDao implements PfDao {
 
             return mg.createQuery(query, someClass).setMaxResults(numRecords)
                 .getResultList();
-        } finally {
-            mg.close();
         }
     }
 
@@ -468,15 +423,12 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null || parentKeyName == null) {
             return Collections.emptyList();
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS_FOR_PARENT, someClass), someClass)
                     .setParameter(PARENT_NAME, parentKeyName)
                     .getResultList();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -485,15 +437,12 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null || conceptName == null) {
             return Collections.emptyList();
         }
-        final var mg = getEntityManager();
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             return mg.createQuery(setQueryTable(SELECT_ALL_VERSIONS, someClass), someClass)
                     .setParameter(NAME, conceptName)
                     .getResultList();
             // @formatter:on
-        } finally {
-            mg.close();
         }
     }
 
@@ -502,17 +451,14 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null || key == null) {
             return null;
         }
-        final var mg = getEntityManager();
         List<T> ret;
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             ret = mg.createQuery(setQueryTable(SELECT_BY_CONCEPT_KEY, someClass), someClass)
                     .setParameter(NAME,    key.getName())
                     .setParameter(VERSION, key.getVersion())
                     .getResultList();
             // @formatter:on
-        } finally {
-            mg.close();
         }
 
         return getSingleResult(someClass, key.getId(), ret);
@@ -523,9 +469,8 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null || key == null) {
             return null;
         }
-        final var mg = getEntityManager();
         List<T> ret;
-        try {
+        try (var mg = getEntityManager()) {
             // @formatter:off
             ret = mg.createQuery(setQueryTable(SELECT_BY_REFERENCE_KEY, someClass), someClass)
                     .setParameter(PARENT_NAME,    key.getParentKeyName())
@@ -533,8 +478,6 @@ public class DefaultPfDao implements PfDao {
                     .setParameter(LOCAL_NAME,     key.getLocalName())
                     .getResultList();
             // @formatter:on
-        } finally {
-            mg.close();
         }
 
         return getSingleResult(someClass, key.getId(), ret);
@@ -542,15 +485,12 @@ public class DefaultPfDao implements PfDao {
 
     @Override
     public <T extends PfConcept> T update(final T obj) {
-        final var mg = getEntityManager();
         T ret;
-        try {
+        try (var mg = getEntityManager()) {
             mg.getTransaction().begin();
             ret = mg.merge(obj);
             mg.flush();
             mg.getTransaction().commit();
-        } finally {
-            mg.close();
         }
         return ret;
     }
@@ -560,17 +500,14 @@ public class DefaultPfDao implements PfDao {
         if (someClass == null) {
             return 0;
         }
-        final var mg = getEntityManager();
-        long size = 0;
-        try {
+        long size;
+        try (var mg = getEntityManager()) {
             /*
              * The invoking code only passes well-known classes into this method, thus
              * disabling the sonar about SQL injection.
              */
             size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class) // NOSONAR
                 .getSingleResult();
-        } finally {
-            mg.close();
         }
         return size;
     }
@@ -579,7 +516,7 @@ public class DefaultPfDao implements PfDao {
      * Add the table to a query string.
      *
      * @param queryString the query string
-     * @param tableClass the class name of the table
+     * @param tableClass  the class name of the table
      * @return the updated query string
      */
     private <T extends PfConcept> String setQueryTable(final String queryString, final Class<T> tableClass) {
@@ -589,13 +526,13 @@ public class DefaultPfDao implements PfDao {
     /**
      * Check that a query returned one and only one entry and return that entry.
      *
-     * @param someClass the class being searched for
+     * @param someClass    the class being searched for
      * @param searchFilter the search filter
-     * @param resultList the result list returned by the query
+     * @param resultList   the result list returned by the query
      * @return the single unique result
      */
     private <T extends PfConcept> T getSingleResult(final Class<T> someClass, final String searchFilter,
-        List<T> resultList) {
+                                                    List<T> resultList) {
         if (resultList == null || resultList.isEmpty()) {
             return null;
         }
@@ -609,8 +546,8 @@ public class DefaultPfDao implements PfDao {
     /**
      * check the result get from database and return the object.
      *
-     * @param <T> the type of the object to get, a subclass of {@link PfConcept}
-     * @param someClass the class of the object to get, a subclass of {@link PfConcept}
+     * @param <T>        the type of the object to get, a subclass of {@link PfConcept}
+     * @param someClass  the class of the object to get, a subclass of {@link PfConcept}
      * @param objToCheck the object that was retrieved from the database
      * @return the checked object or null
      */

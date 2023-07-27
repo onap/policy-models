@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,11 +22,12 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.MappedSuperclass;
+import java.io.Serial;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import javax.persistence.EmbeddedId;
-import javax.persistence.MappedSuperclass;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -41,12 +42,12 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
  * from this model so all models must have a key and have key information.
  *
  * <p>Validation checks that the model key is valid. It goes on to check for null keys and checks
- * each key for uniqueness in the model. A check is carried out to ensure that an {@link PfKeyInfo}
+ * each key for uniqueness in the model. A check is carried out to ensure that an {@link PfKey}
  * instance exists for every {@link PfConceptKey} key. For each {@link PfReferenceKey} instance, a
- * check is made that its parent and local name are nut null and that a {@link PfKeyInfo} entry
+ * check is made that its parent and local name are not null and that a {@link PfKey} entry
  * exists for its parent. Then a check is made that each used {@link PfConceptKey} and
  * {@link PfReferenceKey} usage references a key that exists. Finally, a check is made to ensure
- * that an {@link PfConceptKey} instance exists for every {@link PfKeyInfo} instance.
+ * that an {@link PfConceptKey} instance exists for every {@link PfKey} instance.
  *
  * @param <C> the type of concept on which the interface is applied.
  */
@@ -57,6 +58,7 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
 public abstract class PfModel extends PfConcept {
     private static final String KEYS_TOKEN = "keys";
 
+    @Serial
     private static final long serialVersionUID = -771659065637205430L;
 
     @EmbeddedId
@@ -146,13 +148,13 @@ public abstract class PfModel extends PfConcept {
     /**
      * Check for consistent usage of an artifact key in the model.
      *
-     * @param artifactKey The artifact key to check
+     * @param artifactKey    The artifact key to check
      * @param artifactKeySet The set of artifact keys encountered so far, this key is appended to
-     *        the set
-     * @param result where to add the results
+     *                       the set
+     * @param result         where to add the results
      */
     private void validateArtifactKeyInModel(final PfConceptKey artifactKey,
-            final Set<PfConceptKey> artifactKeySet, final BeanValidationResult result) {
+                                            final Set<PfConceptKey> artifactKeySet, final BeanValidationResult result) {
 
         validateKeyNotNull(result, KEYS_TOKEN, artifactKey);
 
@@ -161,7 +163,7 @@ public abstract class PfModel extends PfConcept {
         // Null key name start check
         if (artifactKey.getName().toUpperCase().startsWith(PfKey.NULL_KEY_NAME)) {
             addResult(result2, "name of " + artifactKey.getId(), artifactKey.getName(),
-                            "starts with keyword " + PfKey.NULL_KEY_NAME);
+                "starts with keyword " + PfKey.NULL_KEY_NAME);
         }
 
         // Unique key check
@@ -175,13 +177,14 @@ public abstract class PfModel extends PfConcept {
     /**
      * Check for consistent usage of a reference key in the model.
      *
-     * @param referenceKey The reference key to check
+     * @param referenceKey    The reference key to check
      * @param referenceKeySet The set of reference keys encountered so far, this key is appended to
-     *        the set
-     * @param result where to add the results
+     *                        the set
+     * @param result          where to add the results
      */
     private void validateReferenceKeyInModel(final PfReferenceKey referenceKey,
-            final Set<PfReferenceKey> referenceKeySet, final BeanValidationResult result) {
+                                             final Set<PfReferenceKey> referenceKeySet,
+                                             final BeanValidationResult result) {
         // Null key check
         if (referenceKey.isNullKey()) {
             addResult(result, KEYS_TOKEN, referenceKey, IS_A_NULL_KEY);
@@ -192,7 +195,7 @@ public abstract class PfModel extends PfConcept {
         // Null parent key check
         if (referenceKey.getParentConceptKey().isNullKey()) {
             addResult(result2, "parent key of " + referenceKey.getId(), referenceKey.getParentConceptKey().getId(),
-                            IS_A_NULL_KEY);
+                IS_A_NULL_KEY);
         }
 
         // Null local name check
@@ -203,7 +206,7 @@ public abstract class PfModel extends PfConcept {
         // Null key name start check
         if (referenceKey.getParentConceptKey().getName().toUpperCase().startsWith(PfKey.NULL_KEY_NAME)) {
             addResult(result2, "parent name of " + referenceKey.getId(), referenceKey.getParentConceptKey().getName(),
-                            "starts with keyword " + PfKey.NULL_KEY_NAME);
+                "starts with keyword " + PfKey.NULL_KEY_NAME);
         }
 
         // Unique key check
@@ -217,15 +220,15 @@ public abstract class PfModel extends PfConcept {
     /**
      * Check for consistent usage of cross-key references in the model.
      *
-     * @param usedKeySet The set of all keys used in the model
-     * @param artifactKeySet The set of artifact keys encountered so far, this key is appended to
-     *        the set
+     * @param usedKeySet      The set of all keys used in the model
+     * @param artifactKeySet  The set of artifact keys encountered so far, this key is appended to
+     *                        the set
      * @param referenceKeySet The set of reference keys encountered so far, this key is appended to
-     *        the set
-     * @param result where to add the results
+     *                        the set
+     * @param result          where to add the results
      */
     private void validateKeyUses(final Set<PfKeyUse> usedKeySet, final Set<PfConceptKey> artifactKeySet,
-            final Set<PfReferenceKey> referenceKeySet, final BeanValidationResult result) {
+                                 final Set<PfReferenceKey> referenceKeySet, final BeanValidationResult result) {
         // Check all key uses
         for (final PfKeyUse usedKey : usedKeySet) {
             if (usedKey.getKey() instanceof PfConceptKey) {

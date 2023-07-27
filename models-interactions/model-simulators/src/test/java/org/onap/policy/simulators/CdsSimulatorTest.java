@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,7 @@ import io.grpc.netty.NettyChannelBuilder;
 import io.grpc.stub.StreamObserver;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -71,7 +73,8 @@ public class CdsSimulatorTest {
 
     @Test
     public void test() throws Exception {
-        String reqstr = IOUtils.toString(getClass().getResource("cds/cds.request.json"), StandardCharsets.UTF_8);
+        String reqstr = IOUtils.toString(Objects.requireNonNull(getClass().getResource("cds/cds.request.json")),
+            StandardCharsets.UTF_8);
         Builder builder = ExecutionServiceInput.newBuilder();
         JsonFormat.parser().ignoringUnknownFields().merge(reqstr, builder);
         ExecutionServiceInput request = builder.build();
@@ -83,7 +86,7 @@ public class CdsSimulatorTest {
 
             BluePrintProcessingServiceStub asyncStub = BluePrintProcessingServiceGrpc.newStub(channel);
 
-            StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<ExecutionServiceOutput>() {
+            StreamObserver<ExecutionServiceOutput> responseObserver = new StreamObserver<>() {
                 @Override
                 public void onNext(ExecutionServiceOutput output) {
                     future.complete(output);

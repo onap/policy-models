@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import java.io.Serial;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -31,6 +32,7 @@ import lombok.NonNull;
  */
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PfKey extends PfConcept {
+    @Serial
     private static final long serialVersionUID = 6281159885962014041L;
 
     /** Regular expression to specify the structure of key names. */

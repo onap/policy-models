@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,21 +22,21 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import com.google.gson.annotations.SerializedName;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -64,10 +64,11 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemplate>
-        implements PfAuthorative<ToscaServiceTemplate> {
+    implements PfAuthorative<ToscaServiceTemplate> {
+    @Serial
     private static final long serialVersionUID = 8084846046148349401L;
 
-    public static final String DEFAULT_TOSCA_DEFINTIONS_VERISON = "tosca_simple_yaml_1_1_0";
+    public static final String DEFAULT_TOSCA_DEFINITIONS_VERSION = "tosca_simple_yaml_1_1_0";
     public static final String DEFAULT_NAME = "ToscaServiceTemplateSimple";
     public static final String DEFAULT_VERSION = "1.0.0";
 
@@ -79,57 +80,45 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     private String toscaDefinitionsVersion;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "dataTypesName",    referencedColumnName = "name"),
-        @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "dataTypesName",    referencedColumnName = "name")
+    @JoinColumn(name = "dataTypesVersion", referencedColumnName = "version")
     @SerializedName("data_types")
     @Valid
     private JpaToscaDataTypes dataTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name"),
-        @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "capabilityTypesName",    referencedColumnName = "name")
+    @JoinColumn(name = "capabilityTypesVersion", referencedColumnName = "version")
     @SerializedName("capability_types")
     @Valid
     private JpaToscaCapabilityTypes capabilityTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name"),
-        @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "relationshipTypesName",    referencedColumnName = "name")
+    @JoinColumn(name = "relationshipTypesVersion", referencedColumnName = "version")
     @SerializedName("relationship_types")
     @Valid
     private JpaToscaRelationshipTypes relationshipTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name"),
-        @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "nodeTypesName",    referencedColumnName = "name")
+    @JoinColumn(name = "nodeTypesVersion", referencedColumnName = "version")
     @SerializedName("node_types")
     @Valid
     private JpaToscaNodeTypes nodeTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "policyTypesName",    referencedColumnName = "name"),
-        @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
-    })
+    @JoinColumn(name = "policyTypesName",    referencedColumnName = "name")
+    @JoinColumn(name = "policyTypesVersion", referencedColumnName = "version")
     @SerializedName("policy_types")
     @Valid
     private JpaToscaPolicyTypes policyTypes;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumns({
-        @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName"),
-        @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion"),
-        @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName"),
-        @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
-    })
+    @JoinColumn(name = "topologyTemplateParentKeyName",    referencedColumnName = "parentKeyName")
+    @JoinColumn(name = "topologyTemplateParentKeyVersion", referencedColumnName = "parentKeyVersion")
+    @JoinColumn(name = "topologyTemplateParentLocalName",  referencedColumnName = "parentLocalName")
+    @JoinColumn(name = "topologyTemplateLocalName",        referencedColumnName = "localName")
     @SerializedName("topology_template")
     @Valid
     private JpaToscaTopologyTemplate topologyTemplate;
@@ -148,13 +137,13 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * @param key the key
      */
     public JpaToscaServiceTemplate(@NonNull final PfConceptKey key) {
-        this(key, DEFAULT_TOSCA_DEFINTIONS_VERISON);
+        this(key, DEFAULT_TOSCA_DEFINITIONS_VERSION);
     }
 
     /**
      * The full constructor creates a {@link JpaToscaServiceTemplate} object with all mandatory parameters.
      *
-     * @param key the key
+     * @param key                     the key
      * @param toscaDefinitionsVersion the TOSCA version string
      */
     public JpaToscaServiceTemplate(@NonNull final PfConceptKey key, @NonNull final String toscaDefinitionsVersion) {
@@ -172,15 +161,15 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
         this.toscaDefinitionsVersion = copyConcept.toscaDefinitionsVersion;
         this.dataTypes = (copyConcept.dataTypes != null ? new JpaToscaDataTypes(copyConcept.dataTypes) : null);
         this.capabilityTypes =
-                (copyConcept.capabilityTypes != null ? new JpaToscaCapabilityTypes(copyConcept.capabilityTypes) : null);
+            (copyConcept.capabilityTypes != null ? new JpaToscaCapabilityTypes(copyConcept.capabilityTypes) : null);
         this.relationshipTypes =
-                (copyConcept.relationshipTypes != null ? new JpaToscaRelationshipTypes(copyConcept.relationshipTypes)
-                        : null);
+            (copyConcept.relationshipTypes != null ? new JpaToscaRelationshipTypes(copyConcept.relationshipTypes)
+                : null);
         this.nodeTypes = (copyConcept.nodeTypes != null ? new JpaToscaNodeTypes(copyConcept.nodeTypes) : null);
         this.policyTypes = (copyConcept.policyTypes != null ? new JpaToscaPolicyTypes(copyConcept.policyTypes) : null);
         this.topologyTemplate =
-                (copyConcept.topologyTemplate != null ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate)
-                        : null);
+            (copyConcept.topologyTemplate != null ? new JpaToscaTopologyTemplate(copyConcept.topologyTemplate)
+                : null);
     }
 
     /**
@@ -231,8 +220,8 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     /**
      * Takes a list of maps and flattens it into a single map.
      *
-     * @param list list to be be flattened
-     * @return a map containing all of the elements from the list of maps
+     * @param list list to be flattened
+     * @return a map containing all the elements from the list of maps
      */
     private <V> Map<String, V> flattenMap(List<Map<String, V>> list) {
         Map<String, V> result = new LinkedHashMap<>();
@@ -353,7 +342,7 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
     public BeanValidationResult validate(String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
-        // No point in validating cross references if the structure of the individual parts are not valid
+        // No point in validating cross-references if the structure of the individual parts are not valid
         if (!result.isValid()) {
             return result;
         }
@@ -452,10 +441,10 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      * Validate that the referenced data types exist for a collection of data type keys.
      *
      * @param dataTypeKeyCollection the data type key collection
-     * @param result where the results are added
+     * @param result                where the results are added
      */
     private void validateReferencedDataTypesExists(final Collection<PfConceptKey> dataTypeKeyCollection,
-            final BeanValidationResult result) {
+                                                   final BeanValidationResult result) {
         for (PfConceptKey dataTypeKey : dataTypeKeyCollection) {
             if (dataTypes == null || dataTypes.get(dataTypeKey) == null) {
                 addResult(result, "data type", dataTypeKey.getId(), NOT_FOUND);
@@ -470,13 +459,13 @@ public class JpaToscaServiceTemplate extends JpaToscaEntityType<ToscaServiceTemp
      */
     private void validatePolicyTypesInPolicies(BeanValidationResult result) {
         if (topologyTemplate == null || topologyTemplate.getPolicies() == null
-                || topologyTemplate.getPolicies().getConceptMap().isEmpty()) {
+            || topologyTemplate.getPolicies().getConceptMap().isEmpty()) {
             return;
         }
 
         if (policyTypes == null || policyTypes.getConceptMap().isEmpty()) {
             addResult(result, "policyTypes", policyTypes,
-                    "no policy types are defined on the service template for the policies in the topology template");
+                "no policy types are defined on the service template for the policies in the topology template");
             return;
         }
 

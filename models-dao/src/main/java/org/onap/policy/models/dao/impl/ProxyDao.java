@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,12 @@
 
 package org.onap.policy.models.dao.impl;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.TypedQuery;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.policy.models.base.PfConcept;
@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The Class ProxyDao is an JPA implementation of the {@link ProxyDao} class for Policy Framework concepts
- * ({@link PfConcept}). It uses the default JPA implementation in the javax {@link Persistence} class.
+ * ({@link PfConcept}). It uses the default JPA implementation in the jakarta {@link Persistence} class.
  */
 @RequiredArgsConstructor
 public class ProxyDao implements PfDao {

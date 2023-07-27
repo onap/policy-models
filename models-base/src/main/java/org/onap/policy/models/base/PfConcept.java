@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.base;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import lombok.AccessLevel;
@@ -29,11 +30,12 @@ import lombok.NonNull;
 
 /**
  * This class is the base class for all Policy Framework concept classes. It enforces implementation of abstract methods
- * and interfaces on all concepts that are sub-classes of this class.
+ * and interfaces on all concepts that are subclasses of this class.
  */
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public abstract class PfConcept extends Validated implements Serializable, Comparable<PfConcept> {
+    @Serial
     private static final long serialVersionUID = -7434939557282697490L;
 
     /**

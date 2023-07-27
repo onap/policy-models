@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2022 Nordix Foundation.
+ *  Copyright (C) 2019-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,11 +22,11 @@
 
 package org.onap.policy.models.provider.impl;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
@@ -56,198 +56,182 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public void close() throws PfModelException {
+    public void close() {
         // do nothing
     }
 
     @Override
-    public void init() throws PfModelException {
+    public void init() {
         // do nothing
     }
 
     @Override
     public List<ToscaServiceTemplate> getFilteredServiceTemplateList(
-            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) throws PfModelException {
+            @NonNull ToscaEntityFilter<ToscaServiceTemplate> filter) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate createServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate createServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate updateServiceTemplate(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate deleteServiceTemplate(@NonNull String name, @NonNull String version)
-            throws PfModelException {
+    public ToscaServiceTemplate deleteServiceTemplate(@NonNull String name, @NonNull String version) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate getPolicyTypes(final String name, final String version) throws PfModelException {
+    public ToscaServiceTemplate getPolicyTypes(final String name, final String version) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate createPolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate createPolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate)
-            throws PfModelException {
+    public ToscaServiceTemplate updatePolicyTypes(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicyType(final String name, final String version) throws PfModelException {
+    public ToscaServiceTemplate deletePolicyType(final String name, final String version) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate getPolicies(final String name, final String version) throws PfModelException {
+    public ToscaServiceTemplate getPolicies(final String name, final String version) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public ToscaServiceTemplate createPolicies(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate) throws PfModelException {
+    public ToscaServiceTemplate updatePolicies(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate deletePolicy(final String name, final String version) throws PfModelException {
+    public ToscaServiceTemplate deletePolicy(final String name, final String version) {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
-        throws PfModelException {
+    public ToscaServiceTemplate createToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate) {
         return null;
     }
 
     @Override
     public ToscaServiceTemplate updateToscaNodeTemplates(@NonNull ToscaServiceTemplate serviceTemplate)
-        throws PfModelRuntimeException, PfModelException {
+        throws PfModelRuntimeException {
         return null;
     }
 
     @Override
-    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull String name, @NonNull String version)
-        throws PfModelException {
+    public ToscaServiceTemplate deleteToscaNodeTemplate(@NonNull String name, @NonNull String version) {
         return null;
     }
 
     @Override
     public List<Map<ToscaEntityKey, Map<String, Object>>> getNodeTemplateMetadataSets(@NonNull String name,
-                                                                                      @NonNull String version)
-        throws PfModelException {
+                                                                                      @NonNull String version) {
         return null;
     }
 
     @Override
-    public List<ToscaNodeTemplate> getToscaNodeTemplate(final String name, final String version)
-        throws PfModelException {
+    public List<ToscaNodeTemplate> getToscaNodeTemplate(final String name, final String version) {
         return null;
     }
 
     @Override
-    public List<PdpGroup> getPdpGroups(String name) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(String name) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<PdpGroup> createPdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
+    public List<PdpGroup> createPdpGroups(@NonNull List<PdpGroup> pdpGroups) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<PdpGroup> updatePdpGroups(@NonNull List<PdpGroup> pdpGroups) throws PfModelException {
+    public List<PdpGroup> updatePdpGroups(@NonNull List<PdpGroup> pdpGroups) {
         return Collections.emptyList();
     }
 
     @Override
-    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp)
-            throws PfModelException {
+    public void updatePdp(@NonNull String pdpGroupName, @NonNull String pdpSubGroup, @NonNull Pdp pdp) {
         // do nothing
     }
 
     @Override
-    public PdpGroup deletePdpGroup(@NonNull String name) throws PfModelException {
+    public PdpGroup deletePdpGroup(@NonNull String name) {
         return null;
     }
 
     @Override
-    public List<ToscaPolicyType> getPolicyTypeList(String name, String version) throws PfModelException {
+    public List<ToscaPolicyType> getPolicyTypeList(String name, String version) {
         return Collections.emptyList();
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
-            throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicyTypes(@NonNull ToscaEntityFilter<ToscaPolicyType> filter) {
         return null;
     }
 
     @Override
-    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaEntityFilter<ToscaPolicyType> filter)
-            throws PfModelException {
+    public List<ToscaPolicyType> getFilteredPolicyTypeList(@NonNull ToscaEntityFilter<ToscaPolicyType> filter) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<ToscaPolicy> getPolicyList(String name, String version) throws PfModelException {
+    public List<ToscaPolicy> getPolicyList(String name, String version) {
         return Collections.emptyList();
     }
 
     @Override
-    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
-            throws PfModelException {
+    public ToscaServiceTemplate getFilteredPolicies(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter) {
         return null;
     }
 
     @Override
-    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter)
-            throws PfModelException {
+    public List<ToscaPolicy> getFilteredPolicyList(@NonNull ToscaTypedEntityFilter<ToscaPolicy> filter) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) throws PfModelException {
+    public List<PdpGroup> getFilteredPdpGroups(@NonNull PdpGroupFilter filter) {
         return Collections.emptyList();
     }
 
     @Override
-    public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull PdpSubGroup pdpSubGroup)
-            throws PfModelException {
+    public void updatePdpSubGroup(@NonNull String pdpGroupName, @NonNull PdpSubGroup pdpSubGroup) {
         // do nothing
     }
 
     @Override
-    public List<PdpPolicyStatus> getAllPolicyStatus() throws PfModelException {
+    public List<PdpPolicyStatus> getAllPolicyStatus() {
         // Not implemented
         return null;
     }
 
     @Override
-    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy)
-            throws PfModelException {
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull ToscaConceptIdentifierOptVersion policy) {
         // Not implemented
         return null;
     }
 
     @Override
-    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName) throws PfModelException {
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull String groupName) {
         // Not implemented
         return null;
     }
@@ -259,7 +243,7 @@ public class DummyBadProviderImpl implements PolicyModelsProvider {
     }
 
     @Override
-    public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) throws PfModelException {
+    public List<ToscaServiceTemplate> getServiceTemplateList(String name, String version) {
         // Not implemented
         return null;
     }

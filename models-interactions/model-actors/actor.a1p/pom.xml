@@ -2,7 +2,7 @@
 <!--
   ============LICENSE_START=======================================================
   Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019-2020,2023 Nordix Foundation.
+  Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
   Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,11 +62,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions</groupId>
             <artifactId>simulators</artifactId>
             <version>${project.version}</version>
@@ -82,11 +77,6 @@
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.test</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

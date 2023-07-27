@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2021 Nordix Foundation.
+ * Copyright (C) 2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,15 +21,16 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.io.Serial;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Embedded;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -46,6 +47,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PfReferenceTimestampKey extends PfKey {
+    @Serial
     private static final long serialVersionUID = 1130918285832617215L;
 
     private static final String TIMESTAMP_TOKEN = "timeStamp";
@@ -298,10 +300,9 @@ public class PfReferenceTimestampKey extends PfKey {
 
     @Override
     public boolean isCompatible(@NonNull PfKey otherKey) {
-        if (!(otherKey instanceof PfReferenceTimestampKey)) {
+        if (!(otherKey instanceof PfReferenceTimestampKey otherReferenceKey)) {
             return false;
         }
-        final PfReferenceTimestampKey otherReferenceKey = (PfReferenceTimestampKey) otherKey;
 
         return this.getReferenceKey().getParentConceptKey().isCompatible(otherReferenceKey.getReferenceKey()
             .getParentConceptKey());

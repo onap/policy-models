@@ -21,8 +21,9 @@
 
 package org.onap.policy.models.base;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import java.io.Serial;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -31,7 +32,7 @@ import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.common.utils.validation.Assertions;
 
 /**
- * An concept key uniquely identifies every first order entity in the system. Every first order concept in the system
+ * A concept key uniquely identifies every first order entity in the system. Every first order concept in the system
  * must have an {@link PfConceptKey} to identify it. Concepts that are wholly contained in another concept are
  * identified using a {@link PfReferenceKey} key.
  *
@@ -43,6 +44,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class PfConceptKey extends PfKeyImpl {
+    @Serial
     private static final long serialVersionUID = 8932717618579392561L;
 
     @Column(name = NAME_TOKEN, length = 120)
@@ -72,7 +74,7 @@ public class PfConceptKey extends PfKeyImpl {
     /**
      * Constructor to create a key with the specified name and version.
      *
-     * @param name the key name
+     * @param name    the key name
      * @param version the key version
      */
     public PfConceptKey(final String name, final String version) {
@@ -101,7 +103,7 @@ public class PfConceptKey extends PfKeyImpl {
      *
      * @return a null concept key
      */
-    public static final PfConceptKey getNullKey() {
+    public static PfConceptKey getNullKey() {
         return new PfConceptKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
     }
 }
