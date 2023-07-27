@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +20,10 @@
 
 package org.onap.policy.models.dao.converters;
 
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import java.util.UUID;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 /**
  * The Class UuidConverter converts a UUID to and from database format.

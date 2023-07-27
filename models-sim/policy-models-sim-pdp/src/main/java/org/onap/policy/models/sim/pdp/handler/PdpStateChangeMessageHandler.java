@@ -81,16 +81,16 @@ public class PdpStateChangeMessageHandler {
             final PdpStatus pdpStatusContext, final PdpMessageHandler pdpMessageHandler) {
         PdpResponseDetails pdpResponseDetails = null;
         if (pdpStatusContext.getState().equals(PdpState.ACTIVE)) {
-            pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpStateChangeMsg.getRequestId(),
+            pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpStateChangeMsg.getRequestId(),
                     PdpResponseStatus.SUCCESS, "Pdp already in active state");
         } else {
             final List<ToscaPolicy> policies = Registry.get(PdpSimulatorConstants.REG_PDP_TOSCA_POLICY_LIST);
             if (policies.isEmpty()) {
                 pdpStatusContext.setState(PdpState.ACTIVE);
-                pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpStateChangeMsg.getRequestId(),
+                pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpStateChangeMsg.getRequestId(),
                         PdpResponseStatus.SUCCESS, "State changed to active. No policies found.");
             } else {
-                pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpStateChangeMsg.getRequestId(),
+                pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpStateChangeMsg.getRequestId(),
                         PdpResponseStatus.SUCCESS, "Pdp started. State changed to active.");
                 pdpStatusContext.setState(PdpState.ACTIVE);
             }
@@ -110,10 +110,10 @@ public class PdpStateChangeMessageHandler {
             final PdpStatus pdpStatusContext, final PdpMessageHandler pdpMessageHandler) {
         PdpResponseDetails pdpResponseDetails = null;
         if (pdpStatusContext.getState().equals(PdpState.PASSIVE)) {
-            pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpStateChangeMsg.getRequestId(),
+            pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpStateChangeMsg.getRequestId(),
                     PdpResponseStatus.SUCCESS, "Pdp already in passive state");
         } else {
-            pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpStateChangeMsg.getRequestId(),
+            pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpStateChangeMsg.getRequestId(),
                     PdpResponseStatus.SUCCESS, "Pdp state changed from Active to Passive.");
             pdpStatusContext.setState(PdpState.PASSIVE);
         }

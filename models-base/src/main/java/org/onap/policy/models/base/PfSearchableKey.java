@@ -1,6 +1,6 @@
 /*
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,9 @@
 
 package org.onap.policy.models.base;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import java.io.Serial;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -37,6 +38,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public class PfSearchableKey extends PfKeyImpl {
+    @Serial
     private static final long serialVersionUID = 8932717618579392561L;
 
     /** Regular expression to specify the structure of key names. */
@@ -98,7 +100,7 @@ public class PfSearchableKey extends PfKeyImpl {
      *
      * @return a null key
      */
-    public static final PfSearchableKey getNullKey() {
+    public static PfSearchableKey getNullKey() {
         return new PfSearchableKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION);
     }
 

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,8 +101,8 @@ public class PdpMessageHandler {
      *
      * @return PdpResponseDetails
      */
-    public PdpResponseDetails createPdpResonseDetails(final String requestId, final PdpResponseStatus status,
-            final String responseMessage) {
+    public PdpResponseDetails createPdpResponseDetails(final String requestId, final PdpResponseStatus status,
+                                                       final String responseMessage) {
         final var pdpResponseDetails = new PdpResponseDetails();
         pdpResponseDetails.setResponseTo(requestId);
         pdpResponseDetails.setResponseStatus(status);

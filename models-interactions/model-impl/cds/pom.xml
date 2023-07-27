@@ -3,6 +3,7 @@
   ============LICENSE_START=======================================================
   Copyright (C) 2019-2021 Bell Canada.
   Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+  Modifications Copyright (C) 2023 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -21,51 +22,45 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>model-impl</artifactId>
-    <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-    <version>3.0.0-SNAPSHOT</version>
-  </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>model-impl</artifactId>
+        <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>cds</artifactId>
-  <name>${project.artifactId}</name>
-  <description>gRPC client implementation to send process message to CDS blueprint processor gRPC endpoint.</description>
+    <artifactId>cds</artifactId>
+    <name>${project.artifactId}</name>
+    <description>gRPC client implementation to send process message to CDS blueprint processor gRPC endpoint.
+    </description>
 
-  <properties>
-    <grpc.version>1.25.0</grpc.version>
-  </properties>
+    <properties>
+        <grpc.version>1.25.0</grpc.version>
+    </properties>
 
-  <dependencies>
-    <!-- CDS dependencies -->
-    <dependency>
-      <groupId>org.onap.ccsdk.cds.blueprintsprocessor.modules</groupId>
-      <artifactId>blueprint-proto</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-testing</artifactId>
-      <version>${grpc.version}</version>
-      <scope>test</scope>
-    </dependency>
+    <dependencies>
+        <!-- CDS dependencies -->
+        <dependency>
+            <groupId>org.onap.ccsdk.cds.blueprintsprocessor.modules</groupId>
+            <artifactId>blueprint-proto</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-testing</artifactId>
+            <version>${grpc.version}</version>
+            <scope>test</scope>
+        </dependency>
 
-    <!-- Policy dependencies -->
-    <dependency>
-      <groupId>org.onap.policy.common</groupId>
-      <artifactId>common-parameters</artifactId>
-      <version>${policy.common.version}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.onap.policy.common</groupId>
-        <artifactId>policy-endpoints</artifactId>
-        <version>${policy.common.version}</version>
-    </dependency>
-
-    <!-- junit dependencies -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+        <!-- Policy dependencies -->
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>common-parameters</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>policy-endpoints</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+    </dependencies>
 </project>

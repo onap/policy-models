@@ -22,73 +22,73 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.onap.policy.models.sim</groupId>
-    <artifactId>models-sim-packages</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
-  </parent>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.onap.policy.models.sim</groupId>
+        <artifactId>models-sim-packages</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
 
-  <artifactId>models-simulator-tarball</artifactId>
+    <artifactId>models-simulator-tarball</artifactId>
 
-  <name>${project.artifactId}</name>
-  <description>A module that runs all "simulators", including DMaaP.</description>
+    <name>${project.artifactId}</name>
+    <description>A module that runs all "simulators", including DMaaP.</description>
 
-  <properties>
-      <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
-      <sonar.skip>true</sonar.skip>
-  </properties>
+    <properties>
+        <!-- There is no code in this submodule, only holds interfaces. So skip sonar. -->
+        <sonar.skip>true</sonar.skip>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>org.onap.policy.models.sim</groupId>
-      <artifactId>policy-models-simulators</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.policy.models.sim</groupId>
+            <artifactId>policy-models-simulators</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
-  <build>
-    <resources>
-      <!-- Output the version of the service -->
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>true</filtering>
-        <includes>
-          <include>**/version.txt</include>
-        </includes>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-        <filtering>false</filtering>
-        <excludes>
-          <exclude>**/version.txt</exclude>
-        </excludes>
-      </resource>
-    </resources>
+    <build>
+        <resources>
+            <!-- Output the version of the service -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/version.txt</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/version.txt</exclude>
+                </excludes>
+            </resource>
+        </resources>
 
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>generate-complete-tar</id>
-            <phase>package</phase>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <configuration>
-              <descriptors>
-                <descriptor>src/main/assembly.xml</descriptor>
-              </descriptors>
-              <finalName>${project.artifactId}-${project.version}</finalName>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-complete-tar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly.xml</descriptor>
+                            </descriptors>
+                            <finalName>${project.artifactId}-${project.version}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
 
-  </build>
+    </build>
 </project>

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -113,7 +113,7 @@ public class JpaToscaPropertyTest {
         assertEquals(tp, tdtClone1);
         assertEquals(0, tp.compareTo(tdtClone1));
 
-        assertEquals(-1, tp.compareTo(null));
+        assertThatThrownBy(() -> tp.compareTo(null)).isInstanceOf(NullPointerException.class);
         assertEquals(0, tp.compareTo(tp));
         assertNotEquals(0, tp.compareTo(tp.getKey()));
     }

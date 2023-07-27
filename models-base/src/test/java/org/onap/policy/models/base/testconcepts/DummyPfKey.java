@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,7 +21,7 @@
 
 package org.onap.policy.models.base.testconcepts;
 
-import java.util.Arrays;
+import java.io.Serial;
 import java.util.List;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -29,6 +29,7 @@ import org.onap.policy.models.base.PfConcept;
 import org.onap.policy.models.base.PfKey;
 
 public class DummyPfKey extends PfKey {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     public DummyPfKey() {
@@ -40,7 +41,7 @@ public class DummyPfKey extends PfKey {
     }
 
     @Override
-    public int compareTo(PfConcept arg0) {
+    public int compareTo(@NonNull PfConcept arg0) {
         return 0;
     }
 
@@ -55,12 +56,12 @@ public class DummyPfKey extends PfKey {
     }
 
     @Override
-    public Compatibility getCompatibility(PfKey otherKey) {
+    public Compatibility getCompatibility(@NonNull PfKey otherKey) {
         return null;
     }
 
     @Override
-    public boolean isCompatible(PfKey otherKey) {
+    public boolean isCompatible(@NonNull PfKey otherKey) {
         return false;
     }
 
@@ -71,7 +72,7 @@ public class DummyPfKey extends PfKey {
 
     @Override
     public List<PfKey> getKeys() {
-        return Arrays.asList(getKey());
+        return List.of(getKey());
     }
 
     @Override

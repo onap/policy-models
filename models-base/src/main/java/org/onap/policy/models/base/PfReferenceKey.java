@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019,2021 Nordix Foundation.
+ *  Copyright (C) 2019, 2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +21,11 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -58,14 +59,19 @@ public class PfReferenceKey extends PfKey {
     private static final String PARENT_LOCAL_NAME = "parentLocalName";
     private static final String LOCAL_NAME = "localName";
 
+    @Serial
     private static final long serialVersionUID = 8932717618579392561L;
 
-    /** Regular expression to specify the structure of local names in reference keys. */
+    /**
+     * Regular expression to specify the structure of local names in reference keys.
+     */
     public static final String LOCAL_NAME_REGEXP = "[A-Za-z0-9\\-_\\.]+|^$";
 
-    /** Regular expression to specify the structure of IDs in reference keys. */
+    /**
+     * Regular expression to specify the structure of IDs in reference keys.
+     */
     public static final String REFERENCE_KEY_ID_REGEXP =
-                    "[A-Za-z0-9\\-_]+:[0-9].[0-9].[0-9]:[A-Za-z0-9\\-_]+:[A-Za-z0-9\\-_]+";
+        "[A-Za-z0-9\\-_]+:[0-9].[0-9].[0-9]:[A-Za-z0-9\\-_]+:[A-Za-z0-9\\-_]+";
 
     private static final int PARENT_NAME_FIELD = 0;
     private static final int PARENT_VERSION_FIELD = 1;
@@ -102,19 +108,17 @@ public class PfReferenceKey extends PfKey {
     /**
      * The Copy Constructor creates a key by copying another key.
      *
-     * @param referenceKey
-     *        the reference key to copy from
+     * @param referenceKey the reference key to copy from
      */
     public PfReferenceKey(final PfReferenceKey referenceKey) {
         this(referenceKey.getParentKeyName(), referenceKey.getParentKeyVersion(), referenceKey.getParentLocalName(),
-                        referenceKey.getLocalName());
+            referenceKey.getLocalName());
     }
 
     /**
      * Constructor to create a null reference key for the specified parent concept key.
      *
-     * @param pfConceptKey
-     *        the parent concept key of this reference key
+     * @param pfConceptKey the parent concept key of this reference key
      */
     public PfReferenceKey(final PfConceptKey pfConceptKey) {
         this(pfConceptKey.getName(), pfConceptKey.getVersion(), NULL_KEY_NAME, NULL_KEY_NAME);
@@ -123,10 +127,8 @@ public class PfReferenceKey extends PfKey {
     /**
      * Constructor to create a reference key for the given parent concept key with the given local name.
      *
-     * @param pfConceptKey
-     *        the parent concept key of this reference key
-     * @param localName
-     *        the local name of this reference key
+     * @param pfConceptKey the parent concept key of this reference key
+     * @param localName    the local name of this reference key
      */
     public PfReferenceKey(final PfConceptKey pfConceptKey, final String localName) {
         this(pfConceptKey, NULL_KEY_NAME, localName);
@@ -135,10 +137,8 @@ public class PfReferenceKey extends PfKey {
     /**
      * Constructor to create a reference key for the given parent reference key with the given local name.
      *
-     * @param parentReferenceKey
-     *        the parent reference key of this reference key
-     * @param localName
-     *        the local name of this reference key
+     * @param parentReferenceKey the parent reference key of this reference key
+     * @param localName          the local name of this reference key
      */
     public PfReferenceKey(final PfReferenceKey parentReferenceKey, final String localName) {
         this(parentReferenceKey.getParentConceptKey(), parentReferenceKey.getLocalName(), localName);
@@ -148,12 +148,9 @@ public class PfReferenceKey extends PfKey {
      * Constructor to create a reference key for the given parent reference key (specified by the parent reference key's
      * concept key and local name) with the given local name.
      *
-     * @param pfConceptKey
-     *        the concept key of the parent reference key of this reference key
-     * @param parentLocalName
-     *        the local name of the parent reference key of this reference key
-     * @param localName
-     *        the local name of this reference key
+     * @param pfConceptKey    the concept key of the parent reference key of this reference key
+     * @param parentLocalName the local name of the parent reference key of this reference key
+     * @param localName       the local name of this reference key
      */
     public PfReferenceKey(final PfConceptKey pfConceptKey, final String parentLocalName, final String localName) {
         this(pfConceptKey.getName(), pfConceptKey.getVersion(), parentLocalName, localName);
@@ -163,12 +160,9 @@ public class PfReferenceKey extends PfKey {
      * Constructor to create a reference key for the given parent concept key (specified by the parent concept key's
      * name and version) with the given local name.
      *
-     * @param parentKeyName
-     *        the name of the parent concept key of this reference key
-     * @param parentKeyVersion
-     *        the version of the parent concept key of this reference key
-     * @param localName
-     *        the local name of this reference key
+     * @param parentKeyName    the name of the parent concept key of this reference key
+     * @param parentKeyVersion the version of the parent concept key of this reference key
+     * @param localName        the local name of this reference key
      */
     public PfReferenceKey(final String parentKeyName, final String parentKeyVersion, final String localName) {
         this(parentKeyName, parentKeyVersion, NULL_KEY_NAME, localName);
@@ -178,31 +172,26 @@ public class PfReferenceKey extends PfKey {
      * Constructor to create a reference key for the given parent key (specified by the parent key's name, version nad
      * local name) with the given local name.
      *
-     * @param parentKeyName
-     *        the parent key name of this reference key
-     * @param parentKeyVersion
-     *        the parent key version of this reference key
-     * @param parentLocalName
-     *        the parent local name of this reference key
-     * @param localName
-     *        the local name of this reference key
+     * @param parentKeyName    the parent key name of this reference key
+     * @param parentKeyVersion the parent key version of this reference key
+     * @param parentLocalName  the parent local name of this reference key
+     * @param localName        the local name of this reference key
      */
     public PfReferenceKey(final String parentKeyName, final String parentKeyVersion, final String parentLocalName,
-                    final String localName) {
+                          final String localName) {
         super();
         this.parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, parentKeyName, NAME_REGEXP);
         this.parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION, parentKeyVersion,
-                        VERSION_REGEXP);
+            VERSION_REGEXP);
         this.parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME, parentLocalName,
-                        LOCAL_NAME_REGEXP);
+            LOCAL_NAME_REGEXP);
         this.localName = Assertions.validateStringParameter(LOCAL_NAME, localName, LOCAL_NAME_REGEXP);
     }
 
     /**
      * Constructor to create a key from the specified key ID.
      *
-     * @param id
-     *        the key ID in a format that respects the KEY_ID_REGEXP
+     * @param id the key ID in a format that respects the KEY_ID_REGEXP
      */
     public PfReferenceKey(final String id) {
         final var conditionedId = Assertions.validateStringParameter("id", id, REFERENCE_KEY_ID_REGEXP);
@@ -215,13 +204,13 @@ public class PfReferenceKey extends PfKey {
 
         // Initiate the new key
         parentKeyName = Assertions.validateStringParameter(PARENT_KEY_NAME, nameVersionNameArray[PARENT_NAME_FIELD],
-                        NAME_REGEXP);
+            NAME_REGEXP);
         parentKeyVersion = Assertions.validateStringParameter(PARENT_KEY_VERSION,
-                        nameVersionNameArray[PARENT_VERSION_FIELD], VERSION_REGEXP);
+            nameVersionNameArray[PARENT_VERSION_FIELD], VERSION_REGEXP);
         parentLocalName = Assertions.validateStringParameter(PARENT_LOCAL_NAME,
-                        nameVersionNameArray[PARENT_LOCAL_NAME_FIELD], LOCAL_NAME_REGEXP);
+            nameVersionNameArray[PARENT_LOCAL_NAME_FIELD], LOCAL_NAME_REGEXP);
         localName = Assertions.validateStringParameter(LOCAL_NAME, nameVersionNameArray[LOCAL_NAME_FIELD],
-                        LOCAL_NAME_REGEXP);
+            LOCAL_NAME_REGEXP);
     }
 
     /**
@@ -231,7 +220,7 @@ public class PfReferenceKey extends PfKey {
      */
     public static PfReferenceKey getNullKey() {
         return new PfReferenceKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, PfKey.NULL_KEY_NAME,
-                        PfKey.NULL_KEY_NAME);
+            PfKey.NULL_KEY_NAME);
     }
 
     @Override
@@ -279,8 +268,7 @@ public class PfReferenceKey extends PfKey {
     /**
      * Sets the parent concept key of this reference key.
      *
-     * @param parentKey
-     *        the parent concept key of this reference key
+     * @param parentKey the parent concept key of this reference key
      */
     public void setParentConceptKey(final PfConceptKey parentKey) {
         Assertions.argumentNotNull(parentKey, "parentKey may not be null");
@@ -293,8 +281,7 @@ public class PfReferenceKey extends PfKey {
     /**
      * Sets the parent reference key of this reference key.
      *
-     * @param parentKey
-     *        the parent reference key of this reference key
+     * @param parentKey the parent reference key of this reference key
      */
     public void setParentReferenceKey(final PfReferenceKey parentKey) {
         Assertions.argumentNotNull(parentKey, "parentKey may not be null");
@@ -305,21 +292,19 @@ public class PfReferenceKey extends PfKey {
     }
 
     @Override
-    public PfKey.Compatibility getCompatibility(final PfKey otherKey) {
-        if (!(otherKey instanceof PfReferenceKey)) {
+    public PfKey.Compatibility getCompatibility(@NonNull final PfKey otherKey) {
+        if (!(otherKey instanceof PfReferenceKey otherReferenceKey)) {
             return Compatibility.DIFFERENT;
         }
-        final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
 
         return this.getParentConceptKey().getCompatibility(otherReferenceKey.getParentConceptKey());
     }
 
     @Override
     public boolean isCompatible(@NonNull final PfKey otherKey) {
-        if (!(otherKey instanceof PfReferenceKey)) {
+        if (!(otherKey instanceof PfReferenceKey otherReferenceKey)) {
             return false;
         }
-        final PfReferenceKey otherReferenceKey = (PfReferenceKey) otherKey;
 
         return this.getParentConceptKey().isCompatible(otherReferenceKey.getParentConceptKey());
     }
@@ -358,7 +343,7 @@ public class PfReferenceKey extends PfKey {
     }
 
     @Override
-    public int compareTo(final PfConcept otherObj) {
+    public int compareTo(@NonNull final PfConcept otherObj) {
         Assertions.argumentNotNull(otherObj, "comparison object may not be null");
 
         if (this == otherObj) {

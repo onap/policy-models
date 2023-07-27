@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
@@ -69,7 +70,7 @@ public class JpaToscaConstraintLogicalTest {
         JpaToscaConstraintLogical jc5 = new JpaToscaConstraintLogical(c5);
         assertNull(jc5.toAuthorative());
 
-        assertEquals(-1, jc0.compareTo(null));
+        assertThatThrownBy(() -> jc0.compareTo(null)).isInstanceOf(NullPointerException.class);
         assertEquals(0, jc0.compareTo(jc0));
         assertNotEquals(0, jc0.compareTo(new JpaToscaConstraintValidValues(new ArrayList<>())));
         assertEquals(-2, jc0.compareTo(jc1));

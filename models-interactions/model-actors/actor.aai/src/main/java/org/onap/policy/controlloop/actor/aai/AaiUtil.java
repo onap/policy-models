@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
+import jakarta.ws.rs.core.MediaType;
 import java.util.HashMap;
 import java.util.Map;
-import javax.ws.rs.core.MediaType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2020,2022 Nordix Foundation.
+ * Copyright (C) 2020, 2022-2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,8 @@
 
 package org.onap.policy.models.tosca.utils;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Map.Entry;
-import javax.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;

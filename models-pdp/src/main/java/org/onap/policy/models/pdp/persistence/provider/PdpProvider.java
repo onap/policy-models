@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
@@ -22,13 +22,13 @@
 
 package org.onap.policy.models.pdp.persistence.provider;
 
+import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
@@ -63,9 +63,8 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param name the name of the PDP group to get, null to get all PDP groups
      * @return the PDP groups found
-     * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name) throws PfModelException {
+    public List<PdpGroup> getPdpGroups(@NonNull final PfDao dao, final String name) {
 
         return asPdpGroupList(dao.getFiltered(JpaPdpGroup.class, name, PfKey.NULL_KEY_VERSION));
     }
@@ -76,7 +75,6 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param filter the filter for the PDP groups to get
      * @return the PDP groups found
-     * @throws PfModelException on errors getting policies
      */
     public List<PdpGroup> getFilteredPdpGroups(@NonNull final PfDao dao, @NonNull final PdpGroupFilter filter) {
 
@@ -90,10 +88,8 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param pdpGroups a specification of the PDP groups to create
      * @return the PDP groups created
-     * @throws PfModelException on errors creating PDP groups
      */
-    public List<PdpGroup> createPdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups)
-            throws PfModelException {
+    public List<PdpGroup> createPdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups) {
 
         for (PdpGroup pdpGroup : pdpGroups) {
             var jpaPdpGroup = new JpaPdpGroup();
@@ -124,10 +120,8 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param pdpGroups a specification of the PDP groups to update
      * @return the PDP groups updated
-     * @throws PfModelException on errors updating PDP groups
      */
-    public List<PdpGroup> updatePdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups)
-            throws PfModelException {
+    public List<PdpGroup> updatePdpGroups(@NonNull final PfDao dao, @NonNull final List<PdpGroup> pdpGroups) {
 
         for (PdpGroup pdpGroup : pdpGroups) {
             var jpaPdpGroup = new JpaPdpGroup();
@@ -159,10 +153,9 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
-     * @throws PfModelException on errors updating PDP subgroups
      */
     public void updatePdpSubGroup(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
-            @NonNull final PdpSubGroup pdpSubGroup) throws PfModelException {
+            @NonNull final PdpSubGroup pdpSubGroup) {
 
         final var subGroupKey =
                 new PfReferenceKey(pdpGroupName, PfKey.NULL_KEY_VERSION, pdpSubGroup.getPdpType());
@@ -184,7 +177,6 @@ public class PdpProvider {
      * @param pdpGroupName the name of the PDP group of the PDP subgroup
      * @param pdpSubGroup the PDP subgroup to be updated
      * @param pdp the PDP to be updated
-     * @throws PfModelException on errors updating PDP subgroups
      */
     public void updatePdp(@NonNull final PfDao dao, @NonNull final String pdpGroupName,
             @NonNull final String pdpSubGroup, @NonNull final Pdp pdp) {
@@ -208,7 +200,6 @@ public class PdpProvider {
      * @param dao the DAO to use to access the database
      * @param name the name of the policy to get, null to get all PDP groups
      * @return the PDP group deleted
-     * @throws PfModelException on errors deleting PDP groups
      */
     public PdpGroup deletePdpGroup(@NonNull final PfDao dao, @NonNull final String name) {
 
@@ -232,11 +223,8 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @return the deployments found
-     * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao)
-                    throws PfModelException {
-
+    public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao) {
         return dao.getAll(JpaPdpPolicyStatus.class).stream().map(JpaPdpPolicyStatus::toAuthorative)
                         .collect(Collectors.toList());
     }
@@ -246,11 +234,9 @@ public class PdpProvider {
      *
      * @param dao the DAO to use to access the database
      * @return the deployments found
-     * @throws PfModelException on errors getting PDP groups
      */
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao,
-                    @NonNull ToscaConceptIdentifierOptVersion policy) throws PfModelException {
-
+                    @NonNull ToscaConceptIdentifierOptVersion policy) {
         if (policy.getVersion() != null) {
             return dao.getAll(JpaPdpPolicyStatus.class, new PfConceptKey(policy.getName(), policy.getVersion()))
                             .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
@@ -268,11 +254,8 @@ public class PdpProvider {
      * @param groupName the name of the PDP group of interest, null to get results for all
      *        PDP groups
      * @return the deployments found
-     * @throws PfModelException on errors getting PDP groups
      */
-    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName)
-                    throws PfModelException {
-
+    public List<PdpPolicyStatus> getGroupPolicyStatus(@NonNull final PfDao dao, @NonNull final String groupName) {
         PfFilterParameters params = PfFilterParameters.builder().filterMap(Map.of("pdpGroup", groupName)).build();
 
         return dao.getFiltered(JpaPdpPolicyStatus.class, params)

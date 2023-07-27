@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- *  Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ *  Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,10 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.ElementCollection;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.ElementCollection;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
@@ -39,6 +40,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
+    @Serial
     private static final long serialVersionUID = -5060193250508635456L;
 
     @ElementCollection
@@ -84,10 +86,7 @@ public class JpaToscaConstraintValidValues extends JpaToscaConstraint {
     }
 
     @Override
-    public int compareTo(JpaToscaConstraint otherConstraint) {
-        if (otherConstraint == null) {
-            return -1;
-        }
+    public int compareTo(@NonNull JpaToscaConstraint otherConstraint) {
         if (this == otherConstraint) {
             return 0;
         }

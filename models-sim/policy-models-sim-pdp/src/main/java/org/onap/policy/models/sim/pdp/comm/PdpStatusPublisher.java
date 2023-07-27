@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -41,10 +41,10 @@ public class PdpStatusPublisher extends TimerTask {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PdpStatusPublisher.class);
 
-    private TopicSinkClient topicSinkClient;
-    private Timer timer;
+    private final TopicSinkClient topicSinkClient;
+    private final Timer timer;
     @Getter
-    private long interval;
+    private final long interval;
 
     /**
      * Constructor for instantiating PdpStatusPublisher.

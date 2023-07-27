@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import jakarta.validation.Valid;
+import java.io.Serial;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.validation.Valid;
 import lombok.Getter;
 import lombok.NonNull;
 import org.junit.Before;
@@ -123,13 +125,13 @@ public class PfValidatorTest {
         // null key
         data.key = new PfConceptKey();
         assertThat(validator.validateTop("", data).getResult())
-                        .contains(KEY_FIELD, "NULL:0.0.0", Validated.IS_A_NULL_KEY).doesNotContain("name", "version");
+            .contains(KEY_FIELD, "NULL:0.0.0", Validated.IS_A_NULL_KEY).doesNotContain("name", "version");
 
         // invalid version - should invoke verCascade() which will invoke key.validate()
         data.key = new StandardCoder().decode("{'name':'abc', 'version':'xyzzy'}".replace('\'', '"'),
-                        PfConceptKey.class);
+            PfConceptKey.class);
         assertThat(validator.validateTop("", data).getResult())
-                        .contains(KEY_FIELD, "version", "xyzzy", "regular expression").doesNotContain("name");
+            .contains(KEY_FIELD, "version", "xyzzy", "regular expression").doesNotContain("name");
 
         // not a PfKeyImpl - should not check individual fields
         PfKey pfkey = mock(PfKey.class);
@@ -142,18 +144,18 @@ public class PfValidatorTest {
         // null name
         data.key = new PfConceptKey(PfKey.NULL_KEY_NAME, "2.3.4");
         assertThat(validator.validateTop("", data).getResult()).contains(KEY_FIELD, "name", "null")
-                        .doesNotContain("version", "2.3.4");
+            .doesNotContain("version", "2.3.4");
 
         // null version
         data.key = new PfConceptKey(STRING_VALUE, PfKey.NULL_KEY_VERSION);
         assertThat(validator.validateTop("", data).getResult()).contains(KEY_FIELD, "version", "null")
-                        .doesNotContain("name", STRING_VALUE);
+            .doesNotContain("name", STRING_VALUE);
 
         // null name, invalid version - should get two messages
         data.key = new StandardCoder().decode("{'name':'NULL', 'version':'xyzzy'}".replace('\'', '"'),
-                        PfConceptKey.class);
+            PfConceptKey.class);
         assertThat(validator.validateTop("", data).getResult()).contains(KEY_FIELD, "name", "null", "version", "xyzzy",
-                        "regular expression");
+            "regular expression");
 
         /*
          * Tests with all flags set to "false" (i.e., no validations).
@@ -165,6 +167,7 @@ public class PfValidatorTest {
         AtomicBoolean called = new AtomicBoolean();
 
         data2.key = new PfConceptKey() {
+            @Serial
             private static final long serialVersionUID = 1L;
 
             @Override

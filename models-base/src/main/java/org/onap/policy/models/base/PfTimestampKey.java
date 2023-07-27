@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP Policy Model
  * ================================================================================
- * Copyright (C) 2019-2021 Nordix Foundation.
+ * Copyright (C) 2019-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,12 +23,13 @@
 
 package org.onap.policy.models.base;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import java.io.Serial;
 import java.time.Instant;
 import java.util.Date;
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -39,6 +40,7 @@ import org.onap.policy.common.utils.validation.Assertions;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class PfTimestampKey extends PfKeyImpl {
+    @Serial
     private static final long serialVersionUID = -8410208962541783805L;
 
     private static final String TIMESTAMP_TOKEN = "timeStamp";
@@ -77,12 +79,12 @@ public class PfTimestampKey extends PfKeyImpl {
     /**
      * Constructor to create a key with the specified name and version.
      *
-     * @param name the key name
+     * @param name    the key name
      * @param version the key version
      * @param instant the time stamp of key
      */
     public PfTimestampKey(@NonNull final String name, @NonNull final String version,
-            @NonNull final Instant instant) {
+                          @NonNull final Instant instant) {
         super(name, version);
         this.timeStamp = Date.from(instant);
     }
@@ -107,7 +109,7 @@ public class PfTimestampKey extends PfKeyImpl {
      *
      * @return a null key
      */
-    public static final PfTimestampKey getNullKey() {
+    public static PfTimestampKey getNullKey() {
         return new PfTimestampKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION, Instant.EPOCH);
     }
 

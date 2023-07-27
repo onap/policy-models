@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,16 +24,17 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import java.util.LinkedHashMap;
 import java.util.List;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.ws.rs.core.Response;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -61,6 +62,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPolicy> {
+    @Serial
     private static final long serialVersionUID = 3265174757061982805L;
     private static final String METADATA_METADATA_SET_NAME_TAG = "metadataSetName";
     private static final String METADATA_METADATA_SET_VERSION_TAG = "metadataSetVersion";
@@ -200,7 +202,7 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
     }
 
     @Override
-    public BeanValidationResult validate(String fieldName) {
+    public BeanValidationResult validate(@NonNull String fieldName) {
         BeanValidationResult result = super.validate(fieldName);
 
         validateKeyVersionNotNull(result, "key", getKey());

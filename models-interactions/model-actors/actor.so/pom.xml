@@ -2,7 +2,7 @@
 <!--
   ============LICENSE_START=======================================================
   Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019,2023 Nordix Foundation.
+  Modifications Copyright (C) 2019, 2023 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -19,14 +19,14 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
         <artifactId>model-actors</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>actor.so</artifactId>
@@ -68,11 +68,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.test</artifactId>
             <version>${project.version}</version>
@@ -82,11 +77,6 @@
             <groupId>org.onap.policy.models.policy-models-interactions</groupId>
             <artifactId>simulators</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

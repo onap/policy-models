@@ -56,7 +56,7 @@ public class PdpUpdateMessageHandler {
             final var pdpStatusPublisher =
                             Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_PUBLISHER, PdpStatusPublisher.class);
             if (checkIfAlreadyHandled(pdpUpdateMsg, pdpStatusContext)) {
-                pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
+                pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpUpdateMsg.getRequestId(),
                         PdpResponseStatus.SUCCESS, "Pdp already updated");
             } else {
                 if (null != pdpUpdateMsg.getPdpHeartbeatIntervalMs() && pdpUpdateMsg.getPdpHeartbeatIntervalMs() > 0
@@ -74,12 +74,12 @@ public class PdpUpdateMessageHandler {
                         .collect(Collectors.toList()));
                 if (pdpStatusContext.getState().equals(PdpState.ACTIVE)
                         && !pdpUpdateMsg.getPoliciesToBeDeployed().isEmpty()) {
-                    pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
+                    pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpUpdateMsg.getRequestId(),
                             PdpResponseStatus.SUCCESS, "Pdp engine started and policies are running.");
                 }
                 Registry.registerOrReplace(PdpSimulatorConstants.REG_PDP_TOSCA_POLICY_LIST, policies);
                 if (null == pdpResponseDetails) {
-                    pdpResponseDetails = pdpMessageHandler.createPdpResonseDetails(pdpUpdateMsg.getRequestId(),
+                    pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpUpdateMsg.getRequestId(),
                             PdpResponseStatus.SUCCESS, "Pdp update successful.");
                 }
             }

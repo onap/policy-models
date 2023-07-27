@@ -42,7 +42,8 @@ public class AaiSimulatorTest {
     @BeforeClass
     public static void setUpSimulator() {
         try {
-            Util.buildAaiSim();
+            var testServer = Util.buildAaiSim();
+            assertNotNull(testServer);
         } catch (final Exception e) {
             fail(e.getMessage());
         }

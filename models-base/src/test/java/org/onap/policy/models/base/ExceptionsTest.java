@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019, 2021 Nordix Foundation.
+ * Copyright (C) 2019, 2021, 2023 Nordix Foundation.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,9 +24,9 @@ package org.onap.policy.models.base;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import org.junit.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponse;
 
@@ -44,7 +44,7 @@ public class ExceptionsTest {
 
         String key = "A String";
         PfModelException ae =
-                new PfModelException(Response.Status.OK, MESSAGE, new IOException("IO exception message"), key);
+            new PfModelException(Response.Status.OK, MESSAGE, new IOException("IO exception message"), key);
         ErrorResponse errorResponse = ae.getErrorResponse();
         assertEquals("Message\nIO exception message", String.join("\n", errorResponse.getErrorDetails()));
         assertEquals(key, ae.getObject());
@@ -56,10 +56,10 @@ public class ExceptionsTest {
 
         String rkey = "A String";
         PfModelRuntimeException re = new PfModelRuntimeException(Response.Status.OK, "Runtime Message",
-                new IOException("IO runtime exception message"), rkey);
+            new IOException("IO runtime exception message"), rkey);
         errorResponse = re.getErrorResponse();
         assertEquals("Runtime Message\nIO runtime exception message",
-                String.join("\n", errorResponse.getErrorDetails()));
+            String.join("\n", errorResponse.getErrorDetails()));
         assertEquals(key, re.getObject());
 
         PfModelRuntimeException pfre = new PfModelRuntimeException(ae);

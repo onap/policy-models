@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,15 @@
 
 package org.onap.policy.simulators;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.MediaType;
 import org.slf4j.LoggerFactory;
 
 @Path("/api/nslcm/v1")
@@ -63,7 +63,7 @@ public class VfcSimulatorJaxRs {
     /**
      * VFC get query.
      *
-     * @param jobId tthe job id
+     * @param jobId the job id
      * @return the response
      */
     @GET
@@ -74,9 +74,9 @@ public class VfcSimulatorJaxRs {
         return "{\"jobId\" : " + jobId
                 + ",\"responseDescriptor\" : {\"progress\" : \"40\",\"status\" : \"finished\",\"statusDescription"
                 + "\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\": 101 ,\""
-                + "responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"proccessing\",\"statusDescription"
+                + "responseHistoryList\": [{\"progress\" : \"40\",\"status\" : \"processing\",\"statusDescription"
                 + "\" : \"OMC VMs are decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"1\"}, {\""
-                + "progress\" : \"41\",\"status\" : \"proccessing\",\"statusDescription\" : \"OMC VMs are "
+                + "progress\" : \"41\",\"status\" : \"processing\",\"statusDescription\" : \"OMC VMs are "
                 + "decommissioned in VIM\",\"errorCode\" : null,\"responseId\" : \"2\"}]}}";
     }
 

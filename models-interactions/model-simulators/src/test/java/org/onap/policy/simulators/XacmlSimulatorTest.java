@@ -48,7 +48,8 @@ public class XacmlSimulatorTest {
     @BeforeClass
     public static void setupSimulator() {
         try {
-            org.onap.policy.simulators.Util.buildXacmlSim();
+            var testServer = Util.buildXacmlSim();
+            assertNotNull(testServer);
         } catch (Exception e) {
             fail(e.getMessage());
         }

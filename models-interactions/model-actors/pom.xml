@@ -17,41 +17,42 @@
   ============LICENSE_END=========================================================
   -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
 
-  <parent>
-    <groupId>org.onap.policy.models</groupId>
-    <artifactId>policy-models-interactions</artifactId>
-    <version>3.0.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.onap.policy.models</groupId>
+        <artifactId>policy-models-interactions</artifactId>
+        <version>3.0.1-SNAPSHOT</version>
+    </parent>
 
-  <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
-  <artifactId>model-actors</artifactId>
+    <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
+    <artifactId>model-actors</artifactId>
 
-  <properties>
-    <jacoco.dataFile>${project.basedir}/../../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
-  </properties>
+    <properties>
+        <jacoco.dataFile>${project.basedir}/../../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+    </properties>
 
-  <modules>
-    <module>actorServiceProvider</module>
-    <module>actor.test</module>
-    <module>actor.aai</module>
-    <module>actor.cds</module>
-    <module>actor.appc</module>
-    <module>actor.appclcm</module>
-    <module>actor.sdnc</module>
-    <module>actor.sdnr</module>
-    <module>actor.a1p</module>
-    <module>actor.so</module>
-    <module>actor.vfc</module>
-    <module>actor.xacml</module>
-  </modules>
-  <dependencies>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </dependency>
-  </dependencies>
+    <modules>
+        <module>actorServiceProvider</module>
+        <module>actor.test</module>
+        <module>actor.aai</module>
+        <module>actor.cds</module>
+        <module>actor.appc</module>
+        <module>actor.appclcm</module>
+        <module>actor.sdnc</module>
+        <module>actor.sdnr</module>
+        <module>actor.a1p</module>
+        <module>actor.so</module>
+        <module>actor.vfc</module>
+        <module>actor.xacml</module>
+    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+    </dependencies>
 </project>

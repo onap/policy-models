@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,13 @@
 
 package org.onap.policy.models.dao;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
@@ -40,6 +41,7 @@ import org.onap.policy.models.base.PfTimestampKey;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class DummyTimestampEntity extends PfConcept {
+    @Serial
     private static final long serialVersionUID = -2962570563281067895L;
 
     @EmbeddedId()

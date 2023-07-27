@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021-2022 Nordix Foundation.
+ *  Copyright (C) 2021-2023 Nordix Foundation.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,10 +21,10 @@
 
 package org.onap.policy.models.provider.impl;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.Response;
 import lombok.NonNull;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,8 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
+import jakarta.ws.rs.client.InvocationCallback;
+import jakarta.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,8 +30,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-import javax.ws.rs.client.InvocationCallback;
-import javax.ws.rs.core.Response;
 import lombok.Getter;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
@@ -288,30 +289,27 @@ public abstract class HttpOperation<T> extends OperationPartial {
         HttpPollingConfig cfg = (HttpPollingConfig) config;
 
         switch (detmStatus(rawResponse, response)) {
-            case SUCCESS:
+            case SUCCESS -> {
                 logger.info("{}.{} request succeeded for {}", params.getActor(), params.getOperation(),
-                                params.getRequestId());
+                    params.getRequestId());
                 return CompletableFuture
-                                .completedFuture(setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
-
-            case FAILURE:
+                    .completedFuture(setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
+            }
+            case FAILURE -> {
                 logger.info("{}.{} request failed for {}", params.getActor(), params.getOperation(),
-                                params.getRequestId());
+                    params.getRequestId());
                 return CompletableFuture
-                                .completedFuture(setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
-
-            case STILL_WAITING:
-            default:
-                logger.info("{}.{} request incomplete for {}", params.getActor(), params.getOperation(),
-                                params.getRequestId());
-                break;
+                    .completedFuture(setOutcome(outcome, OperationResult.FAILURE, rawResponse, response));
+            }
+            default -> logger.info("{}.{} request incomplete for {}", params.getActor(), params.getOperation(),
+                params.getRequestId());
         }
 
         // still incomplete
 
         // see if the limit for the number of polls has been reached
         if (pollCount++ >= cfg.getMaxPolls()) {
-            logger.warn("{}: execeeded 'poll' limit {} for {}", getFullName(), cfg.getMaxPolls(),
+            logger.warn("{}: exceeded 'poll' limit {} for {}", getFullName(), cfg.getMaxPolls(),
                             params.getRequestId());
             setOutcome(outcome, OperationResult.FAILURE_TIMEOUT);
             return CompletableFuture.completedFuture(outcome);

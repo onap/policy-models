@@ -3,6 +3,7 @@
  * ONAP Policy Decision Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,8 @@
 
 package org.onap.policy.models.decisions.concepts;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
+import java.io.Serial;
 import lombok.Getter;
 import lombok.ToString;
 import org.onap.policy.models.errors.concepts.ErrorResponse;
@@ -30,6 +32,7 @@ import org.onap.policy.models.errors.concepts.ErrorResponseUtils;
 @Getter
 @ToString
 public class DecisionException extends RuntimeException implements ErrorResponseInfo {
+    @Serial
     private static final long serialVersionUID = -1255351537691201052L;
     private final ErrorResponse errorResponse = new ErrorResponse();
 

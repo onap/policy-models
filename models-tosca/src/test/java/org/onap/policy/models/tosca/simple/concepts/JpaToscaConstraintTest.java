@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -68,7 +68,7 @@ public class JpaToscaConstraintTest {
         validValues.add("hello");
         validValues.add("goodbye");
         JpaToscaConstraintValidValues cvv0 = new JpaToscaConstraintValidValues(validValues);
-        assertEquals(-1, cvv0.compareTo(null));
+        assertThatThrownBy(() -> cvv0.compareTo(null)).isInstanceOf(NullPointerException.class);
         assertEquals(0, cvv0.compareTo(cvv0));
         assertNotEquals(0, cvv0.compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT)));
         JpaToscaConstraintValidValues cvv1 = new JpaToscaConstraintValidValues(validValues);
@@ -81,7 +81,7 @@ public class JpaToscaConstraintTest {
         rangeValues.add("hello");
         rangeValues.add("goodbye");
         JpaToscaConstraintInRange cir0 = new JpaToscaConstraintInRange(rangeValues);
-        assertEquals(-1, cir0.compareTo(null));
+        assertThatThrownBy(() -> cir0.compareTo(null)).isInstanceOf(NullPointerException.class);
         assertEquals(0, cir0.compareTo(cir0));
         assertNotEquals(0, cir0.compareTo(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT)));
         JpaToscaConstraintInRange cir1 = new JpaToscaConstraintInRange(rangeValues);

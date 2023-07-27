@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021,2023 Nordix Foundation.
+ *  Copyright (C) 2021, 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,8 @@
 
 package org.onap.policy.models.provider.impl;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Properties;
-import javax.ws.rs.core.Response;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.onap.policy.models.base.PfModelException;
@@ -47,10 +47,10 @@ public final class ModelsProvider {
 
         // @formatter:off
         var jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver",   parameters.getDatabaseDriver());
-        jdbcProperties.setProperty("javax.persistence.jdbc.url",      parameters.getDatabaseUrl());
-        jdbcProperties.setProperty("javax.persistence.jdbc.user",     parameters.getDatabaseUser());
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", parameters.getDatabasePassword());
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver",   parameters.getDatabaseDriver());
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url",      parameters.getDatabaseUrl());
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user",     parameters.getDatabaseUser());
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", parameters.getDatabasePassword());
         jdbcProperties.setProperty("hibernate.dialect",
             (parameters.getDatabaseType() == null
                 ? "org.hibernate.dialect.MariaDBDialect"

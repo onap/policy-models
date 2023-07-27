@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -65,18 +65,18 @@ public class PfConceptContainerTest {
         container = new DummyPfConceptContainer(new PfConceptKey());
         assertNotNull(container);
 
-        container = new DummyPfConceptContainer(new PfConceptKey(), new TreeMap<PfConceptKey, DummyPfConcept>());
+        container = new DummyPfConceptContainer(new PfConceptKey(), new TreeMap<>());
         assertNotNull(container);
 
-        assertThatThrownBy(() -> new PfConceptContainer((PfConceptKey) null, null)).hasMessageMatching(KEY_IS_NULL);
+        assertThatThrownBy(() -> new PfConceptContainer(null, null)).hasMessageMatching(KEY_IS_NULL);
 
-        assertThatThrownBy(() -> new DummyPfConceptContainer((PfConceptKey) null, null))
+        assertThatThrownBy(() -> new DummyPfConceptContainer(null, null))
             .hasMessageMatching(KEY_IS_NULL);
 
         assertThatThrownBy(() -> new DummyPfConceptContainer(new PfConceptKey(), null))
             .hasMessageMatching("^conceptMap is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<PfConceptKey, DummyPfConcept>()))
+        assertThatThrownBy(() -> new DummyPfConceptContainer(null, new TreeMap<>()))
             .hasMessageMatching(KEY_IS_NULL);
     }
 
@@ -117,8 +117,8 @@ public class PfConceptContainerTest {
 
         assertThatThrownBy(() -> new DummyPfConceptContainer((DummyPfConceptContainer) null))
             .isInstanceOf(NullPointerException.class);
+        assertThatThrownBy(() -> container.compareTo(null)).isInstanceOf(NullPointerException.class);
 
-        assertNotEquals(0, container.compareTo(null));
         assertEquals(0, container.compareTo(container));
         assertNotEquals(0, container.compareTo(conceptKey));
 
@@ -271,7 +271,7 @@ public class PfConceptContainerTest {
     }
 
     @Test(expected = NullPointerException.class)
-    public void testnullKey() {
+    public void testNullKey() {
         PfConceptKey nullKey = null;
         new DummyPfConceptContainer(nullKey);
     }

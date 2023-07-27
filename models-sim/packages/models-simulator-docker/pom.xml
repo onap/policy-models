@@ -21,12 +21,12 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.onap.policy.models.sim</groupId>
         <artifactId>models-sim-packages</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
+        <version>3.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>models-simulator-docker</artifactId>
@@ -46,7 +46,7 @@
         <docker.push.registry>nexus3.onap.org:10003</docker.push.registry>
         <docker.contextDir>${project.basedir}/src/main/docker</docker.contextDir>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmm</maven.build.timestamp.format>
-        <!-- There is no code in this sub-module, only holds interfaces. So skip sonar. -->
+        <!-- There is no code in this submodule, only holds interfaces. So skip sonar. -->
         <sonar.skip>true</sonar.skip>
     </properties>
 
@@ -101,7 +101,8 @@
                                         <dependencySets>
                                             <dependencySet>
                                                 <includes>
-                                                    <include>org.onap.policy.models.sim:models-simulator-tarball</include>
+                                                    <include>org.onap.policy.models.sim:models-simulator-tarball
+                                                    </include>
                                                 </includes>
                                                 <outputDirectory>/lib</outputDirectory>
                                                 <outputFileNameMapping>models-simulator.tar.gz</outputFileNameMapping>
