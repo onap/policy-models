@@ -46,6 +46,30 @@
       },
       "revId": "7c341bb7f05c40b84c0f78a7bfd31d7406040b7c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5534024_bb31d15e",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpStatus.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 7889
+      },
+      "writtenOn": "2023-08-09T10:54:03Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "5360f029_4ab7988a",
+      "range": {
+        "startLine": 59,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 36
+      },
+      "revId": "7c341bb7f05c40b84c0f78a7bfd31d7406040b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
