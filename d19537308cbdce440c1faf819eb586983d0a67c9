@@ -16,6 +16,24 @@
       "message": "Please note that we will have to make changes in db-migrator to handle the database table removal for upgrade scenarios.",
       "revId": "d19537308cbdce440c1faf819eb586983d0a67c9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "347c35ba_99ebfd09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7889
+      },
+      "writtenOn": "2023-08-09T14:45:11Z",
+      "side": 1,
+      "message": "Sure. I will make changes in db-migrator and raise a different request.",
+      "parentUuid": "df91d707_ab459ec8",
+      "revId": "d19537308cbdce440c1faf819eb586983d0a67c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
