@@ -135,6 +135,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d86a17_be81f109",
+        "filename": "models-base/src/test/java/org/onap/policy/models/base/testconcepts/DummyPfKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2023-08-10T09:03:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "152a73ed_580c348c",
+      "range": {
+        "startLine": 76,
+        "startChar": 15,
+        "endLine": 76,
+        "endChar": 40
+      },
+      "revId": "abc75117735d41586d920916b84566088767fe92",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cafaa0ad_23c29c2e",
