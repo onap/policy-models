@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Ram Krishna Verma <ram_krishna.verma@bell.ca>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+1: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Thu, 10 Aug 2023 08:21:58 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/135739
+Project: policy/models
+Branch: refs/heads/java-17
