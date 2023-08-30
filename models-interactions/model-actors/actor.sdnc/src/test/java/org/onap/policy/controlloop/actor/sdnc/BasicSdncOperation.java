@@ -76,7 +76,8 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
      * Starts the simulator.
      */
     protected static void initBeforeClass() throws Exception {
-        Util.buildSdncSim();
+        var testServer = Util.buildSdncSim();
+        assertNotNull(testServer);
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("restconf/operations/")
                         .hostname("localhost").managed(true).port(Util.SDNCSIM_SERVER_PORT).build();

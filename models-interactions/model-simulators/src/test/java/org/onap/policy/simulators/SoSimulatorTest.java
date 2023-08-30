@@ -57,7 +57,8 @@ public class SoSimulatorTest {
     @BeforeClass
     public static void setUpSimulator() {
         try {
-            Util.buildSoSim();
+            var testServer = Util.buildSoSim();
+            assertNotNull(testServer);
         } catch (final Exception e) {
             fail(e.getMessage());
         }

@@ -43,7 +43,8 @@ public class VfcSimulatorTest {
     @BeforeClass
     public static void setUpSimulator() {
         try {
-            Util.buildVfcSim();
+            var testServer = Util.buildVfcSim();
+            assertNotNull(testServer);
         } catch (final Exception e) {
             fail(e.getMessage());
         }
