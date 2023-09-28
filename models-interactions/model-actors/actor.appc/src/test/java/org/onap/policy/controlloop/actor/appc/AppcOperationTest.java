@@ -90,7 +90,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
 
-        Request request = oper.makeRequest(2, genvnf);
+        Request request = oper.makeRequest(genvnf);
         assertEquals(DEFAULT_OPERATION, request.getAction());
 
         assertNotNull(request.getPayload());
@@ -101,18 +101,18 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         assertEquals(subreq, header.getSubRequestId());
 
-        request = oper.makeRequest(2, genvnf);
+        request = oper.makeRequest(genvnf);
         assertEquals(subreq, request.getCommonHeader().getSubRequestId());
 
         // repeat using a null payload
         params = params.toBuilder().payload(null).build();
         oper = new MyOper(params, config);
-        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(2, genvnf).getPayload());
+        assertEquals(Map.of(AppcOperation.VNF_ID_KEY, MY_VNF), oper.makeRequest(genvnf).getPayload());
     }
 
     @Test
     public void testConvertPayload() {
-        Request request = oper.makeRequest(2, genvnf);
+        Request request = oper.makeRequest(genvnf);
 
         // @formatter:off
         assertEquals(
@@ -132,7 +132,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         params = params.toBuilder().payload(payload).build();
 
         oper = new MyOper(params, config);
-        request = oper.makeRequest(2, genvnf);
+        request = oper.makeRequest(genvnf);
 
         // @formatter:off
         assertEquals(
@@ -153,7 +153,7 @@ public class AppcOperationTest extends BasicAppcOperation {
         params = params.toBuilder().payload(payload).build();
 
         oper = new MyOper(params, config);
-        request = oper.makeRequest(2, genvnf);
+        request = oper.makeRequest(genvnf);
 
         payload.put(AppcOperation.VNF_ID_KEY, MY_VNF);
         payload.put(KEY1, "abc");
@@ -166,7 +166,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     @Test
     public void testGetExpectedKeyValues() {
         oper.generateSubRequestId(2);
-        Request request = oper.makeRequest(2, genvnf);
+        Request request = oper.makeRequest(genvnf);
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
                         oper.getExpectedKeyValues(50, request));
     }
@@ -239,7 +239,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
         @Override
         protected Request makeRequest(int attempt) {
-            return makeRequest(attempt, genvnf);
+            return makeRequest(genvnf);
         }
     }
 }

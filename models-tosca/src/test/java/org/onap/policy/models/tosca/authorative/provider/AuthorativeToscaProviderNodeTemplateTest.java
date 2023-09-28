@@ -63,8 +63,8 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     private static ToscaServiceTemplate createToscaNodeTemplate;
     private PfDao pfDao;
     private StandardCoder standardCoder;
-    private AuthorativeToscaProvider authorativeToscaProvider = new AuthorativeToscaProvider();
-    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
+    private final AuthorativeToscaProvider authorativeToscaProvider = new AuthorativeToscaProvider();
+    private final YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
     /**
      * Read policy metadataSet input json.
@@ -230,7 +230,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testToscaNodeTemplatetDelete() throws Exception {
+    public void testToscaNodeTemplateDelete() throws Exception {
         assertThatThrownBy(() -> {
             authorativeToscaProvider.deleteToscaNodeTemplate(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);

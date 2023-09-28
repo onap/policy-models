@@ -43,6 +43,6 @@ public class ModifyConfigOperation extends AppcOperation {
 
     @Override
     protected Request makeRequest(int attempt) {
-        return makeRequest(attempt, getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "resource VNF"));
+        return makeRequest(getRequiredProperty(OperationProperties.AAI_RESOURCE_VNF, "resource VNF"));
     }
 }

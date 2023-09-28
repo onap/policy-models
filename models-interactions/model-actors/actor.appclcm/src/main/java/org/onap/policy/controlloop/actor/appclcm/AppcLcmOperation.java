@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -150,18 +151,13 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
             throw new IllegalArgumentException("unknown APPC-LCM response status code: " + status.getCode());
         }
 
-        switch (code) {
-            case AppcLcmResponseCode.SUCCESS:
-                return Status.SUCCESS;
-            case AppcLcmResponseCode.FAILURE:
-                return Status.FAILURE;
-            case AppcLcmResponseCode.ERROR:
-            case AppcLcmResponseCode.REJECT:
+        return switch (code) {
+            case AppcLcmResponseCode.SUCCESS -> Status.SUCCESS;
+            case AppcLcmResponseCode.FAILURE -> Status.FAILURE;
+            case AppcLcmResponseCode.ERROR, AppcLcmResponseCode.REJECT ->
                 throw new IllegalArgumentException("APPC-LCM request was not accepted, code=" + code);
-            case AppcLcmResponseCode.ACCEPTED:
-            default:
-                return Status.STILL_WAITING;
-        }
+            default -> Status.STILL_WAITING;
+        };
     }
 
     /**
