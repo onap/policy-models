@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,11 +75,10 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
      * Makes a request, given the target VNF. This is a support function for
      * {@link #makeRequest(int)}.
      *
-     * @param attempt attempt number
      * @param targetVnf target VNF
      * @return a new request
      */
-    protected Request makeRequest(int attempt, GenericVnf targetVnf) {
+    protected Request makeRequest(GenericVnf targetVnf) {
         var request = new Request();
         request.setCommonHeader(new CommonHeader());
         request.getCommonHeader().setRequestId(params.getRequestId());
@@ -145,19 +145,13 @@ public abstract class AppcOperation extends BidirectionalTopicOperation<Request,
                             "unknown APPC-C response status code: " + response.getStatus().getCode());
         }
 
-        switch (code) {
-            case SUCCESS:
-                return Status.SUCCESS;
-            case FAILURE:
-                return Status.FAILURE;
-            case ERROR:
-            case REJECT:
-                throw new IllegalArgumentException("APP-C request was not accepted, code=" + code);
-            case ACCEPT:
-            default:
-                // awaiting a "final" response
-                return Status.STILL_WAITING;
-        }
+        return switch (code) {
+            case SUCCESS -> Status.SUCCESS;
+            case FAILURE -> Status.FAILURE;
+            case ERROR, REJECT -> throw new IllegalArgumentException("APP-C request was not accepted, code=" + code);
+            // awaiting a "final" response
+            default -> Status.STILL_WAITING;
+        };
     }
 
     /**

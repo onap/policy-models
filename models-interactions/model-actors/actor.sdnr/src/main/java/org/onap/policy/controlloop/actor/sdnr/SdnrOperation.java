@@ -3,6 +3,7 @@
  * SdnrOperation
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -90,22 +91,17 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
             return Status.FAILURE;
         }
 
-        switch (code) {
-            case SUCCESS:
-            case PARTIAL_SUCCESS:
-                return Status.SUCCESS;
-            case FAILURE:
-            case PARTIAL_FAILURE:
-                return Status.FAILURE;
-            case ERROR:
-            case REJECT:
+        return switch (code) {
+            case SUCCESS, PARTIAL_SUCCESS -> Status.SUCCESS;
+            case FAILURE, PARTIAL_FAILURE -> Status.FAILURE;
+            case ERROR, REJECT -> {
                 logger.warn("SDNR request was not accepted, code={}", code);
-                return Status.FAILURE;
-            case ACCEPTED:
-            default:
+                yield Status.FAILURE;
+            }
+            default ->
                 // awaiting a "final" response
-                return Status.STILL_WAITING;
-        }
+                Status.STILL_WAITING;
+        };
     }
 
     /**
