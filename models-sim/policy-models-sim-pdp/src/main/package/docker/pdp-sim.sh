@@ -25,7 +25,7 @@ then
 	PDP_SIM_HOME=/opt/app/policy/pdp-sim
 fi
 
-JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 KEYSTORE="${PDP_SIM_HOME}/etc/ssl/policy-keystore"
 KEYSTORE_PASSWD="Pol1cy_0nap"
 TRUSTSTORE="${PDP_SIM_HOME}/etc/ssl/policy-truststore"
