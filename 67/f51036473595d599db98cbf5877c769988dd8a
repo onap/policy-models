@@ -1,0 +1,9 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+1: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Code-Review+2: Adheli Tavares <adheli.tavares@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Thu, 12 Oct 2023 10:24:23 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/136154
+Project: policy/models
+Branch: refs/heads/master
