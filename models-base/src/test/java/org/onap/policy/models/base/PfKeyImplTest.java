@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021,2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -48,6 +48,7 @@ public class PfKeyImplTest {
     private static final String VERSION123 = "1.2.3";
     private static final String VERSION100 = "1.0.0";
     private static final String VERSION001 = "0.0.1";
+    private static final String NAME = "name";
     private static MyKey someKey;
     private static MyKey someKey0;
     private static MyKey someKey1;
@@ -58,6 +59,11 @@ public class PfKeyImplTest {
     private static MyKey someKey5;
     private static MyKey someKey6;
 
+    private static final MyKey buildKey1 = new MyKey(NAME, "0.0.3+1");
+    private static final MyKey buildKey2 = new MyKey(NAME, "0.1.0-1");
+    private static final MyKey buildKey3 = new MyKey(NAME, "3.0.0-SNAPSHOT");
+    private static final MyKey buildKey4 = new MyKey(NAME, "1.0.0-rc.1");
+
     /**
      * Sets data in Keys for the tests.
      */
@@ -66,7 +72,7 @@ public class PfKeyImplTest {
         someKey = new MyKey();
 
         someKey0 = new MyKey();
-        someKey1 = new MyKey("name", VERSION001);
+        someKey1 = new MyKey(NAME, VERSION001);
         someKey2 = new MyKey(someKey1);
         someKey3 = new MyKey(someKey1.getId());
 
@@ -99,7 +105,7 @@ public class PfKeyImplTest {
         assertTrue(someKey.isNullKey());
         assertEquals(new MyKey(PfKey.NULL_KEY_NAME, PfKey.NULL_KEY_VERSION), someKey);
 
-        MyKey someKey11 = new MyKey("name", VERSION001);
+        MyKey someKey11 = new MyKey(NAME, VERSION001);
         MyKey someKey22 = new MyKey(someKey11);
         MyKey someKey33 = new MyKey(someKey11.getId());
         assertEquals(someKey11, someKey22);
@@ -119,20 +125,27 @@ public class PfKeyImplTest {
             .hasMessageMatching("^otherKey is marked .*on.*ull but is null$");
 
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(new DummyPfKey()));
+        assertEquals(Compatibility.DIFFERENT, buildKey1.getCompatibility(new DummyPfKey()));
         assertEquals(Compatibility.DIFFERENT, someKey0.getCompatibility(someKey1));
         assertEquals(Compatibility.IDENTICAL, someKey2.getCompatibility(someKey1));
+        assertEquals(Compatibility.IDENTICAL, buildKey1.getCompatibility(new MyKey(buildKey1)));
         assertEquals(Compatibility.PATCH, someKey3.getCompatibility(someKey1));
+        assertEquals(Compatibility.PATCH, buildKey1.getCompatibility(someKey1));
         assertEquals(Compatibility.MINOR, someKey4.getCompatibility(someKey1));
+        assertEquals(Compatibility.MINOR, buildKey2.getCompatibility(buildKey1));
         assertEquals(Compatibility.PATCH, someKey4a.getCompatibility(someKey1));
         assertEquals(Compatibility.PATCH, someKey1.getCompatibility(someKey4a));
         assertEquals(Compatibility.MAJOR, someKey5.getCompatibility(someKey1));
         assertEquals(Compatibility.MAJOR, someKey6.getCompatibility(someKey1));
+        assertEquals(Compatibility.MAJOR, buildKey3.getCompatibility(someKey1));
 
         assertTrue(someKey1.isCompatible(someKey2));
         assertTrue(someKey1.isCompatible(someKey3));
         assertTrue(someKey1.isCompatible(someKey4));
         assertFalse(someKey1.isCompatible(someKey0));
         assertFalse(someKey1.isCompatible(someKey5));
+        assertFalse(someKey1.isCompatible(buildKey3));
+        assertFalse(someKey1.isCompatible(buildKey4));
         assertFalse(someKey1.isCompatible(new DummyPfKey()));
     }
 
@@ -145,6 +158,10 @@ public class PfKeyImplTest {
         assertTrue(someKey4.validate("").isValid());
         assertTrue(someKey5.validate("").isValid());
         assertTrue(someKey6.validate("").isValid());
+        assertTrue(buildKey1.validate("").isValid());
+        assertTrue(buildKey2.validate("").isValid());
+        assertTrue(buildKey3.validate("").isValid());
+        assertTrue(buildKey4.validate("").isValid());
     }
 
     @Test
@@ -183,7 +200,7 @@ public class PfKeyImplTest {
 
         assertThatThrownBy(() -> new MyKey(null, null)).hasMessageMatching("name is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> new MyKey("name", null))
+        assertThatThrownBy(() -> new MyKey(NAME, null))
             .hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         assertThatThrownBy(() -> new MyKey(null, VERSION001))
@@ -197,7 +214,7 @@ public class PfKeyImplTest {
         MyKey testKey = new MyKey("TheKey", VERSION001);
         assertEquals("TheKey:0.0.1", testKey.getId());
 
-        Field nameField = testKey.getClass().getDeclaredField("name");
+        Field nameField = testKey.getClass().getDeclaredField(NAME);
         nameField.setAccessible(true);
         nameField.set(testKey, "Key Name");
         ValidationResult validationResult = testKey.validate("");
