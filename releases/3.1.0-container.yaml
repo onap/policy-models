@@ -1,0 +1,8 @@
+distribution_type: 'container'
+container_release_tag: '3.1.0'
+project: 'policy-models'
+log_dir: 'policy-models-maven-docker-stage-master/312'
+ref: d8ebe250a1b55efaccf70069e75c0fbcb76d3b9f
+containers:
+    - name: 'policy-models-simulator'
+      version: '3.1.0-20231211T1317'
