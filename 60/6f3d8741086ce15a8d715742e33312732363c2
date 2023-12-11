@@ -1,0 +1,8 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-at: Mon, 11 Dec 2023 14:39:02 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/136787
+Project: policy/models
+Branch: refs/heads/master
