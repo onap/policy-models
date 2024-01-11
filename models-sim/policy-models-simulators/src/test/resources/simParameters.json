@@ -49,19 +49,19 @@
     ],
     "topicSinks": [
         {
-            "topic": "APPC-CL",
+            "topic": "appc-cl",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
         },
         {
-            "topic": "APPC-LCM-WRITE",
+            "topic": "appc-lcm-write",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
         },
         {
-            "topic": "SDNR-CL",
+            "topic": "sdnr-cl",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
@@ -69,19 +69,19 @@
     ],
     "topicSources": [
         {
-            "topic": "APPC-CL",
+            "topic": "appc-cl",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
         },
         {
-            "topic": "APPC-LCM-READ",
+            "topic": "appc-lcm-read",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
         },
         {
-            "topic": "SDNR-CL-RSP",
+            "topic": "sdnr-cl-rsp",
             "servers": ["localhost"],
             "topicCommInfrastructure": "DMAAP",
             "useHttps": true
@@ -91,20 +91,20 @@
         {
             "name": "APPC Legacy simulator",
             "providerClass": "org.onap.policy.simulators.AppcLegacyTopicServer",
-            "sink": "APPC-CL",
-            "source": "APPC-CL"
+            "sink": "appc-cl",
+            "source": "appc-cl"
         },
         {
             "name": "APPC-LCM simulator",
             "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
-            "sink": "APPC-LCM-WRITE",
-            "source": "APPC-LCM-READ"
+            "sink": "appc-lcm-write",
+            "source": "appc-lcm-read"
         },
         {
             "name": "SDNR simulator",
             "providerClass": "org.onap.policy.simulators.SdnrTopicServer",
-            "sink": "SDNR-CL",
-            "source": "SDNR-CL-RSP"
+            "sink": "sdnr-cl",
+            "source": "sdnr-cl-rsp"
         }
     ],
     "grpcServer": {

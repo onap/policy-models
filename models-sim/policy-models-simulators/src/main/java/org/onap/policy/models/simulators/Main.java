@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
- * Modifications Copyright 2023 Nordix Foundation.
+ * Modifications Copyright 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -269,7 +269,7 @@ public class Main extends ServiceManagerContainer {
      * parameters.
      *
      * @param params parameters from which to build the properties
-     * @return a set of properties representing the given parameters
+     * @return a Map of properties representing the given parameters
      */
     private static Properties getServerProperties(String dmaapName, ClassRestServerParameters params) {
         final var props = new Properties();

@@ -13,3 +13,4 @@ bin/
 *.iml
 *.ipr
 *.iws
+*.log
