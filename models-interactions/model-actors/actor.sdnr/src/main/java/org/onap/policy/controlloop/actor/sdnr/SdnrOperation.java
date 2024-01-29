@@ -3,7 +3,7 @@
  * SdnrOperation
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -131,13 +131,13 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
 
         /* Construct an SDNR request using pci Model */
 
-        var dmaapRequest = new PciMessage();
-        dmaapRequest.setVersion("1.0");
-        dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
-        dmaapRequest.setType("request");
-        dmaapRequest.setRpcName(params.getOperation().toLowerCase());
+        var messageRequest = new PciMessage();
+        messageRequest.setVersion("1.0");
+        messageRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
+        messageRequest.setType("request");
+        messageRequest.setRpcName(params.getOperation().toLowerCase());
 
-        /* This is the actual request that is placed in the dmaap wrapper. */
+        /* This is the actual request that is placed in the message wrapper. */
         final var sdnrRequest = new PciRequest();
 
         /* The common header is a required field for all SDNR requests. */
@@ -150,13 +150,13 @@ public class SdnrOperation extends BidirectionalTopicOperation<PciMessage, PciMe
         sdnrRequest.setAction(params.getOperation());
 
         /*
-         * Once the pci request is constructed, add it into the body of the dmaap wrapper.
+         * Once the pci request is constructed, add it into the body of the message wrapper.
          */
         var body = new PciBody();
         body.setInput(sdnrRequest);
-        dmaapRequest.setBody(body);
+        messageRequest.setBody(body);
 
-        /* Return the request to be sent through dmaap. */
-        return dmaapRequest;
+        /* Return the request to be sent through kafka. */
+        return messageRequest;
     }
 }

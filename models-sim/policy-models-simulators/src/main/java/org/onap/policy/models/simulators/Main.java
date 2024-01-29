@@ -24,21 +24,13 @@ package org.onap.policy.models.simulators;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.common.endpoints.parameters.TopicParameters;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
 import org.onap.policy.common.parameters.BeanValidationResult;
@@ -49,12 +41,7 @@ import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.common.utils.services.ServiceManagerContainer;
-import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
-import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
-import org.onap.policy.models.sim.dmaap.rest.CambriaMessageBodyHandler;
-import org.onap.policy.models.sim.dmaap.rest.TextMessageBodyHandler;
 import org.onap.policy.simulators.CdsSimulator;
-import org.onap.policy.simulators.TopicServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,21 +66,7 @@ public class Main extends ServiceManagerContainer {
         super(Main.class.getPackage().getName());
 
         SimulatorParameters params = readParameters(paramFile);
-        BeanValidationResult result = params.validate("simulators");
-        if (!result.isValid()) {
-            logger.error("invalid parameters:\n{}", result.getResult());
-            throw new IllegalArgumentException("invalid simulator parameters");
-        }
-
-        DmaapSimParameterGroup dmaapProv = params.getDmaapProvider();
-        String dmaapName = (dmaapProv != null ? dmaapProv.getName() : null);
-
-        // dmaap provider
-        if (dmaapProv != null) {
-            String provName = dmaapName.replace("simulator", "provider");
-            AtomicReference<DmaapSimProvider> provRef = new AtomicReference<>();
-            addAction(provName, () -> provRef.set(buildDmaapProvider(dmaapProv)), () -> provRef.get().shutdown());
-        }
+        String messageBroker = "models-sim";
 
         CdsServerParameters cdsServer = params.getGrpcServer();
 
@@ -114,35 +87,7 @@ public class Main extends ServiceManagerContainer {
                     () -> Registry.unregister(resourceLocationId));
             }
             addAction(restsim.getName(),
-                () -> ref.set(buildRestServer(dmaapName, restsim)),
-                () -> ref.get().shutdown());
-        }
-
-        // NOTE: topics must be started AFTER the (dmaap) rest servers
-
-        // topic sinks
-        Map<String, TopicSink> sinks = new HashMap<>();
-        for (TopicParameters topicParams : params.getTopicSinks()) {
-            String topic = topicParams.getTopic();
-            addAction("Sink " + topic,
-                () -> sinks.put(topic, startSink(topicParams)),
-                () -> sinks.get(topic).shutdown());
-        }
-
-        // topic sources
-        Map<String, TopicSource> sources = new HashMap<>();
-        for (TopicParameters topicParams : params.getTopicSources()) {
-            String topic = topicParams.getTopic();
-            addAction("Source " + topic,
-                () -> sources.put(topic, startSource(topicParams)),
-                () -> sources.get(topic).shutdown());
-        }
-
-        // topic server simulators
-        for (TopicServerParameters topicsim : params.getTopicServers()) {
-            AtomicReference<TopicServer<?>> ref = new AtomicReference<>();
-            addAction(topicsim.getName(),
-                () -> ref.set(buildTopicServer(topicsim, sinks, sources)),
+                () -> ref.set(buildRestServer(messageBroker, restsim)),
                 () -> ref.get().shutdown());
         }
         // @formatter:on
@@ -191,13 +136,6 @@ public class Main extends ServiceManagerContainer {
         }
     }
 
-    private DmaapSimProvider buildDmaapProvider(DmaapSimParameterGroup params) {
-        var prov = new DmaapSimProvider(params);
-        DmaapSimProvider.setInstance(prov);
-        prov.start();
-        return prov;
-    }
-
     private CdsSimulator buildCdsSimulator(CdsServerParameters params) throws IOException {
         var cdsSimulator = new CdsSimulator(params.getHost(), params.getPort(), params.getResourceLocation(),
             params.getSuccessRepeatCount(), params.getRequestedResponseDelayMs());
@@ -206,21 +144,9 @@ public class Main extends ServiceManagerContainer {
     }
 
 
-    private TopicSink startSink(TopicParameters params) {
-        TopicSink sink = TopicEndpointManager.getManager().addTopicSinks(List.of(params)).get(0);
-        sink.start();
-        return sink;
-    }
-
-    private TopicSource startSource(TopicParameters params) {
-        TopicSource source = TopicEndpointManager.getManager().addTopicSources(List.of(params)).get(0);
-        source.start();
-        return source;
-    }
-
-    private HttpServletServer buildRestServer(String dmaapName, ClassRestServerParameters params) {
+    private HttpServletServer buildRestServer(String messageBroker, ClassRestServerParameters params) {
         try {
-            var props = getServerProperties(dmaapName, params);
+            var props = getServerProperties(messageBroker, params);
             HttpServletServer testServer = makeServer(props);
             testServer.waitedStart(5000);
 
@@ -239,30 +165,6 @@ public class Main extends ServiceManagerContainer {
         }
     }
 
-    private TopicServer<?> buildTopicServer(TopicServerParameters params, Map<String, TopicSink> sinks,
-                    Map<String, TopicSource> sources) {
-        try {
-            // find the desired sink
-            TopicSink sink = sinks.get(params.getSink());
-            if (sink == null) {
-                throw new IllegalArgumentException("invalid sink topic " + params.getSink());
-            }
-
-            // find the desired source
-            TopicSource source = sources.get(params.getSource());
-            if (source == null) {
-                throw new IllegalArgumentException("invalid source topic " + params.getSource());
-            }
-
-            // create the topic server
-            return (TopicServer<?>) Class.forName(params.getProviderClass())
-                            .getDeclaredConstructor(TopicSink.class, TopicSource.class).newInstance(sink, source);
-
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException
-                        | SecurityException | ClassNotFoundException e) {
-            throw new IllegalArgumentException("cannot create TopicServer: " + params.getName(), e);
-        }
-    }
 
     /**
      * Creates a set of properties, suitable for building a REST server, from the
@@ -271,7 +173,7 @@ public class Main extends ServiceManagerContainer {
      * @param params parameters from which to build the properties
      * @return a Map of properties representing the given parameters
      */
-    private static Properties getServerProperties(String dmaapName, ClassRestServerParameters params) {
+    private static Properties getServerProperties(String messageBroker, ClassRestServerParameters params) {
         final var props = new Properties();
         props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, params.getName());
 
@@ -290,15 +192,9 @@ public class Main extends ServiceManagerContainer {
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SNI_HOST_CHECK_SUFFIX, "false");
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
 
-        if (dmaapName != null && dmaapName.equals(params.getName())) {
-            props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
-                            String.join(",", CambriaMessageBodyHandler.class.getName(),
-                                            GsonMessageBodyHandler.class.getName(),
-                                            TextMessageBodyHandler.class.getName()));
-        } else {
-            props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER, String.join(",",
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER, String.join(",",
                             GsonMessageBodyHandler.class.getName(), TextMessageBodyHandler.class.getName()));
-        }
+
 
         return props;
     }

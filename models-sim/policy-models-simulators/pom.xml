@@ -34,7 +34,7 @@
     <artifactId>policy-models-simulators</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>A module that runs all "simulators", including DMaaP.</description>
+    <description>A module that runs all "simulators".</description>
 
     <dependencies>
         <dependency>

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +23,11 @@ package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.Assert.assertEquals;
 
+import jakarta.ws.rs.core.Response;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import javax.ws.rs.core.Response;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.onap.policy.common.utils.coder.Coder;
@@ -47,10 +48,6 @@ public class BasicOperation {
     protected static final String DEFAULT_ACTOR = "default-Actor";
     protected static final String DEFAULT_OPERATION = "default-Operation";
     protected static final String TARGET_ENTITY = "my-target";
-    protected static final String CL_NAME = "my-closed-loop";
-    protected static final String EVENT_POLICY_NAME = "my-event-policy-name";
-    protected static final String EVENT_POLICY_VERSION = "my-event-policy-version";
-    protected static final String EVENT_VERSION = "my-event-version";
 
     protected static final Executor blockingExecutor = command -> {
         var thread = new Thread(command);
@@ -69,6 +66,8 @@ public class BasicOperation {
     protected ControlLoopOperationParams params;
     protected OperationOutcome outcome;
     protected PseudoExecutor executor;
+
+    protected AutoCloseable closeable;
 
     /**
      * Constructs the object using a default actor and operation name.
@@ -93,7 +92,7 @@ public class BasicOperation {
      * Initializes mocks and sets up.
      */
     public void setUpBasic() {
-        MockitoAnnotations.openMocks(this);
+        closeable = MockitoAnnotations.openMocks(this);
 
         future = new CompletableFuture<>();
 

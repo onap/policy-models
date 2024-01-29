@@ -1,16 +1,5 @@
 {
-    "dmaapProvider": {
-        "name": "DMaaP simulator",
-        "topicSweepSec": 300
-    },
     "restServers": [
-        {
-            "name": "DMaaP simulator",
-            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
-            "host": "localhost",
-            "port": 3905,
-            "https": true
-        },
         {
             "name": "A&AI simulator",
             "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
@@ -47,66 +36,7 @@
             "https": true
         }
     ],
-    "topicSinks": [
-        {
-            "topic": "appc-cl",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        },
-        {
-            "topic": "appc-lcm-write",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        },
-        {
-            "topic": "sdnr-cl",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        }
-    ],
-    "topicSources": [
-        {
-            "topic": "appc-cl",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        },
-        {
-            "topic": "appc-lcm-read",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        },
-        {
-            "topic": "sdnr-cl-rsp",
-            "servers": ["localhost"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": true
-        }
-    ],
-    "topicServers": [
-        {
-            "name": "APPC Legacy simulator",
-            "providerClass": "org.onap.policy.simulators.AppcLegacyTopicServer",
-            "sink": "appc-cl",
-            "source": "appc-cl"
-        },
-        {
-            "name": "APPC-LCM simulator",
-            "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
-            "sink": "appc-lcm-write",
-            "source": "appc-lcm-read"
-        },
-        {
-            "name": "SDNR simulator",
-            "providerClass": "org.onap.policy.simulators.SdnrTopicServer",
-            "sink": "sdnr-cl",
-            "source": "sdnr-cl-rsp"
-        }
-    ],
+
     "grpcServer": {
         "name": "CDS simulator",
         "providerClass": "org.onap.policy.simulators.CdsSimulator",

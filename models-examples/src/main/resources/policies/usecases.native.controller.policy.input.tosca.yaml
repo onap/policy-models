@@ -32,7 +32,7 @@ topology_template:
                     jsonParser: gsonPretty
             - topicName: APPC-LCM-WRITE
               events:
-                - eventClass: org.onap.policy.appclcm.AppcLcmDmaapWrapper
+                - eventClass: org.onap.policy.appclcm.AppcLcmMessageWrapper
                   eventFilter: '[?($.type == ''response'')]'
                   customSerialization:
                     customSerializerClass: org.onap.policy.appclcm.util.Serialization
@@ -53,7 +53,7 @@ topology_template:
                     jsonParser: gsonPretty
             - topicName: APPC-LCM-READ
               events:
-                - eventClass: org.onap.policy.appclcm.AppcLcmDmaapWrapper
+                - eventClass: org.onap.policy.appclcm.AppcLcmMessageWrapper
                   customSerialization:
                     customSerializerClass: org.onap.policy.appclcm.util.Serialization
                     jsonParser: gson

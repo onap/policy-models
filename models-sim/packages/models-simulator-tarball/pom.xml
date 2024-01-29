@@ -34,7 +34,7 @@
     <artifactId>models-simulator-tarball</artifactId>
 
     <name>${project.artifactId}</name>
-    <description>A module that runs all "simulators", including DMaaP.</description>
+    <description>A module that runs all "simulators".</description>
 
     <properties>
         <!-- There is no code in this submodule, only holds interfaces. So skip sonar. -->

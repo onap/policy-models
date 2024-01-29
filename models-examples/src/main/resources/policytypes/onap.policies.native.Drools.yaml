@@ -25,13 +25,13 @@ policy_types:
                 required: false
                 description: source topics and applicable events
                 entry_schema:
-                    type: onap.datatypes.dmaap.topic
+                    type: onap.datatypes.kafka.topic
             sinkTopics:
                 type: list
                 required: false
                 description: sink topics and applicable events
                 entry_schema:
-                    type: onap.datatypes.dmaap.topic
+                    type: onap.datatypes.kafka.topic
             customConfig:
                 type: map
                 required: false
@@ -54,20 +54,20 @@ policy_types:
                 description: the drools controller to which the current native policy is assigned
 
 data_types:
-    onap.datatypes.dmaap.topic:
+    onap.datatypes.kafka.topic:
         derived_from: tosca.datatypes.Root
         properties:
             topicName:
                 type: string
                 required: true
-                description: the dmaap topic name
+                description: the kafka topic name
             events:
                 type: list
                 required: true
                 description: events used by this topic
                 entry_schema:
-                    type: onap.datatypes.dmaap.events
-    onap.datatypes.dmaap.events:
+                    type: onap.datatypes.kafka.events
+    onap.datatypes.kafka.events:
         derived_from: tosca.datatypes.Root
         properties:
             eventClass:
@@ -79,10 +79,10 @@ data_types:
                 required: false
                 description: the JSONPath based condition to filter out the events to serialize
             customSerialization:
-                type: onap.datatypes.dmaap.custom_serialization
+                type: onap.datatypes.kafka.custom_serialization
                 required: false
                 description:  overrides the default serialization/deserialization mechanisms with custom ones
-    onap.datatypes.dmaap.custom_serialization:
+    onap.datatypes.kafka.custom_serialization:
         derived_from: tosca.datatypes.Root
         properties:
             customSerializerClass:

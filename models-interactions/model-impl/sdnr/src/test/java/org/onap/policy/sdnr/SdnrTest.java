@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,22 +38,22 @@ public class SdnrTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SdnrTest.class);
 
-    private static PciRequestWrapper dmaapRequest;
-    private static PciResponseWrapper dmaapResponse;
+    private static PciRequestWrapper messageRequest;
+    private static PciResponseWrapper messageResponse;
 
     static {
         /*
          * Construct an SDNR Request to be Serialized
          */
-        dmaapRequest = new PciRequestWrapper();
-        dmaapRequest.setCorrelationId(CORRELATION_ID + "-" + "1");
-        dmaapRequest.setRpcName("restart");
-        dmaapRequest.setType("request");
+        messageRequest = new PciRequestWrapper();
+        messageRequest.setCorrelationId(CORRELATION_ID + "-" + "1");
+        messageRequest.setRpcName("restart");
+        messageRequest.setType("request");
 
-        dmaapResponse = new PciResponseWrapper();
-        dmaapResponse.setCorrelationId(CORRELATION_ID + "-" + "1");
-        dmaapResponse.setRpcName("restart");
-        dmaapResponse.setType("response");
+        messageResponse = new PciResponseWrapper();
+        messageResponse.setCorrelationId(CORRELATION_ID + "-" + "1");
+        messageResponse.setRpcName("restart");
+        messageResponse.setType("response");
 
         PciRequest sdnrRequest = new PciRequest();
 
@@ -67,7 +67,7 @@ public class SdnrTest {
 
         sdnrRequest.setPayload(null);
 
-        dmaapRequest.setBody(sdnrRequest);
+        messageRequest.setBody(sdnrRequest);
 
         /*
          * Construct an SDNR Response to be Serialized
@@ -77,7 +77,7 @@ public class SdnrTest {
         sdnrResponse.getStatus().setValue("Restart Successful");
         sdnrResponse.setPayload(null);
 
-        dmaapResponse.setBody(sdnrResponse);
+        messageResponse.setBody(sdnrResponse);
     }
 
     @Test
@@ -86,7 +86,7 @@ public class SdnrTest {
         /*
          * Use the gson serializer to obtain json
          */
-        String jsonRequest = Serialization.gson.toJson(dmaapRequest, PciRequestWrapper.class);
+        String jsonRequest = Serialization.gson.toJson(messageRequest, PciRequestWrapper.class);
         assertNotNull(jsonRequest);
 
         /*
@@ -115,25 +115,25 @@ public class SdnrTest {
         /*
          * Convert the PCI request object into json so we have a string of json to use for testing
          */
-        String jsonRequest = Serialization.gson.toJson(dmaapRequest, PciRequestWrapper.class);
+        String jsonRequest = Serialization.gson.toJson(messageRequest, PciRequestWrapper.class);
 
         /*
          * Use the serializer to convert the json string into a java object
          */
         PciRequestWrapper pciRequestWrapper = Serialization.gson.fromJson(jsonRequest, PciRequestWrapper.class);
         assertNotNull(pciRequestWrapper);
-        assertEquals(dmaapRequest, pciRequestWrapper);
+        assertEquals(messageRequest, pciRequestWrapper);
 
         /*
-         * The type of the DMAAP wrapper should be request
+         * The type of the Message wrapper should be request
          */
-        assertEquals("request", dmaapRequest.getType());
+        assertEquals("request", messageRequest.getType());
 
         /*
-         * The DMAAP wrapper must have a body as that is the true SDNR request
+         * The Message wrapper must have a body as that is the true SDNR request
          */
-        assertNotNull(dmaapRequest.getBody());
-        PciRequest sdnrRequest = dmaapRequest.getBody();
+        assertNotNull(messageRequest.getBody());
+        PciRequest sdnrRequest = messageRequest.getBody();
         assertNotNull(sdnrRequest);
 
         /*
@@ -156,7 +156,7 @@ public class SdnrTest {
         /*
          * Use the serializer to convert the object into json
          */
-        String jsonResponse = Serialization.gson.toJson(dmaapResponse, PciResponseWrapper.class);
+        String jsonResponse = Serialization.gson.toJson(messageResponse, PciResponseWrapper.class);
         assertNotNull(jsonResponse);
 
         /*
@@ -180,25 +180,25 @@ public class SdnrTest {
         /*
          * Convert the PCI response object into json so we have a string of json to use for testing
          */
-        String jsonResponse = Serialization.gson.toJson(dmaapResponse, PciResponseWrapper.class);
+        String jsonResponse = Serialization.gson.toJson(messageResponse, PciResponseWrapper.class);
 
         /*
          * Use the serializer to convert the json string into a java object
          */
         PciResponseWrapper pciResponseWrapper = Serialization.gson.fromJson(jsonResponse, PciResponseWrapper.class);
         assertNotNull(pciResponseWrapper);
-        assertEquals(dmaapResponse, pciResponseWrapper);
+        assertEquals(messageResponse, pciResponseWrapper);
 
         /*
-         * The type of the DMAAP wrapper should be response
+         * The type of the Message wrapper should be response
          */
-        assertEquals("response", dmaapResponse.getType());
+        assertEquals("response", messageResponse.getType());
 
         /*
-         * The DMAAP wrapper must have a body as that is the true SDNR response
+         * The Message wrapper must have a body as that is the true SDNR response
          */
-        assertNotNull(dmaapResponse.getBody());
-        PciResponse sdnrResponse = dmaapResponse.getBody();
+        assertNotNull(messageResponse.getBody());
+        PciResponse sdnrResponse = messageResponse.getBody();
         assertNotNull(sdnrResponse);
 
         /*

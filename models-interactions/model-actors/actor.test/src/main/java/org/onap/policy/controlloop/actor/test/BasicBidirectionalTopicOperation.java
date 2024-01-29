@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.lenient;
 
 import java.util.List;
@@ -97,20 +98,17 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
     /**
      * Starts the topic.
      *
-     * @throws InterruptedException if interrupted
      * @throws BidirectionalTopicClientException if the client cannot be built
      */
     protected static void initBeforeClass(String sinkTopic, String sourceTopic)
-                    throws InterruptedException, BidirectionalTopicClientException {
-
-        Util.buildDmaapSim();
+                    throws BidirectionalTopicClientException {
 
         // note: the sink and source names are swapped for the simulator
         var ptopic = new TopicParameters();
         ptopic.setTopic(sourceTopic);
         ptopic.setManaged(true);
         ptopic.setServers(List.of("localhost"));
-        ptopic.setTopicCommInfrastructure("dmaap");
+        ptopic.setTopicCommInfrastructure("NOOP");
         ptopic.setFetchTimeout(500);
         serverSink = TopicEndpointManager.getManager().addTopicSinks(List.of(ptopic)).get(0);
 
@@ -154,8 +152,16 @@ public abstract class BasicBidirectionalTopicOperation<Q> extends BasicOperation
         initConfig();
     }
 
+    /**
+     * Finish all topic servers and mocks.
+     */
     public void tearDownBasic() {
         topicServer.shutdown();
+        try {
+            closeable.close();
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
     }
 
     /**

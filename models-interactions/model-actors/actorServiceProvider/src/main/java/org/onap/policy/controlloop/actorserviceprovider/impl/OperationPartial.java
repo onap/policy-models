@@ -381,7 +381,7 @@ public abstract class OperationPartial implements Operation {
 
             } else {
                 /*
-                 * retries were specified and we've already tried them all - change to
+                 * retries were specified, and we've already tried them all - change to
                  * FAILURE_RETRIES
                  */
                 logger.info("operation {} retries exhausted for {}", getFullName(), params.getRequestId());

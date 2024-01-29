@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.models.sim.dmaap.rest;
+package org.onap.policy.models.simulators;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.core.MediaType;

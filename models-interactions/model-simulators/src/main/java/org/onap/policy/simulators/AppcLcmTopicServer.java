@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@
 
 package org.onap.policy.simulators;
 
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
+import org.onap.policy.appclcm.AppcLcmMessageWrapper;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -29,14 +30,14 @@ import org.onap.policy.common.utils.resources.ResourceUtils;
 /**
  * APPC-LCM topic server.
  */
-public class AppcLcmTopicServer extends TopicServer<AppcLcmDmaapWrapper> {
+public class AppcLcmTopicServer extends TopicServer<AppcLcmMessageWrapper> {
 
     public AppcLcmTopicServer(TopicSink sink, TopicSource source) {
-        super(sink, source, new StandardCoder(), AppcLcmDmaapWrapper.class);
+        super(sink, source, new StandardCoder(), AppcLcmMessageWrapper.class);
     }
 
     @Override
-    protected String process(AppcLcmDmaapWrapper request) {
+    protected String process(AppcLcmMessageWrapper request) {
         /*
          * In case the request and response are on the same topic, this may be invoked
          * with a request or with a response object. If the "output" is not null, then we

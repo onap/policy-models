@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
-import org.onap.policy.appclcm.AppcLcmDmaapWrapper;
 import org.onap.policy.appclcm.AppcLcmInput;
+import org.onap.policy.appclcm.AppcLcmMessageWrapper;
 import org.onap.policy.appclcm.AppcLcmOutput;
 import org.onap.policy.appclcm.AppcLcmResponseCode;
 import org.onap.policy.appclcm.AppcLcmResponseStatus;
@@ -39,7 +39,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 
-public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWrapper, AppcLcmDmaapWrapper> {
+public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmMessageWrapper, AppcLcmMessageWrapper> {
 
     private static final String MISSING_STATUS = "APPC-LCM response is missing the response status";
     public static final String VNF_ID_KEY = "vnf-id";
@@ -50,7 +50,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * Keys used to match the response with the request listener. The sub request ID is a
      * UUID, so it can be used to uniquely identify the response.
      * <p/>
-     * Note: if these change, then {@link #getExpectedKeyValues(int, AppcLcmDmaapWrapper)}
+     * Note: if these change, then {@link #getExpectedKeyValues(int, AppcLcmMessageWrapper)}
      * must be updated accordingly.
      */
     public static final List<SelectorKey> SELECTOR_KEYS =
@@ -63,11 +63,11 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * @param config configuration for this operation
      */
     public AppcLcmOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
-        super(params, config, AppcLcmDmaapWrapper.class, PROPERTY_NAMES);
+        super(params, config, AppcLcmMessageWrapper.class, PROPERTY_NAMES);
     }
 
     @Override
-    protected AppcLcmDmaapWrapper makeRequest(int attempt) {
+    protected AppcLcmMessageWrapper makeRequest(int attempt) {
         String subRequestId = getSubRequestId();
 
         var header = new AppcLcmCommonHeader();
@@ -91,7 +91,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
         /*
          * For R1, the payloads will not be required for the Restart, Rebuild, or Migrate
          * recipes. APPC will populate the payload based on A&AI look up of the vnd-id
-         * provided in the action identifiers. The payload is set when converPayload() is
+         * provided in the action identifiers. The payload is set when convertPayload() is
          * called.
          */
         if (operationSupportsPayload()) {
@@ -103,16 +103,16 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
         var body = new AppcLcmBody();
         body.setInput(inputRequest);
 
-        var dmaapRequest = new AppcLcmDmaapWrapper();
-        dmaapRequest.setBody(body);
-        dmaapRequest.setVersion("2.0");
-        dmaapRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
-        dmaapRequest.setRpcName(recipeFormatter.getUrlRecipe());
-        dmaapRequest.setType("request");
+        var messageRequest = new AppcLcmMessageWrapper();
+        messageRequest.setBody(body);
+        messageRequest.setVersion("2.0");
+        messageRequest.setCorrelationId(params.getRequestId() + "-" + subRequestId);
+        messageRequest.setRpcName(recipeFormatter.getUrlRecipe());
+        messageRequest.setType("request");
 
         body.setInput(inputRequest);
-        dmaapRequest.setBody(body);
-        return dmaapRequest;
+        messageRequest.setBody(body);
+        return messageRequest;
     }
 
     /**
@@ -135,12 +135,12 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * Note: these values must match {@link #SELECTOR_KEYS}.
      */
     @Override
-    protected List<String> getExpectedKeyValues(int attempt, AppcLcmDmaapWrapper request) {
+    protected List<String> getExpectedKeyValues(int attempt, AppcLcmMessageWrapper request) {
         return List.of(getSubRequestId());
     }
 
     @Override
-    protected Status detmStatus(String rawResponse, AppcLcmDmaapWrapper response) {
+    protected Status detmStatus(String rawResponse, AppcLcmMessageWrapper response) {
         AppcLcmResponseStatus status = getStatus(response);
         if (status == null) {
             throw new IllegalArgumentException(MISSING_STATUS);
@@ -164,7 +164,8 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * Sets the message to the status description, if available.
      */
     @Override
-    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result, AppcLcmDmaapWrapper response) {
+    public OperationOutcome setOutcome(OperationOutcome outcome, OperationResult result,
+                                       AppcLcmMessageWrapper response) {
         outcome.setResponse(response);
 
         AppcLcmResponseStatus status = getStatus(response);
@@ -188,7 +189,7 @@ public class AppcLcmOperation extends BidirectionalTopicOperation<AppcLcmDmaapWr
      * @param response the response from which to extract the status, or {@code null}
      * @return the status, or {@code null} if it does not exist
      */
-    protected AppcLcmResponseStatus getStatus(AppcLcmDmaapWrapper response) {
+    protected AppcLcmResponseStatus getStatus(AppcLcmMessageWrapper response) {
         if (response == null) {
             return null;
         }

@@ -1,16 +1,5 @@
 {
-    "dmaapProvider": {
-        "name": "DMaaP simulator",
-        "topicSweepSec": 300
-    },
     "restServers": [
-        {
-            "name": "DMaaP simulator",
-            "providerClass": "org.onap.policy.models.sim.dmaap.rest.DmaapSimRestControllerV1",
-            "host": "0.0.0.0",
-            "port": 3904,
-            "https": false
-        },
         {
             "name": "A&AI simulator",
             "providerClass": "org.onap.policy.simulators.AaiSimulatorJaxRs",
@@ -43,56 +32,6 @@
             "host": "0.0.0.0",
             "port": 6670,
             "https": false
-        }
-    ],
-    "topicSinks": [
-        {
-            "topic": "APPC-CL",
-            "servers": ["${HOST_NAME}"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": false,
-            "apiKey": "some-key",
-            "apiSecret": "some-secret"
-        },
-        {
-            "topic": "APPC-LCM-WRITE",
-            "servers": ["${HOST_NAME}"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": false,
-            "apiKey": "some-key",
-            "apiSecret": "some-secret"
-        }
-    ],
-    "topicSources": [
-        {
-            "topic": "APPC-CL",
-            "servers": ["${HOST_NAME}"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": false,
-            "apiKey": "some-key",
-            "apiSecret": "some-secret"
-        },
-        {
-            "topic": "APPC-LCM-READ",
-            "servers": ["${HOST_NAME}"],
-            "topicCommInfrastructure": "DMAAP",
-            "useHttps": false,
-            "apiKey": "some-key",
-            "apiSecret": "some-secret"
-        }
-    ],
-    "topicServers": [
-        {
-            "name": "APPC Legacy simulator",
-            "providerClass": "org.onap.policy.simulators.AppcLegacyTopicServer",
-            "sink": "APPC-CL",
-            "source": "APPC-CL"
-        },
-        {
-            "name": "APPC-LCM simulator",
-            "providerClass": "org.onap.policy.simulators.AppcLcmTopicServer",
-            "sink": "APPC-LCM-WRITE",
-            "source": "APPC-LCM-READ"
         }
     ],
     "grpcServer": {

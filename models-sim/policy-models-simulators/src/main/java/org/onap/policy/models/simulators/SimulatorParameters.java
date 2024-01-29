@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,26 +25,13 @@ package org.onap.policy.models.simulators;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
-import org.onap.policy.common.endpoints.parameters.TopicParameters;
-import org.onap.policy.common.parameters.BeanValidationResult;
-import org.onap.policy.common.parameters.BeanValidator;
-import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.common.parameters.annotations.Valid;
-import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
 
 /**
  * Simulator parameters.
  */
 @Getter
 public class SimulatorParameters {
-
-    /**
-     * Note: this is only used to capture the provider's parameters; the rest server
-     * parameters that it contains are ignored. Instead, the parameters for the rest
-     * server are contained within the {@link #restServers} entry having the same name as
-     * the provider parameters.
-     */
-    private DmaapSimParameterGroup dmaapProvider;
 
     private @Valid CdsServerParameters grpcServer;
 
@@ -52,43 +40,5 @@ public class SimulatorParameters {
      */
     private List<@Valid ClassRestServerParameters> restServers = new LinkedList<>();
 
-    /**
-     * Topic sinks that are used by {@link #topicServers}.
-     */
-    private List<@Valid TopicParameters> topicSinks = new LinkedList<>();
 
-    /**
-     * Topic sources that are used by {@link #topicServers}.
-     */
-    private List<@Valid TopicParameters> topicSources = new LinkedList<>();
-
-    /**
-     * Parameters for the TOPIC server simulators that are to be started.
-     */
-    private List<@Valid TopicServerParameters> topicServers = new LinkedList<>();
-
-
-    /**
-     * Validates the parameters.
-     *
-     * @param containerName name of the parameter container
-     * @return the validation result
-     */
-    public BeanValidationResult validate(String containerName) {
-        BeanValidationResult result = new BeanValidator().validateTop(containerName, this);
-
-        if (dmaapProvider != null) {
-            // do not want full validation of the provider, so validate the relevant
-            // fields ourselves
-            var subResult = new BeanValidationResult("dmaapProvider", dmaapProvider);
-            subResult.validateNotNull("name", dmaapProvider.getName());
-            if (dmaapProvider.getTopicSweepSec() < 1) {
-                subResult.addResult("topicSweepSec", dmaapProvider.getTopicSweepSec(),
-                                ValidationStatus.INVALID, "is below the minimum value: 1");
-            }
-            result.addResult(subResult);
-        }
-
-        return result;
-    }
 }

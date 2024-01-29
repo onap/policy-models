@@ -15,11 +15,11 @@
         },{
             "topic" : "POLICY-PDP-PAP1",
             "servers" : [ "message-router1, message-router2" ],
-            "topicCommInfrastructure" : "dmaap"
+            "topicCommInfrastructure" : "NOOP"
         },{
             "topic" : "POLICY-PDP-PAP2",
             "servers" : [ "message-router2, message-router3" ],
-            "topicCommInfrastructure" : "dmaap"
+            "topicCommInfrastructure" : "NOOP"
         }],
         "topicSinks" : [ {
             "topic" : "ueb-sink",
@@ -28,11 +28,11 @@
         },{
             "topic" : "POLICY-PDP-PAP2",
             "servers" : [ "message-router1, message-router2" ],
-            "topicCommInfrastructure" : "dmaap"
+            "topicCommInfrastructure" : "NOOP"
         },{
             "topic" : "POLICY-PDP-PAP3",
             "servers" : [ "message-router2, message-router3" ],
-            "topicCommInfrastructure" : "dmaap"
+            "topicCommInfrastructure" : "NOOP"
         }]
     }
 }

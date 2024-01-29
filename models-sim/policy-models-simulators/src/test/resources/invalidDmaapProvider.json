@@ -1,7 +1,0 @@
-{
-    "dmaapProvider": {},
-    "restServers": [],
-    "topicSinks": [],
-    "topicSources": [],
-    "topicServers": []
-}

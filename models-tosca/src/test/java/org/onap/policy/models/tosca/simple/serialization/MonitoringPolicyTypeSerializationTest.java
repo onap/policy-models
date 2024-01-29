@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  *  Copyright (C) 2019-2020,2022 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -408,7 +408,7 @@ public class MonitoringPolicyTypeSerializationTest {
         assertEquals(VERSION_100, firstProperty.getKey().getParentKeyVersion());
         assertEquals("buscontroller_feed_publishing_endpoint", firstProperty.getKey().getLocalName());
         assertEquals(STRING_TEXT, firstProperty.getType().getName());
-        assertEquals("DMAAP Bus Controller feed endpoint", firstProperty.getDescription());
+        assertEquals("Bus Controller feed endpoint", firstProperty.getDescription());
 
         JpaToscaProperty secondProperty = propertiesIter.next();
         assertEquals(DCAE, secondProperty.getKey().getParentKeyName());

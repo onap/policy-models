@@ -5,7 +5,7 @@
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2018-2019 AT&T. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,14 @@
 package org.onap.policy.so;
 
 import com.google.gson.Gson;
+import jakarta.ws.rs.DELETE;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.core.Response;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
 
 @Path("/SO")
 public class SoDummyServer {

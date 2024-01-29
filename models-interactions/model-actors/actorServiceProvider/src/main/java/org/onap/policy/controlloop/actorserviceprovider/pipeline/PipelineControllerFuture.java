@@ -130,7 +130,7 @@ public class PipelineControllerFuture<T> extends CompletableFuture<T> {
 
     /**
      * Adds a future to the controller and arranges for it to be removed from the
-     * controller when it completes, whether or not it throws an exception. If the
+     * controller when it completes, whether it throws an exception. If the
      * controller has already been stopped, then the future is canceled and a new,
      * incomplete future is returned.
      *

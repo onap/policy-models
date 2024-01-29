@@ -12,7 +12,7 @@ policy_types:
       properties:
          buscontroller_feed_publishing_endpoint:
             type: string
-            description: DMAAP Bus Controller feed endpoint
+            description: Bus Controller feed endpoint
          datafile.policy:
             type: string
             description: datafile Policy JSON as string

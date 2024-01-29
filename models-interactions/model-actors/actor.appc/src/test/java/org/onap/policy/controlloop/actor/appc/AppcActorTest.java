@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019,2023 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ package org.onap.policy.controlloop.actor.appc;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -39,8 +38,8 @@ public class AppcActorTest extends BasicActor {
         assertEquals(0, prov.getSequenceNumber());
 
         // verify that it has the operators we expect
-        var expected = Arrays.asList(ModifyConfigOperation.NAME).stream().sorted().collect(Collectors.toList());
-        var actual = prov.getOperationNames().stream().sorted().collect(Collectors.toList());
+        var expected = Stream.of(ModifyConfigOperation.NAME).toList();
+        var actual = prov.getOperationNames().stream().sorted().toList();
 
         assertEquals(expected.toString(), actual.toString());
     }

@@ -113,12 +113,6 @@ public class MainTest {
         }
     }
 
-    @Test
-    public void testConstructor() throws Exception {
-        assertThatIllegalArgumentException().isThrownBy(() -> new Main("invalidDmaapProvider.json"))
-                        .withMessage("invalid simulator parameters");
-    }
-
     /**
      * Verifies that all the simulators are brought up and that HTTPS works with at
      * least one of them.
@@ -243,30 +237,5 @@ public class MainTest {
         assertThat(ex.getCause()).hasMessageStartingWith("interrupted while building");
     }
 
-    /**
-     * Tests buildTopicServer() when the provider class is invalid.
-     */
-    @Test
-    public void testBuildTopicServerInvalidProvider() {
-        assertThatThrownBy(() -> new Main("invalidTopicServer.json").start())
-                        .hasCauseInstanceOf(IllegalArgumentException.class);
-    }
 
-    /**
-     * Tests buildTopicServer() when the sink is missing.
-     */
-    @Test
-    public void testBuildTopicServerNoSink() {
-        assertThatThrownBy(() -> new Main("missingSink.json").start())
-                        .hasCauseInstanceOf(IllegalArgumentException.class);
-    }
-
-    /**
-     * Tests buildTopicServer() when the sink is missing.
-     */
-    @Test
-    public void testBuildTopicServerNoSource() {
-        assertThatThrownBy(() -> new Main("missingSource.json").start())
-                        .hasCauseInstanceOf(IllegalArgumentException.class);
-    }
 }

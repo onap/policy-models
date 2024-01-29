@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019, 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,14 +26,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
-import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
-import org.onap.policy.common.parameters.ParameterRuntimeException;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
-import org.onap.policy.common.utils.resources.ResourceUtils;
-import org.onap.policy.models.sim.dmaap.parameters.DmaapSimParameterGroup;
-import org.onap.policy.models.sim.dmaap.provider.DmaapSimProvider;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Util {
@@ -49,7 +42,6 @@ public final class Util {
     public static final int XACMLSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
     public static final int CDSSIM_SERVER_PORT = 6671;
-    public static final int DMAAPSIM_SERVER_PORT = 3904;
 
     private static final String CANNOT_PROCESS_PARAMETERS = "cannot parse parameters ";
     private static final String CANNOT_CONNECT = "cannot connect to port ";
@@ -150,47 +142,6 @@ public final class Util {
         HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(XACMLSIM_SERVER_NAME,
                 LOCALHOST, XACMLSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", XacmlSimulatorJaxRs.class.getName());
-        testServer.waitedStart(5000);
-        waitForServerToListen(testServer.getPort());
-        return testServer;
-    }
-
-    /**
-     * Builds an unauthenticated HTTP DMaaP simulator.
-     *
-     * @return the simulator
-     * @throws InterruptedException if a thread is interrupted
-     */
-    public static HttpServletServer buildDmaapSim() throws InterruptedException {
-        return buildDmaapSim("org/onap/policy/simulators/dmaap/DmaapParameters.json");
-    }
-
-    /**
-     * Build a DMaaP simulator from a properties file.
-     *
-     * @param resourceName the name of the properties file
-     * @return the simulator
-     * @throws InterruptedException if a thread is interrupted
-     */
-    public static HttpServletServer buildDmaapSim(String resourceName) throws InterruptedException {
-        var json = ResourceUtils.getResourceAsString(resourceName);
-        DmaapSimParameterGroup params;
-        try {
-            params = new StandardCoder().decode(json, DmaapSimParameterGroup.class);
-        } catch (CoderException ce) {
-            throw new ParameterRuntimeException(
-                    CANNOT_PROCESS_PARAMETERS + resourceName, ce);
-        }
-
-        DmaapSimProvider.setInstance(new DmaapSimProvider(params));
-
-        var props = params.getRestServerParameters().getServerProperties();
-
-        final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "."
-                + params.getRestServerParameters().getName();
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
-
-        HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory().build(props).get(0);
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
         return testServer;
