@@ -1,0 +1,9 @@
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-by: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-at: Fri, 16 Feb 2024 14:46:02 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/137236
+Project: policy/models
+Branch: refs/heads/master
