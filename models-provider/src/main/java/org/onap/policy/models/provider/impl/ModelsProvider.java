@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021, 2023 Nordix Foundation.
+ *  Copyright (C) 2021, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,16 +45,11 @@ public final class ModelsProvider {
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit(parameters.getPersistenceUnit());
 
-        // @formatter:off
         var jdbcProperties = new Properties();
         jdbcProperties.setProperty("jakarta.persistence.jdbc.driver",   parameters.getDatabaseDriver());
         jdbcProperties.setProperty("jakarta.persistence.jdbc.url",      parameters.getDatabaseUrl());
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user",     parameters.getDatabaseUser());
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", parameters.getDatabasePassword());
-        jdbcProperties.setProperty("hibernate.dialect",
-            (parameters.getDatabaseType() == null
-                ? "org.hibernate.dialect.MariaDBDialect"
-                    : parameters.getDatabaseType()));        // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
 

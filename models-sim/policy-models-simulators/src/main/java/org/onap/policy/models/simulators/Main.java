@@ -66,7 +66,6 @@ public class Main extends ServiceManagerContainer {
         super(Main.class.getPackage().getName());
 
         SimulatorParameters params = readParameters(paramFile);
-        String messageBroker = "models-sim";
 
         CdsServerParameters cdsServer = params.getGrpcServer();
 
@@ -87,7 +86,7 @@ public class Main extends ServiceManagerContainer {
                     () -> Registry.unregister(resourceLocationId));
             }
             addAction(restsim.getName(),
-                () -> ref.set(buildRestServer(messageBroker, restsim)),
+                () -> ref.set(buildRestServer(restsim)),
                 () -> ref.get().shutdown());
         }
         // @formatter:on
@@ -144,9 +143,9 @@ public class Main extends ServiceManagerContainer {
     }
 
 
-    private HttpServletServer buildRestServer(String messageBroker, ClassRestServerParameters params) {
+    private HttpServletServer buildRestServer(ClassRestServerParameters params) {
         try {
-            var props = getServerProperties(messageBroker, params);
+            var props = getServerProperties(params);
             HttpServletServer testServer = makeServer(props);
             testServer.waitedStart(5000);
 
@@ -173,7 +172,7 @@ public class Main extends ServiceManagerContainer {
      * @param params parameters from which to build the properties
      * @return a Map of properties representing the given parameters
      */
-    private static Properties getServerProperties(String messageBroker, ClassRestServerParameters params) {
+    private static Properties getServerProperties(ClassRestServerParameters params) {
         final var props = new Properties();
         props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, params.getName());
 

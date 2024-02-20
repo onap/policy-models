@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -81,11 +81,9 @@ public class PolicyToscaPersistenceTest {
         if (System.getProperty("USE-MARIADB") != null) {
             parameters.setDatabaseDriver("org.mariadb.jdbc.Driver");
             parameters.setDatabaseUrl("jdbc:mariadb://localhost:3306/policy");
-            parameters.setDatabaseType("org.hibernate.dialect.MariaDBDialect");
         } else {
             parameters.setDatabaseDriver("org.h2.Driver");
             parameters.setDatabaseUrl("jdbc:h2:mem:PolicyToscaPersistenceTest");
-            parameters.setDatabaseType("org.hibernate.dialect.H2Dialect");
         }
 
         parameters.setDatabaseUser("policy");

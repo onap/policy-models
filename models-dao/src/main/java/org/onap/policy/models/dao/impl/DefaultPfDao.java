@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -53,57 +53,6 @@ import org.slf4j.LoggerFactory;
  */
 public class DefaultPfDao implements PfDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultPfDao.class);
-
-    // @formatter:off
-    private static final String NAME           = "name";
-    private static final String VERSION        = "version";
-    private static final String TIMESTAMP      = "timeStamp";
-    private static final String PARENT_NAME    = "parentname";
-    private static final String PARENT_VERSION = "parentversion";
-    private static final String LOCAL_NAME     = "localname";
-
-    private static final String TABLE_TOKEN = "__TABLE__";
-
-    private static final String DELETE_FROM_TABLE = "DELETE FROM __TABLE__ c";
-
-    private static final String SELECT_FROM_TABLE = "SELECT c FROM __TABLE__ c";
-
-    private static final String WHERE      = " WHERE ";
-    private static final String AND        = " AND ";
-    private static final String ORDER_BY        = " ORDER BY c.";
-
-    private static final String NAME_FILTER            = "c.key.name = :name";
-    private static final String VERSION_FILTER         = "c.key.version = :version";
-    private static final String TIMESTAMP_FILTER       = "c.key.timeStamp = :timeStamp";
-    private static final String PARENT_NAME_FILTER     = "c.key.parentKeyName = :parentname";
-    private static final String PARENT_VERSION_FILTER  = "c.key.parentKeyVersion = :parentversion";
-    private static final String LOCAL_NAME_FILTER      = "c.key.localName = :localname";
-
-    private static final String CLONE_ERR_MSG = "Could not clone object of class \"{}\"";
-
-    private static final String DELETE_BY_CONCEPT_KEY =
-            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
-
-    private static final String DELETE_BY_TIMESTAMP_KEY =
-            DELETE_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER  + AND + TIMESTAMP_FILTER;
-
-    private static final String DELETE_BY_REFERENCE_KEY =
-            DELETE_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
-
-    private static final String SELECT_ALL_FOR_PARENT =
-            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER;
-
-    private static final String SELECT_ALL_VERSIONS_FOR_PARENT =
-            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER;
-
-    private static final String SELECT_ALL_VERSIONS = SELECT_FROM_TABLE + WHERE + NAME_FILTER;
-
-    private static final String SELECT_BY_CONCEPT_KEY =
-            SELECT_FROM_TABLE + WHERE + NAME_FILTER + AND + VERSION_FILTER;
-
-    private static final String SELECT_BY_REFERENCE_KEY =
-            SELECT_FROM_TABLE + WHERE + PARENT_NAME_FILTER + AND + PARENT_VERSION_FILTER + AND + LOCAL_NAME_FILTER;
-    // @formatter:on
 
     // Entity manager for JPA
     private EntityManagerFactory emf = null;

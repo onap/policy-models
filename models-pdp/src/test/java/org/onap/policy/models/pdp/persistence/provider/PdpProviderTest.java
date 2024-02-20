@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
@@ -93,15 +93,15 @@ public class PdpProviderTest {
         daoParameters.setPersistenceUnit("ToscaConceptTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.user", "policy");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "P01icY");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
 
         if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
         } else {
-            jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:PdpProviderTest");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:PdpProviderTest");
         }
 
         daoParameters.setJdbcProperties(jdbcProperties);

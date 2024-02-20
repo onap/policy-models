@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -84,10 +84,10 @@ public class EntityTest {
 
         Properties jdbcProperties = new Properties();
         // @formatter:off
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver",   "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url",      "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty("javax.persistence.jdbc.user",     "sa");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver",   "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url",      "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user",     "sa");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
         // @formatter:on
 
         daoParameters.setJdbcProperties(jdbcProperties);
@@ -117,10 +117,10 @@ public class EntityTest {
         daoParameters.setPersistenceUnit("DaoTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
@@ -145,10 +145,10 @@ public class EntityTest {
         daoParameters.setPersistenceUnit("DaoTest");
 
         Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("javax.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("javax.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty("javax.persistence.jdbc.user", "sa");
-        jdbcProperties.setProperty("javax.persistence.jdbc.password", "");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
