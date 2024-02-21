@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07fa8ecd_4444f27c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2787
+      },
+      "writtenOn": "2024-02-21T11:24:57Z",
+      "side": 1,
+      "message": "I thought all this javax stuff was gone but good that we\u0027re getting rid of it now.",
+      "revId": "389c85c8e7213c10c17896f4c63d94e2b5e9d27a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
