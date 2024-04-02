@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-   Copyright (C) 2019, 2023 Nordix Foundation.
+   Copyright (C) 2019, 2023-2024 Nordix Foundation.
    Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,7 +29,8 @@
 
     <artifactId>policy-models-base</artifactId>
     <name>${project.artifactId}</name>
-    <description>[${project.parent.artifactId}] module provides basic model handling for the ONAP Policy Framework</description>
+    <description>[${project.parent.artifactId}] module provides basic model handling for the ONAP Policy Framework
+    </description>
 
     <dependencies>
         <dependency>
@@ -38,13 +39,41 @@
             <version>${policy.common.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-errors</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

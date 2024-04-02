@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,14 +42,14 @@ public final class ErrorResponseUtils {
     public static void getExceptionMessages(final ErrorResponse errorResponse, final Throwable throwable) {
         errorResponse.setErrorMessage(throwable.getMessage());
 
-        List<String> cascascadedErrorMessages = new ArrayList<>();
+        List<String> cascadedErrorMessages = new ArrayList<>();
 
         for (var t = throwable; t != null; t = t.getCause()) {
-            cascascadedErrorMessages.add(t.getMessage());
+            cascadedErrorMessages.add(t.getMessage());
         }
 
-        if (!cascascadedErrorMessages.isEmpty()) {
-            errorResponse.setErrorDetails(cascascadedErrorMessages);
+        if (!cascadedErrorMessages.isEmpty()) {
+            errorResponse.setErrorDetails(cascadedErrorMessages);
         }
     }
 }

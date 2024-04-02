@@ -9,10 +9,6 @@
     },
     "topicParameterGroup": {
         "topicSources" : [ {
-            "topic" : "ueb-source",
-            "servers" : [ "my-server" ],
-            "topicCommInfrastructure" : "ueb"
-        },{
             "topic" : "POLICY-PDP-PAP1",
             "servers" : [ "message-router1, message-router2" ],
             "topicCommInfrastructure" : "NOOP"
@@ -22,10 +18,6 @@
             "topicCommInfrastructure" : "NOOP"
         }],
         "topicSinks" : [ {
-            "topic" : "ueb-sink",
-            "servers" : [ "my-server" ],
-            "topicCommInfrastructure" : "ueb"
-        },{
             "topic" : "POLICY-PDP-PAP2",
             "servers" : [ "message-router1, message-router2" ],
             "topicCommInfrastructure" : "NOOP"

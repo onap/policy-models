@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +51,6 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
 import org.junit.AfterClass;
@@ -82,7 +82,7 @@ import org.slf4j.LoggerFactory;
 @RunWith(MockitoJUnitRunner.class)
 public class OperationPartialTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
-    private static final CommInfrastructure SOURCE_INFRA = CommInfrastructure.UEB;
+    private static final CommInfrastructure SOURCE_INFRA = CommInfrastructure.NOOP;
     private static final int MAX_REQUESTS = 100;
     private static final int MAX_PARALLEL = 10;
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -95,8 +95,8 @@ public class OperationPartialTest {
     private static final int TIMEOUT = 1000;
     private static final UUID REQ_ID = UUID.randomUUID();
 
-    private static final List<OperationResult> FAILURE_RESULTS = Arrays.asList(OperationResult.values()).stream()
-                    .filter(result -> result != OperationResult.SUCCESS).collect(Collectors.toList());
+    private static final List<OperationResult> FAILURE_RESULTS = Arrays.stream(OperationResult.values())
+                    .filter(result -> result != OperationResult.SUCCESS).toList();
 
     /**
      * Used to attach an appender to the class' logger.
