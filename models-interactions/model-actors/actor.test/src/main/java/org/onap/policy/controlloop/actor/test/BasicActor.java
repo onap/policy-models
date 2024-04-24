@@ -111,7 +111,6 @@ public class BasicActor {
      * @param yamlConfigFile YAML configuration file name
      * @return the configuration that was read from the file
      * @throws AssertionError if an error occurs
-     * @throws CoderException if an error occurs
      */
     private MyConfig readConfig(String yamlConfigFile) {
         try {

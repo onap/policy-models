@@ -46,7 +46,6 @@ import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopic
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.simulators.TopicServer;
-import org.onap.policy.simulators.Util;
 
 /**
  * Superclass for various BidirectionalTopicOperation tests.

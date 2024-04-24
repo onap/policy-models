@@ -11,7 +11,7 @@ topology_template:
         properties:
           controllerName: usecases
           sourceTopics:
-            - topicName: DCAE_TOPIC
+            - topicName: dcae_topic
               events:
                 - eventClass: org.onap.policy.controlloop.CanonicalOnset
                   eventFilter: '[?($.closedLoopEventStatus == ''ONSET'')]'
@@ -23,21 +23,21 @@ topology_template:
                   customSerialization:
                     customSerializerClass: org.onap.policy.controlloop.util.Serialization
                     jsonParser: gson
-            - topicName: APPC-CL
+            - topicName: appc-cl
               events:
                 - eventClass: org.onap.policy.appc.Response
                   eventFilter: '[?($.CommonHeader && $.Status)]'
                   customSerialization:
                     customSerializerClass: org.onap.policy.appc.util.Serialization
                     jsonParser: gsonPretty
-            - topicName: APPC-LCM-WRITE
+            - topicName: appc-lcm-write
               events:
                 - eventClass: org.onap.policy.appclcm.AppcLcmMessageWrapper
                   eventFilter: '[?($.type == ''response'')]'
                   customSerialization:
                     customSerializerClass: org.onap.policy.appclcm.util.Serialization
                     jsonParser: gson
-            - topicName: SDNR-CL-RSP
+            - topicName: sdnr-cl-rsp
               events:
                 - eventClass: org.onap.policy.sdnr.PciResponseWrapper
                   eventFilter: '[?($.type == ''response'')]'
@@ -45,25 +45,25 @@ topology_template:
                     customSerializerClass: org.onap.policy.sdnr.util.Serialization
                     jsonParser: gson
           sinkTopics:
-            - topicName: APPC-CL
+            - topicName: appc-cl
               events:
                 - eventClass: org.onap.policy.appc.Request
                   customSerialization:
                     customSerializerClass: org.onap.policy.appc.util.Serialization
                     jsonParser: gsonPretty
-            - topicName: APPC-LCM-READ
+            - topicName: appc-lcm-read
               events:
                 - eventClass: org.onap.policy.appclcm.AppcLcmMessageWrapper
                   customSerialization:
                     customSerializerClass: org.onap.policy.appclcm.util.Serialization
                     jsonParser: gson
-            - topicName: POLICY-CL-MGT
+            - topicName: policy-cl-mgt
               events:
                 - eventClass: org.onap.policy.controlloop.VirtualControlLoopNotification
                   customSerialization:
                     customSerializerClass: org.onap.policy.controlloop.util.Serialization
                     jsonParser: gsonPretty
-            - topicName: DCAE_CL_RSP
+            - topicName: dcae_cl_rsp
               events:
                 - eventClass: org.onap.policy.controlloop.ControlLoopResponse
                   customSerialization:

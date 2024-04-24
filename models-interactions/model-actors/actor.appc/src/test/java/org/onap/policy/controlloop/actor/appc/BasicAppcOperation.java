@@ -115,7 +115,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      * @param operation operation to run
      */
     protected void verifyOperation(AppcOperation operation)
-                    throws InterruptedException, ExecutionException, TimeoutException {
+                    throws InterruptedException, ExecutionException {
 
         CompletableFuture<OperationOutcome> future2 = operation.start();
         executor.runAll(100);
