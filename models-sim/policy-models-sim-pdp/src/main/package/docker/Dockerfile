@@ -23,7 +23,7 @@
 # Docker file to build an image that runs the PDP simulator on Java 8 in alpine
 #
 
-FROM onap/policy-jre-alpine:3.1.2-SNAPSHOT
+FROM onap/policy-jre-alpine:3.1.2
 
 LABEL maintainer="Policy Team"
 
