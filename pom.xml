@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>4.1.5-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
@@ -40,7 +40,7 @@
     <description>This repo holds model code agnostic to PDP engines</description>
 
     <properties>
-        <policy.common.version>2.1.4-SNAPSHOT</policy.common.version>
+        <policy.common.version>3.0.0-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
