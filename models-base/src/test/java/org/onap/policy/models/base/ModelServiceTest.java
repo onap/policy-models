@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,20 +22,20 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfModel;
 
-public class ModelServiceTest {
+class ModelServiceTest {
 
     private static final String MODEL_KEY_IS_NULL = "modelKey is marked .*on.*ull but is null$";
     private static final String MODEL_NAME = "ModelName";
 
     @Test
-    public void testModelService() {
+    void testModelService() {
         PfModelService.clear();
 
         assertFalse(PfModelService.existsModel("NonExistantName"));

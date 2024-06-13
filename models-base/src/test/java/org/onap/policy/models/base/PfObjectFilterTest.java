@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,16 +21,16 @@
 
 package org.onap.policy.models.base;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfObject;
 import org.onap.policy.models.base.testconcepts.DummyPfObjectComparator;
 import org.onap.policy.models.base.testconcepts.DummyPfObjectFilter;
@@ -40,7 +40,7 @@ import org.onap.policy.models.base.testconcepts.DummyPfObjectFilter;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfObjectFilterTest {
+class PfObjectFilterTest {
 
     private static final String NAME1 = "name1";
     private static final String NAME0 = "name0";
@@ -50,7 +50,7 @@ public class PfObjectFilterTest {
     private static final String VERSION002 = "0.0.2";
 
     @Test
-    public void testPfObjectInterface() {
+    void testPfObjectInterface() {
         DummyPfObjectFilter dof = new DummyPfObjectFilter();
         assertFalse(dof.filterString(HELLO, "Goodbye"));
         assertTrue(dof.filterString(HELLO, HELLO));
@@ -77,7 +77,7 @@ public class PfObjectFilterTest {
     }
 
     @Test
-    public void testStringFilteredPfObjectInterface() {
+    void testStringFilteredPfObjectInterface() {
         List<DummyPfObject> doList = getListPfObject();
         MyFilter filter = new MyFilter();
 
@@ -97,7 +97,7 @@ public class PfObjectFilterTest {
     }
 
     @Test
-    public void testPrefixFilteredPfObjectInterface() {
+    void testPrefixFilteredPfObjectInterface() {
 
         DummyPfObject doNullVersion = new DummyPfObject();
         MyFilter filter = new MyFilter();
@@ -117,7 +117,7 @@ public class PfObjectFilterTest {
     }
 
     @Test
-    public void testRegexFilteredPfObjectInterface() {
+    void testRegexFilteredPfObjectInterface() {
         List<DummyPfObject> doList = getListPfObject();
         DummyPfObject do0 = doList.get(0);
 

@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ import java.io.Serial;
 import java.util.concurrent.atomic.AtomicBoolean;
 import lombok.Getter;
 import lombok.NonNull;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -39,20 +39,20 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.models.base.validation.annotations.PfMin;
 import org.onap.policy.models.base.validation.annotations.VerifyKey;
 
-public class PfValidatorTest {
+class PfValidatorTest {
     private static final String KEY_FIELD = "key";
 
     private static final String STRING_VALUE = "abc";
 
     private PfValidator validator;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         validator = new PfValidator();
     }
 
     @Test
-    public void testAddValidatorsValueValidator() {
+    void testAddValidatorsValueValidator() {
         // verify that standard annotations work
         StdAnnotation data = new StdAnnotation();
         data.strValue = STRING_VALUE;
@@ -63,7 +63,7 @@ public class PfValidatorTest {
     }
 
     @Test
-    public void testVerPfMin() {
+    void testVerPfMin() {
         PfMinChecker data = new PfMinChecker();
         data.intValue = 10;
         assertThat(validator.validateTop("", data).getResult()).isNull();
@@ -82,7 +82,7 @@ public class PfValidatorTest {
     }
 
     @Test
-    public void testVerCascadeBeanValidationResultStringObject() {
+    void testVerCascadeBeanValidationResultStringObject() {
         CascadeChecker checker = new CascadeChecker();
         checker.plain = new StdAnnotation();
 
@@ -115,7 +115,7 @@ public class PfValidatorTest {
     }
 
     @Test
-    public void testVerKey() throws CoderException {
+    void testVerKey() throws CoderException {
         FullKeyAnnot data = new FullKeyAnnot();
 
         // not a key
@@ -183,7 +183,7 @@ public class PfValidatorTest {
     }
 
     @Test
-    public void testXlateObject() {
+    void testXlateObject() {
         assertThat(validator.xlate(null)).isNull();
         assertThat(validator.xlate("hello")).isEqualTo("hello");
 

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,13 +22,13 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfModel;
 
 /**
@@ -36,12 +36,12 @@ import org.onap.policy.models.base.testconcepts.DummyPfModel;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfModelTest {
+class PfModelTest {
 
     private static final String VERSION001 = "0.0.1";
 
     @Test
-    public void testPfModel() {
+    void testPfModel() {
         assertNotNull(new DummyPfModel());
         assertNotNull(new DummyPfModel(new PfConceptKey()));
         assertNotNull(new DummyPfModel(new DummyPfModel()));
@@ -70,7 +70,7 @@ public class PfModelTest {
     }
 
     @Test
-    public void testPfModelValidation() {
+    void testPfModelValidation() {
         PfConceptKey dpmKey = new PfConceptKey("modelKey", VERSION001);
         DummyPfModel dpm = new DummyPfModel(dpmKey);
         assertTrue(dpm.validate("").isValid());
@@ -97,7 +97,7 @@ public class PfModelTest {
     }
 
     @Test
-    public void testPfReferenceValidation() {
+    void testPfReferenceValidation() {
         PfConceptKey dpmKey = new PfConceptKey("modelKey", VERSION001);
         DummyPfModel dpm = new DummyPfModel(dpmKey);
 

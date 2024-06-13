@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,15 +20,15 @@
 
 package org.onap.policy.models.base;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 
-public class PfConceptComparatorTest {
+class PfConceptComparatorTest {
 
     @Test
-    public void testPfConceptComparator() {
+    void testPfConceptComparator() {
         assertEquals(0, new PfConceptComparator().compare(new DummyPfConcept(), new DummyPfConcept()));
     }
 }
