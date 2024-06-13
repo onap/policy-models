@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,17 +22,17 @@
 package org.onap.policy.models.pdp.persistence.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
@@ -44,7 +44,7 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpSubgroupChild;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaPdpGroupTest {
+class JpaPdpGroupTest {
 
     private static final String NULL_ERROR = " is marked .*ull but is null";
     private static final String NULL_KEY_ERROR = "key" + NULL_ERROR;
@@ -52,7 +52,7 @@ public class JpaPdpGroupTest {
     private static final String VERSION = "1.0.0";
 
     @Test
-    public void testJpaPdpGroup() {
+    void testJpaPdpGroup() {
         assertThatThrownBy(() -> {
             new JpaPdpGroup((JpaPdpGroup) null);
         }).hasMessageMatching("copyConcept" + NULL_ERROR);
@@ -98,7 +98,7 @@ public class JpaPdpGroupTest {
     }
 
     @Test
-    public void testPdpGroupSet() {
+    void testPdpGroupSet() {
         PdpGroup testPdpGroup = new PdpGroup();
         testPdpGroup.setName(PDP_GROUP0);
         testPdpGroup.setPdpSubgroups(new ArrayList<>());
@@ -125,7 +125,7 @@ public class JpaPdpGroupTest {
     }
 
     @Test
-    public void testPdpGroupValidation() {
+    void testPdpGroupValidation() {
         JpaPdpGroup testJpaPdpGroup = setUpSmallJpaPdpGroup();
 
         assertThatThrownBy(() -> {
@@ -162,7 +162,7 @@ public class JpaPdpGroupTest {
     }
 
     @Test
-    public void testPdpSubgroups() {
+    void testPdpSubgroups() {
         JpaPdpGroup testJpaPdpGroup = setUpJpaPdpGroup();
 
         List<JpaPdpSubGroup> jpaPdpSubgroups = testJpaPdpGroup.getPdpSubGroups();
@@ -221,7 +221,7 @@ public class JpaPdpGroupTest {
     }
 
     @Test
-    public void testPdpGroupsProperties() {
+    void testPdpGroupsProperties() {
         JpaPdpGroup testJpaPdpGroup = setUpJpaPdpGroup();
 
         testJpaPdpGroup.getProperties().put(" PropKey ", " Prop Value ");

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.TextFileUtils;
@@ -34,9 +34,9 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierO
 /**
  * This only tests the methods that aren't already tested via TestModels.
  */
-public class PdpDeployPoliciesTest {
+class PdpDeployPoliciesTest {
     @Test
-    public void testPapPolicyIdentifier() throws CoderException, IOException {
+    void testPapPolicyIdentifier() throws CoderException, IOException {
         assertNotNull(new PdpDeployPolicies());
 
         List<ToscaConceptIdentifierOptVersion> tciListIn = new ArrayList<>();
@@ -68,7 +68,7 @@ public class PdpDeployPoliciesTest {
     }
 
     @Test
-    public void testPapPolicyIdentifierSerialization() throws CoderException, IOException {
+    void testPapPolicyIdentifierSerialization() throws CoderException, IOException {
         String idListString = TextFileUtils.getTextFileAsString("src/test/resources/json/PapPoliciesList.json");
 
         StandardCoder coder = new StandardCoder();

@@ -24,15 +24,15 @@ package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
@@ -48,17 +48,17 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PolicyTypePersistenceTest {
+class PolicyTypePersistenceTest {
     private YamlJsonTranslator yamlTranslator = new YamlJsonTranslator();
-    private PolicyModelsProvider databaseProvider;
+    private static PolicyModelsProvider databaseProvider;
 
     /**
      * Initialize provider.
      *
      * @throws PfModelException on exceptions in the tests
      */
-    @Before
-    public void setupParameters() throws PfModelException {
+    @BeforeAll
+    public static void setupParameters() throws PfModelException {
         // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
@@ -78,13 +78,13 @@ public class PolicyTypePersistenceTest {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
     }
 
-    @After
-    public void teardown() throws Exception {
+    @AfterAll
+    public static void teardown() throws Exception {
         databaseProvider.close();
     }
 
     @Test
-    public void testPolicyTypePersistence() throws Exception {
+    void testPolicyTypePersistence() throws Exception {
         Set<String> policyTypeDirectoryContents = ResourceUtils.getDirectoryContents("policytypes");
 
         ToscaServiceTemplate serviceTemplate = new ToscaServiceTemplate();

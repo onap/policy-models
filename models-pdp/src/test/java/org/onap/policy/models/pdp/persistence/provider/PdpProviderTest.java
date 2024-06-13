@@ -25,17 +25,17 @@ package org.onap.policy.models.pdp.persistence.provider;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfModelException;
@@ -64,7 +64,7 @@ import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PdpProviderTest {
+class PdpProviderTest {
     private static final String PDP_GROUPS0_JSON = "testdata/PdpGroups0.json";
     private static final String PDP_TYPE_IS_NULL = "pdpType is marked .*ull but is null";
     private static final String SUBGROUP_IS_NULL = "pdpSubGroup is marked .*ull but is null";
@@ -85,8 +85,8 @@ public class PdpProviderTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -113,29 +113,29 @@ public class PdpProviderTest {
     /**
      * Set up GSON.
      */
-    @Before
-    public void setupGson() {
+    @BeforeEach
+    void setupGson() {
         standardCoder = new StandardCoder();
     }
 
     /**
      * Set up Policy Status builder.
      */
-    @Before
-    public void setupBuilder() {
+    @BeforeEach
+    void setupBuilder() {
         ToscaConceptIdentifier policyType = new ToscaConceptIdentifier("MyPolicyType", "1.2.4");
 
         statusBuilder = PdpPolicyStatus.builder().deploy(true).pdpType("MyPdpType").policy(MY_POLICY)
             .policyType(policyType).state(State.SUCCESS);
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testGroupsGet() throws Exception {
+    void testGroupsGet() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().getPdpGroups(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -161,7 +161,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testFilteredPdpGroupGet() throws Exception {
+    void testFilteredPdpGroupGet() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().getFilteredPdpGroups(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -201,7 +201,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGroupsCreate() throws Exception {
+    void testGroupsCreate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().createPdpGroups(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -236,7 +236,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGroupsCreateNoPdp() throws Exception {
+    void testGroupsCreateNoPdp() throws Exception {
         String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroupsNoPDPs.json");
 
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -257,7 +257,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGroupsUpdate() throws Exception {
+    void testGroupsUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpGroups(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -302,7 +302,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testPoliciesDelete() throws Exception {
+    void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().deletePdpGroup(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -345,7 +345,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testPdpSubgroupUpdate() throws Exception {
+    void testPdpSubgroupUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdpSubGroup(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -410,7 +410,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testPdpUpdate() throws Exception {
+    void testPdpUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new PdpProvider().updatePdp(null, null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -508,7 +508,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGetAllPolicyStatusPfDao() throws PfModelException {
+    void testGetAllPolicyStatusPfDao() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().getAllPolicyStatus(null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -536,7 +536,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGetAllPolicyStatusPfDaoToscaConceptIdentifierOptVersion() throws PfModelException {
+    void testGetAllPolicyStatusPfDaoToscaConceptIdentifierOptVersion() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().getAllPolicyStatus(null, new ToscaConceptIdentifierOptVersion("somePdp", null));
         }).hasMessageMatching(DAO_IS_NULL);
@@ -555,7 +555,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testGetGroupPolicyStatus() throws PfModelException {
+    void testGetGroupPolicyStatus() throws PfModelException {
         assertThatThrownBy(() -> {
             new PdpProvider().getGroupPolicyStatus(null, "someGroup");
         }).hasMessageMatching(DAO_IS_NULL);
@@ -571,7 +571,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void cudPolicyStatus() throws PfModelException {
+    void cudPolicyStatus() throws PfModelException {
         PdpProvider prov = new PdpProvider();
 
         assertThatThrownBy(() -> prov.cudPolicyStatus(null, List.of(), List.of(), List.of()))
@@ -582,7 +582,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void cudPolicyStatus_Create() throws PfModelException {
+    void cudPolicyStatus_Create() throws PfModelException {
         PdpProvider prov = new PdpProvider();
 
         PdpPolicyStatus idx = statusBuilder.pdpGroup(GROUP_A).pdpId("idX").build();
@@ -604,7 +604,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void cudPolicyStatus_Update() throws PfModelException {
+    void cudPolicyStatus_Update() throws PfModelException {
         PdpProvider prov = new PdpProvider();
 
         PdpPolicyStatus idw = statusBuilder.pdpGroup(GROUP_A).pdpId("wId").build();
@@ -632,7 +632,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void cudPolicyStatus_Delete() throws PfModelException {
+    void cudPolicyStatus_Delete() throws PfModelException {
         PdpProvider prov = new PdpProvider();
 
         PdpPolicyStatus idw = statusBuilder.pdpGroup(GROUP_A).pdpId("idW").build();
@@ -657,7 +657,7 @@ public class PdpProviderTest {
     }
 
     @Test
-    public void testFromAuthorativeStatus() throws PfModelException {
+    void testFromAuthorativeStatus() throws PfModelException {
         PdpProvider prov = new PdpProvider();
 
         assertThatCode(() -> prov.cudPolicyStatus(pfDao, null, null, null)).doesNotThrowAnyException();

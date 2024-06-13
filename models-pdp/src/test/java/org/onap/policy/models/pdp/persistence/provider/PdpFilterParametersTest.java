@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,15 +24,15 @@ package org.onap.policy.models.pdp.persistence.provider;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PdpFilterParametersTest {
+class PdpFilterParametersTest {
 
     private static final String GROUP = "my-group";
     private static final String SUBGROUP = "my-subgroup";
 
     @Test
-    public void testGetFilterMap() {
+    void testGetFilterMap() {
         assertThat(PdpFilterParameters.builder().build().getFilterMap()).isNull();
 
         assertThat(PdpFilterParameters.builder().subGroup(SUBGROUP).build().getFilterMap()).isNull();

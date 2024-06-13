@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +21,21 @@
 
 package org.onap.policy.models.pdp.concepts;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.pdp.concepts.DeploymentSubGroup.Action;
 
-public class DeploymentGroupsTest {
+class DeploymentGroupsTest {
 
     @Test
-    public void testValidatePapRest_toMapList() {
+    void testValidatePapRest_toMapList() {
         DeploymentGroup group1 = new DeploymentGroup();
         group1.setName("group-1");
 

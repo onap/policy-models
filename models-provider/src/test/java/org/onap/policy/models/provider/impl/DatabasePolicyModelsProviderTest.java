@@ -23,16 +23,16 @@
 package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
@@ -58,7 +58,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DatabasePolicyModelsProviderTest {
+class DatabasePolicyModelsProviderTest {
     private static final String NAME = "name";
 
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
@@ -75,15 +75,15 @@ public class DatabasePolicyModelsProviderTest {
 
     private static final String VERSION_100 = "1.0.0";
 
-    private PolicyModelsProviderParameters parameters;
+    private static PolicyModelsProviderParameters parameters;
 
-    private PolicyModelsProvider databaseProvider;
+    private static PolicyModelsProvider databaseProvider;
 
     /**
      * Initialize parameters.
      */
-    @Before
-    public void setupParameters() {
+    @BeforeAll
+    public static void setupParameters() {
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
@@ -95,15 +95,15 @@ public class DatabasePolicyModelsProviderTest {
     /**
      * Closes the DB.
      */
-    @After
-    public void tearDown() throws PfModelException {
+    @AfterAll
+    public static void tearDown() throws PfModelException {
         if (databaseProvider != null) {
             databaseProvider.close();
         }
     }
 
     @Test
-    public void testInitAndClose() throws Exception {
+    void testInitAndClose() throws Exception {
         assertThatThrownBy(() -> {
             new DatabasePolicyModelsProviderImpl(null);
         }).hasMessageMatching("^parameters is marked .*on.*ull but is null$");
@@ -142,7 +142,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethodsNull() throws Exception {
+    void testProviderMethodsNull() throws Exception {
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
@@ -204,7 +204,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethodsNullGroup() throws Exception {
+    void testProviderMethodsNullGroup() throws Exception {
 
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
@@ -276,7 +276,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethodsNotInit() throws Exception {
+    void testProviderMethodsNotInit() throws Exception {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         databaseProvider.close();
@@ -287,7 +287,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethods() throws PfModelException {
+    void testProviderMethods() throws PfModelException {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         assertThatThrownBy(() -> databaseProvider.getPolicyTypes(NAME, VERSION_100))
@@ -344,7 +344,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethodsInGroups() throws PfModelException {
+    void testProviderMethodsInGroups() throws PfModelException {
         PdpGroup pdpGroup = new PdpGroup();
         pdpGroup.setName(GROUP);
         pdpGroup.setVersion("1.2.3");
@@ -394,7 +394,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testDeletePolicyDeployedInSubgroup() throws PfModelException {
+    void testDeletePolicyDeployedInSubgroup() throws PfModelException {
         List<ToscaConceptIdentifier> policies = new ArrayList<>();
 
         policies.add(new ToscaConceptIdentifier("p0", "0.0.1"));
@@ -433,7 +433,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testDeletePolicyTypeSupportedInSubgroup() throws PfModelException {
+    void testDeletePolicyTypeSupportedInSubgroup() throws PfModelException {
         List<ToscaConceptIdentifier> supportedPolicyTypes = new ArrayList<>();
         supportedPolicyTypes.add(new ToscaConceptIdentifier("pt1", "0.0.1"));
         supportedPolicyTypes.add(new ToscaConceptIdentifier("pt2", "0.0.1"));
@@ -467,7 +467,7 @@ public class DatabasePolicyModelsProviderTest {
     }
 
     @Test
-    public void testToscaNodeTemplateHandling() throws PfModelException {
+    void testToscaNodeTemplateHandling() throws PfModelException {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         ToscaServiceTemplate serviceTemplate = makeNodeTemplate();

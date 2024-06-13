@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Copyright
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,19 +22,19 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.pdp.enums.PdpHealthStatus;
 import org.onap.policy.models.pdp.enums.PdpState;
 
 /**
  * Test the copy constructor, as {@link ModelsTest} tests the other methods.
  */
-public class PdpInstanceDetailsTest {
+class PdpInstanceDetailsTest {
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new Pdp(null)).isInstanceOf(NullPointerException.class);
 
         Pdp orig = new Pdp();

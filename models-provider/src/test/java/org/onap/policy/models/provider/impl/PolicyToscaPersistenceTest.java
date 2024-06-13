@@ -23,8 +23,8 @@
 package org.onap.policy.models.provider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.net.URISyntaxException;
 import java.util.LinkedHashMap;
@@ -34,9 +34,9 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import lombok.NonNull;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
@@ -58,13 +58,13 @@ import org.slf4j.LoggerFactory;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PolicyToscaPersistenceTest {
+class PolicyToscaPersistenceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolicyToscaPersistenceTest.class);
 
-    private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
+    private static YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
     private StandardCoder standardCoder = new StandardCoder();
 
-    private PolicyModelsProvider databaseProvider;
+    private static PolicyModelsProvider databaseProvider;
 
     /**
      * Initialize provider.
@@ -72,8 +72,8 @@ public class PolicyToscaPersistenceTest {
      * @throws PfModelException on exceptions in the tests
      * @throws CoderException on JSON encoding and decoding errors
      */
-    @Before
-    public void setupParameters() throws Exception {
+    @BeforeAll
+    public static void setupParameters() throws Exception {
         // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
@@ -96,13 +96,13 @@ public class PolicyToscaPersistenceTest {
         createPolicyTypes();
     }
 
-    @After
-    public void teardown() throws Exception {
+    @AfterAll
+    public static void teardown() throws Exception {
         databaseProvider.close();
     }
 
     @Test
-    public void testToscaPolicyPersistence() throws Exception {
+    void testToscaPolicyPersistence() throws Exception {
         Set<String> policyResources = ResourceUtils.getDirectoryContents("policies");
 
         for (String policyResource : policyResources) {
@@ -121,7 +121,7 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
-    public void testHpaPolicyTypeGet() throws PfModelException {
+    void testHpaPolicyTypeGet() throws PfModelException {
         long getStartTime = System.currentTimeMillis();
         ToscaServiceTemplate hpaServiceTemplate =
                 databaseProvider.getPolicyTypes("onap.policies.optimization.resource.HpaPolicy", "1.0.0");
@@ -150,7 +150,7 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
-    public void testNamingPolicyGet() throws PfModelException {
+    void testNamingPolicyGet() throws PfModelException {
         String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
         ToscaServiceTemplate serviceTemplate =
                 yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
@@ -196,7 +196,7 @@ public class PolicyToscaPersistenceTest {
     }
 
     @Test
-    public void testNamingPolicyVersions() throws PfModelException {
+    void testNamingPolicyVersions() throws PfModelException {
         String policyYamlString = ResourceUtils.getResourceAsString("policies/sdnc.policy.naming.input.tosca.yaml");
         ToscaServiceTemplate serviceTemplate =
                 yamlJsonTranslator.fromYaml(policyYamlString, ToscaServiceTemplate.class);
@@ -252,7 +252,7 @@ public class PolicyToscaPersistenceTest {
      * @param serviceTemplate the service template containing the policy
      * @throws Exception any exception thrown
      */
-    public void testPolicyPersistence(@NonNull final ToscaServiceTemplate serviceTemplate) throws Exception {
+    void testPolicyPersistence(@NonNull final ToscaServiceTemplate serviceTemplate) throws Exception {
         assertNotNull(serviceTemplate);
 
         CountDownLatch threadCountDownLatch = new CountDownLatch(10);
@@ -306,7 +306,7 @@ public class PolicyToscaPersistenceTest {
         return toscaPolicy;
     }
 
-    private void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
+    private static void createPolicyTypes() throws CoderException, PfModelException, URISyntaxException {
         Set<String> policyTypeResources = ResourceUtils.getDirectoryContents("policytypes");
 
         for (String policyTypeResource : policyTypeResources) {

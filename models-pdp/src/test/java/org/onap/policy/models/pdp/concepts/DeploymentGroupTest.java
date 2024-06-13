@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,30 +22,30 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.pdp.concepts.DeploymentSubGroup.Action;
 
 /**
  * Test methods not tested by {@link ModelsTest}.
  */
-public class DeploymentGroupTest {
+class DeploymentGroupTest {
     private static final String NAME = "my-name";
     private static final String PDP_TYPE1 = "type-1";
     private static final String PDP_TYPE2 = "type-2";
     private static final String PDP_TYPE3 = "type-3";
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new DeploymentGroup(null)).isInstanceOf(NullPointerException.class);
 
         DeploymentGroup orig = new DeploymentGroup();
@@ -66,7 +67,7 @@ public class DeploymentGroupTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         DeploymentGroup group = new DeploymentGroup();
         group.setName("A");
         int hash = group.hashCode();
@@ -78,7 +79,7 @@ public class DeploymentGroupTest {
     }
 
     @Test
-    public void testValidatePapRest() {
+    void testValidatePapRest() {
         DeploymentGroup group = new DeploymentGroup();
         group.setName(NAME);
 
@@ -127,7 +128,7 @@ public class DeploymentGroupTest {
     }
 
     @Test
-    public void testCheckDuplicateSubgroups() {
+    void testCheckDuplicateSubgroups() {
         DeploymentGroup group = new DeploymentGroup();
         group.setName(NAME);
 

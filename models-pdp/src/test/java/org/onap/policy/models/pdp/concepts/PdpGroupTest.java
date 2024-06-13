@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,12 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +35,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.pdp.enums.PdpState;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
@@ -43,7 +43,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 /**
  * Test methods not tested by {@link ModelsTest}.
  */
-public class PdpGroupTest {
+class PdpGroupTest {
     private static final String VERSION = "1.2.3";
     private static final String NAME = "my-name";
     private static final String PDP_TYPE1 = "type-1";
@@ -51,7 +51,7 @@ public class PdpGroupTest {
     private static final String PDP_TYPE3 = "type-3";
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new PdpGroup(null)).isInstanceOf(NullPointerException.class);
 
         PdpGroup orig = new PdpGroup();
@@ -87,7 +87,7 @@ public class PdpGroupTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         PdpGroup group = new PdpGroup();
         group.setDescription("A");
         int hash = group.hashCode();
@@ -99,7 +99,7 @@ public class PdpGroupTest {
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         PdpGroup pdpGroup0 = new PdpGroup();
         pdpGroup0.setName("Name0");
         pdpGroup0.setVersion(VERSION);
@@ -122,7 +122,7 @@ public class PdpGroupTest {
     }
 
     @Test
-    public void testValidatePapRest_GroupUpdateFlow() {
+    void testValidatePapRest_GroupUpdateFlow() {
         PdpGroup group = new PdpGroup();
         group.setName(NAME);
         // with supported policy type and policies
@@ -158,7 +158,7 @@ public class PdpGroupTest {
     }
 
     @Test
-    public void testValidatePapRest() {
+    void testValidatePapRest() {
         PdpGroup group = new PdpGroup();
         group.setName(NAME);
 

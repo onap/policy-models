@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2021 Bell Canada. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,22 +19,22 @@
 
 package org.onap.policy.models.pap.concepts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for PdpGroupDeployResponse.
  */
-public class PdpGroupDeployResponseTest {
+class PdpGroupDeployResponseTest {
 
     private static final String URI = "/policy/pap/v1/policies/status";
     private static final String MESSAGE = "the message";
 
     @Test
-    public void testPdpGroupDeployResponse() {
+    void testPdpGroupDeployResponse() {
         assertNotNull(new PdpGroupDeployResponse("message", "uri"));
         assertNotNull(new PdpGroupDeployResponse("message", null));
         assertNotNull(new PdpGroupDeployResponse(null, null));

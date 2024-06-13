@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021 Nordix Foundation.
+ *  Copyright (C) 2021-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@ package org.onap.policy.models.pap.persistence.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.pap.concepts.PolicyAudit;
 import org.onap.policy.models.pap.concepts.PolicyAudit.AuditAction;
@@ -39,7 +39,7 @@ import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.State;
 import org.onap.policy.models.pdp.persistence.concepts.JpaPdpPolicyStatus;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
-public class JpaPolicyAuditTest {
+class JpaPolicyAuditTest {
 
     private static final ToscaConceptIdentifier MY_POLICY = new ToscaConceptIdentifier("MyPolicy", "1.2.3");
     private static final String PDP_GROUP = "pdpGroupxyz";
@@ -50,14 +50,14 @@ public class JpaPolicyAuditTest {
     /**
      * Setup an audit for usage on unit tests.
      */
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         audit = PolicyAudit.builder().auditId(1L).pdpGroup(PDP_GROUP).pdpType("pdpType").policy(MY_POLICY)
                 .action(AuditAction.DEPLOYMENT).timestamp(Instant.now().truncatedTo(ChronoUnit.SECONDS)).build();
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(audit);
         assertEquals(-1, jpaAudit.compareTo(null));
         assertEquals(0, jpaAudit.compareTo(jpaAudit));
@@ -70,7 +70,7 @@ public class JpaPolicyAuditTest {
     }
 
     @Test
-    public void testKeys() {
+    void testKeys() {
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit();
         assertThat(jpaAudit.getKeys()).isNotNull();
         assertTrue(jpaAudit.getKey().isNullKey());
@@ -80,7 +80,7 @@ public class JpaPolicyAuditTest {
     }
 
     @Test
-    public void testClean() {
+    void testClean() {
         audit.setUser("   user");
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(audit);
         assertThatNoException().isThrownBy(() -> jpaAudit.clean());
@@ -88,7 +88,7 @@ public class JpaPolicyAuditTest {
     }
 
     @Test
-    public void testToAuthorative() {
+    void testToAuthorative() {
         audit.setUser(USER);
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(audit);
         PolicyAudit convertedAudit = jpaAudit.toAuthorative();
@@ -103,7 +103,7 @@ public class JpaPolicyAuditTest {
     }
 
     @Test
-    public void testConversionsWithRequiredOnly() {
+    void testConversionsWithRequiredOnly() {
         audit = PolicyAudit.builder().policy(MY_POLICY).action(AuditAction.DEPLOYMENT)
                 .timestamp(Instant.now().truncatedTo(ChronoUnit.SECONDS)).build();
 
@@ -115,7 +115,7 @@ public class JpaPolicyAuditTest {
     }
 
     @Test
-    public void testValidation() {
+    void testValidation() {
         PolicyAudit invalidAudit = PolicyAudit.builder().pdpGroup(PDP_GROUP).user(USER).build();
 
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(invalidAudit);
