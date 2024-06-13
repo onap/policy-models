@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,22 +22,22 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptKeySub;
 
-public class PfKeyUseTest {
+class PfKeyUseTest {
 
     private static final String OTHER_KEY_IS_NULL = "^otherKey is marked .*on.*ull but is null$";
 
     @Test
-    public void testKeyUse() {
+    void testKeyUse() {
         assertNotNull(new PfKeyUse());
         assertNotNull(new PfKeyUse(new PfConceptKey()));
         assertNotNull(new PfKeyUse(new PfReferenceKey()));
@@ -83,7 +83,7 @@ public class PfKeyUseTest {
     }
 
     @Test
-    public void testNullKey() {
+    void testNullKey() {
         PfKeyUse keyUseNull = new PfKeyUse(PfConceptKey.getNullKey());
         PfKeyUse keyUse = new PfKeyUse();
         assertEquals(false, keyUseNull.validate("").isValid());

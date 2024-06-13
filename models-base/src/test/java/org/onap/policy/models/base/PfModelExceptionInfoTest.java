@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +21,11 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import jakarta.ws.rs.core.Response;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
 
 /**
@@ -33,10 +33,10 @@ import org.onap.policy.models.errors.concepts.ErrorResponseInfo;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfModelExceptionInfoTest {
+class PfModelExceptionInfoTest {
 
     @Test
-    public void testExceptionInfo() {
+    void testExceptionInfo() {
         final PfModelException pfme = new PfModelException(Response.Status.ACCEPTED, "HELLO");
         assertThat(pfme).hasMessage("HELLO");
         assertEquals("Server returned: Accepted", getErrorMessage(pfme).substring(0, 25));

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,22 +21,22 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link PfObjectFilter} interface.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfConceptFilterTest {
+class PfConceptFilterTest {
 
     @Test
-    public void testPfConceptFilter() {
+    void testPfConceptFilter() {
         List<PfConcept> listToBeFiltered = new ArrayList<>();
 
         PfConceptFilter conceptFilter = new PfConceptFilter(null, null, null);
