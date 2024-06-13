@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,31 +21,31 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.VfcResponseDescriptor;
 
-@RunWith(MockitoJUnitRunner.class)
-public class VfcOperationTest extends BasicVfcOperation {
+@ExtendWith(MockitoExtension.class)
+ class VfcOperationTest extends BasicVfcOperation {
 
     private VfcOperation oper;
 
     /**
      * setUp.
      */
-    @Before
+    @BeforeEach
     @Override
-    public void setUp() throws Exception {
+     void setUp() throws Exception {
         super.setUp();
 
         initConfig();
@@ -54,7 +54,7 @@ public class VfcOperationTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
@@ -62,13 +62,13 @@ public class VfcOperationTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testResetPollCount() {
+     void testResetPollCount() {
         oper.resetPollCount();
         assertEquals(0, oper.getPollCount());
     }
 
     @Test
-    public void testGetRequestState() {
+     void testGetRequestState() {
         VfcResponse mockResponse = Mockito.mock(VfcResponse.class);
         Mockito.when(mockResponse.getResponseDescriptor()).thenReturn(null);
         assertNull(oper.getRequestState(mockResponse));
@@ -82,7 +82,7 @@ public class VfcOperationTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testIsSuccess() {
+     void testIsSuccess() {
         assertTrue(oper.isSuccess(rawResponse, response));
     }
 }

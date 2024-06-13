@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +21,27 @@
 
 package org.onap.policy.controlloop.actorserviceprovider;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class CallbackManagerTest {
+class CallbackManagerTest {
 
     private CallbackManager mgr;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mgr = new CallbackManager();
     }
 
     @Test
-    public void testCanStart_testGetStartTime() {
+    void testCanStart_testGetStartTime() {
         // null until canXxx() is called
         assertNull(mgr.getStartTime());
 
@@ -58,7 +59,7 @@ public class CallbackManagerTest {
     }
 
     @Test
-    public void testCanEnd_testGetEndTime() {
+    void testCanEnd_testGetEndTime() {
         // null until canXxx() is called
         assertNull(mgr.getEndTime());
         assertNull(mgr.getEndTime());
@@ -77,7 +78,7 @@ public class CallbackManagerTest {
     }
 
     @Test
-    public void testRun() {
+    void testRun() {
         mgr.run();
 
         assertNotNull(mgr.getStartTime());

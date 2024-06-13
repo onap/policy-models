@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,21 +21,21 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.Executor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HttpConfigTest {
+@ExtendWith(MockitoExtension.class)
+class HttpConfigTest {
     private static final String MY_CLIENT = "my-client";
     private static final String MY_PATH = "my-path";
     private static final int TIMEOUT_SEC = 10;
@@ -51,8 +52,8 @@ public class HttpConfigTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         when(factory.get(MY_CLIENT)).thenReturn(client);
 
         HttpParams params = HttpParams.builder().clientName(MY_CLIENT).path(MY_PATH).timeoutSec(TIMEOUT_SEC).build();
@@ -60,7 +61,7 @@ public class HttpConfigTest {
     }
 
     @Test
-    public void test() {
+     void test() {
         assertSame(executor, config.getBlockingExecutor());
         assertSame(client, config.getClient());
         assertEquals(MY_PATH, config.getPath());

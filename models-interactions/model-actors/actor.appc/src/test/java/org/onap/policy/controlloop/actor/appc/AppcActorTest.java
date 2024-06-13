@@ -21,19 +21,19 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AppcActorTest extends BasicActor {
+@ExtendWith(MockitoExtension.class)
+ class AppcActorTest extends BasicActor {
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         AppcActor prov = new AppcActor();
         assertEquals(0, prov.getSequenceNumber());
 
@@ -45,7 +45,7 @@ public class AppcActorTest extends BasicActor {
     }
 
     @Test
-    public void testActorService() {
+     void testActorService() {
         // verify that it all plugs into the ActorService
         verifyActorService(AppcActor.NAME, "service.yaml");
     }

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +21,24 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.Future;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
-public class FutureManagerTest {
+@ExtendWith(MockitoExtension.class)
+class FutureManagerTest {
 
     private static final String EXPECTED_EXCEPTION = "expected exception";
 
@@ -53,13 +56,13 @@ public class FutureManagerTest {
     /**
      * Initializes fields, including {@link #mgr}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mgr = new FutureManager();
     }
 
     @Test
-    public void testStop() {
+     void testStop() {
         mgr.add(future1);
         mgr.add(future2);
         mgr.add(future3);
@@ -96,7 +99,7 @@ public class FutureManagerTest {
     }
 
     @Test
-    public void testAdd() {
+     void testAdd() {
         // still running - this should not be invoked
         mgr.add(future1);
         verify(future1, never()).cancel(anyBoolean());
@@ -119,7 +122,7 @@ public class FutureManagerTest {
     }
 
     @Test
-    public void testRemove() {
+     void testRemove() {
         mgr.add(future1);
         mgr.add(future2);
 

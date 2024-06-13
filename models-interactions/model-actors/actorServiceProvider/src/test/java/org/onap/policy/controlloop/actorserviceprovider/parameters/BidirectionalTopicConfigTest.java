@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,25 +21,27 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicManager;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BidirectionalTopicConfigTest {
+@ExtendWith(MockitoExtension.class)
+class BidirectionalTopicConfigTest {
     private static final String MY_SINK = "my-sink";
     private static final String MY_SOURCE = "my-source";
     private static final int TIMEOUT_SEC = 10;
@@ -57,8 +60,8 @@ public class BidirectionalTopicConfigTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         List<SelectorKey> keys = Arrays.asList(new SelectorKey(""));
 
         when(topicManager.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(topicHandler);
@@ -70,7 +73,7 @@ public class BidirectionalTopicConfigTest {
     }
 
     @Test
-    public void test() {
+     void test() {
         assertSame(executor, config.getBlockingExecutor());
         assertSame(topicHandler, config.getTopicHandler());
         assertSame(forwarder, config.getForwarder());

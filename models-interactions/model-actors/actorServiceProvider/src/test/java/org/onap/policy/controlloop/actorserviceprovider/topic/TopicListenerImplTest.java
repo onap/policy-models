@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -31,18 +32,20 @@ import static org.mockito.Mockito.verify;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TopicListenerImplTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class TopicListenerImplTest {
     private static final StandardCoder coder = new StandardCoder();
     private static final CommInfrastructure INFRA = CommInfrastructure.NOOP;
     private static final String MY_TOPIC = "my-topic";
@@ -72,8 +75,8 @@ public class TopicListenerImplTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         topic = new TopicListenerImpl();
 
         forwarder1 = topic.addForwarder(new SelectorKey(KEY1));
@@ -89,7 +92,7 @@ public class TopicListenerImplTest {
     }
 
     @Test
-    public void testShutdown() {
+    void testShutdown() {
         // shut it down, which should clear all forwarders
         topic.shutdown();
 
@@ -103,13 +106,13 @@ public class TopicListenerImplTest {
     }
 
     @Test
-    public void testAddForwarder() {
+     void testAddForwarder() {
         assertSame(forwarder1, topic.addForwarder(new SelectorKey(KEY1)));
         assertSame(forwarder2, topic.addForwarder(new SelectorKey(KEY1), new SelectorKey(KEY2, SUBKEY)));
     }
 
     @Test
-    public void testOnTopicEvent() {
+     void testOnTopicEvent() {
         /*
          * send a message that should go to listener1 on forwarder1 and listener2 on
          * forwarder2

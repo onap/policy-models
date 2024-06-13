@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +22,14 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class DelayedIdentStringTest {
+class DelayedIdentStringTest {
 
     private int countToStringCalls;
     private Object object;
@@ -37,8 +38,8 @@ public class DelayedIdentStringTest {
     /**
      * Initializes fields, including {@link #delay}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         countToStringCalls = 0;
 
         object = new Object() {
@@ -53,7 +54,7 @@ public class DelayedIdentStringTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         String delayed = delay.toString();
         assertEquals(1, countToStringCalls);
 
@@ -86,7 +87,7 @@ public class DelayedIdentStringTest {
     }
 
     @Test
-    public void testDelayedIdentString() {
+    void testDelayedIdentString() {
         // should not have called the object's toString() method yet
         assertEquals(0, countToStringCalls);
     }

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +22,18 @@
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.function.Consumer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class BidirectionalTopicActorParamsTest {
+class BidirectionalTopicActorParamsTest {
     private static final String CONTAINER = "my-container";
 
     private static final String DFLT_SOURCE = "default-source";
@@ -58,8 +59,8 @@ public class BidirectionalTopicActorParamsTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         BidirectionalTopicParams oper1 = BidirectionalTopicParams.builder().sourceTopic(OPER1_SOURCE)
                         .sinkTopic(OPER1_SINK).timeoutSec(OPER1_TIMEOUT).build();
 
@@ -72,7 +73,7 @@ public class BidirectionalTopicActorParamsTest {
     }
 
     @Test
-    public void testValidate() {
+     void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
@@ -97,13 +98,13 @@ public class BidirectionalTopicActorParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         BidirectionalTopicActorParams params2 = makeBidirectionalTopicActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 

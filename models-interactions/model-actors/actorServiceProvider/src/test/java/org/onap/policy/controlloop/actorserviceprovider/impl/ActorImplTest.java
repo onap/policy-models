@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +23,10 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -37,8 +38,8 @@ import static org.mockito.Mockito.when;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -47,7 +48,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-public class ActorImplTest {
+class ActorImplTest {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String ACTOR_NAME = "my-actor";
     private static final String OPER1 = "add";
@@ -72,8 +73,8 @@ public class ActorImplTest {
     /**
      * Initializes the fields, including a fully populated {@link #actor}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+   void setUp() {
         oper1 = spy(new MyOper(OPER1));
         oper2 = spy(new MyOper(OPER2));
         oper3 = spy(new MyOper(OPER3));
@@ -90,14 +91,14 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testActorImpl_testGetName() {
+   void testActorImpl_testGetName() {
         assertEquals(ACTOR_NAME, actor.getName());
         assertEquals(4, actor.getOperationNames().size());
         assertEquals(0, actor.getSequenceNumber());
     }
 
     @Test
-    public void testDoStart() {
+   void testDoStart() {
         actor.configure(params);
         assertEquals(4, actor.getOperationNames().size());
 
@@ -130,7 +131,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testDoStop() {
+   void testDoStop() {
         actor.configure(params);
         actor.start();
         assertEquals(4, actor.getOperationNames().size());
@@ -162,7 +163,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testDoShutdown() {
+   void testDoShutdown() {
         actor.configure(params);
         actor.start();
         assertEquals(4, actor.getOperationNames().size());
@@ -194,7 +195,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testAddOperator() {
+    void testAddOperator() {
         // cannot add operators if already configured
         actor.configure(params);
         assertThatIllegalStateException().isThrownBy(() -> actor.addOperator(oper1));
@@ -215,7 +216,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testGetOperator() {
+    void testGetOperator() {
         assertSame(oper1, actor.getOperator(OPER1));
         assertSame(oper3, actor.getOperator(OPER3));
 
@@ -223,7 +224,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testGetOperators() {
+    void testGetOperators() {
         // @formatter:off
         assertEquals("[add, divide, multiply, subtract]",
                         actor.getOperators().stream()
@@ -235,7 +236,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testGetOperationNames() {
+    void testGetOperationNames() {
         // @formatter:off
         assertEquals("[add, divide, multiply, subtract]",
                         actor.getOperationNames().stream()
@@ -246,7 +247,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testDoConfigure() {
+    void testDoConfigure() {
         actor.configure(params);
         assertTrue(actor.isConfigured());
 
@@ -266,7 +267,7 @@ public class ActorImplTest {
      * exceptions.
      */
     @Test
-    public void testDoConfigureExceptions() {
+    void testDoConfigureExceptions() {
         makeValidException(oper1);
         makeRuntimeException(oper2);
         makeValidException(oper3);
@@ -284,7 +285,7 @@ public class ActorImplTest {
      * </ul>
      */
     @Test
-    public void testDoConfigureConfigure() {
+    void testDoConfigureConfigure() {
         // configure one operator
         oper1.configure(sub1);
 
@@ -349,7 +350,7 @@ public class ActorImplTest {
     }
 
     @Test
-    public void testMakeOperatorParameters() {
+    void testMakeOperatorParameters() {
         actor.configure(params);
 
         // each operator should have received its own parameters

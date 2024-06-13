@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,16 +21,15 @@
 
 package org.onap.policy.controlloop.actor.appc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.policy.appc.Request;
@@ -86,7 +86,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new Response();
@@ -100,7 +100,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         genvnf.setVnfId(MY_VNF);
     }
 
-    public void tearDown() {
+    void tearDown() {
         super.tearDownBasic();
     }
 

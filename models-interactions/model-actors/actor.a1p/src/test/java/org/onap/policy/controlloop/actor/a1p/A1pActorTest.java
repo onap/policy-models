@@ -2,6 +2,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,20 +20,20 @@
 
 package org.onap.policy.controlloop.actor.a1p;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 import org.onap.policy.controlloop.actorserviceprovider.Operator;
 
-public class A1pActorTest extends BasicActor {
+class A1pActorTest extends BasicActor {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         A1pActor prov = new A1pActor();
         assertEquals(0, prov.getSequenceNumber());
 
@@ -44,13 +45,13 @@ public class A1pActorTest extends BasicActor {
     }
 
     @Test
-    public void testActorService() {
+     void testActorService() {
         // verify that it all plugs into the ActorService
         verifyActorService(A1pActor.NAME, "service.yaml");
     }
 
     @Test
-    public void testGetOperator() {
+     void testGetOperator() {
         A1pActor sp = new A1pActor();
 
         // should always return the same operator regardless of the name

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@
 
 package org.onap.policy.controlloop.actor.a1p;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -68,7 +69,7 @@ public abstract class BasicA1pOperation extends BasicBidirectionalTopicOperation
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new PciMessage();
@@ -85,7 +86,7 @@ public abstract class BasicA1pOperation extends BasicBidirectionalTopicOperation
         status.setValue(StatusCodeEnum.SUCCESS.toString());
     }
 
-    public void tearDown() {
+    void tearDown() {
         super.tearDownBasic();
     }
 

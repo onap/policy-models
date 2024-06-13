@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +23,14 @@ package org.onap.policy.controlloop.actor.cds;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 import java.util.UUID;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.cds.properties.CdsServerProperties;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -37,8 +38,8 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GrpcOperatorTest {
+@ExtendWith(MockitoExtension.class)
+ class GrpcOperatorTest {
 
     GrpcOperator operation;
     Map<String, Object> paramMap;
@@ -47,8 +48,8 @@ public class GrpcOperatorTest {
     /**
      * Initializes fields, including {@link #operation}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         operation = new GrpcOperator(CdsActorConstants.CDS_ACTOR, GrpcOperation.NAME, GrpcOperation::new);
 
         CdsServerProperties props = new CdsServerProperties();
@@ -64,7 +65,7 @@ public class GrpcOperatorTest {
     }
 
     @Test
-    public void testGrpcOperator() {
+     void testGrpcOperator() {
         assertEquals(CdsActorConstants.CDS_ACTOR, operation.getActorName());
         assertEquals(GrpcOperation.NAME, operation.getName());
         assertEquals(CdsActorConstants.CDS_ACTOR + "." + GrpcOperation.NAME, operation.getFullName());
@@ -72,7 +73,7 @@ public class GrpcOperatorTest {
 
 
     @Test
-    public void testDoConfigure() {
+     void testDoConfigure() {
 
         operation.doConfigure(paramMap);
         assertEquals(30000, operation.getCurrentConfig().getTimeoutMs());
@@ -83,7 +84,7 @@ public class GrpcOperatorTest {
     }
 
     @Test
-    public void testBuildOperation() {
+     void testBuildOperation() {
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME).requestId(UUID.randomUUID()).build();
 

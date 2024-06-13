@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,34 +21,34 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class SelectorKeyTest {
+class SelectorKeyTest {
     private static final String FIELD1 = "map";
     private static final String FIELD2 = "abc";
     private static final String FIELDX = "abd";
 
     private SelectorKey key;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         key = new SelectorKey(FIELD1, FIELD2);
     }
 
     @Test
-    public void testHashCode_testEquals() {
+    void testHashCode_testEquals() {
         SelectorKey key2 = new SelectorKey(FIELD1, FIELD2);
         assertEquals(key, key2);
         assertEquals(key.hashCode(), key2.hashCode());
@@ -64,7 +65,7 @@ public class SelectorKeyTest {
     }
 
     @Test
-    public void testExtractField() {
+    void testExtractField() {
         Map<String, Object> map = Map.of("hello", "world", FIELD1, Map.of("another", "", FIELD2, "value B"));
         StandardCoderObject sco = Util.translate("", map, StandardCoderObject.class);
 
@@ -84,7 +85,7 @@ public class SelectorKeyTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         assertEquals("[map, abc]", key.toString());
     }
 

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +22,30 @@
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BidirectionalTopicHandlerTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class BidirectionalTopicHandlerTest {
     private static final String UNKNOWN = "unknown";
     private static final String MY_SOURCE = "my-source";
     private static final String MY_SINK = "my-sink";
@@ -64,8 +67,8 @@ public class BidirectionalTopicHandlerTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws BidirectionalTopicClientException {
+    @BeforeEach
+    void setUp() throws BidirectionalTopicClientException {
         when(mgr.getTopicSinks(MY_SINK)).thenReturn(Arrays.asList(publisher));
         when(mgr.getTopicSources(Arrays.asList(MY_SOURCE))).thenReturn(Arrays.asList(subscriber));
 
@@ -77,7 +80,7 @@ public class BidirectionalTopicHandlerTest {
     }
 
     @Test
-    public void testBidirectionalTopicHandler_testGetSource_testGetTarget() {
+    void testBidirectionalTopicHandler_testGetSource_testGetTarget() {
         assertEquals(MY_SOURCE, handler.getSourceTopic());
         assertEquals(MY_SINK, handler.getSinkTopic());
 
@@ -96,24 +99,24 @@ public class BidirectionalTopicHandlerTest {
     }
 
     @Test
-    public void testShutdown() {
+    void testShutdown() {
         handler.shutdown();
         verify(subscriber).unregister(any());
     }
 
     @Test
-    public void testStart() {
+     void testStart() {
         verify(subscriber).register(any());
     }
 
     @Test
-    public void testStop() {
+     void testStop() {
         handler.stop();
         verify(subscriber).unregister(any());
     }
 
     @Test
-    public void testAddForwarder() {
+     void testAddForwarder() {
         // array form
         Forwarder forwarder = handler.addForwarder(new SelectorKey(KEY1), new SelectorKey(KEY2));
         assertNotNull(forwarder);
@@ -123,7 +126,7 @@ public class BidirectionalTopicHandlerTest {
     }
 
     @Test
-    public void testGetTopicEndpointManager() {
+     void testGetTopicEndpointManager() {
         // setting "mgr" to null should cause it to use the superclass' method
         mgr = null;
         assertNotNull(handler.getTopicEndpointManager());
@@ -131,7 +134,7 @@ public class BidirectionalTopicHandlerTest {
 
 
     private class MyTopicHandler extends BidirectionalTopicHandler {
-        public MyTopicHandler(String sinkTopic, String sourceTopic) throws BidirectionalTopicClientException {
+        MyTopicHandler(String sinkTopic, String sourceTopic) throws BidirectionalTopicClientException {
             super(sinkTopic, sourceTopic);
         }
 

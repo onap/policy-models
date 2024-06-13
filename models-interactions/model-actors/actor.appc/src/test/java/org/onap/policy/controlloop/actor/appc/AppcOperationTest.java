@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,21 +22,21 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.appc.CommonHeader;
 import org.onap.policy.appc.Request;
 import org.onap.policy.appc.ResponseCode;
@@ -46,46 +46,46 @@ import org.onap.policy.controlloop.actorserviceprovider.impl.BidirectionalTopicO
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AppcOperationTest extends BasicAppcOperation {
+@ExtendWith(MockitoExtension.class)
+ class AppcOperationTest extends BasicAppcOperation {
     private AppcOperation oper;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+     static void setUpBeforeClass() throws Exception {
         // use same topic name for both sides
         initBeforeClass(MY_SINK, MY_SINK);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+     static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     @Override
-    public void setUp() throws Exception {
+     void setUp() throws Exception {
         super.setUp();
 
         oper = new MyOper(params, config);
     }
 
-    @After
+    @AfterEach
     @Override
-    public void tearDown() {
+     void tearDown() {
         super.tearDown();
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
 
     @Test
-    public void testMakeRequest() {
+     void testMakeRequest() {
         oper.generateSubRequestId(2);
         String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
@@ -111,7 +111,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testConvertPayload() {
+     void testConvertPayload() {
         Request request = oper.makeRequest(genvnf);
 
         // @formatter:off
@@ -164,7 +164,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testGetExpectedKeyValues() {
+     void testGetExpectedKeyValues() {
         oper.generateSubRequestId(2);
         Request request = oper.makeRequest(genvnf);
         assertEquals(Arrays.asList(request.getCommonHeader().getSubRequestId()),
@@ -172,7 +172,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testDetmStatusStringResponse() {
+     void testDetmStatusStringResponse() {
         final ResponseStatus status = response.getStatus();
 
         // null status (i.e., it's a Request, not a Response)
@@ -204,7 +204,7 @@ public class AppcOperationTest extends BasicAppcOperation {
     }
 
     @Test
-    public void testSetOutcome() {
+     void testSetOutcome() {
         final ResponseStatus status = response.getStatus();
 
         // null status
@@ -233,7 +233,7 @@ public class AppcOperationTest extends BasicAppcOperation {
 
     private class MyOper extends AppcOperation {
 
-        public MyOper(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+        MyOper(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
             super(params, config, Collections.emptyList());
         }
 
