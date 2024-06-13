@@ -30,16 +30,19 @@ import static org.mockito.Mockito.verify;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ForwarderTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class ForwarderTest {
     private static final String TEXT = "some text";
 
     private static final String KEY1 = "requestId";
@@ -75,8 +78,8 @@ public class ForwarderTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         forwarder = new Forwarder(Arrays.asList(new SelectorKey(KEY1), new SelectorKey(KEY2, SUBKEY)));
 
         forwarder.register(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener1);
@@ -86,7 +89,7 @@ public class ForwarderTest {
     }
 
     @Test
-    public void testRegister() {
+    void testRegister() {
         // key size mismatches
         assertThatIllegalArgumentException().isThrownBy(() -> forwarder.register(Arrays.asList(), listener1))
                         .withMessage("key/value mismatch");
@@ -96,7 +99,7 @@ public class ForwarderTest {
     }
 
     @Test
-    public void testUnregister() {
+    void testUnregister() {
         // remove listener1b
         forwarder.unregister(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener1b);
 
@@ -121,7 +124,7 @@ public class ForwarderTest {
     }
 
     @Test
-    public void testOnMessage() {
+     void testOnMessage() {
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
         forwarder.onMessage(TEXT, sco);
 
@@ -166,7 +169,7 @@ public class ForwarderTest {
      * Tests onMessage() when listener1 throws an exception.
      */
     @Test
-    public void testOnMessageListenerException1() {
+     void testOnMessageListenerException1() {
         doThrow(new IllegalStateException("expected exception")).when(listener1).accept(any(), any());
 
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));
@@ -179,7 +182,7 @@ public class ForwarderTest {
      * Tests onMessage() when listener1b throws an exception.
      */
     @Test
-    public void testOnMessageListenerException1b() {
+     void testOnMessageListenerException1b() {
         doThrow(new IllegalStateException("expected exception")).when(listener1b).accept(any(), any());
 
         StandardCoderObject sco = makeMessage(Map.of(KEY1, VALUEA_REQID, KEY2, Map.of(SUBKEY, VALUEA_SUBREQID)));

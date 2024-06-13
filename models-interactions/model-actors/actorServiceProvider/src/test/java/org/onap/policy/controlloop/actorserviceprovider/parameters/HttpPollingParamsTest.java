@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +22,17 @@
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams.HttpPollingParamsBuilder;
 
-public class HttpPollingParamsTest {
+class HttpPollingParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
     private static final String PATH = "my-path";
@@ -42,14 +43,14 @@ public class HttpPollingParamsTest {
 
     private HttpPollingParams params;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         params = HttpPollingParams.builder().pollPath(POLL_PATH).maxPolls(MAX_POLLS).pollWaitSec(POLL_WAIT_SEC)
                         .clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
     }
 
     @Test
-    public void testValidate() {
+     void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         testValidateField("pollPath", "null", bldr -> bldr.pollPath(null));
@@ -66,7 +67,7 @@ public class HttpPollingParamsTest {
     }
 
     @Test
-    public void testBuilder_testToBuilder() {
+     void testBuilder_testToBuilder() {
         assertEquals(CLIENT, params.getClientName());
 
         assertEquals(POLL_PATH, params.getPollPath());
@@ -81,11 +82,11 @@ public class HttpPollingParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         result = makeInvalid.apply(params.toBuilder()).build().validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(fieldName).contains(expected);
     }
 }

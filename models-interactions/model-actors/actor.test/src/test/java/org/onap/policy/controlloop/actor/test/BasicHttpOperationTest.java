@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,48 +21,48 @@
 
 package org.onap.policy.controlloop.actor.test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import jakarta.ws.rs.client.InvocationCallback;
 import jakarta.ws.rs.core.Response;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BasicHttpOperationTest {
+@ExtendWith(MockitoExtension.class)
+class BasicHttpOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
 
     private BasicHttpOperation oper;
 
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         oper = new BasicHttpOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }
 
     @Test
-    public void testBasicHttpOperation() {
+    void testBasicHttpOperation() {
         oper = new BasicHttpOperation();
         assertEquals(BasicOperation.DEFAULT_ACTOR, oper.actorName);
         assertEquals(BasicOperation.DEFAULT_OPERATION, oper.operationName);
     }
 
     @Test
-    public void testBasicHttpOperationStringString() {
+    void testBasicHttpOperationStringString() {
         assertEquals(ACTOR, oper.actorName);
         assertEquals(OPERATION, oper.operationName);
     }
 
     @Test
-    public void testSetUp() throws Exception {
+    void testSetUp() throws Exception {
         assertNotNull(oper.client);
         assertSame(oper.client, oper.factory.get(BasicHttpOperation.MY_CLIENT));
         assertEquals(200, oper.rawResponse.getStatus());
@@ -73,7 +73,7 @@ public class BasicHttpOperationTest {
     }
 
     @Test
-    public void testInitOperator() throws Exception {
+    void testInitOperator() throws Exception {
         oper.initConfig();
 
         assertSame(oper.client, oper.config.getClient());
@@ -81,7 +81,7 @@ public class BasicHttpOperationTest {
     }
 
     @Test
-    public void testProvideResponse() throws Exception {
+    void testProvideResponse() throws Exception {
         InvocationCallback<Response> cb = new InvocationCallback<>() {
             @Override
             public void completed(Response response) {

@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,24 +21,24 @@
 
 package org.onap.policy.controlloop.actor.xacml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.Executor;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.models.decisions.concepts.DecisionRequest;
 
-@RunWith(MockitoJUnitRunner.class)
-public class DecisionConfigTest {
+@ExtendWith(MockitoExtension.class)
+ class DecisionConfigTest {
     private static final String MY_CLIENT = "my-client";
     private static final String PATH = "my-path";
     private static final int TIMEOUT = 10;
@@ -59,8 +60,8 @@ public class DecisionConfigTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         when(factory.get(MY_CLIENT)).thenReturn(client);
 
         params = DecisionParams.builder().onapName(ONAP_NAME).onapComponent(ONAP_COMP).onapInstance(ONAP_INST)
@@ -69,7 +70,7 @@ public class DecisionConfigTest {
     }
 
     @Test
-    public void test() {
+     void test() {
         DecisionRequest expected = new DecisionRequest();
         expected.setOnapComponent(ONAP_COMP);
         expected.setOnapInstance(ONAP_INST);

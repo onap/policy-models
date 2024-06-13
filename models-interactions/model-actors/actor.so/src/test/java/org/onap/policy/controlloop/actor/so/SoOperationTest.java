@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.lenient;
 
 import java.time.LocalDateTime;
@@ -36,10 +36,10 @@ import java.time.Month;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.Tenant;
 import org.onap.policy.common.utils.coder.Coder;
@@ -53,8 +53,8 @@ import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestStatus;
 import org.onap.policy.so.SoResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SoOperationTest extends BasicSoOperation {
+@ExtendWith(MockitoExtension.class)
+ class SoOperationTest extends BasicSoOperation {
 
     private static final List<String> PROP_NAMES = Collections.emptyList();
 
@@ -64,8 +64,8 @@ public class SoOperationTest extends BasicSoOperation {
      * Sets up.
      */
     @Override
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+     void setUp() throws Exception {
         super.setUp();
 
         initConfig();
@@ -74,7 +74,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
@@ -86,7 +86,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testValidateTarget() {
+     void testValidateTarget() {
         // check when various fields are null
         verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_CUSTOMIZATION_ID, targetEntities);
         verifyNotNull(ControlLoopOperationParams.PARAMS_ENTITY_MODEL_INVARIANT_ID, targetEntities);
@@ -108,7 +108,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testGetRequestState() {
+     void testGetRequestState() {
         SoResponse resp = new SoResponse();
         assertNull(oper.getRequestState(resp));
 
@@ -125,7 +125,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testIsSuccess() {
+     void testIsSuccess() {
         // always true
 
         assertTrue(oper.isSuccess(rawResponse, response));
@@ -135,7 +135,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testSetOutcome() {
+     void testSetOutcome() {
         // success case
         lenient().when(rawResponse.getStatus()).thenReturn(200);
         assertSame(outcome, oper.setOutcome(outcome, OperationResult.SUCCESS, rawResponse, response));
@@ -154,7 +154,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testPrepareSoModelInfo() throws CoderException {
+     void testPrepareSoModelInfo() throws CoderException {
         // valid data
         SoModelInfo info = oper.prepareSoModelInfo();
         verifyRequest("model.json", info);
@@ -166,13 +166,13 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testConstructRequestInfo() throws CoderException {
+     void testConstructRequestInfo() throws CoderException {
         SoRequestInfo info = oper.constructRequestInfo();
         verifyRequest("reqinfo.json", info);
     }
 
     @Test
-    public void testBuildRequestParameters() throws CoderException {
+     void testBuildRequestParameters() throws CoderException {
         // valid data
         verifyRequest("reqparams.json", oper.buildRequestParameters().get());
 
@@ -192,7 +192,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testBuildConfigurationParameters() {
+     void testBuildConfigurationParameters() {
         // valid data
         assertEquals(List.of(Collections.emptyMap()), oper.buildConfigurationParameters().get());
 
@@ -212,7 +212,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testConstructCloudConfiguration() throws Exception {
+     void testConstructCloudConfiguration() throws Exception {
         Tenant tenantItem = new Tenant();
         tenantItem.setTenantId("my-tenant-id");
 
@@ -235,7 +235,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testGetRequiredText() throws Exception {
+     void testGetRequiredText() throws Exception {
 
         assertThatCode(() -> oper.getRequiredText("some value", "my value")).doesNotThrowAnyException();
 
@@ -244,7 +244,7 @@ public class SoOperationTest extends BasicSoOperation {
     }
 
     @Test
-    public void testGetCoder() throws CoderException {
+     void testGetCoder() throws CoderException {
         Coder opcoder = oper.getCoder();
 
         // ensure we can decode an SO timestamp

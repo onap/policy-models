@@ -3,7 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2018 Nokia Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@
 
 package org.onap.policy.controlloop.actor.appclcm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AppcLcmRecipeFormatterTest {
+class AppcLcmRecipeFormatterTest {
 
     @Test
-    public void testShouldCorrectlyFormatRestartRequestWhenRestartGiven() {
+     void testShouldCorrectlyFormatRestartRequestWhenRestartGiven() {
         // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("Restart");
         String expectedUrlRecipe = "restart";
@@ -44,7 +44,7 @@ public class AppcLcmRecipeFormatterTest {
     }
 
     @Test
-    public void testShouldReturnCapitalizedBodySingleWordRecipe() {
+     void testShouldReturnCapitalizedBodySingleWordRecipe() {
         // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("moDify");
         String expectedRecipe = "Modify";
@@ -57,7 +57,7 @@ public class AppcLcmRecipeFormatterTest {
     }
 
     @Test
-    public void testShouldReturnCapitalizeAndJoinedBodyMultiWordRecipe() {
+     void testShouldReturnCapitalizeAndJoinedBodyMultiWordRecipe() {
         // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("coNfig-moDify");
         String expectedRecipe = "ConfigModify";
@@ -70,7 +70,7 @@ public class AppcLcmRecipeFormatterTest {
     }
 
     @Test
-    public void testShouldReturnLowercasedUrlSingleWordRecipe() {
+     void testShouldReturnLowercasedUrlSingleWordRecipe() {
         // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("ModIfy");
         String expectedRecipe = "modify";
@@ -83,7 +83,7 @@ public class AppcLcmRecipeFormatterTest {
     }
 
     @Test
-    public void testShouldReturnLowercasedDashJoinedUrlMultiWordRecipe() {
+     void testShouldReturnLowercasedDashJoinedUrlMultiWordRecipe() {
         // given
         AppcLcmRecipeFormatter recipeFormatter = new AppcLcmRecipeFormatter("Config-MoDify");
         String expectedRecipe = "config-modify";

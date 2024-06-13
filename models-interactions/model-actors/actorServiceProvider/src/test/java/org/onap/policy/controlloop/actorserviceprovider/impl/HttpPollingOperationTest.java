@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -38,11 +38,13 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -54,8 +56,9 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 /**
  * Tests HttpOperation when polling is enabled.
  */
-@RunWith(MockitoJUnitRunner.class)
-public class HttpPollingOperationTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class HttpPollingOperationTest {
     private static final String BASE_URI = "http://my-host:6969/base-uri/";
     private static final String MY_PATH = "my-path";
     private static final String FULL_PATH = BASE_URI + MY_PATH;
@@ -85,19 +88,19 @@ public class HttpPollingOperationTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws Exception {
-        when(client.getBaseUrl()).thenReturn(BASE_URI);
+    @BeforeEach
+    void setUp() throws Exception {
+        Mockito.lenient().when(client.getBaseUrl()).thenReturn(BASE_URI);
 
-        when(config.getClient()).thenReturn(client);
-        when(config.getMaxPolls()).thenReturn(MAX_POLLS);
-        when(config.getPollPath()).thenReturn(POLL_PATH);
-        when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
+        Mockito.lenient().when(config.getClient()).thenReturn(client);
+        Mockito.lenient().when(config.getMaxPolls()).thenReturn(MAX_POLLS);
+        Mockito.lenient().when(config.getPollPath()).thenReturn(POLL_PATH);
+        Mockito.lenient().when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
 
         response = MY_RESPONSE;
 
-        when(rawResponse.getStatus()).thenReturn(RESPONSE_SUCCESS);
-        when(rawResponse.readEntity(String.class)).thenReturn(response);
+        Mockito.lenient().when(rawResponse.getStatus()).thenReturn(RESPONSE_SUCCESS);
+        Mockito.lenient().when(rawResponse.readEntity(String.class)).thenReturn(response);
 
         params = ControlLoopOperationParams.builder().actor(MY_ACTOR).operation(MY_OPERATION).build();
         outcome = params.makeOutcome();
@@ -106,7 +109,7 @@ public class HttpPollingOperationTest {
     }
 
     @Test
-    public void testConstructor_testGetWaitMsGet() {
+    void testConstructor_testGetWaitMsGet() {
         assertEquals(MY_ACTOR, oper.getActorName());
         assertEquals(MY_OPERATION, oper.getName());
         assertSame(config, oper.getConfig());
@@ -114,7 +117,7 @@ public class HttpPollingOperationTest {
     }
 
     @Test
-    public void testSetUsePollExceptions() {
+    void testSetUsePollExceptions() {
         // should be no exception
         oper.setUsePolling();
 
@@ -125,7 +128,7 @@ public class HttpPollingOperationTest {
     }
 
     @Test
-    public void testPostProcess() throws Exception {
+    void testPostProcess() throws Exception {
         // completed
         oper.generateSubRequestId(2);
         CompletableFuture<OperationOutcome> future2 =
@@ -151,7 +154,7 @@ public class HttpPollingOperationTest {
      * Tests postProcess() when the poll is repeated a couple of times.
      */
     @Test
-    public void testPostProcessRepeated_testResetGetCount() throws Exception {
+    void testPostProcessRepeated_testResetGetCount() throws Exception {
         /*
          * Two accepts and then a success - should result in two polls.
          */
@@ -193,7 +196,7 @@ public class HttpPollingOperationTest {
     }
 
     @Test
-    public void testDetmStatus() {
+    void testDetmStatus() {
         // make an operation that does NOT override detmStatus()
         oper = new HttpOperation<String>(params, config, String.class, Collections.emptyList()) {};
 
@@ -228,7 +231,7 @@ public class HttpPollingOperationTest {
 
     private static class MyOper extends HttpOperation<String> {
 
-        public MyOper(ControlLoopOperationParams params, HttpConfig config) {
+        MyOper(ControlLoopOperationParams params, HttpConfig config) {
             super(params, config, String.class, Collections.emptyList());
 
             setUsePolling();

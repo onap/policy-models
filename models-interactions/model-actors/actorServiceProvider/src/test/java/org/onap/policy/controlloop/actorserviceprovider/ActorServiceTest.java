@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +22,11 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -42,8 +43,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
@@ -51,32 +52,32 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
-public class ActorServiceTest {
-    private static final String EXPECTED_EXCEPTION = "expected exception";
-    private static final String ACTOR1 = "actor A";
-    private static final String ACTOR2 = "actor B";
-    private static final String ACTOR3 = "actor C";
-    private static final String ACTOR4 = "actor D";
+class ActorServiceTest {
+    static final String EXPECTED_EXCEPTION = "expected exception";
+    static final String ACTOR1 = "actor A";
+    static final String ACTOR2 = "actor B";
+    static final String ACTOR3 = "actor C";
+    static final String ACTOR4 = "actor D";
 
-    private Actor actor1;
-    private Actor actor2;
-    private Actor actor3;
-    private Actor actor4;
+    Actor actor1;
+    Actor actor2;
+    Actor actor3;
+    Actor actor4;
 
-    private Map<String, Object> sub1;
-    private Map<String, Object> sub2;
-    private Map<String, Object> sub3;
-    private Map<String, Object> sub4;
-    private Map<String, Object> params;
+    Map<String, Object> sub1;
+    Map<String, Object> sub2;
+    Map<String, Object> sub3;
+    Map<String, Object> sub4;
+    Map<String, Object> params;
 
-    private ActorService service;
+    ActorService service;
 
 
     /**
      * Initializes the fields, including a fully populated {@link #service}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         actor1 = spy(new ActorImpl(ACTOR1));
         actor2 = spy(new ActorImpl(ACTOR2));
         actor3 = spy(new ActorImpl(ACTOR3));
@@ -93,7 +94,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testActorService_testBuildList() {
+    void testActorService_testBuildList() {
         /*
          * make a service where actors two and four have names that are duplicates of the
          * others
@@ -122,7 +123,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testDoStart() {
+    void testDoStart() {
         service.configure(params);
 
         setUpOp("testDoStart", actor -> when(actor.isConfigured()).thenReturn(false), Actor::start);
@@ -148,7 +149,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testDoStop() {
+    void testDoStop() {
         service.configure(params);
         service.start();
 
@@ -175,7 +176,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testDoShutdown() {
+    void testDoShutdown() {
         service.configure(params);
         service.start();
 
@@ -211,7 +212,7 @@ public class ActorServiceTest {
      */
     private void setUpOp(String testName, Consumer<Actor> oper2, Consumer<Actor> oper3) {
         Collection<Actor> actors = service.getActors();
-        assertEquals(testName, 4, actors.size());
+        assertEquals(4, actors.size(), testName);
 
         Iterator<Actor> iter = actors.iterator();
 
@@ -229,7 +230,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testGetActor() {
+    void testGetActor() {
         assertSame(actor1, service.getActor(ACTOR1));
         assertSame(actor3, service.getActor(ACTOR3));
 
@@ -237,7 +238,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testGetActors() {
+    void testGetActors() {
         // @formatter:off
         assertEquals("[actor A, actor B, actor C, actor D]",
                         service.getActors().stream()
@@ -249,7 +250,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testGetActorNames() {
+    void testGetActorNames() {
         // @formatter:off
         assertEquals("[actor A, actor B, actor C, actor D]",
                         service.getActorNames().stream()
@@ -260,7 +261,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testDoConfigure() {
+    void testDoConfigure() {
         service.configure(params);
         assertTrue(service.isConfigured());
 
@@ -279,7 +280,7 @@ public class ActorServiceTest {
      * Tests doConfigure() where actors throw parameter validation and runtime exceptions.
      */
     @Test
-    public void testDoConfigureExceptions() {
+    void testDoConfigureExceptions() {
         makeValidException(actor1);
         makeRuntimeException(actor2);
         makeValidException(actor3);
@@ -297,7 +298,7 @@ public class ActorServiceTest {
      * </ul>
      */
     @Test
-    public void testDoConfigureConfigure() {
+    void testDoConfigureConfigure() {
         // need mutable parameters
         params = new TreeMap<>(params);
 
@@ -365,7 +366,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testLoadActors() {
+    void testLoadActors() {
         ActorService service = new ActorService();
         assertFalse(service.getActors().isEmpty());
         assertNotNull(service.getActor(DummyActor.class.getSimpleName()));

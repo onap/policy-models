@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,23 +23,24 @@ package org.onap.policy.controlloop.actor.xacml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -51,8 +52,8 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.XacmlSimulatorJaxRs;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GuardOperationTest extends BasicHttpOperation {
+@ExtendWith(MockitoExtension.class)
+ class GuardOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;
@@ -65,8 +66,8 @@ public class GuardOperationTest extends BasicHttpOperation {
     /**
      * Starts the simulator.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+     static void setUpBeforeClass() throws Exception {
         org.onap.policy.simulators.Util.buildXacmlSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
@@ -75,8 +76,8 @@ public class GuardOperationTest extends BasicHttpOperation {
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+     static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -84,12 +85,12 @@ public class GuardOperationTest extends BasicHttpOperation {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+     void setUp() throws Exception {
         super.setUpBasic();
 
         guardConfig = mock(DecisionConfig.class);
-        when(guardConfig.makeRequest()).thenAnswer(args -> {
+        Mockito.lenient().when(guardConfig.makeRequest()).thenAnswer(args -> {
             DecisionRequest req = new DecisionRequest();
             req.setAction("guard");
             req.setOnapComponent("my-onap-component");
@@ -110,7 +111,7 @@ public class GuardOperationTest extends BasicHttpOperation {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+     void testSuccess() throws Exception {
         DecisionParams opParams =
                         DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
@@ -120,14 +121,14 @@ public class GuardOperationTest extends BasicHttpOperation {
 
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof DecisionResponse);
+        assertInstanceOf(DecisionResponse.class, outcome.getResponse());
     }
 
     /**
      * Tests "failure" case with simulator.
      */
     @Test
-    public void testFailure() throws Exception {
+     void testFailure() throws Exception {
         DecisionParams opParams =
                         DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
@@ -138,22 +139,22 @@ public class GuardOperationTest extends BasicHttpOperation {
 
         outcome = oper.start().get();
         assertEquals(OperationResult.FAILURE, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof DecisionResponse);
+        assertInstanceOf(DecisionResponse.class, outcome.getResponse());
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
 
     @Test
-    public void testGetPropertyNames() {
+     void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEmpty();
     }
 
     @Test
-    public void testMakeRequest() throws CoderException {
+     void testMakeRequest() throws CoderException {
         oper.generateSubRequestId(2);
 
         verifyPayload("makeReqStd.json", makePayload());
@@ -182,7 +183,7 @@ public class GuardOperationTest extends BasicHttpOperation {
     }
 
     @Test
-    public void testPostProcessResponse() {
+     void testPostProcessResponse() {
         DecisionResponse response = new DecisionResponse();
 
         // null status

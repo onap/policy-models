@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
  * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +23,9 @@ package org.onap.policy.controlloop.actor.cds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,13 +34,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
@@ -60,8 +61,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.Util;
 
-@RunWith(MockitoJUnitRunner.class)
-public class GrpcOperationTest {
+@ExtendWith(MockitoExtension.class)
+ class GrpcOperationTest {
     private static final String MY_VNF = "my-vnf";
     private static final String MY_SVC_ID = "my-service-instance-id";
     private static final String RESOURCE_ID = "my-resource-id";
@@ -86,21 +87,21 @@ public class GrpcOperationTest {
     private GrpcConfig config;
     private GrpcOperation operation;
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+     static void setUpBeforeClass() throws Exception {
         sim = Util.buildCdsSim();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+     static void tearDownAfterClass() {
         sim.stop();
     }
 
     /**
      * Sets up the fields.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         // Setup the CDS properties
         cdsProps = new CdsServerProperties();
         cdsProps.setHost("10.10.10.10");
@@ -124,7 +125,7 @@ public class GrpcOperationTest {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+     void testSuccess() throws Exception {
         Map<String, Object> payload = Map.of("artifact_name", "my_artifact", "artifact_version", "1.0");
 
         params = ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR).operation("subscribe")
@@ -145,11 +146,11 @@ public class GrpcOperationTest {
 
         OperationOutcome outcome = operation.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
+        assertInstanceOf(ExecutionServiceOutput.class, outcome.getResponse());
     }
 
     @Test
-    public void testGetPropertyNames() {
+     void testGetPropertyNames() {
         /*
          * check VNF case with target entities
          */
@@ -195,7 +196,7 @@ public class GrpcOperationTest {
     }
 
     @Test
-    public void testGetServiceInstanceId() {
+     void testGetServiceInstanceId() {
         params = params.toBuilder().targetType(TargetType.VNF).targetEntityIds(targetEntityIds).build();
         operation = new GrpcOperation(params, config);
         loadVnfData();
@@ -206,7 +207,7 @@ public class GrpcOperationTest {
     }
 
     @Test
-    public void testGetVnfId() {
+     void testGetVnfId() {
         params = params.toBuilder().targetType(TargetType.VNF).targetEntityIds(targetEntityIds).build();
         operation = new GrpcOperation(params, config);
         loadVnfData();
@@ -231,7 +232,7 @@ public class GrpcOperationTest {
     }
 
     @Test
-    public void testStartOperationAsync() {
+     void testStartOperationAsync() {
         ControlLoopOperationParams clop =
                 ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME)
@@ -248,7 +249,7 @@ public class GrpcOperationTest {
      * Tests startOperationAsync() when the target type is PNF.
      */
     @Test
-    public void testStartOperationAsyncPnf() {
+     void testStartOperationAsyncPnf() {
         ControlLoopOperationParams clop =
                 ControlLoopOperationParams.builder().actor(CdsActorConstants.CDS_ACTOR)
                         .operation(GrpcOperation.NAME)
@@ -261,7 +262,7 @@ public class GrpcOperationTest {
     }
 
     @Test
-    public void testStartOperationAsyncError() {
+     void testStartOperationAsyncError() {
         operation = new GrpcOperation(params, config);
         assertThatIllegalArgumentException()
                         .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));

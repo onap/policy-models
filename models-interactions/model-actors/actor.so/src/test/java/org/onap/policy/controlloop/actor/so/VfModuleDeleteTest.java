@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,11 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -50,14 +51,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -73,8 +74,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class VfModuleDeleteTest extends BasicSoOperation {
+@ExtendWith(MockitoExtension.class)
+class VfModuleDeleteTest extends BasicSoOperation {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
     private static final String VNF_ID = "my-vnf-id";
@@ -89,17 +90,17 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     private CompletableFuture<HttpResponse<String>> javaFuture;
     private VfModuleDelete oper;
 
-    public VfModuleDeleteTest() {
+    VfModuleDeleteTest() {
         super(DEFAULT_ACTOR, VfModuleDelete.NAME);
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
@@ -107,8 +108,8 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Sets up.
      */
     @Override
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         super.setUp();
 
         initHostPort();
@@ -124,9 +125,9 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("serviceInstances/v7")
-                        .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
+            .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
@@ -138,14 +139,14 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         // run the operation
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof SoResponse);
+        assertInstanceOf(SoResponse.class, outcome.getResponse());
 
         int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
         assertEquals(VF_COUNT - 1, count);
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleDelete.NAME, oper.getName());
         assertTrue(oper.isUsePolling());
@@ -153,24 +154,24 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         // verify that target validation is done
         params = params.toBuilder().targetType(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new MyOperation(params, config))
-                        .withMessageContaining("Target information");
+            .withMessageContaining("Target information");
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         // @formatter:off
         assertThat(oper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.AAI_VNF,
-                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
-                            OperationProperties.AAI_DEFAULT_TENANT,
-                            OperationProperties.DATA_VF_COUNT));
+            List.of(
+                OperationProperties.AAI_SERVICE,
+                OperationProperties.AAI_VNF,
+                OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                OperationProperties.AAI_DEFAULT_TENANT,
+                OperationProperties.DATA_VF_COUNT));
         // @formatter:on
     }
 
     @Test
-    public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
+    void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
         // use a real executor
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
@@ -202,7 +203,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests startOperationAsync() when polling is required.
      */
     @Test
-    public void testStartOperationAsyncWithPolling() throws Exception {
+    void testStartOperationAsyncWithPolling() throws Exception {
 
         // indicate that the response was incomplete
         configureResponse(coder.encode(response).replace("COMPLETE", "incomplete"));
@@ -229,7 +230,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     @Test
-    public void testMakeRequest() throws CoderException {
+    void testMakeRequest() throws CoderException {
         Pair<String, SoRequest> pair = oper.makeRequest();
 
         assertEquals("/my-service-instance-id/vnfs/my-vnf-id/vfModules/null", pair.getLeft());
@@ -238,7 +239,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         SoRequest req = new SoRequest();
         req.setRequestId(REQ_ID);
 
@@ -247,7 +248,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         String reqText = oper.prettyPrint(req);
 
         final CompletableFuture<Response> delFuture =
-                        oper.delete("my-uri", headers, MediaType.APPLICATION_JSON, reqText, callback);
+            oper.delete("my-uri", headers, MediaType.APPLICATION_JSON, reqText, callback);
 
         ArgumentCaptor<HttpRequest> reqCaptor = ArgumentCaptor.forClass(HttpRequest.class);
         verify(javaClient).sendAsync(reqCaptor.capture(), any());
@@ -276,7 +277,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      */
     @Test
     @SuppressWarnings("unchecked")
-    public void testDeleteException() throws Exception {
+    void testDeleteException() throws Exception {
         Throwable thrown = new IllegalStateException(EXPECTED_EXCEPTION);
 
         // need a new future, with an exception
@@ -289,7 +290,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         String reqText = oper.prettyPrint(req);
 
         CompletableFuture<Response> delFuture =
-                        oper.delete("/my-uri", Map.of(), MediaType.APPLICATION_JSON, reqText, callback);
+            oper.delete("/my-uri", Map.of(), MediaType.APPLICATION_JSON, reqText, callback);
 
         assertTrue(delFuture.isCompletedExceptionally());
 
@@ -302,7 +303,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests addAuthHeader() when there is a username, but no password.
      */
     @Test
-    public void testAddAuthHeader() {
+    void testAddAuthHeader() {
         Builder builder = mock(Builder.class);
         lenient().when(client.getUserName()).thenReturn("the-user");
         lenient().when(client.getPassword()).thenReturn("the-password");
@@ -323,7 +324,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests addAuthHeader() when there is no username.
      */
     @Test
-    public void testAddAuthHeaderNoUser() {
+    void testAddAuthHeaderNoUser() {
         Builder builder = mock(Builder.class);
         lenient().when(client.getPassword()).thenReturn("world");
         oper.addAuthHeader(builder);
@@ -339,7 +340,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests addAuthHeader() when there is a username, but no password.
      */
     @Test
-    public void testAddAuthHeaderUserOnly() {
+    void testAddAuthHeaderUserOnly() {
         Builder builder = mock(Builder.class);
         lenient().when(client.getUserName()).thenReturn("my-user");
         oper.addAuthHeader(builder);
@@ -359,18 +360,18 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    public void testMakeRequestMissingProperty() throws Exception {
+    void testMakeRequestMissingProperty() throws Exception {
         loadProperties();
 
         ServiceInstance instance = new ServiceInstance();
         oper.setProperty(OperationProperties.AAI_SERVICE, instance);
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest())
-                        .withMessageContaining("missing service instance ID");
+            .withMessageContaining("missing service instance ID");
     }
 
     @Test
-    public void testMakeHttpClient() {
+    void testMakeHttpClient() {
         // must use a real operation to invoke this method
         assertNotNull(new MyOperation(params, config).makeHttpClient());
     }
@@ -391,7 +392,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
 
     private class MyOperation extends VfModuleDelete {
 
-        public MyOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
+        MyOperation(ControlLoopOperationParams params, HttpPollingConfig config) {
             super(params, config);
         }
 

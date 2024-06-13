@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +21,9 @@
 
 package org.onap.policy.controlloop.actor.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
@@ -45,14 +46,14 @@ import org.onap.policy.sdnr.util.StatusCodeEnum;
 import org.onap.policy.simulators.SdnrTopicServer;
 import org.onap.policy.simulators.TopicServer;
 
-public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMessage> {
+abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMessage> {
 
     protected PciMessage response;
 
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicSdnrOperation() {
+    BasicSdnrOperation() {
         super();
     }
 
@@ -62,14 +63,14 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicSdnrOperation(String actor, String operation) {
+    BasicSdnrOperation(String actor, String operation) {
         super(actor, operation);
     }
 
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new PciMessage();
@@ -86,7 +87,7 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
         status.setValue(StatusCodeEnum.SUCCESS.toString());
     }
 
-    public void tearDown() {
+    void tearDown() {
         super.tearDownBasic();
     }
 
@@ -101,7 +102,7 @@ public abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperatio
      * @param operation operation to run
      */
     protected void verifyOperation(SdnrOperation operation)
-                    throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, ExecutionException, TimeoutException {
 
         CompletableFuture<OperationOutcome> future2 = operation.start();
         executor.runAll(100);

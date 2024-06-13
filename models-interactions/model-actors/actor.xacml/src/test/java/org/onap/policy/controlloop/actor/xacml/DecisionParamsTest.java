@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +22,18 @@
 package org.onap.policy.controlloop.actor.xacml;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actor.xacml.DecisionParams.DecisionParamsBuilder;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams.HttpParamsBuilder;
 
-public class DecisionParamsTest {
+class DecisionParamsTest {
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
     private static final String PATH = "my-path";
@@ -44,20 +45,20 @@ public class DecisionParamsTest {
 
     private DecisionParams params;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         params = DecisionParams.builder().onapName(ONAP_NAME).onapComponent(ONAP_COMP).onapInstance(ONAP_INST)
                         .action(MY_ACTION).clientName(CLIENT).path(PATH).timeoutSec(TIMEOUT).build();
     }
 
     @Test
-    public void testIsDisabled() {
+     void testIsDisabled() {
         // disabled by default
         assertFalse(params.isDisabled());
     }
 
     @Test
-    public void testValidate() {
+     void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         testValidateField("onapName", "null", bldr -> bldr.onapName(null));
@@ -70,7 +71,7 @@ public class DecisionParamsTest {
     }
 
     @Test
-    public void testBuilder_testToBuilder() {
+     void testBuilder_testToBuilder() {
         assertEquals(CLIENT, params.getClientName());
 
         assertEquals(ONAP_NAME, params.getOnapName());
@@ -86,11 +87,11 @@ public class DecisionParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         result = makeInvalid.apply(params.toBuilder()).build().validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(fieldName).contains(expected);
     }
 }

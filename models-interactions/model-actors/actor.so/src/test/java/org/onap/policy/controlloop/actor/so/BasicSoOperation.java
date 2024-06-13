@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,20 +47,20 @@ import org.onap.policy.so.SoResponse;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicSoOperation extends BasicHttpOperation {
+abstract class BasicSoOperation extends BasicHttpOperation {
     protected static final String[] IGNORE_FIELDS = {"RequestID", "subRequestID", "seconds", "nanos"};
 
-    public static final String MODEL_CUSTOM_ID = "my-model-customization-id";
-    public static final String MODEL_INVAR_ID = "my-model-invariant-id";
-    public static final String MODEL_NAME = "my-model-name";
-    public static final String MODEL_VERSION = "my-model-version";
-    public static final String MODEL_VERS_ID = "my-model-version-id";
-    public static final String SUBSCRIPTION_SVC_TYPE = "my-subscription-service-type";
-    public static final String MY_PATH = "my-path";
-    public static final String POLL_PATH = "my-poll-path/";
-    public static final int MAX_POLLS = 3;
-    public static final int POLL_WAIT_SEC = 20;
-    public static final Integer VF_COUNT = 10;
+    static final String MODEL_CUSTOM_ID = "my-model-customization-id";
+    static final String MODEL_INVAR_ID = "my-model-invariant-id";
+    static final String MODEL_NAME = "my-model-name";
+    static final String MODEL_VERSION = "my-model-version";
+    static final String MODEL_VERS_ID = "my-model-version-id";
+    static final String SUBSCRIPTION_SVC_TYPE = "my-subscription-service-type";
+    static final String MY_PATH = "my-path";
+    static final String POLL_PATH = "my-poll-path/";
+    static final int MAX_POLLS = 3;
+    static final int POLL_WAIT_SEC = 20;
+    static final Integer VF_COUNT = 10;
 
     @Mock
     protected HttpPollingConfig config;
@@ -72,7 +72,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicSoOperation() {
+    BasicSoOperation() {
         super();
     }
 
@@ -82,7 +82,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicSoOperation(String actor, String operation) {
+    BasicSoOperation(String actor, String operation) {
         super(actor, operation);
     }
 
@@ -93,8 +93,8 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
         org.onap.policy.simulators.Util.buildSoSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("").hostname("localhost")
-                        .managed(true).port(org.onap.policy.simulators.Util.SOSIM_SERVER_PORT)
-                        .build();
+            .managed(true).port(org.onap.policy.simulators.Util.SOSIM_SERVER_PORT)
+            .build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
 
         SoSimulatorJaxRs.setRequirePolling(true);
@@ -109,7 +109,7 @@ public abstract class BasicSoOperation extends BasicHttpOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new SoResponse();

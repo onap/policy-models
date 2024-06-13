@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +23,18 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class StartConfigPartialTest {
+class StartConfigPartialTest {
     private static final IllegalArgumentException EXPECTED_EXCEPTION =
                     new IllegalArgumentException("expected exception");
     private static final String MY_NAME = "my-name";
@@ -46,8 +47,8 @@ public class StartConfigPartialTest {
     /**
      * Creates a config whose doXxx() methods do nothing.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         config = new StartConfigPartial<>(MY_NAME) {
             @Override
             protected void doConfigure(String parameters) {
@@ -74,17 +75,17 @@ public class StartConfigPartialTest {
     }
 
     @Test
-    public void testConfigImpl_testGetFullName() {
+    void testConfigImpl_testGetFullName() {
         assertEquals(MY_NAME, config.getFullName());
     }
 
     @Test
-    public void testIsAlive() {
+    void testIsAlive() {
         assertFalse(config.isAlive());
     }
 
     @Test
-    public void testIsConfigured_testConfigure() {
+    void testIsConfigured_testConfigure() {
         // throw an exception during doConfigure(), but should remain unconfigured
         assertFalse(config.isConfigured());
         doThrow(EXPECTED_EXCEPTION).when(config).doConfigure(PARAMSX);
@@ -114,7 +115,7 @@ public class StartConfigPartialTest {
     }
 
     @Test
-    public void testStart() {
+    void testStart() {
         assertFalse(config.isAlive());
 
         // can't start if not configured yet
@@ -147,7 +148,7 @@ public class StartConfigPartialTest {
     }
 
     @Test
-    public void testStop() {
+    void testStop() {
         config.configure(PARAMS);
 
         // ok to stop if not running, but shouldn't invoke doStop()
@@ -179,7 +180,7 @@ public class StartConfigPartialTest {
     }
 
     @Test
-    public void testShutdown() {
+    void testShutdown() {
         config.configure(PARAMS);
 
         // ok to shutdown if not running, but shouldn't invoke doShutdown()

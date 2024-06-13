@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -32,59 +32,59 @@ import static org.mockito.Mockito.when;
 import jakarta.ws.rs.client.Invocation.Builder;
 import jakarta.ws.rs.client.WebTarget;
 import java.util.Map;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.aai.AaiConstants;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AaiGetOperationTest extends BasicAaiOperation {
+@ExtendWith(MockitoExtension.class)
+class AaiGetOperationTest extends BasicAaiOperation {
     private static final String MY_NAME = "my-operation-name";
     private static final String PARAM_NAME = "my-param";
     private static final String PARAM_VALUE = "my-value";
 
     private AaiGetOperation oper;
 
-    public AaiGetOperationTest() {
+    AaiGetOperationTest() {
         super(AaiConstants.ACTOR_NAME, MY_NAME);
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         super.setUpBasic();
         oper = new AaiGetOperation(params, config);
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(MY_NAME, oper.getName());
     }
 
     @Test
-    public void testGenerateSubRequestId() {
+    void testGenerateSubRequestId() {
         oper.generateSubRequestId(3);
         assertEquals("3", oper.getSubRequestId());
     }
 
     @Test
-    public void testAddQuery() {
+    void testAddQuery() {
         WebTarget web = mock(WebTarget.class);
         when(web.queryParam(any(), any())).thenReturn(web);
 
@@ -95,7 +95,7 @@ public class AaiGetOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testAddHeaders() {
+    void testAddHeaders() {
         Builder bldr = mock(Builder.class);
         oper.addHeaders(bldr, Map.of("hdrA", "valA", "hdrB", "valB"));
 
@@ -105,7 +105,7 @@ public class AaiGetOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testGetRetry() {
+    void testGetRetry() {
         // use default if null retry
         assertEquals(AaiGetOperation.DEFAULT_RETRY, oper.getRetry(null));
 
@@ -115,7 +115,7 @@ public class AaiGetOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testMakeHeaders() {
+    void testMakeHeaders() {
         verifyHeaders(oper.makeHeaders());
     }
 }

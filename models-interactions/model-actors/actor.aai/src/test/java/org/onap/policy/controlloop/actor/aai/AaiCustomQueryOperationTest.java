@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,11 @@
 package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
@@ -39,12 +40,12 @@ import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
@@ -55,33 +56,33 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AaiCustomQueryOperationTest extends BasicAaiOperation {
+@ExtendWith(MockitoExtension.class)
+class AaiCustomQueryOperationTest extends BasicAaiOperation {
     private static final StandardCoder coder = new StandardCoder();
 
     private static final String MY_LINK = "my-link";
 
     private AaiCustomQueryOperation oper;
 
-    public AaiCustomQueryOperationTest() {
+    AaiCustomQueryOperationTest() {
         super(AaiConstants.ACTOR_NAME, AaiCustomQueryOperation.NAME);
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         super.setUpBasic();
 
         oper = new AaiCustomQueryOperation(params, config);
@@ -92,7 +93,7 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         HttpParams opParams = HttpParams.builder().clientName(MY_CLIENT).path("v16/query").build();
         config = new HttpConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
@@ -108,25 +109,25 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(AaiConstants.ACTOR_NAME, oper.getActorName());
         assertEquals(AaiCustomQueryOperation.NAME, oper.getName());
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_VSERVER_LINK));
     }
 
     @Test
-    public void testGenerateSubRequestId() {
+    void testGenerateSubRequestId() {
         oper.generateSubRequestId(3);
         assertEquals("3", oper.getSubRequestId());
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testStartOperationAsync_testMakeRequest() throws Exception {
+    void testStartOperationAsync_testMakeRequest() throws Exception {
         // need two responses
         when(rawResponse.readEntity(String.class)).thenReturn(makeTenantReply()).thenReturn(makeCqReply());
         lenient().when(webAsync.get(any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse));
@@ -140,13 +141,13 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testMakeHeaders() {
+    void testMakeHeaders() {
         verifyHeaders(oper.makeHeaders());
     }
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testMakeRequest_testGetVserverLink() throws Exception {
+    void testMakeRequest_testGetVserverLink() throws Exception {
         when(rawResponse.readEntity(String.class)).thenReturn(makeCqReply());
         when(webAsync.put(any(), any(InvocationCallback.class))).thenAnswer(provideResponse(rawResponse, 1));
 
@@ -165,18 +166,18 @@ public class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    public void testGetVserverLink() throws Exception {
+    void testGetVserverLink() throws Exception {
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
         assertEquals(MY_LINK, oper.getVserverLink());
     }
 
     @Test
-    public void testSetOutcome() {
+     void testSetOutcome() {
         outcome = oper.setOutcome(params.makeOutcome(), OperationResult.SUCCESS, null, null);
         assertNull(outcome.getResponse());
 
         outcome = oper.setOutcome(params.makeOutcome(), OperationResult.SUCCESS, null, "{}");
-        assertTrue(outcome.getResponse() instanceof AaiCqResponse);
+        assertInstanceOf(AaiCqResponse.class, outcome.getResponse());
     }
 
     private String makeTenantReply() throws Exception {
