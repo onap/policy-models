@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ * Copyright (C) 2019-2021, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,15 +22,15 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PfTimestampKeyTest {
+class PfTimestampKeyTest {
     private static final String VERSION001 = "0.0.1";
     private static final String CONCEPT_IS_NULL = "^copyConcept is marked .*on.*ull but is null$";
     private static final String NAME_IS_NULL = "^name is marked .*on.*ull but is null$";
@@ -38,7 +38,7 @@ public class PfTimestampKeyTest {
     private static final long timeStamp = 1574832537641L;
 
     @Test
-    public void testTimestampKey() {
+    void testTimestampKey() {
         PfTimestampKey someKey0 = new PfTimestampKey();
         assertEquals(PfTimestampKey.getNullKey(), someKey0);
         assertTrue(someKey0.isNullKey());
@@ -85,7 +85,7 @@ public class PfTimestampKeyTest {
     }
 
     @Test
-    public void testTimestampKeyErrors() {
+    void testTimestampKeyErrors() {
         assertThatThrownBy(() -> new PfTimestampKey((PfTimestampKey) null)).isInstanceOf(NullPointerException.class)
                 .hasMessageMatching(CONCEPT_IS_NULL);
         assertThatThrownBy(() -> new PfTimestampKey(null, null, null)).isInstanceOf(NullPointerException.class)

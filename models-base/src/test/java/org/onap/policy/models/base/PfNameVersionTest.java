@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,9 @@
 
 package org.onap.policy.models.base;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfNameVersion;
 
 /**
@@ -30,10 +30,10 @@ import org.onap.policy.models.base.testconcepts.DummyPfNameVersion;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfNameVersionTest {
+class PfNameVersionTest {
 
     @Test
-    public void testPfNameVersion() {
+    void testPfNameVersion() {
         DummyPfNameVersion dnv0 = new DummyPfNameVersion();
         DummyPfNameVersion dnv1 = new DummyPfNameVersion();
 

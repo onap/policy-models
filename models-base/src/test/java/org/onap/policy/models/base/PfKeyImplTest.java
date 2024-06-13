@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021,2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,24 +24,24 @@ package org.onap.policy.models.base;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.annotations.Pattern;
 import org.onap.policy.models.base.PfKey.Compatibility;
 import org.onap.policy.models.base.testconcepts.DummyPfKey;
 
-public class PfKeyImplTest {
+class PfKeyImplTest {
 
     private static final String OTHER_IS_NULL = "^otherKey is marked .*on.*ull but is null$";
     private static final String ID_IS_NULL = "^id is marked .*on.*ull but is null$";
@@ -67,7 +67,7 @@ public class PfKeyImplTest {
     /**
      * Sets data in Keys for the tests.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() {
         someKey = new MyKey();
 
@@ -94,7 +94,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testConceptKey() {
+    void testConceptKey() {
         assertThatIllegalArgumentException().isThrownBy(() -> new MyKey("some bad key id"))
             .withMessage("parameter \"id\": value \"some bad key id\", " + "does not match regular expression \""
                 + PfKey.KEY_ID_REGEXP + "\"");
@@ -118,7 +118,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testCompatibilityConceptKey() {
+    void testCompatibilityConceptKey() {
         assertEquals("name:0.1.2", someKey4.getId());
 
         assertThatThrownBy(() -> someKey0.getCompatibility(null)).isInstanceOf(NullPointerException.class)
@@ -150,7 +150,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testValidityConceptKey() {
+    void testValidityConceptKey() {
         assertTrue(someKey0.validate("").isValid());
         assertTrue(someKey1.validate("").isValid());
         assertTrue(someKey2.validate("").isValid());
@@ -165,7 +165,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testCleanConceptKey() {
+    void testCleanConceptKey() {
         someKey0.clean();
         assertNotNull(someKey0.toString());
 
@@ -192,7 +192,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testNullArguments() {
+    void testNullArguments() {
         assertThatThrownBy(() -> new MyKey((String) null)).hasMessageMatching(ID_IS_NULL);
 
         assertThatThrownBy(() -> new MyKey((MyKey) null))
@@ -210,7 +210,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testValidation() throws Exception {
+    void testValidation() throws Exception {
         MyKey testKey = new MyKey("TheKey", VERSION001);
         assertEquals("TheKey:0.0.1", testKey.getId());
 
@@ -234,7 +234,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testkeynewerThan() {
+    void testkeynewerThan() {
         MyKey key1 = new MyKey("Key1", VERSION123);
 
         assertThatThrownBy(() -> key1.isNewerThan(null)).hasMessageMatching(OTHER_IS_NULL);
@@ -290,7 +290,7 @@ public class PfKeyImplTest {
     }
 
     @Test
-    public void testmajorMinorPatch() {
+    void testmajorMinorPatch() {
         MyKey key = new MyKey("Key", VERSION100);
         assertEquals(1, key.getMajorVersion());
         assertEquals(0, key.getMinorVersion());

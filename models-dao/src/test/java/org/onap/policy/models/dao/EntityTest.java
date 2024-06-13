@@ -25,9 +25,9 @@ package org.onap.policy.models.dao;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -38,8 +38,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.UUID;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -50,7 +50,7 @@ import org.onap.policy.models.dao.impl.DefaultPfDao;
 /**
  * JUnit test class.
  */
-public class EntityTest {
+class EntityTest {
     private static final String DESCRIPTION2 = "key description 2";
     private static final String DESCRIPTION1 = "key description 1";
     private static final String DESCRIPTION0 = "key description 0";
@@ -65,13 +65,13 @@ public class EntityTest {
     private static final Instant TIMESTAMP1 = Instant.ofEpochSecond(1613494293).plusSeconds(55);
     private static final Instant TIMESTAMP2 = Instant.ofEpochSecond(1613494293).plusSeconds(90);
 
-    private PfDao pfDao;
+    private static PfDao pfDao;
 
     /**
      * Closes the DAO.
      */
-    @After
-    public void tearDown() {
+    @AfterAll
+    public static void tearDown() {
         if (pfDao != null) {
             pfDao.close();
             pfDao = null;
@@ -79,7 +79,7 @@ public class EntityTest {
     }
 
     @Test
-    public void testEntityTestSanity() throws PfModelException {
+    void testEntityTestSanity() throws PfModelException {
         final DaoParameters daoParameters = new DaoParameters();
 
         Properties jdbcProperties = new Properties();
@@ -110,7 +110,7 @@ public class EntityTest {
     }
 
     @Test
-    public void testEntityTestAllOpsJpa() throws PfModelException {
+    void testEntityTestAllOpsJpa() throws PfModelException {
 
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
@@ -139,7 +139,7 @@ public class EntityTest {
     }
 
     @Test
-    public void testEntityTestBadVals() throws PfModelException {
+    void testEntityTestBadVals() throws PfModelException {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
         daoParameters.setPersistenceUnit("DaoTest");

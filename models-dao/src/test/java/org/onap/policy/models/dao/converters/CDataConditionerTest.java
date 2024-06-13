@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,19 +20,19 @@
 
 package org.onap.policy.models.dao.converters;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the CDataConditioner Class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class CDataConditionerTest {
+class CDataConditionerTest {
 
     @Test
-    public void testCDataConditioner() throws Exception {
+    void testCDataConditioner() throws Exception {
         assertEquals("Raw", new CDataConditioner().convertToDatabaseColumn("Raw"));
         assertEquals("entityAttribute", new CDataConditioner().convertToEntityAttribute("entityAttribute"));
         assertEquals("marshal", new CDataConditioner().marshal("marshal"));

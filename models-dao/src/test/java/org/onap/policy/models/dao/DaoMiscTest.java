@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,31 +22,31 @@
 package org.onap.policy.models.dao;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Properties;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.dao.converters.CDataConditioner;
 import org.onap.policy.models.dao.converters.Uuid2String;
 
-public class DaoMiscTest {
+class DaoMiscTest {
 
     private static final String SOMEWHERE_OVER_THE_RAINBOW = "somewhere.over.the.rainbow";
 
     @Test
-    public void testUuid2StringMopUp() {
+    void testUuid2StringMopUp() {
         final Uuid2String uuid2String = new Uuid2String();
         assertEquals("", uuid2String.convertToDatabaseColumn(null));
     }
 
     @Test
-    public void testCDataConditionerMopUp() {
+    void testCDataConditionerMopUp() {
         assertNull(CDataConditioner.clean(null));
     }
 
     @Test
-    public void testDaoFactory() {
+    void testDaoFactory() {
         final DaoParameters daoParameters = new DaoParameters();
 
         daoParameters.setPluginClass(SOMEWHERE_OVER_THE_RAINBOW);
@@ -59,7 +59,7 @@ public class DaoMiscTest {
     }
 
     @Test
-    public void testDaoParameters() {
+    void testDaoParameters() {
         final DaoParameters pars = new DaoParameters();
         pars.setJdbcProperties(new Properties());
         assertEquals(0, pars.getJdbcProperties().size());

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,20 +23,20 @@ package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 
-public class PfSearchableKeyTest {
+class PfSearchableKeyTest {
 
     private static final String VERSION001 = "0.0.1";
     private static final String ID_IS_NULL = "^id is marked .*on.*ull but is null$";
 
     @Test
-    public void testSearchableKey() {
+    void testSearchableKey() {
         PfSearchableKey someKey0 = new PfSearchableKey();
         assertEquals(PfSearchableKey.getNullKey(), someKey0);
         assertTrue(someKey0.isNullKey());

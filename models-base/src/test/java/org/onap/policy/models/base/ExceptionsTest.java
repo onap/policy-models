@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2019, 2021, 2023 Nordix Foundation.
+ * Copyright (C) 2019, 2021, 2023, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,22 +21,22 @@
 
 package org.onap.policy.models.base;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.errors.concepts.ErrorResponse;
 
-public class ExceptionsTest {
+class ExceptionsTest {
 
     private static final String STRING_TEXT = "String";
     private static final String MESSAGE = "Message";
 
     @Test
-    public void test() {
+    void test() {
         assertNotNull(new PfModelException(Response.Status.OK, MESSAGE));
         assertNotNull(new PfModelException(Response.Status.OK, MESSAGE, STRING_TEXT));
         assertNotNull(new PfModelException(Response.Status.OK, MESSAGE, new IOException()));
