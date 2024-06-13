@@ -22,13 +22,13 @@
 package org.onap.policy.appc.util;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.gson.JsonParseException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class SerializationTest {
 
