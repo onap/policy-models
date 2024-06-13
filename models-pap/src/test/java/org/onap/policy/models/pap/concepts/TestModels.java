@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.ToStringTester;
 
 /**
@@ -35,10 +35,10 @@ import org.onap.policy.common.utils.test.ToStringTester;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-public class TestModels {
+class TestModels {
 
     @Test
-    public void testPapModels() {
+    void testPapModels() {
         List<PojoClass> pojoClasses = PojoClassFactory.getPojoClasses(TestModels.class.getPackage().getName());
 
         // @formatter:off

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,14 +23,14 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.Validated;
@@ -44,14 +44,14 @@ import org.onap.policy.models.pdp.testconcepts.DummyJpaPdpChild;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaPdpTest {
+class JpaPdpTest {
 
     private static final String NULL_KEY_ERROR = "key is marked .*ull but is null";
     private static final String PDP1 = "ThePDP";
     private static final Date CURRENT_DATE = new Date();
 
     @Test
-    public void testJpaPdp() {
+    void testJpaPdp() {
         assertThatThrownBy(() -> {
             new JpaPdp((JpaPdp) null);
         }).hasMessageMatching("copyConcept is marked .*ull but is null");
@@ -88,7 +88,7 @@ public class JpaPdpTest {
     }
 
     @Test
-    public void testJpaPdpInstace() {
+    void testJpaPdpInstace() {
         Pdp testPdp = new Pdp();
         testPdp.setInstanceId(PDP1);
         JpaPdp testJpaPdp = new JpaPdp();
@@ -117,7 +117,7 @@ public class JpaPdpTest {
     }
 
     @Test
-    public void testJpaPdpValidation() {
+    void testJpaPdpValidation() {
         Pdp testPdp = new Pdp();
         testPdp.setInstanceId(PDP1);
         JpaPdp testJpaPdp = new JpaPdp();
@@ -155,7 +155,7 @@ public class JpaPdpTest {
     }
 
     @Test
-    public void testJpaPdpValidationSwapKey() {
+    void testJpaPdpValidationSwapKey() {
         JpaPdp testJpaPdp = setUpJpaPdp();
 
         PfReferenceKey savedKey = testJpaPdp.getKey();
@@ -173,7 +173,7 @@ public class JpaPdpTest {
     }
 
     @Test
-    public void testJpaPdpCompare_testToAuthorative() {
+    void testJpaPdpCompare_testToAuthorative() {
         JpaPdp testJpaPdp = setUpJpaPdp();
 
         JpaPdp otherJpaPdp = new JpaPdp(testJpaPdp);

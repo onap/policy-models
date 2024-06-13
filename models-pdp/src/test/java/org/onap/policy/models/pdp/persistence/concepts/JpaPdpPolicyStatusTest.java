@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +23,15 @@ package org.onap.policy.models.pdp.persistence.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
 import org.assertj.core.api.AbstractStringAssert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.base.Validated;
@@ -39,7 +40,7 @@ import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.PdpPolicyStatusBuilde
 import org.onap.policy.models.pdp.concepts.PdpPolicyStatus.State;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 
-public class JpaPdpPolicyStatusTest {
+class JpaPdpPolicyStatusTest {
     private static final String MY_PDP = "MyPdp";
     private static final String MY_GROUP = "MyGroup";
     private static final String MY_PDP_TYPE = "MyPdpType";
@@ -52,8 +53,8 @@ public class JpaPdpPolicyStatusTest {
     /**
      * Set up Policy Status builder.
      */
-    @Before
-    public void setup() {
+    @BeforeEach
+    void setup() {
         // @formatter:off
         builder = PdpPolicyStatus.builder()
                         .deploy(true)
@@ -67,7 +68,7 @@ public class JpaPdpPolicyStatusTest {
     }
 
     @Test
-    public void testJpaPdpPolicyStatus() {
+    void testJpaPdpPolicyStatus() {
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus();
 
         assertThat(jpa.getKey()).isNotNull();
@@ -81,14 +82,14 @@ public class JpaPdpPolicyStatusTest {
     }
 
     @Test
-    public void testJpaPdpPolicyStatusJpaPdpPolicyStatus() {
+    void testJpaPdpPolicyStatusJpaPdpPolicyStatus() {
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus(builder.build());
 
         assertThat(new JpaPdpPolicyStatus(jpa)).isEqualTo(jpa);
     }
 
     @Test
-    public void testJpaPdpPolicyStatusPdpPolicyStatus() {
+    void testJpaPdpPolicyStatusPdpPolicyStatus() {
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus(builder.build());
 
         assertThat(jpa.getKey()).isNotNull();
@@ -110,14 +111,14 @@ public class JpaPdpPolicyStatusTest {
     }
 
     @Test
-    public void testGetKeys() {
+    void testGetKeys() {
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus(builder.build());
 
         assertThat(jpa.getKeys()).isEqualTo(List.of(jpa.getKey()));
     }
 
     @Test
-    public void testClean() {
+    void testClean() {
         JpaPdpPolicyStatus jpa =
                         new JpaPdpPolicyStatus(builder.pdpGroup(MY_GROUP + " ").pdpType(MY_PDP_TYPE + " ").build());
 
@@ -129,7 +130,7 @@ public class JpaPdpPolicyStatusTest {
 
     @Test
     @SuppressWarnings("serial")
-    public void testCompareTo() {
+    void testCompareTo() {
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus(builder.build());
 
         assertNotEquals(0, jpa.compareTo(null));
@@ -153,14 +154,14 @@ public class JpaPdpPolicyStatusTest {
     }
 
     @Test
-    public void testToAuthorative() {
+    void testToAuthorative() {
         PdpPolicyStatus data = builder.build();
 
         assertThat(new JpaPdpPolicyStatus(data).toAuthorative()).isEqualTo(data);
     }
 
     @Test
-    public void testFromAuthorative() {
+    void testFromAuthorative() {
         PdpPolicyStatus data = builder.build();
         JpaPdpPolicyStatus jpa = new JpaPdpPolicyStatus();
 
@@ -170,7 +171,7 @@ public class JpaPdpPolicyStatusTest {
     }
 
     @Test
-    public void testValidate() {
+    void testValidate() {
         assertThat(new JpaPdpPolicyStatus(builder.build()).validate("").getResult()).isNull();
 
         assertThatThrownBy(() -> new JpaPdpPolicyStatus(builder.build()).validate(null))

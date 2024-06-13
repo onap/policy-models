@@ -23,14 +23,14 @@
 package org.onap.policy.models.provider.revisionhierarchy;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.TextFileUtils;
 import org.onap.policy.models.base.PfModelException;
@@ -41,13 +41,13 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-public class HierarchyFetchTest {
+class HierarchyFetchTest {
 
     private static PolicyModelsProviderParameters parameters;
 
-    private PolicyModelsProvider databaseProvider;
+    private static PolicyModelsProvider databaseProvider;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeSetupParameters() {
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
@@ -60,15 +60,15 @@ public class HierarchyFetchTest {
     /**
      * Closes the DB.
      */
-    @After
-    public void tearDown() throws PfModelException {
+    @AfterAll
+    public static void tearDown() throws PfModelException {
         if (databaseProvider != null) {
             databaseProvider.close();
         }
     }
 
     @Test
-    public void testMultipleVersions() throws Exception {
+    void testMultipleVersions() throws Exception {
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         ToscaServiceTemplate serviceTemplate = new YamlJsonTranslator().fromYaml(

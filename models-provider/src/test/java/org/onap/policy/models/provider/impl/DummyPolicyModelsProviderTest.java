@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020, 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -25,13 +25,13 @@ package org.onap.policy.models.provider.impl;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -51,12 +51,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaTypedEntityFilter;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class DummyPolicyModelsProviderTest {
+class DummyPolicyModelsProviderTest {
 
     private static final String VERSION = "version";
 
     @Test
-    public void testProvider() throws Exception {
+    void testProvider() throws Exception {
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
         parameters.setImplementation(DummyPolicyModelsProviderImpl.class.getName());
         parameters.setDatabaseUrl("jdbc:dummy");
@@ -75,7 +75,7 @@ public class DummyPolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethods() throws Exception {
+    void testProviderMethods() throws Exception {
         PolicyModelsProvider dummyProvider = setUpDummyProvider();
         dummyProvider.init();
 
@@ -103,7 +103,7 @@ public class DummyPolicyModelsProviderTest {
     }
 
     @Test
-    public void testProviderMethodsParameters() throws Exception {
+    void testProviderMethodsParameters() throws Exception {
         PolicyModelsProvider dummyProvider = setUpDummyProvider();
         dummyProvider.init();
 
@@ -119,7 +119,7 @@ public class DummyPolicyModelsProviderTest {
     }
 
     @Test
-    public void testDummyResponse() {
+    void testDummyResponse() {
         try (DummyPolicyModelsProviderSubImpl resp =
                 new DummyPolicyModelsProviderSubImpl(new PolicyModelsProviderParameters())) {
             assertThatThrownBy(resp::getBadDummyResponse1).hasMessage("error serializing object");
