@@ -22,10 +22,10 @@ package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.qos.logback.classic.Logger;
 import java.util.LinkedHashMap;
@@ -35,14 +35,14 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 import lombok.Data;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.slf4j.LoggerFactory;
 
-public class UtilTest {
+class UtilTest {
     protected static final String EXPECTED_EXCEPTION = "expected exception";
 
     /**
@@ -54,26 +54,26 @@ public class UtilTest {
     /**
      * Initializes statics.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() {
+    @BeforeAll
+    static void setUpBeforeClass() {
         appender.setContext(logger.getLoggerContext());
         appender.start();
 
         logger.addAppender(appender);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         appender.stop();
     }
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+   void setUp() {
         appender.clearExtractions();
     }
 
     @Test
-    public void testIdent() {
+   void testIdent() {
         Object object = new Object();
         String result = Util.ident(object).toString();
 
@@ -83,7 +83,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testRunFunction() {
+   void testRunFunction() {
         // no exception, no log
         AtomicInteger count = new AtomicInteger();
         Util.runFunction(() -> count.incrementAndGet(), "no error");
@@ -110,7 +110,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testTranslate() {
+   void testTranslate() {
         // Abc => Abc
         final Abc abc = Abc.builder().intValue(1).strValue("hello").anotherString("another").build();
         Abc abc2 = Util.translate("abc to abc", abc, Abc.class);
@@ -137,7 +137,7 @@ public class UtilTest {
     }
 
     @Test
-    public void testTranslateToMap() {
+    void testTranslateToMap() {
         assertNull(Util.translateToMap("map: null", null));
 
         // Abc => Map
@@ -155,7 +155,7 @@ public class UtilTest {
 
     @Data
     @Builder
-    public static class Abc {
+    static class Abc {
         private int intValue;
         private String strValue;
         private String anotherString;
@@ -164,17 +164,17 @@ public class UtilTest {
     // this shares some fields with Abc so the data should transfer
     @Data
     @Builder
-    public static class Similar {
+    static class Similar {
         private int intValue;
         private String strValue;
     }
 
     // throws an exception when getXxx() is used
-    public static class DataWithException {
+    static class DataWithException {
         @SuppressWarnings("unused")
         private int intValue;
 
-        public int getIntValue() {
+        int getIntValue() {
             throw new IllegalStateException();
         }
     }

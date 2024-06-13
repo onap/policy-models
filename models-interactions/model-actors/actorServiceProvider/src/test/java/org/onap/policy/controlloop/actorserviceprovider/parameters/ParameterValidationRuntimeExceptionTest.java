@@ -20,44 +20,44 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
 
-public class ParameterValidationRuntimeExceptionTest {
+class ParameterValidationRuntimeExceptionTest {
 
     private static final String THE_MESSAGE = "the message";
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
 
     private ValidationResult result;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         result = new ObjectValidationResult("param", null, ValidationStatus.INVALID, "null");
     }
 
     @Test
-    public void testParameterValidationExceptionValidationResult() {
+     void testParameterValidationExceptionValidationResult() {
         ParameterValidationRuntimeException ex = new ParameterValidationRuntimeException(result);
         assertSame(result, ex.getResult());
         assertNull(ex.getMessage());
     }
 
     @Test
-    public void testParameterValidationExceptionValidationResultString() {
+     void testParameterValidationExceptionValidationResultString() {
         ParameterValidationRuntimeException ex = new ParameterValidationRuntimeException(THE_MESSAGE, result);
         assertSame(result, ex.getResult());
         assertEquals(THE_MESSAGE, ex.getMessage());
     }
 
     @Test
-    public void testParameterValidationExceptionValidationResultThrowable() {
+     void testParameterValidationExceptionValidationResultThrowable() {
         ParameterValidationRuntimeException ex = new ParameterValidationRuntimeException(EXPECTED_EXCEPTION, result);
         assertSame(result, ex.getResult());
         assertEquals(EXPECTED_EXCEPTION.toString(), ex.getMessage());
@@ -65,7 +65,7 @@ public class ParameterValidationRuntimeExceptionTest {
     }
 
     @Test
-    public void testParameterValidationExceptionValidationResultStringThrowable() {
+     void testParameterValidationExceptionValidationResultStringThrowable() {
         ParameterValidationRuntimeException ex =
                 new ParameterValidationRuntimeException(THE_MESSAGE, EXPECTED_EXCEPTION, result);
         assertSame(result, ex.getResult());
@@ -74,7 +74,7 @@ public class ParameterValidationRuntimeExceptionTest {
     }
 
     @Test
-    public void testGetResult() {
+     void testGetResult() {
         ParameterValidationRuntimeException ex = new ParameterValidationRuntimeException(result);
         assertSame(result, ex.getResult());
     }

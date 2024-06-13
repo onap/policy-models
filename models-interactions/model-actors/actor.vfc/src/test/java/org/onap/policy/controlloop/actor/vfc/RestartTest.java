@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@
 package org.onap.policy.controlloop.actor.vfc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -44,8 +44,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.vfc.VfcRequest;
 import org.onap.policy.vfc.VfcResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class RestartTest extends BasicVfcOperation {
+@ExtendWith(MockitoExtension.class)
+ class RestartTest extends BasicVfcOperation {
     private static final String TEST_SERVICE_INSTANCE_ID = "test-service-instance-id";
     private static final String TEST_VSERVER_ID = "test-vserver-id";
     private static final String TEST_VSERVER_NAME = "test-vserver-name";
@@ -54,21 +54,21 @@ public class RestartTest extends BasicVfcOperation {
     private Restart restartOper;
 
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+     static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+     static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     /**
      * setup restart operation.
      */
-    @Before
-    public void setup() throws Exception {
+    @BeforeEach
+     void setup() throws Exception {
         super.setUp();
 
         restartOper = new Restart(params, config);
@@ -80,7 +80,7 @@ public class RestartTest extends BasicVfcOperation {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+     void testSuccess() throws Exception {
         HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT).path("ns").pollPath("jobs")
                         .maxPolls(1).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
@@ -98,14 +98,14 @@ public class RestartTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         CompletableFuture<OperationOutcome> futureRes = restartOper.startOperationAsync(1, outcome);
         assertNotNull(futureRes);
         assertEquals(0, restartOper.getPollCount());
     }
 
     @Test
-    public void testGetPropertyNames() {
+     void testGetPropertyNames() {
         // @formatter:off
         assertThat(restartOper.getPropertyNames()).isEqualTo(
                         List.of(
@@ -117,7 +117,7 @@ public class RestartTest extends BasicVfcOperation {
     }
 
     @Test
-    public void testMakeRequest() {
+     void testMakeRequest() {
         Pair<String, VfcRequest> resultPair = restartOper.makeRequest();
         assertNotNull(resultPair.getLeft());
         assertNotNull(resultPair.getRight());

@@ -22,11 +22,11 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
@@ -34,13 +34,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
 import java.util.function.Function;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpointManager;
 import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -48,8 +48,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BidirectionalTopicActorTest {
+@ExtendWith(MockitoExtension.class)
+class BidirectionalTopicActorTest {
 
     private static final String ACTOR = "my-actor";
     private static final String UNKNOWN = "unknown";
@@ -69,8 +69,8 @@ public class BidirectionalTopicActorTest {
     /**
      * Configures the endpoints.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() {
+    @BeforeAll
+    static void setUpBeforeClass() {
         Properties props = new Properties();
         props.setProperty("noop.sink.topics", MY_SINK);
         props.setProperty("noop.source.topics", MY_SOURCE1 + "," + MY_SOURCE2);
@@ -81,8 +81,8 @@ public class BidirectionalTopicActorTest {
         TopicEndpointManager.getManager().addTopicSources(props);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         // clear all topics after the tests
         TopicEndpointManager.getManager().shutdown();
     }
@@ -90,14 +90,14 @@ public class BidirectionalTopicActorTest {
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         actor = new MyActor();
         actor.configure(Util.translateToMap(ACTOR, makeParams()));
     }
 
     @Test
-    public void testDoStart() throws BidirectionalTopicClientException {
+    void testDoStart() throws BidirectionalTopicClientException {
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -116,7 +116,7 @@ public class BidirectionalTopicActorTest {
     }
 
     @Test
-    public void testDoStop() throws BidirectionalTopicClientException {
+    void testDoStop() throws BidirectionalTopicClientException {
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -135,7 +135,8 @@ public class BidirectionalTopicActorTest {
     }
 
     @Test
-    public void testDoShutdown() {
+    void testDoShutdown() throws BidirectionalTopicClientException {
+
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -154,38 +155,38 @@ public class BidirectionalTopicActorTest {
     }
 
     @Test
-    public void testMakeOperatorParameters() {
+    void testMakeOperatorParameters() {
         BidirectionalTopicActorParams params = makeParams();
 
         final BidirectionalTopicActor<BidirectionalTopicActorParams> prov =
-                        new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
+            new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
         Function<String, Map<String, Object>> maker =
-                        prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params));
+            prov.makeOperatorParameters(Util.translateToMap(prov.getName(), params));
 
         assertNull(maker.apply(UNKNOWN));
 
         // use a TreeMap to ensure the properties are sorted
         assertEquals("{sinkTopic=my-sink, sourceTopic=my-source-A, timeoutSec=10}",
-                        new TreeMap<>(maker.apply("operA")).toString());
+            new TreeMap<>(maker.apply("operA")).toString());
 
         assertEquals("{sinkTopic=my-sink, sourceTopic=topicB, timeoutSec=10}",
-                        new TreeMap<>(maker.apply("operB")).toString());
+            new TreeMap<>(maker.apply("operB")).toString());
 
         // with invalid actor parameters
         params.setOperations(null);
         Map<String, Object> map = Util.translateToMap(prov.getName(), params);
         assertThatThrownBy(() -> prov.makeOperatorParameters(map))
-                        .isInstanceOf(ParameterValidationRuntimeException.class);
+            .isInstanceOf(ParameterValidationRuntimeException.class);
     }
 
     @Test
-    public void testBidirectionalTopicActor() {
+    void testBidirectionalTopicActor() {
         assertEquals(ACTOR, actor.getName());
         assertEquals(ACTOR, actor.getFullName());
     }
 
     @Test
-    public void testGetTopicHandler() {
+     void testGetTopicHandler() throws BidirectionalTopicClientException {
         assertSame(handler1, actor.getTopicHandler(MY_SINK, MY_SOURCE1));
         assertSame(handler2, actor.getTopicHandler(MY_SINK, MY_SOURCE2));
 
@@ -193,7 +194,7 @@ public class BidirectionalTopicActorTest {
     }
 
     @Test
-    public void testMakeTopicHandler() {
+     void testMakeTopicHandler() throws BidirectionalTopicClientException {
         // use a real actor
         actor = new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
 
@@ -214,21 +215,21 @@ public class BidirectionalTopicActorTest {
 
         // @formatter:off
         params.setOperations(Map.of(
-                        "operA", Map.of(),
-                        "operB", Map.of("sourceTopic", "topicB")));
+            "operA", Map.of(),
+            "operB", Map.of("sourceTopic", "topicB")));
         // @formatter:on
         return params;
     }
 
     private class MyActor extends BidirectionalTopicActor<BidirectionalTopicActorParams> {
 
-        public MyActor() {
+        MyActor() {
             super(ACTOR, BidirectionalTopicActorParams.class);
         }
 
         @Override
         protected BidirectionalTopicHandler makeTopicHandler(String sinkTopic, String sourceTopic)
-                        throws BidirectionalTopicClientException {
+            throws BidirectionalTopicClientException {
 
             if (MY_SINK.equals(sinkTopic)) {
                 if (MY_SOURCE1.equals(sourceTopic)) {

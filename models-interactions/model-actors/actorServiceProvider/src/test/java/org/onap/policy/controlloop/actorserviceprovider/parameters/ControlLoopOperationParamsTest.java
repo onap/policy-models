@@ -22,18 +22,17 @@ package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -44,11 +43,13 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -57,8 +58,9 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams.ControlLoopOperationParamsBuilder;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ControlLoopOperationParamsTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class ControlLoopOperationParamsTest {
     private static final String NULL_MSG = "null";
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String ACTOR = "my-actor";
@@ -100,12 +102,12 @@ public class ControlLoopOperationParamsTest {
     /**
      * Initializes mocks and sets {@link #params} to a fully-loaded set of parameters.
      */
-    @Before
-    public void setUp() {
-        when(actorService.getActor(ACTOR)).thenReturn(actor);
-        when(actor.getOperator(OPERATION)).thenReturn(operator);
-        when(operator.buildOperation(any())).thenReturn(operation);
-        when(operation.start()).thenReturn(operFuture);
+    @BeforeEach
+     void setUp() {
+        Mockito.lenient().when(actorService.getActor(ACTOR)).thenReturn(actor);
+        Mockito.lenient().when(actor.getOperator(OPERATION)).thenReturn(operator);
+        Mockito.lenient().when(operator.buildOperation(any())).thenReturn(operation);
+        Mockito.lenient().when(operation.start()).thenReturn(operFuture);
 
         payload = new TreeMap<>();
 
@@ -118,26 +120,26 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testStart() {
+     void testStart() {
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().requestId(null).build().start());
 
         assertSame(operFuture, params.start());
     }
 
     @Test
-    public void testBuild() {
+     void testBuild() {
         assertThatIllegalArgumentException().isThrownBy(() -> params.toBuilder().requestId(null).build().build());
 
         assertSame(operation, params.build());
     }
 
     @Test
-    public void testGetRequestId() {
+     void testGetRequestId() {
         assertSame(REQ_ID, params.getRequestId());
     }
 
     @Test
-    public void testMakeOutcome() {
+     void testMakeOutcome() {
         assertEquals(ACTOR, outcome.getActor());
         assertEquals(OPERATION, outcome.getOperation());
         assertNull(outcome.getStart());
@@ -148,7 +150,7 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testCallbackStarted() {
+     void testCallbackStarted() {
         params.callbackStarted(outcome);
         verify(starter).accept(outcome);
 
@@ -173,7 +175,7 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testCallbackCompleted() {
+     void testCallbackCompleted() {
         params.callbackCompleted(outcome);
         verify(completer).accept(outcome);
 
@@ -198,7 +200,7 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testValidateFields() {
+     void testValidateFields() {
         testValidate("actor", NULL_MSG, bldr -> bldr.actor(null));
         testValidate("actorService", NULL_MSG, bldr -> bldr.actorService(null));
         testValidate("executor", NULL_MSG, bldr -> bldr.executor(null));
@@ -226,31 +228,31 @@ public class ControlLoopOperationParamsTest {
 
         // original params should be valid
         BeanValidationResult result = params.validate();
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         result = makeInvalid.apply(params.toBuilder()).build().validate();
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(fieldName).contains(expected);
     }
 
     @Test
-    public void testBuilder_testToBuilder() {
+     void testBuilder_testToBuilder() {
         assertEquals(params, params.toBuilder().build());
     }
 
     @Test
-    public void testGetActor() {
+     void testGetActor() {
         assertSame(ACTOR, params.getActor());
     }
 
     @Test
-    public void testGetActorService() {
+     void testGetActorService() {
         assertSame(actorService, params.getActorService());
     }
 
     @Test
-    public void testGetExecutor() {
+     void testGetExecutor() {
         assertSame(executor, params.getExecutor());
 
         // should use default when unspecified
@@ -258,12 +260,12 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testGetOperation() {
+     void testGetOperation() {
         assertSame(OPERATION, params.getOperation());
     }
 
     @Test
-    public void testGetPayload() {
+     void testGetPayload() {
         assertSame(payload, params.getPayload());
 
         // should be null when unspecified
@@ -271,7 +273,7 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testGetRetry() {
+     void testGetRetry() {
         assertSame(RETRY, params.getRetry());
 
         // should be null when unspecified
@@ -279,7 +281,7 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testGetTimeoutSec() {
+     void testGetTimeoutSec() {
         assertSame(TIMEOUT, params.getTimeoutSec());
 
         // should be 300 when unspecified
@@ -290,12 +292,12 @@ public class ControlLoopOperationParamsTest {
     }
 
     @Test
-    public void testGetStartCallback() {
+     void testGetStartCallback() {
         assertSame(starter, params.getStartCallback());
     }
 
     @Test
-    public void testGetCompleteCallback() {
+     void testGetCompleteCallback() {
         assertSame(completer, params.getCompleteCallback());
     }
 }

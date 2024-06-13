@@ -23,9 +23,9 @@ package org.onap.policy.controlloop.actor.test;
 import org.onap.policy.controlloop.actorserviceprovider.impl.ActorImpl;
 
 public class DummyActor extends ActorImpl {
-    public static final String NAME = "MyActor";
-    public static final String MY_OPERATION1 = "MyOperationA";
-    public static final String MY_OPERATION2 = "MyOperationB";
+    static final String NAME = "MyActor";
+    static final String MY_OPERATION1 = "MyOperationA";
+    static final String MY_OPERATION2 = "MyOperationB";
 
     /**
      * Constructs the object.

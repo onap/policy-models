@@ -21,18 +21,18 @@
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class HttpActorParamsTest {
+class HttpActorParamsTest {
 
     private static final String CONTAINER = "my-container";
     private static final String CLIENT = "my-client";
@@ -50,8 +50,8 @@ public class HttpActorParamsTest {
      * Initializes {@link #operations} with two items and {@link params} with a fully
      * populated object.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         operations = new TreeMap<>();
         operations.put(PATH1, Map.of("path", URI1));
         operations.put(PATH2, Map.of("path", URI2));
@@ -60,7 +60,7 @@ public class HttpActorParamsTest {
     }
 
     @Test
-    public void testValidate() {
+     void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
@@ -83,13 +83,13 @@ public class HttpActorParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         HttpActorParams params2 = makeHttpActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 

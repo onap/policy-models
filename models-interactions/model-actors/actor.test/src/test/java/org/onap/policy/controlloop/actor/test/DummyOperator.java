@@ -24,7 +24,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.impl.OperatorPartial;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
-public class DummyOperator extends OperatorPartial {
+class DummyOperator extends OperatorPartial {
 
     public DummyOperator(String actorName, String name) {
         super(actorName, name);

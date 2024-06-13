@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2018-2019 AT&T Corp. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +22,17 @@
 
 package org.onap.policy.controlloop.actor.vfc;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
-public class VfcActorTest extends BasicActor {
+class VfcActorTest extends BasicActor {
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         VfcActor prov = new VfcActor();
         assertEquals(0, prov.getSequenceNumber());
 
@@ -44,7 +44,7 @@ public class VfcActorTest extends BasicActor {
     }
 
     @Test
-    public void testActorService() {
+     void testActorService() {
         // verify that it all plugs into the ActorService
         verifyActorService(VfcActor.NAME, "service.yaml");
     }

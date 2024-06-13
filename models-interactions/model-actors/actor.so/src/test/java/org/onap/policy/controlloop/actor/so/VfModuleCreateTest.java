@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,10 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -35,12 +36,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -56,8 +57,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class VfModuleCreateTest extends BasicSoOperation {
+@ExtendWith(MockitoExtension.class)
+class VfModuleCreateTest extends BasicSoOperation {
 
 
     private static final String MODEL_NAME2 = "my-model-name-B";
@@ -67,26 +68,26 @@ public class VfModuleCreateTest extends BasicSoOperation {
 
     private VfModuleCreate oper;
 
-    public VfModuleCreateTest() {
+    VfModuleCreateTest() {
         super(DEFAULT_ACTOR, VfModuleCreate.NAME);
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     @Override
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUp();
         oper = new VfModuleCreate(params, config);
         loadProperties();
@@ -96,10 +97,10 @@ public class VfModuleCreateTest extends BasicSoOperation {
      * Tests "success" case with simulator.
      */
     @Test
-    public void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
-                        .path("serviceInstantiation/v7/serviceInstances").pollPath("orchestrationRequests/v5/")
-                        .maxPolls(2).build();
+            .path("serviceInstantiation/v7/serviceInstances").pollPath("orchestrationRequests/v5/")
+            .maxPolls(2).build();
         config = new HttpPollingConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
@@ -111,14 +112,14 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // run the operation
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof SoResponse);
+        assertInstanceOf(SoResponse.class, outcome.getResponse());
 
         int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
         assertEquals(VF_COUNT + 1, count);
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(VfModuleCreate.NAME, oper.getName());
         assertTrue(oper.isUsePolling());
@@ -126,26 +127,26 @@ public class VfModuleCreateTest extends BasicSoOperation {
         // verify that target validation is done
         params = params.toBuilder().targetType(null).build();
         assertThatIllegalArgumentException().isThrownBy(() -> new VfModuleCreate(params, config))
-                        .withMessageContaining("Target information");
+            .withMessageContaining("Target information");
     }
 
     @Test
-    public void testGetPropertyNames() {
+    void testGetPropertyNames() {
         // @formatter:off
         assertThat(oper.getPropertyNames()).isEqualTo(
-                        List.of(
-                            OperationProperties.AAI_SERVICE,
-                            OperationProperties.AAI_SERVICE_MODEL,
-                            OperationProperties.AAI_VNF,
-                            OperationProperties.AAI_VNF_MODEL,
-                            OperationProperties.AAI_DEFAULT_CLOUD_REGION,
-                            OperationProperties.AAI_DEFAULT_TENANT,
-                            OperationProperties.DATA_VF_COUNT));
+            List.of(
+                OperationProperties.AAI_SERVICE,
+                OperationProperties.AAI_SERVICE_MODEL,
+                OperationProperties.AAI_VNF,
+                OperationProperties.AAI_VNF_MODEL,
+                OperationProperties.AAI_DEFAULT_CLOUD_REGION,
+                OperationProperties.AAI_DEFAULT_TENANT,
+                OperationProperties.DATA_VF_COUNT));
         // @formatter:on
     }
 
     @Test
-    public void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
+    void testStartOperationAsync_testSuccessfulCompletion() throws Exception {
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
 
         // use a real executor
@@ -179,7 +180,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
      * Tests startOperationAsync() when polling is required.
      */
     @Test
-    public void testStartOperationAsyncWithPolling() throws Exception {
+    void testStartOperationAsyncWithPolling() throws Exception {
         when(rawResponse.getStatus()).thenReturn(500, 500, 500, 500, 200, 200);
 
         when(client.post(any(), any(), any(), any())).thenAnswer(provideResponse(rawResponse));
@@ -204,7 +205,7 @@ public class VfModuleCreateTest extends BasicSoOperation {
     }
 
     @Test
-    public void testMakeRequest() throws CoderException {
+    void testMakeRequest() throws CoderException {
         Pair<String, SoRequest> pair = oper.makeRequest();
 
         // @formatter:off
@@ -220,14 +221,14 @@ public class VfModuleCreateTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    public void testMakeRequestMissingProperty() throws Exception {
+    void testMakeRequestMissingProperty() throws Exception {
         loadProperties();
 
         ServiceInstance instance = new ServiceInstance();
         oper.setProperty(OperationProperties.AAI_SERVICE, instance);
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest())
-                        .withMessageContaining("missing service instance ID");
+            .withMessageContaining("missing service instance ID");
     }
 
     private void loadProperties() {

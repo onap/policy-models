@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2022 CTC, Inc. and others. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,17 +24,17 @@ package org.onap.policy.controlloop.actor.so;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -43,35 +43,35 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.so.SoResponse;
 
-@RunWith(MockitoJUnitRunner.class)
-public class ModifyCllTest extends BasicSoOperation {
+@ExtendWith(MockitoExtension.class)
+class ModifyCllTest extends BasicSoOperation {
 
     private ModifyCll oper;
 
 
-    public ModifyCllTest() {
+    ModifyCllTest() {
         super(DEFAULT_ACTOR, ModifyCll.NAME);
     }
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+     static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+     static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
     @Override
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+     void setUp() throws Exception {
         super.setUp();
         oper = new ModifyCll(params, config);
     }
 
     @Test
-    public void testSuccess() throws Exception {
+     void testSuccess() throws Exception {
         HttpPollingParams opParams = HttpPollingParams.builder().clientName(MY_CLIENT)
                 .path("infra/serviceIntent/v1/modify")
                 .pollPath("orchestrationRequests/v5/").maxPolls(2).build();
@@ -87,7 +87,7 @@ public class ModifyCllTest extends BasicSoOperation {
     }
 
     @Test
-    public void testConstructor() {
+     void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(ModifyCll.NAME, oper.getName());
         assertFalse(oper.isUsePolling());
@@ -98,7 +98,7 @@ public class ModifyCllTest extends BasicSoOperation {
     }
 
     @Test
-    public void testGetPropertyNames() {
+     void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.EVENT_PAYLOAD));
     }
 
@@ -110,7 +110,7 @@ public class ModifyCllTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    public void testMakeRequestMissingProperty() throws Exception {
+     void testMakeRequestMissingProperty() throws Exception {
         oper = new ModifyCll(params, config);
 
         assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest())

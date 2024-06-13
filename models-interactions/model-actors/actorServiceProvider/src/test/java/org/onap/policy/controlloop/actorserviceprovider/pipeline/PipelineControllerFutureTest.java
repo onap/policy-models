@@ -21,12 +21,12 @@
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
@@ -41,15 +41,15 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
-public class PipelineControllerFutureTest {
+@ExtendWith(MockitoExtension.class)
+class PipelineControllerFutureTest {
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
     private static final String TEXT = "some text";
 
@@ -77,8 +77,8 @@ public class PipelineControllerFutureTest {
      * Initializes fields, including {@link #controller}. Adds all runners and futures to
      * the controller.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         compFuture = spy(new CompletableFuture<>());
 
         controller = new PipelineControllerFuture<>();
@@ -90,7 +90,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCancel_testAddFutureOfFBoolean_testAddRunnable__testIsRunning() {
+     void testCancel_testAddFutureOfFBoolean_testAddRunnable__testIsRunning() {
         assertTrue(controller.isRunning());
 
         assertTrue(controller.cancel(false));
@@ -110,7 +110,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCompleteT() throws Exception {
+     void testCompleteT() throws Exception {
         assertTrue(controller.complete(TEXT));
         assertEquals(TEXT, controller.get());
 
@@ -121,7 +121,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCompleteExceptionallyThrowable() {
+     void testCompleteExceptionallyThrowable() {
         assertTrue(controller.completeExceptionally(EXPECTED_EXCEPTION));
         assertThatThrownBy(() -> controller.get()).hasCause(EXPECTED_EXCEPTION);
 
@@ -132,7 +132,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCompleteAsyncSupplierOfQextendsTExecutor() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsTExecutor() throws Exception {
         CompletableFuture<String> future = controller.completeAsync(() -> TEXT, executor);
 
         // haven't stopped anything yet
@@ -156,7 +156,7 @@ public class PipelineControllerFutureTest {
      * Tests completeAsync(executor) when canceled before execution.
      */
     @Test
-    public void testCompleteAsyncSupplierOfQextendsTExecutorCanceled() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsTExecutorCanceled() throws Exception {
         CompletableFuture<String> future = controller.completeAsync(() -> TEXT, executor);
 
         assertTrue(future.cancel(false));
@@ -169,7 +169,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCompleteAsyncSupplierOfQextendsT() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsT() throws Exception {
         CompletableFuture<String> future = controller.completeAsync(() -> TEXT);
         assertEquals(TEXT, future.get());
 
@@ -180,7 +180,7 @@ public class PipelineControllerFutureTest {
      * Tests completeAsync() when canceled.
      */
     @Test
-    public void testCompleteAsyncSupplierOfQextendsTCanceled() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsTCanceled() throws Exception {
         CountDownLatch canceled = new CountDownLatch(1);
 
         // run async, but await until canceled
@@ -207,7 +207,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testCompleteOnTimeoutTLongTimeUnit() throws Exception {
+     void testCompleteOnTimeoutTLongTimeUnit() throws Exception {
         CountDownLatch stopped = new CountDownLatch(1);
         controller.add(() -> stopped.countDown());
 
@@ -226,7 +226,7 @@ public class PipelineControllerFutureTest {
      * Tests completeOnTimeout() when completed before the timeout.
      */
     @Test
-    public void testCompleteOnTimeoutTLongTimeUnitNoTimeout() throws Exception {
+     void testCompleteOnTimeoutTLongTimeUnitNoTimeout() throws Exception {
         CompletableFuture<String> future = controller.completeOnTimeout("timed out", 5, TimeUnit.SECONDS);
         controller.complete(TEXT);
 
@@ -239,7 +239,7 @@ public class PipelineControllerFutureTest {
      * Tests completeOnTimeout() when canceled before the timeout.
      */
     @Test
-    public void testCompleteOnTimeoutTLongTimeUnitCanceled() {
+     void testCompleteOnTimeoutTLongTimeUnitCanceled() {
         CompletableFuture<String> future = controller.completeOnTimeout(TEXT, 5, TimeUnit.SECONDS);
         assertTrue(future.cancel(true));
 
@@ -249,7 +249,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testNewIncompleteFuture() {
+     void testNewIncompleteFuture() {
         PipelineControllerFuture<String> future = controller.newIncompleteFuture();
         assertNotNull(future);
         assertTrue(future instanceof PipelineControllerFuture);
@@ -258,7 +258,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testDelayedComplete() throws Exception {
+     void testDelayedComplete() throws Exception {
         controller.add(runnable1);
 
         BiConsumer<String, Throwable> stopper = controller.delayedComplete();
@@ -287,7 +287,7 @@ public class PipelineControllerFutureTest {
      * Tests delayedComplete() when an exception is generated.
      */
     @Test
-    public void testDelayedCompleteWithException() throws Exception {
+     void testDelayedCompleteWithException() throws Exception {
         controller.add(runnable1);
 
         BiConsumer<String, Throwable> stopper = controller.delayedComplete();
@@ -313,7 +313,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testDelayedRemoveFutureOfF() throws Exception {
+     void testDelayedRemoveFutureOfF() throws Exception {
         BiConsumer<String, Throwable> remover = controller.delayedRemove(future1);
 
         remover.accept(TEXT, EXPECTED_EXCEPTION);
@@ -330,7 +330,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testDelayedRemoveRunnable() throws Exception {
+     void testDelayedRemoveRunnable() throws Exception {
         BiConsumer<String, Throwable> remover = controller.delayedRemove(runnable1);
 
         remover.accept(TEXT, EXPECTED_EXCEPTION);
@@ -347,7 +347,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testRemoveFutureOfF_testRemoveRunnable() {
+     void testRemoveFutureOfF_testRemoveRunnable() {
         controller.remove(runnable2);
         controller.remove(future1);
 
@@ -363,7 +363,7 @@ public class PipelineControllerFutureTest {
      * Tests both wrap() methods.
      */
     @Test
-    public void testWrap() throws Exception {
+     void testWrap() throws Exception {
         controller = spy(controller);
 
         CompletableFuture<String> future = controller.wrap(compFuture);
@@ -379,7 +379,7 @@ public class PipelineControllerFutureTest {
      * Tests wrap(), when the controller is not running.
      */
     @Test
-    public void testWrapNotRunning() throws Exception {
+     void testWrapNotRunning() throws Exception {
         controller.cancel(false);
         controller = spy(controller);
 
@@ -394,7 +394,7 @@ public class PipelineControllerFutureTest {
      * Tests wrap(), when the future throws an exception.
      */
     @Test
-    public void testWrapException() throws Exception {
+     void testWrapException() throws Exception {
         controller = spy(controller);
 
         CompletableFuture<String> future = controller.wrap(compFuture);
@@ -407,7 +407,7 @@ public class PipelineControllerFutureTest {
     }
 
     @Test
-    public void testWrapFunction() throws Exception {
+     void testWrapFunction() throws Exception {
 
         Function<String, CompletableFuture<String>> func = controller.wrap(input -> {
             compFuture.complete(input);
@@ -427,7 +427,7 @@ public class PipelineControllerFutureTest {
      * Tests wrap(Function) when the controller is canceled after the future is added.
      */
     @Test
-    public void testWrapFunctionCancel() throws Exception {
+     void testWrapFunctionCancel() throws Exception {
         Function<String, CompletableFuture<String>> func = controller.wrap(input -> compFuture);
 
         CompletableFuture<String> future = func.apply(TEXT);
@@ -445,7 +445,7 @@ public class PipelineControllerFutureTest {
      * Tests wrap(Function) when the controller is not running.
      */
     @Test
-    public void testWrapFunctionNotRunning() {
+     void testWrapFunctionNotRunning() {
         AtomicReference<String> value = new AtomicReference<>();
 
         Function<String, CompletableFuture<String>> func = controller.wrap(input -> {

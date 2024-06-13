@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +24,16 @@ package org.onap.policy.controlloop.actor.so;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import jakarta.ws.rs.core.GenericType;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.StandardCoder;
 
-public class RestManagerResponseTest {
+class RestManagerResponseTest {
     private static final Coder coder = new StandardCoder();
 
     private static final int MY_STATUS = 200;
@@ -41,23 +41,23 @@ public class RestManagerResponseTest {
 
     private RestManagerResponse resp;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         resp = new RestManagerResponse(MY_STATUS, MY_TEXT, coder);
     }
 
     @Test
-    public void testGetStatus() {
+     void testGetStatus() {
         assertEquals(MY_STATUS, resp.getStatus());
     }
 
     @Test
-    public void testClose() {
+     void testClose() {
         assertThatCode(() -> resp.close()).doesNotThrowAnyException();
     }
 
     @Test
-    public void testReadEntityClassOfT() {
+     void testReadEntityClassOfT() {
         // try with JSON
         MyObject obj = resp.readEntity(MyObject.class);
         assertNotNull(obj);
@@ -75,7 +75,7 @@ public class RestManagerResponseTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testUnsupported() {
+     void testUnsupported() {
         GenericType<String> generic = GenericType.forInstance(String.class);
 
         assertThatThrownBy(() -> resp.hasEntity()).isInstanceOf(UnsupportedOperationException.class);

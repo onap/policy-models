@@ -23,23 +23,23 @@ package org.onap.policy.controlloop.actorserviceprovider.parameters;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-public class ActorParamsTest {
+class ActorParamsTest {
 
     private static final String CONTAINER = "my-container";
 
@@ -58,8 +58,8 @@ public class ActorParamsTest {
      * Initializes {@link #operations} with two items and {@link params} with a fully
      * populated object.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+     void setUp() {
         operations = new TreeMap<>();
         operations.put(PATH1, Map.of("path", URI1));
         operations.put(PATH2, Map.of("path", URI2, "text2", TEXT2B));
@@ -68,7 +68,7 @@ public class ActorParamsTest {
     }
 
     @Test
-    public void testMakeOperationParameters() {
+     void testMakeOperationParameters() {
         Function<String, Map<String, Object>> maker = params.makeOperationParameters(CONTAINER);
         assertNull(maker.apply("unknown-operation"));
 
@@ -82,7 +82,7 @@ public class ActorParamsTest {
     }
 
     @Test
-    public void testDoValidation() {
+     void testDoValidation() {
         assertThatCode(() -> params.doValidation(CONTAINER)).doesNotThrowAnyException();
 
         // invalid param
@@ -92,7 +92,7 @@ public class ActorParamsTest {
     }
 
     @Test
-    public void testValidate() {
+     void testValidate() {
         assertTrue(params.validate(CONTAINER).isValid());
 
         // only a few fields are required
@@ -108,13 +108,13 @@ public class ActorParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         ActorParams params2 = makeActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 
@@ -128,7 +128,7 @@ public class ActorParamsTest {
     }
 
     @Setter
-    public static class MyParams extends ActorParams {
+    static class MyParams extends ActorParams {
         @SuppressWarnings("unused")
         private String text1;
 

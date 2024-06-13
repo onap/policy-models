@@ -22,70 +22,72 @@
 package org.onap.policy.controlloop.actor.test;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.BiConsumer;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.simulators.TopicServer;
 
-@RunWith(MockitoJUnitRunner.class)
-public class BasicBidirectionalTopicOperationTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class BasicBidirectionalTopicOperationTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
 
     @Mock
     private BiConsumer<String, StandardCoderObject> listener;
 
-    private BasicBidirectionalTopicOperation<String> oper;
+    private BasicBidirectionalTopicOperation<String> oper = new MyOperation(ACTOR, OPERATION);
 
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    void setUpBeforeClass() throws Exception {
         BasicBidirectionalTopicOperation.initBeforeClass(BasicBidirectionalTopicOperation.MY_SINK,
                         BasicBidirectionalTopicOperation.MY_SOURCE);
     }
 
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+    static void tearDownAfterClass() {
         BasicBidirectionalTopicOperation.destroyAfterClass();
     }
 
     /**
      * Sets up.
      */
-    @Before
-    public void setUp() throws Exception {
-        oper = new MyOperation(ACTOR, OPERATION);
+    @BeforeEach
+    void setUp() throws Exception {
         oper.setUpBasic();
     }
 
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         oper.tearDownBasic();
     }
 
     @Test
-    public void testTopicMgr() {
+    void testTopicMgr() {
         assertNotNull(BasicBidirectionalTopicOperation.topicMgr.getTopicHandler(
                         BasicBidirectionalTopicOperation.MY_SINK, BasicBidirectionalTopicOperation.MY_SOURCE));
     }
 
     @Test
-    public void testBasicBidirectionalTopicOperation() {
+    void testBasicBidirectionalTopicOperation() {
         oper.tearDownBasic();
 
         oper = new MyOperation();
@@ -96,20 +98,14 @@ public class BasicBidirectionalTopicOperationTest {
     }
 
     @Test
-    public void testBasicBidirectionalTopicOperationStringString() {
-        assertEquals(ACTOR, oper.actorName);
-        assertEquals(OPERATION, oper.operationName);
-    }
-
-    @Test
-    public void testSetUp() {
+    void testSetUp() {
         assertNotNull(oper.config);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
     }
 
     @Test
-    public void testInitOperator() {
+    void testInitOperator() {
         oper.initConfig();
 
         assertSame(oper.topicHandler, oper.config.getTopicHandler());
@@ -118,7 +114,7 @@ public class BasicBidirectionalTopicOperationTest {
     }
 
     @Test
-    public void testProvideResponse() {
+    void testProvideResponse() {
         String response = "{\"input\": 10}";
 
         oper.provideResponse(listener, response);

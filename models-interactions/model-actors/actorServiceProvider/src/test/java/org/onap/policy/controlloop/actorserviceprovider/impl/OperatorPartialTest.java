@@ -20,19 +20,19 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
-public class OperatorPartialTest {
+class OperatorPartialTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
 
@@ -41,8 +41,8 @@ public class OperatorPartialTest {
     /**
      * Initializes {@link #operator}.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         operator = new OperatorPartial(ACTOR, OPERATION) {
             @Override
             public Operation buildOperation(ControlLoopOperationParams params) {
@@ -52,14 +52,14 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testOperatorPartial_testGetActorName_testGetName() {
+    void testOperatorPartial_testGetActorName_testGetName() {
         assertEquals(ACTOR, operator.getActorName());
         assertEquals(OPERATION, operator.getName());
         assertEquals(ACTOR + "." + OPERATION, operator.getFullName());
     }
 
     @Test
-    public void testDoStart() {
+    void testDoStart() {
         operator.configure(null);
 
         operator = spy(operator);
@@ -69,7 +69,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testDoStop() {
+    void testDoStop() {
         operator.configure(null);
         operator.start();
 
@@ -80,7 +80,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testDoShutdown() {
+    void testDoShutdown() {
         operator.configure(null);
         operator.start();
 
@@ -91,7 +91,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testDoConfigureMapOfStringObject() {
+    void testDoConfigureMapOfStringObject() {
         operator = spy(operator);
 
         Map<String, Object> params = new TreeMap<>();
@@ -101,7 +101,7 @@ public class OperatorPartialTest {
     }
 
     @Test
-    public void testGetBlockingExecutor() {
+    void testGetBlockingExecutor() {
         assertNotNull(operator.getBlockingExecutor());
     }
 }

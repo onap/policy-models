@@ -25,11 +25,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -59,13 +59,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
@@ -85,8 +87,9 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HttpOperationTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class HttpOperationTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
     private static final String ACTOR = "my-actor";
@@ -129,8 +132,8 @@ public class HttpOperationTest {
     /**
      * Starts the simulator.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+   void setUpBeforeClass() throws Exception {
         // allocate a port
         int port = NetworkUtil.allocPort();
 
@@ -160,26 +163,26 @@ public class HttpOperationTest {
     /**
      * Destroys the Http factories and stops the appender.
      */
-    @AfterClass
-    public static void tearDownAfterClass() {
+    @AfterAll
+   static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     /**
-     * Initializes fields, including {@link #oper}, and resets the static fields used by
+     * Initializes fields, including {@link #oper}, and resets thestatic fields used by
      * the REST server.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+   void setUp() {
         rejectRequest = false;
         nget = 0;
         npost = 0;
         nput = 0;
         ndelete = 0;
 
-        when(response.readEntity(String.class)).thenReturn(TEXT);
-        when(response.getStatus()).thenReturn(200);
+        Mockito.lenient().when(response.readEntity(String.class)).thenReturn(TEXT);
+        Mockito.lenient().when(response.getStatus()).thenReturn(200);
 
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).requestId(REQ_ID).build();
 
@@ -188,7 +191,7 @@ public class HttpOperationTest {
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();
 
-        when(clientFactory.get(any())).thenReturn(client);
+        Mockito.lenient().when(clientFactory.get(any())).thenReturn(client);
 
         initConfig(HTTP_CLIENT);
 
@@ -196,24 +199,24 @@ public class HttpOperationTest {
     }
 
     @Test
-    public void testHttpOperator() {
+   void testHttpOperator() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
         assertEquals(ACTOR + "." + OPERATION, oper.getFullName());
     }
 
     @Test
-    public void testMakeHeaders() {
+   void testMakeHeaders() {
         assertEquals(Collections.emptyMap(), oper.makeHeaders());
     }
 
     @Test
-    public void testGetPath() {
+   void testGetPath() {
         assertEquals(PATH, oper.getPath());
     }
 
     @Test
-    public void testMakeUrl() {
+   void testMakeUrl() {
         // use a real client
         initRealConfig(HTTP_CLIENT);
 
@@ -223,7 +226,7 @@ public class HttpOperationTest {
     }
 
     @Test
-    public void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
+   void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
 
         // use value from operator
         assertEquals(1000L, oper.getTimeoutMs(null));
@@ -237,7 +240,7 @@ public class HttpOperationTest {
      * Tests handleResponse() when it completes.
      */
     @Test
-    public void testHandleResponseComplete() throws Exception {
+   void testHandleResponseComplete() throws Exception {
         CompletableFuture<OperationOutcome> future2 = oper.handleResponse(outcome, PATH, cb -> {
             callback.set(cb);
             return future;
@@ -257,7 +260,7 @@ public class HttpOperationTest {
      * Tests handleResponse() when it fails.
      */
     @Test
-    public void testHandleResponseFailed() throws Exception {
+   void testHandleResponseFailed() throws Exception {
         CompletableFuture<OperationOutcome> future2 = oper.handleResponse(outcome, PATH, cb -> {
             callback.set(cb);
             return future;
@@ -278,7 +281,7 @@ public class HttpOperationTest {
      * Tests processResponse() when it's a success and the response type is a String.
      */
     @Test
-    public void testProcessResponseSuccessString() throws Exception {
+    void testProcessResponseSuccessString() throws Exception {
         CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
@@ -290,7 +293,7 @@ public class HttpOperationTest {
      * Tests processResponse() when it's a failure.
      */
     @Test
-    public void testProcessResponseFailure() throws Exception {
+    void testProcessResponseFailure() throws Exception {
         when(response.getStatus()).thenReturn(555);
         CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
         assertTrue(result.isDone());
@@ -303,7 +306,7 @@ public class HttpOperationTest {
      * Tests processResponse() when the decoder succeeds.
      */
     @Test
-    public void testProcessResponseDecodeOk() throws Exception {
+    void testProcessResponseDecodeOk() throws Exception {
         when(response.readEntity(String.class)).thenReturn("10");
 
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
@@ -319,19 +322,19 @@ public class HttpOperationTest {
      * Tests processResponse() when the decoder throws an exception.
      */
     @Test
-    public void testProcessResponseDecodeExcept() throws CoderException {
+    void testProcessResponseDecodeExcept() throws CoderException {
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper2.processResponse(outcome, PATH, response));
     }
 
     @Test
-    public void testPostProcessResponse() {
+    void testPostProcessResponse() {
         assertThatCode(() -> oper.postProcessResponse(outcome, PATH, null, null)).doesNotThrowAnyException();
     }
 
     @Test
-    public void testIsSuccess() {
+    void testIsSuccess() {
         when(response.getStatus()).thenReturn(200);
         assertTrue(oper.isSuccess(response, null));
 
@@ -343,7 +346,7 @@ public class HttpOperationTest {
      * Tests a GET.
      */
     @Test
-    public void testGet() throws Exception {
+    void testGet() throws Exception {
         // use a real client
         initRealConfig(HTTP_CLIENT);
 
@@ -360,7 +363,7 @@ public class HttpOperationTest {
      * Tests a DELETE.
      */
     @Test
-    public void testDelete() throws Exception {
+    void testDelete() throws Exception {
         // use a real client
         initRealConfig(HTTP_CLIENT);
 
@@ -377,7 +380,7 @@ public class HttpOperationTest {
      * Tests a POST.
      */
     @Test
-    public void testPost() throws Exception {
+    void testPost() throws Exception {
         // use a real client
         initRealConfig(HTTP_CLIENT);
         MyPostOperation oper2 = new MyPostOperation();
@@ -393,7 +396,7 @@ public class HttpOperationTest {
      * Tests a PUT.
      */
     @Test
-    public void testPut() throws Exception {
+    void testPut() throws Exception {
         // use a real client
         initRealConfig(HTTP_CLIENT);
 
@@ -407,7 +410,7 @@ public class HttpOperationTest {
     }
 
     @Test
-    public void testMakeDecoder() {
+    void testMakeDecoder() {
         assertNotNull(oper.getCoder());
     }
 
@@ -480,18 +483,18 @@ public class HttpOperationTest {
 
     @Getter
     @Setter
-    public static class MyRequest {
+    static class MyRequest {
         private String input = "some input";
     }
 
     @Getter
     @Setter
-    public static class MyResponse {
+    static class MyResponse {
         private String output = "some output";
     }
 
     private class MyGetOperation<T> extends HttpOperation<T> {
-        public MyGetOperation(Class<T> responseClass) {
+        MyGetOperation(Class<T> responseClass) {
             super(HttpOperationTest.this.params, HttpOperationTest.this.config, responseClass, Collections.emptyList());
         }
 
@@ -512,7 +515,7 @@ public class HttpOperationTest {
     }
 
     private class MyPostOperation extends HttpOperation<MyResponse> {
-        public MyPostOperation() {
+        MyPostOperation() {
             super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
                             Collections.emptyList());
         }
@@ -540,7 +543,7 @@ public class HttpOperationTest {
     }
 
     private class MyPutOperation extends HttpOperation<MyResponse> {
-        public MyPutOperation() {
+        MyPutOperation() {
             super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
                             Collections.emptyList());
         }
@@ -568,7 +571,7 @@ public class HttpOperationTest {
     }
 
     private class MyDeleteOperation extends HttpOperation<String> {
-        public MyDeleteOperation() {
+        MyDeleteOperation() {
             super(HttpOperationTest.this.params, HttpOperationTest.this.config, String.class, Collections.emptyList());
         }
 

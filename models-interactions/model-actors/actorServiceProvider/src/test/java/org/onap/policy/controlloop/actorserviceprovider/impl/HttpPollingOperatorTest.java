@@ -21,18 +21,20 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -42,8 +44,9 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HttpPollingOperatorTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class HttpPollingOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
     private static final String CLIENT = "my-client";
@@ -64,8 +67,8 @@ public class HttpPollingOperatorTest {
      * Initializes fields, including {@link #oper}, and resets the static fields used by
      * the REST server.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         when(factory.get(CLIENT)).thenReturn(client);
 
         oper = new MyOperator();
@@ -77,14 +80,14 @@ public class HttpPollingOperatorTest {
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
         assertEquals(ACTOR + "." + OPERATION, oper.getFullName());
     }
 
     @Test
-    public void testDoConfigure_testGetters() {
+    void testDoConfigure_testGetters() {
         assertTrue(oper.getCurrentConfig() instanceof HttpPollingConfig);
 
         // test invalid parameters
@@ -93,7 +96,7 @@ public class HttpPollingOperatorTest {
     }
 
     @Test
-    public void testGetClientFactory() {
+     void testGetClientFactory() {
         HttpPollingOperator oper2 = new HttpPollingOperator(ACTOR, OPERATION);
         assertNotNull(oper2.getClientFactory());
     }

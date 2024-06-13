@@ -20,17 +20,17 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.mockito.Mockito;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -47,7 +47,7 @@ import org.onap.policy.simulators.Util;
 /**
  * Superclass for various operator tests.
  */
-public abstract class BasicSdncOperation extends BasicHttpOperation {
+abstract class BasicSdncOperation extends BasicHttpOperation {
     /**
      * Fields to be ignored when comparing requests with JSON.
      */
@@ -58,7 +58,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicSdncOperation() {
+    BasicSdncOperation() {
         super();
     }
 
@@ -68,7 +68,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicSdncOperation(String actor, String operation) {
+    BasicSdncOperation(String actor, String operation) {
         super(actor, operation);
     }
 
@@ -92,7 +92,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new SdncResponse();
@@ -101,7 +101,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
         response.setResponseOutput(output);
         output.setResponseCode("200");
 
-        when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(response));
+        Mockito.lenient().when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(response));
     }
 
     /**

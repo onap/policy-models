@@ -22,13 +22,13 @@ package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
-public class PipelineUtilTest {
+class PipelineUtilTest {
 
     @Test
-    public void testPipelineUtil() {
+    void testPipelineUtil() {
         ControlLoopOperationParams params = ControlLoopOperationParams.builder().build();
         PipelineUtil util = new PipelineUtil(params);
 

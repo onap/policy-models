@@ -22,21 +22,22 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -47,8 +48,9 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-@RunWith(MockitoJUnitRunner.class)
-public class HttpOperatorTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
+class HttpOperatorTest {
 
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
@@ -68,8 +70,8 @@ public class HttpOperatorTest {
      * Initializes fields, including {@link #oper}, and resets the static fields used by
      * the REST server.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         when(factory.get(HTTP_CLIENT)).thenReturn(client);
 
         oper = new MyOperator();
@@ -80,14 +82,14 @@ public class HttpOperatorTest {
     }
 
     @Test
-    public void testHttpOperator() {
+    void testHttpOperator() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
         assertEquals(ACTOR + "." + OPERATION, oper.getFullName());
     }
 
     @Test
-    public void testDoConfigureMapOfStringObject_testGetConfig() {
+    void testDoConfigureMapOfStringObject_testGetConfig() {
         // start with an UNCONFIGURED operator
         oper.shutdown();
         oper = new MyOperator();
@@ -106,7 +108,7 @@ public class HttpOperatorTest {
     }
 
     @Test
-    public void testBuildOperation() {
+    void testBuildOperation() {
         HttpOperator oper2 = new MyOperator();
         assertNotNull(oper2);
         assertNotNull(oper2.getClientFactory());
@@ -137,13 +139,13 @@ public class HttpOperatorTest {
     }
 
     @Test
-    public void testGetClientFactory() {
+    void testGetClientFactory() {
         HttpOperator oper2 = new HttpOperator(ACTOR, OPERATION);
         assertNotNull(oper2.getClientFactory());
     }
 
     private class MyOperator extends HttpOperator {
-        public MyOperator() {
+        MyOperator() {
             super(ACTOR, OPERATION, MyOperation::new);
         }
 
@@ -154,7 +156,7 @@ public class HttpOperatorTest {
     }
 
     private class MyOperation extends HttpOperation<String> {
-        public MyOperation(ControlLoopOperationParams params, HttpConfig config) {
+        MyOperation(ControlLoopOperationParams params, HttpConfig config) {
             super(params, config, String.class, Collections.emptyList());
         }
 

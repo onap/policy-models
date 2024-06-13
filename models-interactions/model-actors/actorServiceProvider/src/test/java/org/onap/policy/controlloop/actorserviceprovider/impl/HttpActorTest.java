@@ -21,19 +21,19 @@
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpActorParams;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-public class HttpActorTest {
+class HttpActorTest {
 
     private static final String ACTOR = "my-actor";
     private static final String UNKNOWN = "unknown";
@@ -42,13 +42,13 @@ public class HttpActorTest {
 
     private HttpActor<HttpActorParams> actor;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         actor = new HttpActor<>(ACTOR, HttpActorParams.class);
     }
 
     @Test
-    public void testMakeOperatorParameters() {
+    void testMakeOperatorParameters() {
         HttpActorParams params = new HttpActorParams();
         params.setClientName(CLIENT);
         params.setTimeoutSec(TIMEOUT);
@@ -80,7 +80,7 @@ public class HttpActorTest {
     }
 
     @Test
-    public void testHttpActor() {
+    void testHttpActor() {
         assertEquals(ACTOR, actor.getName());
         assertEquals(ACTOR, actor.getFullName());
     }

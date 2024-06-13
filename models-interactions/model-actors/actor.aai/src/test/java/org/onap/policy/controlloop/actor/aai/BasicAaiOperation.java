@@ -20,7 +20,7 @@
 
 package org.onap.policy.controlloop.actor.aai;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;

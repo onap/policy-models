@@ -32,10 +32,10 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 import org.onap.policy.simulators.Util;
 import org.onap.policy.vfc.VfcResponse;
 
-public abstract class BasicVfcOperation extends BasicHttpOperation {
-    public static final String POLL_PATH = "my-path-get/";
-    public static final int MAX_POLLS = 3;
-    public static final int POLL_WAIT_SEC = 20;
+abstract class BasicVfcOperation extends BasicHttpOperation {
+    static final String POLL_PATH = "my-path-get/";
+    static final int MAX_POLLS = 3;
+    static final int POLL_WAIT_SEC = 20;
 
     @Mock
     protected HttpPollingConfig config;
@@ -45,7 +45,7 @@ public abstract class BasicVfcOperation extends BasicHttpOperation {
     /**
      * Constructs the object using a default actor and operation name.
      */
-    public BasicVfcOperation() {
+    BasicVfcOperation() {
         super();
     }
 
@@ -55,7 +55,7 @@ public abstract class BasicVfcOperation extends BasicHttpOperation {
      * @param actor actor name
      * @param operation operation name
      */
-    public BasicVfcOperation(String actor, String operation) {
+    BasicVfcOperation(String actor, String operation) {
         super(actor, operation);
     }
 
@@ -66,7 +66,7 @@ public abstract class BasicVfcOperation extends BasicHttpOperation {
         Util.buildVfcSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("api/nslcm/v1/")
-                        .hostname("localhost").managed(true).port(Util.VFCSIM_SERVER_PORT).build();
+            .hostname("localhost").managed(true).port(Util.VFCSIM_SERVER_PORT).build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
     }
 
@@ -78,7 +78,7 @@ public abstract class BasicVfcOperation extends BasicHttpOperation {
     /**
      * Initializes mocks and sets up.
      */
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         super.setUpBasic();
 
         response = new VfcResponse();
