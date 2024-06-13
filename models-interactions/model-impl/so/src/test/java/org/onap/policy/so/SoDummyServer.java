@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Path("/SO")
-public class SoDummyServer {
+class SoDummyServer {
 
     private static final String ONGOING = "ONGOING";
     private static int postMessagesReceived = 0;

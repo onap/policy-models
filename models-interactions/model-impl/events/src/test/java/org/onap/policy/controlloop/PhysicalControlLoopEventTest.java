@@ -3,7 +3,7 @@
  * controlloop
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +21,14 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PhysicalControlLoopEventTest {
+class PhysicalControlLoopEventTest {
 
     @Test
-    public void test() {
+    void test() {
         PhysicalControlLoopEvent event = new PhysicalControlLoopEvent();
         assertNotNull(event);
 

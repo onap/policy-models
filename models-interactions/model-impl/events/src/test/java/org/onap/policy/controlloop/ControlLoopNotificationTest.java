@@ -3,7 +3,7 @@
  * controlloop
  * ================================================================================
  * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +21,17 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.util.Serialization;
 
-public class ControlLoopNotificationTest {
+class ControlLoopNotificationTest {
 
     private class TestControlLoopNotification extends ControlLoopNotification {
         private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class ControlLoopNotificationTest {
     }
 
     @Test
-    public void test() {
+    void test() {
         ControlLoopNotification notification = new TestControlLoopNotification();
 
         assertEquals("1.0.2", notification.getVersion());

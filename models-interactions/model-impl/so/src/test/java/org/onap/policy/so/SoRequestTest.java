@@ -3,7 +3,7 @@
  * so
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +21,17 @@
 
 package org.onap.policy.so;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SoRequestTest {
+class SoRequestTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         SoRequest obj = new SoRequest();
 
         assertNull(obj.getFinishTime());
@@ -44,7 +44,7 @@ public class SoRequestTest {
     }
 
     @Test
-    public void testSetGet() {
+    void testSetGet() {
         SoRequest obj = new SoRequest();
 
         LocalDateTime finishTime = LocalDateTime.now();

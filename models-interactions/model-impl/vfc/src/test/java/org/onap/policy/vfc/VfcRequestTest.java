@@ -3,7 +3,7 @@
  * vfc
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2018-2019 AT&T Corporation. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,17 +22,17 @@
 
 package org.onap.policy.vfc;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class VfcRequestTest {
+class VfcRequestTest {
 
     @Test
-    public void testVfcRequest() {
+    void testVfcRequest() {
         VfcRequest request = new VfcRequest();
         assertNotNull(request);
         assertNotEquals(0, request.hashCode());

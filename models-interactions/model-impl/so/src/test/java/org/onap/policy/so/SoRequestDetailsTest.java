@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Ericsson. All rights reserved.
  * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +22,20 @@
 
 package org.onap.policy.so;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SoRequestDetailsTest {
+class SoRequestDetailsTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         SoRequestDetails obj = new SoRequestDetails();
 
         assertNull(obj.getCloudConfiguration());
@@ -49,7 +49,7 @@ public class SoRequestDetailsTest {
     }
 
     @Test
-    public void testSetGet() {
+    void testSetGet() {
         SoRequestDetails obj = new SoRequestDetails();
 
         SoCloudConfiguration cloudConfiguration = new SoCloudConfiguration();
@@ -74,7 +74,7 @@ public class SoRequestDetailsTest {
     }
 
     @Test
-    public void testSoMRequestDetailsMethods() {
+    void testSoMRequestDetailsMethods() {
         SoRequestDetails details = new SoRequestDetails();
         assertNotNull(details);
         assertNotEquals(0, details.hashCode());

@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,10 @@
 
 package org.onap.policy.rest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -43,9 +44,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.network.NetworkUtil;
@@ -79,7 +80,7 @@ public class RestTest {
     /**
      * Sets server endpoint for the tests.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUp() throws Exception {
 
         port = NetworkUtil.allocPort();
@@ -105,39 +106,49 @@ public class RestTest {
      *
      * @throws Exception if there is a problem
      */
-    @AfterClass
+    @AfterAll
     public static void tearDown() throws Exception {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetUrlNull() {
         RestManager mgr = new RestManager();
-        mgr.get(null, "user", null, null);
+        assertThrows(NullPointerException.class, () -> {
+            mgr.get(null, "user", null, null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testPutUrlNull() {
         RestManager mgr = new RestManager();
-        mgr.put(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        assertThrows(NullPointerException.class, () -> {
+            mgr.put(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testPostUrlNull() {
         RestManager mgr = new RestManager();
-        mgr.post(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        assertThrows(NullPointerException.class, () -> {
+            mgr.post(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testDeleteUrlNull() {
         RestManager mgr = new RestManager();
-        mgr.delete(null, "user", null, null, null, null);
+        assertThrows(NullPointerException.class, () -> {
+            mgr.delete(null, "user", null, null, null, null);
+        });
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testPatchUrlNull() {
         RestManager mgr = new RestManager();
-        mgr.patch(null, "user", null, null, PAYLOAD);
+        assertThrows(NullPointerException.class, () -> {
+            mgr.patch(null, "user", null, null, PAYLOAD);
+        });
     }
 
     @Test

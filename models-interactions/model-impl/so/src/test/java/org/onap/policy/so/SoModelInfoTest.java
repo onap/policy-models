@@ -4,7 +4,7 @@
  * ================================================================================
  *
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +22,15 @@
 
 package org.onap.policy.so;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SoModelInfoTest {
+class SoModelInfoTest {
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         SoModelInfo obj = new SoModelInfo();
 
         assertNull(obj.getModelCustomizationId());
@@ -43,7 +43,7 @@ public class SoModelInfoTest {
     }
 
     @Test
-    public void testSetGet() {
+    void testSetGet() {
         SoModelInfo obj = new SoModelInfo();
 
         obj.setModelCustomizationId("modelCustomizationId");

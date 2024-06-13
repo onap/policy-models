@@ -22,17 +22,17 @@
 
 package org.onap.policy.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.sdnr.util.Serialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SdnrTest {
+class SdnrTest {
 
     private static final String CORRELATION_ID = "664be3d2-6c12-4f4b-a3e7-c349acced200";
 
@@ -81,7 +81,7 @@ public class SdnrTest {
     }
 
     @Test
-    public void testRequestSerialization() {
+    void testRequestSerialization() {
 
         /*
          * Use the gson serializer to obtain json
@@ -110,7 +110,7 @@ public class SdnrTest {
     }
 
     @Test
-    public void testRequestDeserialization() {
+    void testRequestDeserialization() {
 
         /*
          * Convert the PCI request object into json so we have a string of json to use for testing
@@ -151,7 +151,7 @@ public class SdnrTest {
     }
 
     @Test
-    public void testResponseSerialization() {
+    void testResponseSerialization() {
 
         /*
          * Use the serializer to convert the object into json
@@ -176,7 +176,7 @@ public class SdnrTest {
     }
 
     @Test
-    public void testResponseDeserialization() {
+    void testResponseDeserialization() {
         /*
          * Convert the PCI response object into json so we have a string of json to use for testing
          */

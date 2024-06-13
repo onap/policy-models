@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,7 @@
 
 package org.onap.policy.cds.client;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -40,9 +41,8 @@ import io.grpc.testing.GrpcCleanupRule;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
@@ -51,15 +51,14 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessin
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.properties.CdsServerProperties;
 
-public class BasicAuthClientHeaderInterceptorTest {
+class BasicAuthClientHeaderInterceptorTest {
 
     // Generate a unique in-process server name.
     private static final String SERVER_NAME = InProcessServerBuilder.generateName();
     private static final String CREDS = "test";
 
     // Manages automatic graceful shutdown for the registered server and client channels at the end of test.
-    @Rule
-    public final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
+    private final GrpcCleanupRule grpcCleanup = new GrpcCleanupRule();
 
     private final ServerInterceptor mockCdsGrpcServerInterceptor = mock(ServerInterceptor.class,
         delegatesTo(new TestServerInterceptor()));
@@ -73,8 +72,8 @@ public class BasicAuthClientHeaderInterceptorTest {
      *
      * @throws IOException on failure to register the test grpc server for graceful shutdown
      */
-    @Before
-    public void setUp() throws IOException {
+    @BeforeEach
+    void setUp() throws IOException {
         // Setup the CDS properties
         props.setHost(SERVER_NAME);
         props.setPort(2000);
@@ -95,7 +94,7 @@ public class BasicAuthClientHeaderInterceptorTest {
     }
 
     @Test
-    public void testIfBasicAuthHeaderIsDeliveredToCdsServer() {
+    void testIfBasicAuthHeaderIsDeliveredToCdsServer() {
         BluePrintProcessingServiceStub bpProcessingSvcStub = BluePrintProcessingServiceGrpc
             .newStub(ClientInterceptors.intercept(channel, new BasicAuthClientHeaderInterceptor(props)));
         ArgumentCaptor<Metadata> metadataCaptor = ArgumentCaptor.forClass(Metadata.class);
@@ -129,10 +128,9 @@ public class BasicAuthClientHeaderInterceptorTest {
 
         @Override
         public <Q, P> Listener<Q> interceptCall(final ServerCall<Q, P> serverCall,
-                        final Metadata metadata, final ServerCallHandler<Q, P> serverCallHandler) {
+                                                final Metadata metadata, final ServerCallHandler<Q, P>
+                                                            serverCallHandler) {
             return serverCallHandler.startCall(serverCall, metadata);
         }
     }
 }
-
-
