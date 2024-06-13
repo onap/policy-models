@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- * Copyright (C) 2021 Nordix Foundation.
+ * Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +22,17 @@ package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
 import java.util.Date;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PfReferenceTimestampKeyTest {
+class PfReferenceTimestampKeyTest {
 
     private static final String PARENT_LOCAL_NAME = "ParentLocalName";
     private static final String LOCAL_NAME = "LocalName";
@@ -42,7 +42,7 @@ public class PfReferenceTimestampKeyTest {
     private static final Instant DEFAULT_TIMESTAMP = Instant.EPOCH;
 
     @Test
-    public void testPfReferenceTimestampKeyConstruct() {
+    void testPfReferenceTimestampKeyConstruct() {
         assertThat(new PfReferenceTimestampKey().getReferenceKey().getLocalName()).isEqualTo(PfKey.NULL_KEY_NAME);
         assertEquals(PfKey.NULL_KEY_NAME, new PfReferenceTimestampKey(new PfConceptKey()).getReferenceKey()
             .getParentKeyName());
@@ -76,7 +76,7 @@ public class PfReferenceTimestampKeyTest {
     }
 
     @Test
-    public void testPfReferenceTimestampKey() {
+    void testPfReferenceTimestampKey() {
         PfReferenceTimestampKey testReferenceKey = new PfReferenceTimestampKey();
         testReferenceKey.setReferenceKey(new PfReferenceKey(new PfConceptKey("PN", VERSION001)));
         assertEquals("PN:0.0.1", testReferenceKey.getReferenceKey().getParentConceptKey().getId());
@@ -144,7 +144,7 @@ public class PfReferenceTimestampKeyTest {
     }
 
     @Test
-    public void testNewerKey() {
+    void testNewerKey() {
         PfReferenceTimestampKey key1 = new PfReferenceTimestampKey("ParentKeyName", VERSION001, PARENT_LOCAL_NAME,
                 LOCAL_NAME, Instant.ofEpochSecond(timeStamp));
         PfReferenceTimestampKey key2 = new PfReferenceTimestampKey(key1);

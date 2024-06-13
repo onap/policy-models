@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +23,17 @@ package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.lang.reflect.Field;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 
-public class PfReferenceKeyTest {
+class PfReferenceKeyTest {
 
     private static final String PARENT_LOCAL_NAME = "ParentLocalName";
     private static final String NPKLN = "NPKLN";
@@ -42,7 +42,7 @@ public class PfReferenceKeyTest {
     private static final String VERSION001 = "0.0.1";
 
     @Test
-    public void testPfReferenceKeyNotNull() {
+    void testPfReferenceKeyNotNull() {
         assertNotNull(new PfReferenceKey());
         assertNotNull(new PfReferenceKey(new PfConceptKey()));
         assertNotNull(new PfReferenceKey(new PfConceptKey(), LOCAL_NAME));
@@ -60,7 +60,7 @@ public class PfReferenceKeyTest {
     }
 
     @Test
-    public void testPfReferenceKey() {
+    void testPfReferenceKey() {
         PfReferenceKey testReferenceKey = new PfReferenceKey();
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
         assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());
@@ -102,7 +102,7 @@ public class PfReferenceKeyTest {
     }
 
     @Test
-    public void testMultiplePfReferenceKey() {
+    void testMultiplePfReferenceKey() {
         PfReferenceKey testReferenceKey = setTestReferenceKey();
         testReferenceKey.clean();
 
@@ -138,7 +138,7 @@ public class PfReferenceKeyTest {
     }
 
     @Test
-    public void testValidation() throws Exception {
+    void testValidation() throws Exception {
         PfReferenceKey testReferenceKey = new PfReferenceKey();
         testReferenceKey.setParentConceptKey(new PfConceptKey("PN", VERSION001));
         assertEquals("PN:0.0.1", testReferenceKey.getParentConceptKey().getId());

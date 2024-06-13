@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,11 +23,12 @@ package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,14 +36,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.testconcepts.DummyAuthorativeConcept;
 import org.onap.policy.models.base.testconcepts.DummyBadPfConceptContainer;
 import org.onap.policy.models.base.testconcepts.DummyPfConcept;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptContainer;
 import org.onap.policy.models.base.testconcepts.DummyPfConceptSub;
 
-public class PfConceptContainerTest {
+class PfConceptContainerTest {
 
     private static final String NAME0 = "name0";
     private static final String NAME1 = "name1";
@@ -55,7 +56,7 @@ public class PfConceptContainerTest {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Test
-    public void testConceptContainer() {
+    void testConceptContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
         assertNotNull(container);
 
@@ -81,7 +82,7 @@ public class PfConceptContainerTest {
     }
 
     @Test
-    public void testNamedConceptContainer() {
+    void testNamedConceptContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
         container.getKey().setName(DUMMY_VALUE);
         DummyPfConceptContainer clonedContainer = new DummyPfConceptContainer(container);
@@ -134,7 +135,7 @@ public class PfConceptContainerTest {
     }
 
     @Test
-    public void testValidationContainer() {
+    void testValidationContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
         PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0_0_1);
         Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
@@ -171,7 +172,7 @@ public class PfConceptContainerTest {
     }
 
     @Test
-    public void testSetContainer() {
+    void testSetContainer() {
         DummyPfConceptContainer container = new DummyPfConceptContainer();
         PfConceptKey conceptKey = new PfConceptKey("Key", VERSION0_0_1);
         Map<PfConceptKey, DummyPfConcept> conceptMap = new TreeMap<>();
@@ -211,7 +212,7 @@ public class PfConceptContainerTest {
 
 
     @Test
-    public void testAuthorative() {
+    void testAuthorative() {
         Map<String, DummyAuthorativeConcept> dacMap = new LinkedHashMap<>();
         dacMap.put(NAME0, new DummyAuthorativeConcept(NAME0, "1.2.3", "Hello"));
         dacMap.put(NAME1, new DummyAuthorativeConcept("IncorrectName", PfKey.NULL_KEY_VERSION, "Hi"));
@@ -270,9 +271,12 @@ public class PfConceptContainerTest {
             .hasMessage("An incoming list of concepts must have at least one entry");
     }
 
-    @Test(expected = NullPointerException.class)
-    public void testNullKey() {
-        PfConceptKey nullKey = null;
-        new DummyPfConceptContainer(nullKey);
+    @Test
+    void testNullKey() {
+        assertThrows(NullPointerException.class,
+            () -> {
+                PfConceptKey nullKey = null;
+                new DummyPfConceptContainer(nullKey);
+            });
     }
 }

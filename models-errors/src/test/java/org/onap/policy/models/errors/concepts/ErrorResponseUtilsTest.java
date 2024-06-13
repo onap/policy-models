@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,21 +22,21 @@
 package org.onap.policy.models.errors.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link ErrorResponseUtils} class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ErrorResponseUtilsTest {
+class ErrorResponseUtilsTest {
     private static final String EXCEPTION1 = "Exception 1";
 
     @Test
-    public void testErrorResponseUtils() {
+    void testErrorResponseUtils() {
         final IOException ioe = new IOException(EXCEPTION1, new NumberFormatException("Exception 0"));
         final ErrorResponse errorResponse = new ErrorResponse();
         assertThat(ioe).hasMessage(EXCEPTION1);

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,9 +22,9 @@
 package org.onap.policy.models.base;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,19 +32,19 @@ import java.util.Map;
 import java.util.TreeMap;
 import lombok.Getter;
 import lombok.ToString;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the PfUtils class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PfUtilsTest {
+class PfUtilsTest {
 
     private static final String HELLO = "hello";
 
     @Test
-    public void testCompareObjects() {
+    void testCompareObjects() {
         assertEquals(0, PfUtils.compareObjects(null, null));
         assertEquals(-1, PfUtils.compareObjects(HELLO, null));
         assertEquals(1, PfUtils.compareObjects(null, HELLO));
@@ -53,7 +53,7 @@ public class PfUtilsTest {
     }
 
     @Test
-    public void testMapList() {
+    void testMapList() {
         List<Object> resultList = PfUtils.mapList(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
@@ -70,7 +70,7 @@ public class PfUtilsTest {
     }
 
     @Test
-    public void testMapMap() {
+    void testMapMap() {
         Map<String, String> resultMap = PfUtils.mapMap(null, item -> {
             throw new RuntimeException("should not be invoked");
         });
@@ -89,7 +89,7 @@ public class PfUtilsTest {
     }
 
     @Test
-    public void testMakeCopy() {
+    void testMakeCopy() {
         assertNull(PfUtils.makeCopy((MyObject) null));
         NoCopyConstructor noCopyConstructor = new NoCopyConstructor();
         MyObject origObject = new MyObject();

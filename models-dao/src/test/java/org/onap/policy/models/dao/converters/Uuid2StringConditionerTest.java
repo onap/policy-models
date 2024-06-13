@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,20 +20,20 @@
 
 package org.onap.policy.models.dao.converters;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the UUID conditioner class.
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class Uuid2StringConditionerTest {
+class Uuid2StringConditionerTest {
 
     @Test
-    public void testUuidConditioner() throws Exception {
+    void testUuidConditioner() throws Exception {
         UUID randomUuid = UUID.randomUUID();
         assertEquals(randomUuid.toString(), new Uuid2String().convertToDatabaseColumn(randomUuid));
         assertEquals(randomUuid, new Uuid2String().convertToEntityAttribute(randomUuid.toString()));
