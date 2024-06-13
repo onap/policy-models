@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +23,18 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -45,12 +46,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaPolicyTypeTest {
+class JpaToscaPolicyTypeTest {
     private static final String A_DESCRIPTION = "A Description";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testPolicyTypeNull() {
+    void testPolicyTypeNull() {
         assertNotNull(new JpaToscaPolicyType());
         assertNotNull(new JpaToscaPolicyType(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicyType(new JpaToscaPolicyType()));
@@ -63,7 +64,7 @@ public class JpaToscaPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypePojo() {
+    void testPolicyTypePojo() {
         PfConceptKey ptKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaPolicyType tpt = new JpaToscaPolicyType(ptKey);
 
@@ -133,7 +134,7 @@ public class JpaToscaPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypeValidation() {
+    void testPolicyTypeValidation() {
         JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
 
         assertEquals(6, tpt.getKeys().size());
@@ -159,7 +160,7 @@ public class JpaToscaPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypeValidation2() {
+    void testPolicyTypeValidation2() {
         JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
 
         tpt.getMetadata().put(null, null);
@@ -187,7 +188,7 @@ public class JpaToscaPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypeEntity() {
+    void testPolicyTypeEntity() {
         JpaToscaPolicyType tpt = setUpJpaToscaPolicyType();
 
         assertThatThrownBy(() -> tpt.validate(null)).hasMessageMatching("fieldName is marked .*on.*ull but is null");
@@ -209,7 +210,7 @@ public class JpaToscaPolicyTypeTest {
     }
 
     @Test
-    public void testGetReferencedDataTypes() {
+    void testGetReferencedDataTypes() {
         JpaToscaPolicyType pt0 = new JpaToscaPolicyType(new PfConceptKey("pt0", "0.0.1"));
 
         assertTrue(pt0.getReferencedDataTypes().isEmpty());

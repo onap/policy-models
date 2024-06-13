@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,19 +23,19 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
@@ -44,7 +45,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaPropertyTest {
+class JpaToscaPropertyTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String DEFAULT_KEY = "defaultKey";
@@ -52,7 +53,7 @@ public class JpaToscaPropertyTest {
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testPropertyNull() {
+    void testPropertyNull() {
         assertNotNull(new JpaToscaProperty());
         assertNotNull(new JpaToscaProperty(new PfReferenceKey()));
         assertNotNull(new JpaToscaProperty(new PfReferenceKey(), new PfConceptKey()));
@@ -69,7 +70,7 @@ public class JpaToscaPropertyTest {
     }
 
     @Test
-    public void testProperty() {
+    void testProperty() {
         PfConceptKey pparentKey = new PfConceptKey("tParentKey", VERSION_001);
         PfReferenceKey pkey = new PfReferenceKey(pparentKey, "trigger0");
         PfConceptKey ptypeKey = new PfConceptKey("TTypeKey", VERSION_001);
@@ -119,7 +120,7 @@ public class JpaToscaPropertyTest {
     }
 
     @Test
-    public void testPropertyCompareData() {
+    void testPropertyCompareData() {
         JpaToscaProperty tp = setUpJpaToscaProperty();
 
         PfReferenceKey otherDtKey = new PfReferenceKey("otherDt", VERSION_001, "OtherProperty");
@@ -180,7 +181,7 @@ public class JpaToscaPropertyTest {
     }
 
     @Test
-    public void testPropertyCompareDescription() {
+    void testPropertyCompareDescription() {
         JpaToscaProperty tp = setUpJpaToscaProperty();
         JpaToscaProperty tdtClone0 = new JpaToscaProperty(tp);
 
@@ -203,7 +204,7 @@ public class JpaToscaPropertyTest {
     }
 
     @Test
-    public void testPropertyCompareMetadata() {
+    void testPropertyCompareMetadata() {
         JpaToscaProperty tp = setUpJpaToscaProperty();
         PfConceptKey typeKey = new PfConceptKey("type", VERSION_001);
         tp.setType(typeKey);
@@ -233,7 +234,7 @@ public class JpaToscaPropertyTest {
     }
 
     @Test
-    public void testToAuthorative_testFromAuthorative() {
+    void testToAuthorative_testFromAuthorative() {
         // check with empty structure
         JpaToscaProperty tp = new JpaToscaProperty();
         ToscaProperty auth = tp.toAuthorative();

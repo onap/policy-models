@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,19 +20,19 @@
 
 package org.onap.policy.models.simulators;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 
-public class CdsServerParametersTest {
+class CdsServerParametersTest {
     @Test
-    public void testValidateString() throws CoderException {
+    void testValidateString() throws CoderException {
         // some fields missing
         ValidationResult result = new CdsServerParameters().validate();
         assertFalse(result.isValid());

@@ -21,15 +21,15 @@
 
 package org.onap.policy.models.tosca.simple.serialization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -50,7 +50,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class MonitoringPolicyTypeSerializationTest {
+class MonitoringPolicyTypeSerializationTest {
 
     private static final String DATATYPE_ROOT = "tosca.datatypes.Root";
 
@@ -81,13 +81,13 @@ public class MonitoringPolicyTypeSerializationTest {
 
     private StandardCoder coder;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         coder = new StandardCoder();
     }
 
     @Test
-    public void testDeserialization() throws Exception {
+    void testDeserialization() throws Exception {
         // TCA v1
         JpaToscaServiceTemplate serviceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
         verifyTcaInputDeserialization(serviceTemplateFromYaml, VERSION_100, TCA_V1);
@@ -102,7 +102,7 @@ public class MonitoringPolicyTypeSerializationTest {
     }
 
     @Test
-    public void testSerialization() throws Exception {
+    void testSerialization() throws Exception {
         // TCA v1
         JpaToscaServiceTemplate tcaServiceTemplateFromYaml = deserializeMonitoringInputYaml(MONITORING_TCA_YAML);
         String serializedServiceTemplateTca = serializeMonitoringServiceTemplate(tcaServiceTemplateFromYaml);

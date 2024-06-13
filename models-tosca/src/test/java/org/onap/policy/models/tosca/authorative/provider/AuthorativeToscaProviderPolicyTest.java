@@ -22,17 +22,17 @@
 package org.onap.policy.models.tosca.authorative.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -54,7 +54,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class AuthorativeToscaProviderPolicyTest {
+class AuthorativeToscaProviderPolicyTest {
     private static final String VERSION = "version";
     private static final String VCPE_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
     private static final String POLICY_AND_VERSION = "onap.restart.tca:1.0.0";
@@ -69,8 +69,8 @@ public class AuthorativeToscaProviderPolicyTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -96,18 +96,18 @@ public class AuthorativeToscaProviderPolicyTest {
     /**
      * Set up GSON.
      */
-    @Before
-    public void setupGson() {
+    @BeforeEach
+    void setupGson() {
         standardCoder = new StandardCoder();
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testPoliciesGet() throws Exception {
+    void testPoliciesGet() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicies(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -162,7 +162,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testPoliciesGetFiltered() throws Exception {
+    void testPoliciesGetFiltered() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicies(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -250,7 +250,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testPolicyCreate() throws Exception {
+    void testPolicyCreate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -283,7 +283,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testPolicyUpdate() throws Exception {
+    void testPolicyUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicies(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -328,7 +328,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testPoliciesDelete() throws Exception {
+    void testPoliciesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicy(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -391,7 +391,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testAssertPoliciesExist() {
+    void testAssertPoliciesExist() {
         ToscaServiceTemplate testServiceTemplate = new ToscaServiceTemplate();
 
         assertThatThrownBy(() -> {
@@ -414,7 +414,7 @@ public class AuthorativeToscaProviderPolicyTest {
     }
 
     @Test
-    public void testEntityMaps() throws CoderException, PfModelException {
+    void testEntityMaps() throws CoderException, PfModelException {
         Object yamlObject =
                 new Yaml().load(ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml"));
         String yamlAsJsonString = new StandardCoder().encode(yamlObject);

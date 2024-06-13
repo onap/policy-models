@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 
 package org.onap.policy.models.sim.pdp.comm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,9 +32,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStateChange;
@@ -52,7 +53,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpStateChangeListener {
+class TestPdpStateChangeListener {
     private static final String PDP_SUBGROUP = "pdpSubgroup";
     private static final String PDP_GROUP = "pdpGroup";
     private PdpUpdateListener pdpUpdateMessageListener;
@@ -66,8 +67,8 @@ public class TestPdpStateChangeListener {
      *
      * @throws Exception if an error occurs
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         pdpUpdateMessageListener = new PdpUpdateListener();
         pdpStateChangeListener = new PdpStateChangeListener();
         Registry.newRegistry();
@@ -96,8 +97,8 @@ public class TestPdpStateChangeListener {
      *
      * @throws Exception if an error occurs
      */
-    @After
-    public void teardown() throws Exception {
+    @AfterEach
+    void teardown() throws Exception {
 
         // clear the pdp simulator activator
         if (activator != null && activator.isAlive()) {
@@ -139,7 +140,7 @@ public class TestPdpStateChangeListener {
     }
 
     @Test
-    public void testPdpStateChangeMessageListener_passivetopassive() {
+    void testPdpStateChangeMessageListener_passivetopassive() {
         final PdpStatus pdpStatus = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT);
         performPdpUpdate(pdpStatus.getName());
         final PdpStateChange pdpStateChangeMsg = new PdpStateChange();
@@ -149,11 +150,11 @@ public class TestPdpStateChangeListener {
         pdpStateChangeMsg.setName(pdpStatus.getName());
         pdpStateChangeListener.onTopicEvent(INFRA, TOPIC, null, pdpStateChangeMsg);
 
-        assertEquals(pdpStatus.getState(), pdpStateChangeMsg.getState());
+        assertEquals(pdpStateChangeMsg.getState(), pdpStatus.getState());
     }
 
     @Test
-    public void testPdpStateChangeMessageListener_activetoactive() {
+    void testPdpStateChangeMessageListener_activetoactive() {
         final PdpStatus pdpStatus = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT);
         performPdpUpdate(pdpStatus.getName());
         pdpStatus.setState(PdpState.ACTIVE);

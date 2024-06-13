@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,17 +24,17 @@ package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -47,7 +48,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ToscaTypedEntityFilterTest {
+class ToscaTypedEntityFilterTest {
     private static final String VERSION_100 = "1.0.0";
 
     private static final String VERSION_000 = "0.0.0";
@@ -76,7 +77,7 @@ public class ToscaTypedEntityFilterTest {
      *
      * @throws CoderException on JSON decoding errors
      */
-    @BeforeClass
+    @BeforeAll
     public static void setupTypeList() throws CoderException {
         for (String policyResourceName : policyResourceNames) {
             String policyString = ResourceUtils.getResourceAsString(policyResourceName);
@@ -120,7 +121,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testNullList() {
+    void testNullList() {
         ToscaTypedEntityFilter<ToscaPolicy> filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().build();
 
         assertThatThrownBy(() -> {
@@ -129,7 +130,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testFilterNothing() {
+    void testFilterNothing() {
         ToscaTypedEntityFilter<ToscaPolicy> filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().build();
 
         List<ToscaPolicy> filteredList = filter.filter(policyList);
@@ -137,7 +138,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testFilterLatestVersion() {
+    void testFilterLatestVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
                 ToscaTypedEntityFilter.<ToscaPolicy>builder().version(ToscaTypedEntityFilter.LATEST_VERSION).build();
 
@@ -199,7 +200,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testFilterNameVersion() {
+    void testFilterNameVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
                 ToscaTypedEntityFilter.<ToscaPolicy>builder().name("operational.modifyconfig").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
@@ -229,7 +230,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testFilterVersionPrefix() {
+    void testFilterVersionPrefix() {
         // null pattern
         ToscaTypedEntityFilter<ToscaPolicy> filter =
                 ToscaTypedEntityFilter.<ToscaPolicy>builder().versionPrefix(null).build();
@@ -246,7 +247,7 @@ public class ToscaTypedEntityFilterTest {
     }
 
     @Test
-    public void testFilterTypeVersion() {
+    void testFilterTypeVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
                 ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.controlloop.Operational").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);

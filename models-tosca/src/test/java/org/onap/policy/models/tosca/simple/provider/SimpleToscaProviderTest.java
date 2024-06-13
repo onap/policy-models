@@ -22,17 +22,17 @@
 package org.onap.policy.models.tosca.simple.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.TreeMap;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -65,7 +65,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class SimpleToscaProviderTest {
+class SimpleToscaProviderTest {
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
     private static final String INCOMING_TEMPLATE_IS_NULL = "^incomingServiceTemplate is marked .*on.*ull but is null$";
     private static final String VCPE_INPUT_JSON = "policies/vCPE.policy.monitoring.input.tosca.json";
@@ -79,8 +79,8 @@ public class SimpleToscaProviderTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -107,18 +107,18 @@ public class SimpleToscaProviderTest {
     /**
      * Set up GSON.
      */
-    @Before
-    public void setupGson() {
+    @BeforeEach
+    void setupGson() {
         standardCoder = new StandardCoder();
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testCreateUpdateGetDeleteDataType() throws PfModelException {
+    void testCreateUpdateGetDeleteDataType() throws PfModelException {
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
         JpaToscaDataType dataType0 = new JpaToscaDataType();
         dataType0.setKey(dataType0Key);
@@ -217,7 +217,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testCreateUpdateGetDeletePolicyType() throws PfModelException {
+    void testCreateUpdateGetDeletePolicyType() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
 
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
@@ -310,7 +310,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testCreateUpdateGetDeletePolicyTypeWithDataType() throws PfModelException {
+    void testCreateUpdateGetDeletePolicyTypeWithDataType() throws PfModelException {
         PfConceptKey policyType0Key = new PfConceptKey("PolicyType0", "0.0.1");
         JpaToscaPolicyType policyType0 = new JpaToscaPolicyType();
         policyType0.setKey(policyType0Key);
@@ -356,7 +356,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPoliciesGet() throws Exception {
+    void testPoliciesGet() throws Exception {
         ToscaServiceTemplate toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
 
@@ -385,7 +385,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPolicyCreate() throws Exception {
+    void testPolicyCreate() throws Exception {
         ToscaServiceTemplate toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
 
@@ -403,7 +403,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPolicyCreateTypeAndVersion() throws Exception {
+    void testPolicyCreateTypeAndVersion() throws Exception {
         ToscaServiceTemplate toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
 
@@ -462,7 +462,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPolicyUpdate() throws Exception {
+    void testPolicyUpdate() throws Exception {
         ToscaServiceTemplate toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
 
@@ -479,7 +479,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testPoliciesDelete() throws Exception {
+    void testPoliciesDelete() throws Exception {
         ToscaServiceTemplate toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(VCPE_INPUT_JSON), ToscaServiceTemplate.class);
 
@@ -515,7 +515,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testAssertPoliciesExist() {
+    void testAssertPoliciesExist() {
         JpaToscaServiceTemplate testServiceTemplate = new JpaToscaServiceTemplate();
 
         assertThatThrownBy(() -> new SimpleToscaProvider().createPolicies(pfDao, testServiceTemplate))
@@ -531,13 +531,13 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testGetServiceTemplate() throws PfModelException {
+    void testGetServiceTemplate() throws PfModelException {
         assertThatThrownBy(() -> new SimpleToscaProvider().getServiceTemplate(pfDao))
             .hasMessage("service template not found in database");
     }
 
     @Test
-    public void testAppendToServiceTemplate() throws PfModelException {
+    void testAppendToServiceTemplate() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplateFragment = new JpaToscaServiceTemplate();
         serviceTemplateFragment.setPolicyTypes(new JpaToscaPolicyTypes());
         JpaToscaPolicyType badPt = new JpaToscaPolicyType();
@@ -549,7 +549,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testGetDataTypesCornerCases() throws PfModelException {
+    void testGetDataTypesCornerCases() throws PfModelException {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1");
         }).hasMessageMatching("service template not found in database");
@@ -612,7 +612,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testGetPolicyTypesCornerCases() throws PfModelException {
+    void testGetPolicyTypesCornerCases() throws PfModelException {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1");
         }).hasMessageMatching("service template not found in database");
@@ -677,7 +677,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testGetPoliciesCornerCases() throws PfModelException {
+    void testGetPoliciesCornerCases() throws PfModelException {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1");
         }).hasMessageMatching("service template not found in database");
@@ -755,7 +755,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testNonNullsDataType() {
+    void testNonNullsDataType() {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getServiceTemplate(null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -814,7 +814,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testNotNullsPolicyTypes() {
+    void testNotNullsPolicyTypes() {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getPolicyTypes(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -897,7 +897,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testDeleteServiceTemplate() throws PfModelException {
+    void testDeleteServiceTemplate() throws PfModelException {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().deleteServiceTemplate(null);
         }).hasMessageMatching("^dao is marked .*on.*ull but is null$");
@@ -930,7 +930,7 @@ public class SimpleToscaProviderTest {
     }
 
     @Test
-    public void testNullParameters() {
+    void testNullParameters() {
         assertThatThrownBy(() -> {
             new SimpleToscaProvider().getCascadedDataTypes(null, null, null);
         }).hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");

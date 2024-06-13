@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,27 +22,27 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 
 /**
  * Test methods not tested by {@link PojosTest}.
  */
-public class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaConceptIdentifier> {
+class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaConceptIdentifier> {
 
     public ToscaConceptIdentifierTest() {
         super(ToscaConceptIdentifier.class, "name", "version");
     }
 
     @Test
-    public void testAllArgsConstructor() {
+    void testAllArgsConstructor() {
         assertThatThrownBy(() -> new ToscaConceptIdentifier(null, VERSION)).isInstanceOf(NullPointerException.class);
         assertThatThrownBy(() -> new ToscaConceptIdentifier(NAME, null)).isInstanceOf(NullPointerException.class);
 
@@ -52,7 +52,7 @@ public class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaCon
     }
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new ToscaConceptIdentifier((ToscaConceptIdentifier) null))
                 .isInstanceOf(NullPointerException.class);
 
@@ -68,7 +68,7 @@ public class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaCon
 
 
     @Test
-    public void testPfKey() {
+    void testPfKey() {
         assertThatThrownBy(() -> new ToscaConceptIdentifier((PfConceptKey) null))
                 .isInstanceOf(NullPointerException.class);
 
@@ -80,7 +80,7 @@ public class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaCon
     }
 
     @Test
-    public void testValidatePapRest() throws Exception {
+    void testValidatePapRest() throws Exception {
         ToscaConceptIdentifier ident = new ToscaConceptIdentifier(NAME, VERSION);
         ValidationResult result = ident.validatePapRest();
         assertNotNull(result);
@@ -102,7 +102,7 @@ public class ToscaConceptIdentifierTest extends ToscaIdentifierTestBase<ToscaCon
 
     @Test
     @Override
-    public void testCompareTo() throws Exception {
+    void testCompareTo() throws Exception {
         super.testCompareTo();
     }
 }

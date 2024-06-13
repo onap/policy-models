@@ -22,16 +22,16 @@ package org.onap.policy.models.tosca.authorative.provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
@@ -49,7 +49,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * Test of the {@link AuthorativeToscaProvider} class.
  */
-public class AuthorativeToscaProviderNodeTemplateTest {
+class AuthorativeToscaProviderNodeTemplateTest {
 
 
     private static final String NODE_TEMPLATES_JSON = "nodetemplates/nodetemplates.metadatasets.input.tosca.json";
@@ -70,8 +70,8 @@ public class AuthorativeToscaProviderNodeTemplateTest {
      * Read policy metadataSet input json.
      * @throws Exception Coder exception
      */
-    @Before
-    public void fetchToscaNodeTemplatesJson() throws Exception {
+    @BeforeEach
+    void fetchToscaNodeTemplatesJson() throws Exception {
         standardCoder = new StandardCoder();
         toscaServiceTemplate =
             standardCoder.decode(ResourceUtils.getResourceAsString(NODE_TEMPLATES_JSON), ToscaServiceTemplate.class);
@@ -87,8 +87,8 @@ public class AuthorativeToscaProviderNodeTemplateTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -111,13 +111,13 @@ public class AuthorativeToscaProviderNodeTemplateTest {
         pfDao.init(daoParameters);
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testPolicyMetadataSetsGet() throws Exception {
+    void testPolicyMetadataSetsGet() throws Exception {
 
         assertThatThrownBy(() -> {
             authorativeToscaProvider.getNodeTemplateMetadataSet(null, null, null);
@@ -143,7 +143,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testToscaNodeTemplatesGet() throws Exception {
+    void testToscaNodeTemplatesGet() throws Exception {
 
         assertThatThrownBy(() -> {
             authorativeToscaProvider.getToscaNodeTemplate(null, null, null);
@@ -169,7 +169,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testToscaNodeTemplatesCreate() throws Exception {
+    void testToscaNodeTemplatesCreate() throws Exception {
         assertThatThrownBy(() -> {
             authorativeToscaProvider.createToscaNodeTemplates(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -201,7 +201,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testToscaNodeTemplateUpdate() throws Exception {
+    void testToscaNodeTemplateUpdate() throws Exception {
         assertThatThrownBy(() -> {
             authorativeToscaProvider.updateToscaNodeTemplates(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -230,7 +230,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testToscaNodeTemplateDelete() throws Exception {
+    void testToscaNodeTemplateDelete() throws Exception {
         assertThatThrownBy(() -> {
             authorativeToscaProvider.deleteToscaNodeTemplate(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -266,7 +266,7 @@ public class AuthorativeToscaProviderNodeTemplateTest {
     }
 
     @Test
-    public void testNodeTemplatesWithExistingPolicy() throws Exception {
+    void testNodeTemplatesWithExistingPolicy() throws Exception {
         String policyString = ResourceUtils.getResourceAsString(POLICY_WITH_METADATA_SET_REF);
         ToscaServiceTemplate policyServiceTemplate =
             yamlJsonTranslator.fromYaml(policyString, ToscaServiceTemplate.class);

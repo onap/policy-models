@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,23 +23,23 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 
-public class JpaToscaServiceTemplatesTest {
+class JpaToscaServiceTemplatesTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
-    public void testServiceTemplates() {
+    void testServiceTemplates() {
         assertNotNull(new JpaToscaServiceTemplates());
         assertNotNull(new JpaToscaServiceTemplates(new PfConceptKey()));
         assertNotNull(

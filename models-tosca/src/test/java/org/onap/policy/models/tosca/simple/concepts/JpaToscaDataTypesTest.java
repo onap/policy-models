@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,27 +23,27 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
 
-public class JpaToscaDataTypesTest {
+class JpaToscaDataTypesTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
-    public void testDataTypes() {
+    void testDataTypes() {
         assertNotNull(new JpaToscaDataTypes());
         assertNotNull(new JpaToscaDataTypes(new PfConceptKey()));
         assertNotNull(new JpaToscaDataTypes(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaDataType>()));
@@ -64,7 +64,7 @@ public class JpaToscaDataTypesTest {
     }
 
     @Test
-    public void testDerivedDataTypes() {
+    void testDerivedDataTypes() {
         List<Map<String, ToscaDataType>> dtMapList = new ArrayList<>();
         dtMapList.add(new LinkedHashMap<>());
 

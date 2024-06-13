@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,21 +22,21 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the other constructors, as {@link PojosTest} tests the other methods.
  */
-public class ToscaConceptIdentifierOptVersionTest extends ToscaIdentifierTestBase<ToscaConceptIdentifierOptVersion> {
+class ToscaConceptIdentifierOptVersionTest extends ToscaIdentifierTestBase<ToscaConceptIdentifierOptVersion> {
 
     public ToscaConceptIdentifierOptVersionTest() {
         super(ToscaConceptIdentifierOptVersion.class, "name", "version");
     }
 
     @Test
-    public void testAllArgsConstructor_testIsNullVersion() {
+    void testAllArgsConstructor_testIsNullVersion() {
         assertThatThrownBy(() -> new ToscaConceptIdentifierOptVersion(null, VERSION))
                         .isInstanceOf(NullPointerException.class);
 
@@ -51,7 +51,7 @@ public class ToscaConceptIdentifierOptVersionTest extends ToscaIdentifierTestBas
     }
 
     @Test
-    public void testCopyConstructor() throws Exception {
+    void testCopyConstructor() throws Exception {
         assertThatThrownBy(() -> new ToscaConceptIdentifierOptVersion((ToscaConceptIdentifierOptVersion) null))
                         .isInstanceOf(NullPointerException.class);
 
@@ -66,7 +66,7 @@ public class ToscaConceptIdentifierOptVersionTest extends ToscaIdentifierTestBas
     }
 
     @Test
-    public void testCopyToscaPolicyIdentifierConstructor() {
+    void testCopyToscaPolicyIdentifierConstructor() {
         assertThatThrownBy(() -> new ToscaConceptIdentifierOptVersion((ToscaConceptIdentifier) null))
                         .isInstanceOf(NullPointerException.class);
 
@@ -87,7 +87,7 @@ public class ToscaConceptIdentifierOptVersionTest extends ToscaIdentifierTestBas
 
     @Test
     @Override
-    public void testCompareTo() throws Exception {
+    void testCompareTo() throws Exception {
         super.testCompareTo();
     }
 }

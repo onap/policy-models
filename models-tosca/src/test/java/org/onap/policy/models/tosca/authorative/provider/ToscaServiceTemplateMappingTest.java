@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +23,11 @@
 
 package org.onap.policy.models.tosca.authorative.provider;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -42,18 +42,18 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class ToscaServiceTemplateMappingTest {
+class ToscaServiceTemplateMappingTest {
 
     private StandardCoder standardCoder;
     private YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         standardCoder = new StandardCoder();
     }
 
     @Test
-    public void testPlainToscaPolicies() throws Exception {
+    void testPlainToscaPolicies() throws Exception {
         String policyTypeInputJson =
                 ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");
         ToscaServiceTemplate plainPolicyTypes =
@@ -81,7 +81,7 @@ public class ToscaServiceTemplateMappingTest {
     }
 
     @Test
-    public void testPlainToscaPolicyTypes() throws Exception {
+    void testPlainToscaPolicyTypes() throws Exception {
         Yaml yaml = new Yaml();
         String inputYaml =
                 ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");

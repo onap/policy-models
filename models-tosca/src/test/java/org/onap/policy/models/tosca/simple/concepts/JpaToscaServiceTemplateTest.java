@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +24,16 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -43,13 +44,13 @@ import org.onap.policy.models.base.Validated;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaServiceTemplateTest {
+class JpaToscaServiceTemplateTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testServiceTemplateNull() {
+    void testServiceTemplateNull() {
         assertNotNull(new JpaToscaServiceTemplate());
         assertNotNull(new JpaToscaServiceTemplate(new PfConceptKey()));
         assertNotNull(new JpaToscaServiceTemplate(new PfConceptKey(), ""));
@@ -69,7 +70,7 @@ public class JpaToscaServiceTemplateTest {
     }
 
     @Test
-    public void testServiceTemplatePojo() {
+    void testServiceTemplatePojo() {
         PfConceptKey tstKey = new PfConceptKey("tst", VERSION_001);
         JpaToscaServiceTemplate tst = new JpaToscaServiceTemplate(tstKey, "Tosca Version");
 

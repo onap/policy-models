@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +21,7 @@
 
 package org.onap.policy.models.sim.pdp.exception;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.ExceptionsTester;
 
 /**
@@ -28,10 +29,10 @@ import org.onap.policy.common.utils.test.ExceptionsTester;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestExceptions {
+class TestExceptions {
 
     @Test
-    public void test() {
+    void test() {
         new ExceptionsTester().test(PdpSimulatorException.class);
         new ExceptionsTester().test(PdpSimulatorRunTimeException.class);
     }

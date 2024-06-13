@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,18 +22,18 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfUtils;
@@ -44,13 +44,13 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaPolicyTest {
+class JpaToscaPolicyTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testPolicyPojo() {
+    void testPolicyPojo() {
         assertNotNull(new JpaToscaPolicy());
         assertNotNull(new JpaToscaPolicy(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicy(new PfConceptKey(), new PfConceptKey()));
@@ -83,7 +83,7 @@ public class JpaToscaPolicyTest {
     }
 
     @Test
-    public void testJpaToscaPolicy() {
+    void testJpaToscaPolicy() {
         PfConceptKey tpKey = new PfConceptKey("tdt", VERSION_001);
         PfConceptKey ptKey = new PfConceptKey("policyType", VERSION_001);
         JpaToscaPolicy tp = new JpaToscaPolicy(tpKey, ptKey);
@@ -133,7 +133,7 @@ public class JpaToscaPolicyTest {
     }
 
     @Test
-    public void testJpaToscaPolicyValidation() {
+    void testJpaToscaPolicyValidation() {
         JpaToscaPolicy tp = setUpJpaToscaPolicy();
         assertFalse(new JpaToscaPolicy().validate("").isValid());
         assertTrue(tp.validate("").isValid());
@@ -160,7 +160,7 @@ public class JpaToscaPolicyTest {
     }
 
     @Test
-    public void testJpaToscaPolicyAuthorative() {
+    void testJpaToscaPolicyAuthorative() {
         JpaToscaPolicy tp = setUpJpaToscaPolicy();
         PfConceptKey tpTypeKey = tp.getKey();
         assertNotNull(tpTypeKey);
@@ -195,7 +195,7 @@ public class JpaToscaPolicyTest {
     }
 
     @Test
-    public void testPolicyProperties() {
+    void testPolicyProperties() {
 
         Map<String, Object> properties = new LinkedHashMap<>();
 

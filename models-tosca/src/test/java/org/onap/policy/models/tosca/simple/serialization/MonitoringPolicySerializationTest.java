@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2020 Nordix Foundation.
  *  Copyright (C) 2019-2020,2022 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +23,15 @@
 package org.onap.policy.models.tosca.simple.serialization;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.YamlJsonTranslator;
@@ -50,7 +51,7 @@ import org.yaml.snakeyaml.Yaml;
  * @author Liam Fallon (liam.fallon@est.tech)
  * @author Chenfei Gao (cgao@research.att.com)
  */
-public class MonitoringPolicySerializationTest {
+class MonitoringPolicySerializationTest {
 
     private static final String VERSION = "version";
 
@@ -96,7 +97,7 @@ public class MonitoringPolicySerializationTest {
     private final YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
 
     @Test
-    public void testDeserialization() throws Exception {
+    void testDeserialization() throws Exception {
         String policyTypeInputJson =
                 ResourceUtils.getResourceAsString("policytypes/onap.policies.monitoring.tcagen2.yaml");
         ToscaServiceTemplate plainPolicyTypes =
@@ -133,7 +134,7 @@ public class MonitoringPolicySerializationTest {
     }
 
     @Test
-    public void testSerialization() {
+    void testSerialization() {
         assertThatCode(() -> {
             // vCPE
             JpaToscaServiceTemplate serviceTemplate = deserializeMonitoringInputJson(VCPE_MON_INPUT_JSON);

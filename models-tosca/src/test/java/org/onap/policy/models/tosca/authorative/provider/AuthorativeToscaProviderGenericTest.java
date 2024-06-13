@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020-2021, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,18 +23,18 @@
 package org.onap.policy.models.tosca.authorative.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.GsonBuilder;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
@@ -50,7 +51,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class AuthorativeToscaProviderGenericTest {
+class AuthorativeToscaProviderGenericTest {
     private static final String POLICY_NO_VERSION_VERSION1 = "onap.policies.NoVersion:0.0.1";
     private static final String POLICY_NO_VERSION = "onap.policies.NoVersion";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
@@ -64,7 +65,7 @@ public class AuthorativeToscaProviderGenericTest {
      *
      * @throws Exception on errors
      */
-    @BeforeClass
+    @BeforeAll
     public static void readPolicyDefinition() {
         String yamlString = ResourceUtils.getResourceAsString("src/test/resources/onap.policies.NoVersion.yaml");
 
@@ -77,8 +78,8 @@ public class AuthorativeToscaProviderGenericTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -104,18 +105,18 @@ public class AuthorativeToscaProviderGenericTest {
     /**
      * Set up GSON.
      */
-    @Before
-    public void setupGson() {
+    @BeforeEach
+    void setupGson() {
         standardCoder = new StandardCoder();
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testCreateGetDelete() throws Exception {
+    void testCreateGetDelete() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getServiceTemplateList(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -168,7 +169,7 @@ public class AuthorativeToscaProviderGenericTest {
     }
 
     @Test
-    public void testNullParameters() throws Exception {
+    void testNullParameters() throws Exception {
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getServiceTemplateList(null, null, null))
             .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 

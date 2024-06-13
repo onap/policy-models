@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +23,14 @@
 package org.onap.policy.models.sim.pdp;
 
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
 import org.onap.policy.models.sim.pdp.parameters.CommonTestData;
@@ -39,14 +40,14 @@ import org.onap.policy.models.sim.pdp.parameters.CommonTestData;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpSimulatorMain {
+class TestPdpSimulatorMain {
     private PdpSimulatorMain pdpSimulator;
 
     /**
      * Set up.
      */
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         Registry.newRegistry();
     }
 
@@ -55,8 +56,8 @@ public class TestPdpSimulatorMain {
      *
      * @throws Exception if an error occurs
      */
-    @After
-    public void tearDown() throws Exception {
+    @AfterEach
+    void tearDown() throws Exception {
         // shut down activator
         final PdpSimulatorActivator activator = Registry.getOrDefault(PdpSimulatorConstants.REG_PDP_SIMULATOR_ACTIVATOR,
                 PdpSimulatorActivator.class, null);
@@ -66,7 +67,7 @@ public class TestPdpSimulatorMain {
     }
 
     @Test
-    public void testPdpSimulator() throws PdpSimulatorException {
+    void testPdpSimulator() throws PdpSimulatorException {
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
         assertTrue(pdpSimulator.getParameters().isValid());
@@ -79,27 +80,27 @@ public class TestPdpSimulatorMain {
     }
 
     @Test
-    public void testPdpSimulator_NoArguments() {
+    void testPdpSimulator_NoArguments() {
         final String[] pdpSimulatorConfigParameters = {};
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
         assertNull(pdpSimulator.getParameters());
     }
 
     @Test
-    public void testPdpSimulator_InvalidArguments() {
+    void testPdpSimulator_InvalidArguments() {
         final String[] pdpSimulatorConfigParameters = { "src/test/resourcesPdpSimulatorConfigParameters.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);
         assertNull(pdpSimulator.getParameters());
     }
 
     @Test
-    public void testPdpSimulator_Help() {
+    void testPdpSimulator_Help() {
         final String[] pdpSimulatorConfigParameters = { "-h" };
         assertThatCode(() -> PdpSimulatorMain.main(pdpSimulatorConfigParameters)).doesNotThrowAnyException();
     }
 
     @Test
-    public void testPdpSimulator_InvalidParameters() {
+    void testPdpSimulator_InvalidParameters() {
         final String[] pdpSimulatorConfigParameters =
             { "-c", "src/test/resources/PdpSimulatorConfigParameters_InvalidName.json" };
         pdpSimulator = new PdpSimulatorMain(pdpSimulatorConfigParameters);

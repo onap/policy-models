@@ -24,9 +24,9 @@ package org.onap.policy.models.simulators;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,10 +41,10 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
@@ -56,7 +56,7 @@ import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.security.SelfSignedKeyStore;
 
-public class MainTest {
+class MainTest {
     private static final String PARAMETER_FILE = "simParameters.json";
     private static final String HOST = "localhost";
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -66,7 +66,7 @@ public class MainTest {
     /**
      * Saves system properties.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws IOException, InterruptedException {
         savedValues = new HashMap<>();
 
@@ -91,7 +91,7 @@ public class MainTest {
     /**
      * Restores system properties.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         for (Entry<String, String> ent : savedValues.entrySet()) {
             if (ent.getValue() == null) {
@@ -105,8 +105,8 @@ public class MainTest {
     /**
      * Shuts down the simulator instance.
      */
-    @After
-    public void tearDown() {
+    @AfterEach
+    void tearDown() {
         Main main = Main.getInstance();
         if (main != null && main.isAlive()) {
             main.shutdown();
@@ -118,7 +118,7 @@ public class MainTest {
      * least one of them.
      */
     @Test
-    public void testMain() throws Exception {
+    void testMain() throws Exception {
         Main.main(new String[0]);
         assertTrue(Main.getInstance() == null || !Main.getInstance().isAlive());
 
@@ -126,7 +126,7 @@ public class MainTest {
 
         // don't need to wait long, because buildXxx() does the wait for us
         for (int port : new int[] {6666, 6667, 6668, 6669, 6670, 6680}) {
-            assertTrue("simulator on port " + port, NetworkUtil.isTcpPortOpen(HOST, port, 1, 100));
+            assertTrue(NetworkUtil.isTcpPortOpen(HOST, port, 1, 100), "simulator on port " + port);
         }
 
         // it's sufficient to verify that one of the simulators works
@@ -134,7 +134,7 @@ public class MainTest {
     }
 
     @Test
-    public void testMainMinimalParameters() {
+    void testMainMinimalParameters() {
         Main.main(new String[] {"minParameters.json"});
         assertNotNull(Main.getInstance());
         assertTrue(Main.getInstance().isAlive());
@@ -156,7 +156,7 @@ public class MainTest {
      * Tests readParameters() when the file cannot be found.
      */
     @Test
-    public void testReadParametersNoFile() {
+    void testReadParametersNoFile() {
         assertThatIllegalArgumentException().isThrownBy(() -> new Main("missing-file.json"))
                         .withCauseInstanceOf(FileNotFoundException.class);
     }
@@ -165,7 +165,7 @@ public class MainTest {
      * Tests readParameters() when the json cannot be decoded.
      */
     @Test
-    public void testReadParametersInvalidJson() throws CoderException {
+    void testReadParametersInvalidJson() throws CoderException {
         Coder coder = mock(Coder.class);
         when(coder.decode(any(String.class), any())).thenThrow(new CoderException(EXPECTED_EXCEPTION));
 
@@ -181,7 +181,7 @@ public class MainTest {
      * Tests buildRestServer() when the server port is not open.
      */
     @Test
-    public void testBuildRestServerNotOpen() {
+    void testBuildRestServerNotOpen() {
         HttpServletServer server = mock(HttpServletServer.class);
 
         Main main = new Main(PARAMETER_FILE) {
@@ -203,7 +203,7 @@ public class MainTest {
      * Tests buildRestServer() when the port checker is interrupted.
      */
     @Test
-    public void testBuildRestServerInterrupted() throws InterruptedException {
+    void testBuildRestServerInterrupted() throws InterruptedException {
         HttpServletServer server = mock(HttpServletServer.class);
 
         Main main = new Main(PARAMETER_FILE) {
