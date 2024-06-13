@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2018 Amdocs. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@
 
 package org.onap.policy.rest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class HttpDeleteWithBodyTest {
+class HttpDeleteWithBodyTest {
 
     private static final String NO_URI = "BlahBlah";
 
     @Test
-    public void testGetMethod() {
+    void testGetMethod() {
         HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(NO_URI);
         assertEquals("DELETE", deleteWithBody.getMethod());
-        assertEquals(NO_URI, deleteWithBody.getURI().toString());
+        assertEquals(deleteWithBody.getURI().toString(), NO_URI);
     }
 }

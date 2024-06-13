@@ -3,6 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,10 +21,10 @@
 
 package org.onap.policy.aai;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +32,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -42,7 +43,7 @@ import org.onap.aai.domain.yang.Vserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AaiCqResponseTest {
+class AaiCqResponseTest {
     private static final String ETE_VFMODULE = "Vfmodule_Ete_vFWCLvFWSNK_7ba1fbde_0";
     private static final String ETE_VNF = "Ete_vFWCLvFWSNK_7ba1fbde_0";
     private static final Logger LOGGER = LoggerFactory.getLogger(AaiCqResponseTest.class);
@@ -50,7 +51,7 @@ public class AaiCqResponseTest {
         "src/test/resources/org/onap/policy/aai/AaiCqResponseFull.json";
 
     @Test
-    public void testConstructor() throws Exception {
+    void testConstructor() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -60,7 +61,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testMultiThreaded() throws Exception {
+    void testMultiThreaded() throws Exception {
         final AtomicInteger success = new AtomicInteger(0);
         final String json = getAaiCqResponse();
 
@@ -81,7 +82,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testAaiMalformedCqResponse() throws Exception {
+    void testAaiMalformedCqResponse() throws Exception {
         String responseString = Files.readString(
                         new File("src/test/resources/org/onap/policy/aai/AaiMalformedCqResponse.json").toPath(),
                         StandardCharsets.UTF_8);
@@ -95,7 +96,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetItemByList() throws Exception {
+    void testGetItemByList() throws Exception {
         /*
          * Read JSON String and add all AaiObjects
          */
@@ -113,7 +114,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetServiceInstance() throws Exception {
+    void testGetServiceInstance() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -126,7 +127,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetDefaultCloudRegion() throws Exception {
+    void testGetDefaultCloudRegion() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -138,7 +139,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetDefaultTenant() throws Exception {
+    void testGetDefaultTenant() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -150,7 +151,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetGenericVnfs() throws Exception {
+    void testGetGenericVnfs() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -164,7 +165,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetDefaultGenericVnf() throws Exception {
+    void testGetDefaultGenericVnf() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -177,7 +178,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetGenericVnfByName() throws Exception {
+    void testGetGenericVnfByName() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -189,7 +190,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetGenericVnfByModelInvariantId() throws Exception {
+    void testGetGenericVnfByModelInvariantId() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -202,7 +203,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetGenericVnfByVfModuleModelInvariantId() throws Exception {
+    void testGetGenericVnfByVfModuleModelInvariantId() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -215,7 +216,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetAllVfModules() throws Exception {
+    void testGetAllVfModules() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -229,7 +230,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetVfModuleByVfModuleName() throws Exception {
+    void testGetVfModuleByVfModuleName() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -242,7 +243,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetVfModuleByVfModelInvariantId() throws Exception {
+    void testGetVfModuleByVfModelInvariantId() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -256,7 +257,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetDefaultVfModule() throws Exception {
+    void testGetDefaultVfModule() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -268,7 +269,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetVserver() throws Exception {
+    void testGetVserver() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -281,7 +282,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetAllModelVer() throws Exception {
+    void testGetAllModelVer() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -295,7 +296,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetModelVerByVersionId() throws Exception {
+    void testGetModelVerByVersionId() throws Exception {
         String responseString = getAaiCqResponse();
 
         AaiCqResponse aaiCqResponse;
@@ -309,7 +310,7 @@ public class AaiCqResponseTest {
     }
 
     @Test
-    public void testGetVfModuleCount() throws Exception {
+    void testGetVfModuleCount() throws Exception {
         String responseString = getAaiCqResponse();
         AaiCqResponse aaiCqResponse = new AaiCqResponse(responseString);
         int count = aaiCqResponse.getVfModuleCount("47958575-138f-452a-8c8d-d89b595f8164",

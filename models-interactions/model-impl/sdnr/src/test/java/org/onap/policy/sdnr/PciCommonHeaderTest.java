@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,24 +22,24 @@
 
 package org.onap.policy.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.BiConsumer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PciCommonHeaderTest {
+class PciCommonHeaderTest {
 
     private static final String KANSAS = "Kansas";
     private static final String CAN_I_GO_HOME = "Can I go home?";
 
     @Test
-    public void testPciCommonHeader() {
+    void testPciCommonHeader() {
         PciCommonHeader commonHeader = new PciCommonHeader();
         assertNotNull(commonHeader);
         assertNotNull(new PciCommonHeader(commonHeader));

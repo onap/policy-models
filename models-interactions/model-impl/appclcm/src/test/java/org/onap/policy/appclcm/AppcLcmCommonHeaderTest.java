@@ -3,7 +3,7 @@
  * appclcm
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,15 @@
 
 package org.onap.policy.appclcm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AppcLcmCommonHeaderTest {
+class AppcLcmCommonHeaderTest {
 
     @Test
-    public void testAppcLcmCommonHeaderConstructor() {
+    void testAppcLcmCommonHeaderConstructor() {
         AppcLcmCommonHeader commonHeader = new AppcLcmCommonHeader("Policy", UUID.randomUUID(), "1");
         AppcLcmCommonHeader commonHeaderCopy = new AppcLcmCommonHeader(commonHeader);
         assertEquals(commonHeader, commonHeaderCopy);

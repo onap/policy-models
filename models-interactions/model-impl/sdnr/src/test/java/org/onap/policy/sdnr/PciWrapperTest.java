@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,14 +22,14 @@
 
 package org.onap.policy.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.function.BiConsumer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PciWrapperTest {
+class PciWrapperTest {
 
     private static final String YELLOW_BRICK_ROAD = "YellowBrickRoad";
     private static final String TORNADO = "Tornado";
@@ -38,7 +38,7 @@ public class PciWrapperTest {
     private static final String VERSION_19 = "19.3.9";
 
     @Test
-    public void testPciWrapper() {
+    void testPciWrapper() {
         PciWrapper wrapper = new PciWrapper();
         assertNotNull(wrapper);
         assertNotEquals(0, wrapper.hashCode());

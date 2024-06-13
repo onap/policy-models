@@ -21,17 +21,17 @@
 
 package org.onap.policy.appclcm.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class SerializationTest {
+class SerializationTest {
 
     @Test
-    public void test() {
+    void test() {
         String nameString = "Dorothy";
         String jsonName = Serialization.gsonPretty.toJson(nameString, String.class);
         assertEquals("\"Dorothy\"", jsonName);

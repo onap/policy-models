@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,16 +22,16 @@
 
 package org.onap.policy.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PciResponseWrapperTest {
+class PciResponseWrapperTest {
 
     @Test
-    public void testPciResponseWrapperWrapper() {
+    void testPciResponseWrapperWrapper() {
 
         PciResponseWrapper responseWrapper = new PciResponseWrapper();
         assertNotNull(responseWrapper);

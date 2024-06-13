@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,15 +22,15 @@
 
 package org.onap.policy.sdnr;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PciResponseTest {
+class PciResponseTest {
 
     Status status = new Status(0, "");
 
@@ -39,7 +39,7 @@ public class PciResponseTest {
 
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         PciResponse response = new PciResponse();
         assertNotEquals(0, response.hashCode());
         response.setCommonHeader(new PciCommonHeader());
@@ -51,7 +51,7 @@ public class PciResponseTest {
     }
 
     @Test
-    public void testPciResponse() {
+    void testPciResponse() {
         PciResponse response = new PciResponse();
         assertNull(response.getCommonHeader());
         assertNull(response.getPayload());
@@ -59,13 +59,13 @@ public class PciResponseTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         PciResponse response = new PciResponse();
         assertFalse(response.toString().isEmpty());
     }
 
     @Test
-    public void testEqualsObject() {
+    void testEqualsObject() {
         PciResponse response = new PciResponse();
         assertEquals(response, response);
         assertNotEquals(response, null);
@@ -107,7 +107,7 @@ public class PciResponseTest {
     }
 
     @Test
-    public void testResponseRequest() {
+    void testResponseRequest() {
         PciRequest request = new PciRequest();
         request.setCommonHeader(new PciCommonHeader());
         request.setPayload(requestPayload);

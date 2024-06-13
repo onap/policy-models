@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +22,16 @@
 package org.onap.policy.controlloop;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.Instant;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AbatedTest {
+class AbatedTest {
 
     @Test
-    public void testConstructors() {
+    void testConstructors() {
         VirtualControlLoopEvent event = new VirtualControlLoopEvent();
         event.setClosedLoopEventStatus(ControlLoopEventStatus.ABATED);
         event.setClosedLoopAlarmStart(Instant.now());
@@ -48,7 +49,7 @@ public class AbatedTest {
     }
 
     @Test
-    public void testSetClosedLoopEventStatus() {
+    void testSetClosedLoopEventStatus() {
         assertThatIllegalArgumentException()
             .isThrownBy(() -> new Abated().setClosedLoopEventStatus(ControlLoopEventStatus.ONSET));
     }

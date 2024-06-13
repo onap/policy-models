@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,17 +21,17 @@
 
 package org.onap.policy.controlloop;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.time.Instant;
 import java.util.UUID;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CanonicalOnsetTest {
+class CanonicalOnsetTest {
 
     @Test
-    public void testConstructors() {
+    void testConstructors() {
         CanonicalOnset onset1 = new CanonicalOnset(new VirtualControlLoopEvent());
         onset1.setRequestId(UUID.randomUUID());
         onset1.setClosedLoopAlarmStart(Instant.now());
