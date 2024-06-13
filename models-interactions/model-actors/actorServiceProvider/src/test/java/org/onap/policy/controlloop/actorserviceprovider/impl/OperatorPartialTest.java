@@ -20,15 +20,15 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
 
@@ -41,7 +41,7 @@ public class OperatorPartialTest {
     /**
      * Initializes {@link #operator}.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         operator = new OperatorPartial(ACTOR, OPERATION) {
             @Override

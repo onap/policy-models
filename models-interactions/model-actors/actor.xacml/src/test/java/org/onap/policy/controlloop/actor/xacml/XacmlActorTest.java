@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +21,13 @@
 
 package org.onap.policy.controlloop.actor.xacml;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
 public class XacmlActorTest extends BasicActor {
@@ -44,7 +46,7 @@ public class XacmlActorTest extends BasicActor {
         // verify that it all plugs into the ActorService
         verifyActorService(XacmlActor.NAME, "service.yaml");
 
-        assertTrue(prov.getOperator(GuardOperation.NAME) instanceof DecisionOperator);
-        assertTrue(prov.getOperator(ConfigureOperation.NAME) instanceof DecisionOperator);
+        assertInstanceOf(DecisionOperator.class, prov.getOperator(GuardOperation.NAME));
+        assertInstanceOf(DecisionOperator.class, prov.getOperator(ConfigureOperation.NAME));
     }
 }

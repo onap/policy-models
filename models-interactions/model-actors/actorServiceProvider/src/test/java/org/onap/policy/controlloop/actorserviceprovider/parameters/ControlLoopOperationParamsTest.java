@@ -22,18 +22,17 @@ package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -44,11 +43,13 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.Operation;
@@ -57,7 +58,8 @@ import org.onap.policy.controlloop.actorserviceprovider.Operator;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams.ControlLoopOperationParamsBuilder;
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class ControlLoopOperationParamsTest {
     private static final String NULL_MSG = "null";
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -100,12 +102,12 @@ public class ControlLoopOperationParamsTest {
     /**
      * Initializes mocks and sets {@link #params} to a fully-loaded set of parameters.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
-        when(actorService.getActor(ACTOR)).thenReturn(actor);
-        when(actor.getOperator(OPERATION)).thenReturn(operator);
-        when(operator.buildOperation(any())).thenReturn(operation);
-        when(operation.start()).thenReturn(operFuture);
+        Mockito.lenient().when(actorService.getActor(ACTOR)).thenReturn(actor);
+        Mockito.lenient().when(actor.getOperator(OPERATION)).thenReturn(operator);
+        Mockito.lenient().when(operator.buildOperation(any())).thenReturn(operation);
+        Mockito.lenient().when(operation.start()).thenReturn(operFuture);
 
         payload = new TreeMap<>();
 
@@ -226,11 +228,11 @@ public class ControlLoopOperationParamsTest {
 
         // original params should be valid
         BeanValidationResult result = params.validate();
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         result = makeInvalid.apply(params.toBuilder()).build().validate();
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(fieldName).contains(expected);
     }
 

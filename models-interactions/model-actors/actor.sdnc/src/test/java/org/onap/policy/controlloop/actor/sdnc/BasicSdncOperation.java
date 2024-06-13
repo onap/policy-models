@@ -26,11 +26,11 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+import org.mockito.Mockito;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
@@ -101,7 +101,7 @@ public abstract class BasicSdncOperation extends BasicHttpOperation {
         response.setResponseOutput(output);
         output.setResponseCode("200");
 
-        when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(response));
+        Mockito.lenient().when(rawResponse.readEntity(String.class)).thenReturn(new StandardCoder().encode(response));
     }
 
     /**

@@ -20,19 +20,19 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ListenerManagerTest {
 
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -51,7 +51,7 @@ public class ListenerManagerTest {
     /**
      * Initializes fields, including {@link #mgr}.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         mgr = new ListenerManager();
     }

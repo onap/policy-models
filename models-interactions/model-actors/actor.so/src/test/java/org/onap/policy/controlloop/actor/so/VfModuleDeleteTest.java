@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,10 +24,11 @@ package org.onap.policy.controlloop.actor.so;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
@@ -50,14 +51,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -73,7 +74,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingPa
 import org.onap.policy.so.SoRequest;
 import org.onap.policy.so.SoResponse;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class VfModuleDeleteTest extends BasicSoOperation {
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String SVC_INSTANCE_ID = "my-service-instance-id";
@@ -93,12 +94,12 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         super(DEFAULT_ACTOR, VfModuleDelete.NAME);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         destroyAfterClass();
     }
@@ -107,7 +108,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
      * Sets up.
      */
     @Override
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
 
@@ -138,7 +139,7 @@ public class VfModuleDeleteTest extends BasicSoOperation {
         // run the operation
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof SoResponse);
+        assertInstanceOf(SoResponse.class, outcome.getResponse());
 
         int count = oper.getProperty(OperationProperties.DATA_VF_COUNT);
         assertEquals(VF_COUNT - 1, count);

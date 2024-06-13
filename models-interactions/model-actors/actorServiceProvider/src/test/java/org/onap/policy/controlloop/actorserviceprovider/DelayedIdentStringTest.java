@@ -21,12 +21,12 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DelayedIdentStringTest {
 
@@ -37,7 +37,7 @@ public class DelayedIdentStringTest {
     /**
      * Initializes fields, including {@link #delay}.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         countToStringCalls = 0;
 

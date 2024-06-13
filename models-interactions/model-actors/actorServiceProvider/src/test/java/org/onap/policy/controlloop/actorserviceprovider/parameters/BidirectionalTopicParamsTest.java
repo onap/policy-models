@@ -21,13 +21,13 @@
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.function.Function;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams.BidirectionalTopicParamsBuilder;
 
@@ -40,7 +40,7 @@ public class BidirectionalTopicParamsTest {
 
     private BidirectionalTopicParams params;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         params = BidirectionalTopicParams.builder().sinkTopic(SINK).sourceTopic(SOURCE).timeoutSec(TIMEOUT).build();
     }
@@ -75,11 +75,11 @@ public class BidirectionalTopicParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         result = makeInvalid.apply(params.toBuilder()).build().validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(fieldName).contains(expected);
     }
 }

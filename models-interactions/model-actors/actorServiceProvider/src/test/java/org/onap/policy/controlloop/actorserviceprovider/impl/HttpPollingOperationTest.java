@@ -23,11 +23,11 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -38,11 +38,13 @@ import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -54,7 +56,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingCo
 /**
  * Tests HttpOperation when polling is enabled.
  */
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class HttpPollingOperationTest {
     private static final String BASE_URI = "http://my-host:6969/base-uri/";
     private static final String MY_PATH = "my-path";
@@ -85,19 +88,19 @@ public class HttpPollingOperationTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        when(client.getBaseUrl()).thenReturn(BASE_URI);
+        Mockito.lenient().when(client.getBaseUrl()).thenReturn(BASE_URI);
 
-        when(config.getClient()).thenReturn(client);
-        when(config.getMaxPolls()).thenReturn(MAX_POLLS);
-        when(config.getPollPath()).thenReturn(POLL_PATH);
-        when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
+        Mockito.lenient().when(config.getClient()).thenReturn(client);
+        Mockito.lenient().when(config.getMaxPolls()).thenReturn(MAX_POLLS);
+        Mockito.lenient().when(config.getPollPath()).thenReturn(POLL_PATH);
+        Mockito.lenient().when(config.getPollWaitSec()).thenReturn(POLL_WAIT_SEC);
 
         response = MY_RESPONSE;
 
-        when(rawResponse.getStatus()).thenReturn(RESPONSE_SUCCESS);
-        when(rawResponse.readEntity(String.class)).thenReturn(response);
+        Mockito.lenient().when(rawResponse.getStatus()).thenReturn(RESPONSE_SUCCESS);
+        Mockito.lenient().when(rawResponse.readEntity(String.class)).thenReturn(response);
 
         params = ControlLoopOperationParams.builder().actor(MY_ACTOR).operation(MY_OPERATION).build();
         outcome = params.makeOutcome();

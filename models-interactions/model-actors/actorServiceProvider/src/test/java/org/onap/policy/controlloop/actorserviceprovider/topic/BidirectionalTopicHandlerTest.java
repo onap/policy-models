@@ -21,27 +21,29 @@
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
 
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class BidirectionalTopicHandlerTest {
     private static final String UNKNOWN = "unknown";
     private static final String MY_SOURCE = "my-source";
@@ -64,7 +66,7 @@ public class BidirectionalTopicHandlerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws BidirectionalTopicClientException {
         when(mgr.getTopicSinks(MY_SINK)).thenReturn(Arrays.asList(publisher));
         when(mgr.getTopicSources(Arrays.asList(MY_SOURCE))).thenReturn(Arrays.asList(subscriber));

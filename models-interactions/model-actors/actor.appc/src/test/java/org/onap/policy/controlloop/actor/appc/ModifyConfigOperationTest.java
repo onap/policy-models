@@ -22,24 +22,24 @@
 package org.onap.policy.controlloop.actor.appc;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.appc.Request;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ModifyConfigOperationTest extends BasicAppcOperation {
 
     private ModifyConfigOperation oper;
@@ -49,18 +49,18 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         super(DEFAULT_ACTOR, ModifyConfigOperation.NAME);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         // use same topic name for both sides
         initBeforeClass(MY_SINK, MY_SINK);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
-    @Before
+    @BeforeEach
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -68,7 +68,7 @@ public class ModifyConfigOperationTest extends BasicAppcOperation {
         oper = new ModifyConfigOperation(params, config);
     }
 
-    @After
+    @AfterEach
     @Override
     public void tearDown() {
         super.tearDown();

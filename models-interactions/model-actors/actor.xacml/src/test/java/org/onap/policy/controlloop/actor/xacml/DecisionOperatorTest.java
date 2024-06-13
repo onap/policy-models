@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,22 +22,23 @@
 package org.onap.policy.controlloop.actor.xacml;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ParameterValidationRuntimeException;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class DecisionOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-name";
@@ -54,14 +56,14 @@ public class DecisionOperatorTest {
     @Mock
     private HttpClientFactory factory;
 
-
+    @InjectMocks
     private DecisionOperator oper;
 
     /**
      * Initializes fields, including {@link #oper}, and resets the static fields used by
      * the REST server.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         when(factory.get(CLIENT)).thenReturn(client);
 
@@ -73,7 +75,7 @@ public class DecisionOperatorTest {
         Map<String, Object> paramMap = Util.translateToMap(OPERATION, params);
         oper.configure(paramMap);
 
-        assertTrue(oper.makeConfiguration(paramMap) instanceof DecisionConfig);
+        assertInstanceOf(DecisionConfig.class, oper.makeConfiguration(paramMap));
     }
 
     @Test
@@ -85,7 +87,7 @@ public class DecisionOperatorTest {
 
     @Test
     public void testDoConfigure_testGetters() {
-        assertTrue(oper.getCurrentConfig() instanceof DecisionConfig);
+        assertInstanceOf(DecisionConfig.class, oper.getCurrentConfig());
 
         // test invalid parameters
         Map<String, Object> paramMap2 = Util.translateToMap(OPERATION, DecisionParams.builder().build());

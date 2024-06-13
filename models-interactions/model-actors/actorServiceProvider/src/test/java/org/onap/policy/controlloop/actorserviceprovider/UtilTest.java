@@ -22,10 +22,10 @@ package org.onap.policy.controlloop.actorserviceprovider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.qos.logback.classic.Logger;
 import java.util.LinkedHashMap;
@@ -35,10 +35,10 @@ import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 import lombok.Data;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.log.logback.ExtractAppender;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +54,7 @@ public class UtilTest {
     /**
      * Initializes statics.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         appender.setContext(logger.getLoggerContext());
         appender.start();
@@ -62,12 +62,12 @@ public class UtilTest {
         logger.addAppender(appender);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         appender.stop();
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         appender.clearExtractions();
     }

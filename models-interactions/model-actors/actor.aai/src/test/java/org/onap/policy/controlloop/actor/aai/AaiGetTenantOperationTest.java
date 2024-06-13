@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +23,10 @@ package org.onap.policy.controlloop.actor.aai;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,12 +34,12 @@ import jakarta.ws.rs.client.InvocationCallback;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.aai.AaiConstants;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -49,7 +50,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AaiGetTenantOperationTest extends BasicAaiOperation {
     private static final String INPUT_FIELD = "input";
     private static final String TEXT = "my-text";
@@ -60,12 +61,12 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
         super(AaiConstants.ACTOR_NAME, AaiGetTenantOperation.NAME);
     }
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         initBeforeClass();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         destroyAfterClass();
     }
@@ -73,7 +74,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUpBasic();
         oper = new AaiGetTenantOperation(params, config);
@@ -105,7 +106,7 @@ public class AaiGetTenantOperationTest extends BasicAaiOperation {
 
         outcome = oper.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof StandardCoderObject);
+        assertInstanceOf(StandardCoderObject.class, outcome.getResponse());
     }
 
     /**

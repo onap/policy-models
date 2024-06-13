@@ -20,17 +20,17 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.topic;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
@@ -41,7 +41,7 @@ public class SelectorKeyTest {
 
     private SelectorKey key;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         key = new SelectorKey(FIELD1, FIELD2);
     }

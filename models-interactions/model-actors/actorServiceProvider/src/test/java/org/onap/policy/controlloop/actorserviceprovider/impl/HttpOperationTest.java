@@ -25,11 +25,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -59,13 +59,15 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
@@ -85,7 +87,8 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpParams;
 
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class HttpOperationTest {
 
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
@@ -129,8 +132,8 @@ public class HttpOperationTest {
     /**
      * Starts the simulator.
      */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
+    @BeforeAll
+    public void setUpBeforeClass() throws Exception {
         // allocate a port
         int port = NetworkUtil.allocPort();
 
@@ -160,7 +163,7 @@ public class HttpOperationTest {
     /**
      * Destroys the Http factories and stops the appender.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
@@ -170,7 +173,7 @@ public class HttpOperationTest {
      * Initializes fields, including {@link #oper}, and resets the static fields used by
      * the REST server.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         rejectRequest = false;
         nget = 0;
@@ -178,8 +181,8 @@ public class HttpOperationTest {
         nput = 0;
         ndelete = 0;
 
-        when(response.readEntity(String.class)).thenReturn(TEXT);
-        when(response.getStatus()).thenReturn(200);
+        Mockito.lenient().when(response.readEntity(String.class)).thenReturn(TEXT);
+        Mockito.lenient().when(response.getStatus()).thenReturn(200);
 
         params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).requestId(REQ_ID).build();
 
@@ -188,7 +191,7 @@ public class HttpOperationTest {
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();
 
-        when(clientFactory.get(any())).thenReturn(client);
+        Mockito.lenient().when(clientFactory.get(any())).thenReturn(client);
 
         initConfig(HTTP_CLIENT);
 

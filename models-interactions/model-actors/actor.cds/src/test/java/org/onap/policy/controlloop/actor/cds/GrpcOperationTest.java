@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
  * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +23,9 @@ package org.onap.policy.controlloop.actor.cds;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,13 +34,13 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
@@ -60,7 +61,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.simulators.CdsSimulator;
 import org.onap.policy.simulators.Util;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class GrpcOperationTest {
     private static final String MY_VNF = "my-vnf";
     private static final String MY_SVC_ID = "my-service-instance-id";
@@ -86,12 +87,12 @@ public class GrpcOperationTest {
     private GrpcConfig config;
     private GrpcOperation operation;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         sim = Util.buildCdsSim();
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         sim.stop();
     }
@@ -99,7 +100,7 @@ public class GrpcOperationTest {
     /**
      * Sets up the fields.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         // Setup the CDS properties
         cdsProps = new CdsServerProperties();
@@ -145,7 +146,7 @@ public class GrpcOperationTest {
 
         OperationOutcome outcome = operation.start().get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof ExecutionServiceOutput);
+        assertInstanceOf(ExecutionServiceOutput.class, outcome.getResponse());
     }
 
     @Test

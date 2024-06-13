@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018-2019 Huawei. All rights reserved.
  * Modifications Copyright (C) 2018-2020 AT&T Corp. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,12 @@
 
 package org.onap.policy.controlloop.actor.sdnc;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
 public class SdncActorTest extends BasicActor {

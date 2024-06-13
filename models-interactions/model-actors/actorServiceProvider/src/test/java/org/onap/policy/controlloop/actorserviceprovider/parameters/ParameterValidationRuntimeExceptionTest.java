@@ -20,12 +20,12 @@
 
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.parameters.ValidationStatus;
@@ -37,7 +37,7 @@ public class ParameterValidationRuntimeExceptionTest {
 
     private ValidationResult result;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         result = new ObjectValidationResult("param", null, ValidationStatus.INVALID, "null");
     }

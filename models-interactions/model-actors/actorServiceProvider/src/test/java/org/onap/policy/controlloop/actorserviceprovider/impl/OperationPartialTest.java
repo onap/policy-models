@@ -23,12 +23,12 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import ch.qos.logback.classic.Logger;
 import java.time.Instant;
@@ -53,13 +53,15 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.Coder;
@@ -79,7 +81,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.OperatorConfi
 import org.onap.policy.controlloop.actorserviceprovider.spi.Actor;
 import org.slf4j.LoggerFactory;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class OperationPartialTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
     private static final CommInfrastructure SOURCE_INFRA = CommInfrastructure.NOOP;
@@ -136,7 +138,7 @@ public class OperationPartialTest {
     /**
      * Attaches the appender to the logger.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         /*
          * Attach appender to the logger.
@@ -150,7 +152,7 @@ public class OperationPartialTest {
     /**
      * Stops the appender.
      */
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         appender.stop();
     }
@@ -158,7 +160,7 @@ public class OperationPartialTest {
     /**
      * Initializes the fields, including {@link #oper}.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         executor = new PseudoExecutor();
 
@@ -269,7 +271,7 @@ public class OperationPartialTest {
 
         for (OperationResult failure : FAILURE_RESULTS) {
             outcome.setResult(failure);
-            assertFalse("testIsSuccess-" + failure, oper.isSuccess(outcome));
+            assertFalse(oper.isSuccess(outcome), "testIsSuccess-" + failure);
         }
     }
 
@@ -819,7 +821,7 @@ public class OperationPartialTest {
 
         for (Entry<OperationResult, Integer> ent : map.entrySet()) {
             outcome.setResult(ent.getKey());
-            assertEquals(ent.getKey().toString(), ent.getValue().intValue(), oper.detmPriority(outcome));
+            assertEquals(ent.getValue().intValue(), oper.detmPriority(outcome), ent.getKey().toString());
         }
 
         /*
@@ -912,8 +914,8 @@ public class OperationPartialTest {
         for (OperationResult result : FAILURE_RESULTS) {
             outcome = new OperationOutcome();
             oper.setOutcome(outcome, result);
-            assertEquals(result.toString(), ControlLoopOperation.FAILED_MSG, outcome.getMessage());
-            assertEquals(result.toString(), result, outcome.getResult());
+            assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage(), result.toString());
+            assertEquals(result, outcome.getResult(), result.toString());
         }
     }
 
@@ -1080,30 +1082,30 @@ public class OperationPartialTest {
 
         manipulator.accept(future);
 
-        assertTrue(testName, executor.runAll(MAX_REQUESTS));
+        assertTrue(executor.runAll(MAX_REQUESTS), testName);
 
-        assertEquals(testName, expectedCallbacks, numStart);
-        assertEquals(testName, expectedCallbacks, numEnd);
+        assertEquals(expectedCallbacks, numStart, testName);
+        assertEquals(expectedCallbacks, numEnd, testName);
 
         if (expectedCallbacks > 0) {
-            assertNotNull(testName, opstart);
-            assertNotNull(testName, opend);
-            assertEquals(testName, expectedResult, opend.getResult());
+            assertNotNull(opstart, testName);
+            assertNotNull(opend, testName);
+            assertEquals(expectedResult, opend.getResult(), testName);
 
-            assertSame(testName, tstart, opstart.getStart());
-            assertSame(testName, tstart, opend.getStart());
+            assertSame(tstart, opstart.getStart(), testName);
+            assertSame(tstart, opend.getStart(), testName);
 
             try {
                 assertTrue(future.isDone());
-                assertEquals(testName, opend, future.get());
+                assertEquals(opend, future.get(), testName);
 
                 // "start" is never final
                 for (OperationOutcome outcome : starts) {
-                    assertFalse(testName, outcome.isFinalOutcome());
+                    assertFalse(outcome.isFinalOutcome(), testName);
                 }
 
                 // only the last "complete" is final
-                assertTrue(testName, ends.removeLast().isFinalOutcome());
+                assertTrue(ends.removeLast().isFinalOutcome(), testName);
 
                 for (OperationOutcome outcome : ends) {
                     assertFalse(outcome.isFinalOutcome());
@@ -1115,12 +1117,12 @@ public class OperationPartialTest {
 
             if (expectedOperations > 0) {
                 assertNotNull(testName, oper.getSubRequestId());
-                assertEquals(testName + " op start", oper.getSubRequestId(), opstart.getSubRequestId());
-                assertEquals(testName + " op end", oper.getSubRequestId(), opend.getSubRequestId());
+                assertEquals(oper.getSubRequestId(), opstart.getSubRequestId(), testName + " op start");
+                assertEquals(oper.getSubRequestId(), opend.getSubRequestId(), testName + " op end");
             }
         }
 
-        assertEquals(testName, expectedOperations, oper.getCount());
+        assertEquals(expectedOperations, oper.getCount(), testName);
     }
 
     /**

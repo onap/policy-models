@@ -22,16 +22,16 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class StartConfigPartialTest {
     private static final IllegalArgumentException EXPECTED_EXCEPTION =
@@ -46,7 +46,7 @@ public class StartConfigPartialTest {
     /**
      * Creates a config whose doXxx() methods do nothing.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         config = new StartConfigPartial<>(MY_NAME) {
             @Override

@@ -22,20 +22,21 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicConfig;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.BidirectionalTopicParams;
@@ -46,7 +47,8 @@ import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopic
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 import org.onap.policy.controlloop.actorserviceprovider.topic.SelectorKey;
 
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class BidirectionalTopicOperatorTest {
     private static final String ACTOR = "my-actor";
     private static final String OPERATION = "my-operation";
@@ -70,12 +72,12 @@ public class BidirectionalTopicOperatorTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         keys = List.of(new SelectorKey(""));
 
-        when(mgr.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(handler);
-        when(handler.addForwarder(keys)).thenReturn(forwarder);
+        Mockito.lenient().when(mgr.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(handler);
+        Mockito.lenient().when(handler.addForwarder(keys)).thenReturn(forwarder);
 
         oper = new MyOperator(keys);
 

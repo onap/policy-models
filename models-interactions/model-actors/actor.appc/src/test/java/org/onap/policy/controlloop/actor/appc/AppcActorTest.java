@@ -24,12 +24,12 @@ package org.onap.policy.controlloop.actor.appc;
 import static org.junit.Assert.assertEquals;
 
 import java.util.stream.Stream;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.controlloop.actor.test.BasicActor;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AppcActorTest extends BasicActor {
 
     @Test

@@ -30,15 +30,18 @@ import static org.mockito.Mockito.verify;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.function.BiConsumer;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
-@RunWith(MockitoJUnitRunner.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ExtendWith(MockitoExtension.class)
 public class ForwarderTest {
     private static final String TEXT = "some text";
 
@@ -75,7 +78,7 @@ public class ForwarderTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         forwarder = new Forwarder(Arrays.asList(new SelectorKey(KEY1), new SelectorKey(KEY2, SUBKEY)));
 

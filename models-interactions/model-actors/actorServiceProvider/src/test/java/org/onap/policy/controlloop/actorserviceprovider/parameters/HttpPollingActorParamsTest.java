@@ -21,14 +21,14 @@
 package org.onap.policy.controlloop.actorserviceprovider.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
 
@@ -53,7 +53,7 @@ public class HttpPollingActorParamsTest {
      * Initializes {@link #operations} with two items and {@link params} with a fully
      * populated object.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         operations = new TreeMap<>();
         operations.put(PATH1, Map.of("path", URI1));
@@ -92,13 +92,13 @@ public class HttpPollingActorParamsTest {
 
         // original params should be valid
         ValidationResult result = params.validate(CONTAINER);
-        assertTrue(fieldName, result.isValid());
+        assertTrue(result.isValid(), fieldName);
 
         // make invalid params
         HttpPollingActorParams params2 = makeHttpPollingActorParams();
         makeInvalid.accept(params2);
         result = params2.validate(CONTAINER);
-        assertFalse(fieldName, result.isValid());
+        assertFalse(result.isValid(), fieldName);
         assertThat(result.getResult()).contains(CONTAINER).contains(fieldName).contains(expected);
     }
 

@@ -24,25 +24,25 @@ package org.onap.policy.controlloop.actor.appclcm;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.appclcm.AppcLcmBody;
 import org.onap.policy.appclcm.AppcLcmCommonHeader;
 import org.onap.policy.appclcm.AppcLcmMessageWrapper;
@@ -64,7 +64,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.simulators.AppcLcmTopicServer;
 import org.onap.policy.simulators.TopicServer;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcLcmMessageWrapper> {
 
     private static final String EXPECTED_EXCEPTION = "expected exception";
@@ -78,12 +78,12 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
     private AppcLcmMessageWrapper response;
     private AppcLcmOperation oper;
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() throws Exception {
         initBeforeClass(MY_SINK, MY_SOURCE);
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownAfterClass() {
         destroyAfterClass();
     }
@@ -91,7 +91,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         super.setUpBasic();
 
@@ -101,7 +101,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         super.tearDownBasic();
     }
@@ -297,7 +297,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         for (String name : supported) {
             params = params.toBuilder().operation(name).build();
             oper = new AppcLcmOperation(params, config);
-            assertTrue(name, oper.operationSupportsPayload());
+            assertTrue(oper.operationSupportsPayload(), name);
         }
 
         // these should NOT support a payload
@@ -307,7 +307,7 @@ public class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcL
         for (String name : unsupported) {
             params = params.toBuilder().operation(name).build();
             oper = new AppcLcmOperation(params, config);
-            assertFalse(name, oper.operationSupportsPayload());
+            assertFalse(oper.operationSupportsPayload(), name);
         }
 
         // pick an operation that would ordinarily support payloads

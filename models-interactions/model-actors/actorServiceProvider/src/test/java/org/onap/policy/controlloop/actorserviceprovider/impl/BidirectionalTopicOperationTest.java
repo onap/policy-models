@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2023 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,11 +24,11 @@ package org.onap.policy.controlloop.actorserviceprovider.impl;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -42,13 +43,14 @@ import java.util.function.BiConsumer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -62,7 +64,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
 import org.onap.policy.controlloop.actorserviceprovider.topic.BidirectionalTopicHandler;
 import org.onap.policy.controlloop.actorserviceprovider.topic.Forwarder;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class BidirectionalTopicOperationTest {
     private static final CommInfrastructure SINK_INFRA = CommInfrastructure.NOOP;
     private static final IllegalStateException EXPECTED_EXCEPTION = new IllegalStateException("expected exception");
@@ -98,14 +100,14 @@ public class BidirectionalTopicOperationTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws CoderException {
-        when(config.getTopicHandler()).thenReturn(handler);
-        when(config.getForwarder()).thenReturn(forwarder);
-        when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
+        Mockito.lenient().when(config.getTopicHandler()).thenReturn(handler);
+        Mockito.lenient().when(config.getForwarder()).thenReturn(forwarder);
+        Mockito.lenient().when(config.getTimeoutMs()).thenReturn(TIMEOUT_MS);
 
-        when(handler.send(any())).thenReturn(true);
-        when(handler.getSinkTopicCommInfrastructure()).thenReturn(SINK_INFRA);
+        Mockito.lenient().when(handler.send(any())).thenReturn(true);
+        Mockito.lenient().when(handler.getSinkTopicCommInfrastructure()).thenReturn(SINK_INFRA);
 
         executor = new PseudoExecutor();
 
@@ -119,7 +121,7 @@ public class BidirectionalTopicOperationTest {
 
         ntimes = 1;
 
-        oper = new MyOperation();
+        oper = new MyOperation(params, config);
     }
 
     @Test
@@ -134,7 +136,6 @@ public class BidirectionalTopicOperationTest {
 
     @Test
     public void testStartOperationAsync() throws Exception {
-
         // tell it to expect three responses
         ntimes = 3;
 
@@ -174,10 +175,10 @@ public class BidirectionalTopicOperationTest {
      */
     @Test
     public void testStartOperationAsyncProcException() throws Exception {
-        oper = new MyOperation() {
+        oper = new MyOperation(params, config) {
             @Override
             protected OperationOutcome processResponse(OperationOutcome outcome, String rawResponse,
-                            StandardCoderObject scoResponse) {
+                                                       StandardCoderObject scoResponse) {
                 throw EXPECTED_EXCEPTION;
             }
         };
@@ -242,7 +243,7 @@ public class BidirectionalTopicOperationTest {
      */
     @Test
     public void testPublishRequestString() {
-        MyStringOperation oper2 = new MyStringOperation();
+        MyStringOperation oper2 = new MyStringOperation(params, config);
         assertThatCode(() -> oper2.publishRequest(TEXT)).doesNotThrowAnyException();
     }
 
@@ -260,7 +261,7 @@ public class BidirectionalTopicOperationTest {
      */
     @Test
     public void testProcessResponseSuccessString() {
-        MyStringOperation oper2 = new MyStringOperation();
+        MyStringOperation oper2 = new MyStringOperation(params, config);
 
         assertSame(outcome, oper2.processResponse(outcome, TEXT, null));
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -273,7 +274,7 @@ public class BidirectionalTopicOperationTest {
      */
     @Test
     public void testProcessResponseSuccessSco() {
-        MyScoOperation oper2 = new MyScoOperation();
+        MyScoOperation oper2 = new MyScoOperation(params, config);
 
         assertSame(outcome, oper2.processResponse(outcome, responseText, stdResponse));
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
@@ -312,10 +313,8 @@ public class BidirectionalTopicOperationTest {
      */
     @Test
     public void testProcessResponseDecodeExcept() throws CoderException {
-        // @formatter:off
         assertThatIllegalArgumentException().isThrownBy(
             () -> oper.processResponse(outcome, "{invalid json", stdResponse));
-        // @formatter:on
     }
 
     @Test
@@ -332,7 +331,7 @@ public class BidirectionalTopicOperationTest {
      * Creates a new {@link #oper} whose coder will throw an exception.
      */
     private void setOperCoderException() {
-        oper = new MyOperation() {
+        oper = new MyOperation(params, config) {
             @Override
             protected Coder getCoder() {
                 return new StandardCoder() {
@@ -363,8 +362,8 @@ public class BidirectionalTopicOperationTest {
 
     private class MyStringOperation extends BidirectionalTopicOperation<String, String> {
 
-        public MyStringOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, String.class, Collections.emptyList());
+        public MyStringOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+            super(params, config, String.class, Collections.emptyList());
         }
 
         @Override
@@ -385,9 +384,8 @@ public class BidirectionalTopicOperationTest {
 
 
     private class MyScoOperation extends BidirectionalTopicOperation<MyRequest, StandardCoderObject> {
-        public MyScoOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, StandardCoderObject.class,
-                            Collections.emptyList());
+        public MyScoOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+            super(params, config, StandardCoderObject.class, Collections.emptyList());
         }
 
         @Override
@@ -408,8 +406,8 @@ public class BidirectionalTopicOperationTest {
 
 
     private class MyOperation extends BidirectionalTopicOperation<MyRequest, MyResponse> {
-        public MyOperation() {
-            super(BidirectionalTopicOperationTest.this.params, config, MyResponse.class, Collections.emptyList());
+        public MyOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
+            super(params, config, MyResponse.class, Collections.emptyList());
         }
 
         @Override

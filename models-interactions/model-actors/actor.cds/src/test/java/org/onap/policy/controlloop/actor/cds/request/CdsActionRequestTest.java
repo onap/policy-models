@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +25,8 @@ import static org.junit.Assert.assertTrue;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 
@@ -37,7 +38,7 @@ public class CdsActionRequestTest {
     /**
      * Setup the CdsActionRequest object.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         req.setActionName(TEST_ACTION_NAME);
         req.setResolutionKey("1234567890");
