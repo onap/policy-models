@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "565a0226_5feb9223",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-20T10:51:38Z",
+      "side": 1,
+      "message": "Saw a few instances of nordix license not being added - maybe double check all files. Other than that, all good.",
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6592bc6_a107818e",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/topic/SelectorKeyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-20T10:51:38Z",
+      "side": 1,
+      "message": "Add Nordix License",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 70
+      },
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81ded010_0bce673b",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicListenerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-20T10:51:38Z",
+      "side": 1,
+      "message": "Add nordix license",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 75
+      },
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
