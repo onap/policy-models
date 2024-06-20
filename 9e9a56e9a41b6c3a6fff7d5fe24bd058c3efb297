@@ -18,6 +18,24 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01e01e16_ed71721c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-20T11:31:29Z",
+      "side": 1,
+      "message": "Missed the actorService/topic package when I was reviewing locally. Thanks for catching that",
+      "parentUuid": "565a0226_5feb9223",
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6592bc6_a107818e",
@@ -41,6 +59,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbaa0d6f_bc5f62a4",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/topic/SelectorKeyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-20T11:31:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6592bc6_a107818e",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 70
+      },
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81ded010_0bce673b",
@@ -54,6 +96,30 @@
       "writtenOn": "2024-06-20T10:51:38Z",
       "side": 1,
       "message": "Add nordix license",
+      "range": {
+        "startLine": 5,
+        "startChar": 3,
+        "endLine": 5,
+        "endChar": 75
+      },
+      "revId": "9e9a56e9a41b6c3a6fff7d5fe24bd058c3efb297",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf84e23_4c810bef",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/topic/TopicListenerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-20T11:31:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81ded010_0bce673b",
       "range": {
         "startLine": 5,
         "startChar": 3,
