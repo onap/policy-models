@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ac16d67_6768bebf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-20T10:34:05Z",
+      "side": 1,
+      "message": "This review will fail up until the previous review with main pom.xml changes are merged.",
+      "revId": "67a486830db38827d8d42d806e54e117782e19ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
