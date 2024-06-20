@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f57fcf_7ebc594f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-06-20T08:49:19Z",
+      "side": 1,
+      "message": "just an internal pom still using junit and a couple of missing copyrights, good job!",
+      "revId": "cda6105413ec7c5181d953056e36e0fc1bb97fc7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aee2941_e638618a",
+        "filename": "models-interactions/model-actors/actor.test/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-06-20T08:49:19Z",
+      "side": 1,
+      "message": "remove this if the whole package has been migrated to junit5",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 21
+      },
+      "revId": "cda6105413ec7c5181d953056e36e0fc1bb97fc7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
