@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +23,12 @@
 package org.onap.policy.models.sim.pdp.parameters;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.parameters.ValidationResult;
 
@@ -36,17 +37,17 @@ import org.onap.policy.common.parameters.ValidationResult;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpSimulatorParameterGroup {
+class TestPdpSimulatorParameterGroup {
     CommonTestData commonTestData = new CommonTestData();
 
     @Test
-    public void testPdpSimulatorParameterGroup_Named() {
+    void testPdpSimulatorParameterGroup_Named() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = new PdpSimulatorParameterGroup("my-name");
         assertEquals("my-name", pdpSimulatorParameters.getName());
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup() {
+    void testPdpSimulatorParameterGroup() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData.toObject(
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME),
                 PdpSimulatorParameterGroup.class);
@@ -64,7 +65,7 @@ public class TestPdpSimulatorParameterGroup {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup_NullName() {
+    void testPdpSimulatorParameterGroup_NullName() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData
                 .toObject(commonTestData.getPdpSimulatorParameterGroupMap(null), PdpSimulatorParameterGroup.class);
         final ValidationResult validationResult = pdpSimulatorParameters.validate();
@@ -74,7 +75,7 @@ public class TestPdpSimulatorParameterGroup {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup_EmptyName() {
+    void testPdpSimulatorParameterGroup_EmptyName() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData
                 .toObject(commonTestData.getPdpSimulatorParameterGroupMap(""), PdpSimulatorParameterGroup.class);
         final ValidationResult validationResult = pdpSimulatorParameters.validate();
@@ -85,7 +86,7 @@ public class TestPdpSimulatorParameterGroup {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup_SetName() {
+    void testPdpSimulatorParameterGroup_SetName() {
         final PdpSimulatorParameterGroup pdpSimulatorParameters = commonTestData.toObject(
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME),
                 PdpSimulatorParameterGroup.class);
@@ -96,7 +97,7 @@ public class TestPdpSimulatorParameterGroup {
     }
 
     @Test
-    public void testPdpSimulatorParameterGroup_EmptyPdpStatusParameters() {
+    void testPdpSimulatorParameterGroup_EmptyPdpStatusParameters() {
         final Map<String, Object> map =
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME);
         map.put("pdpStatusParameters", commonTestData.getPdpStatusParametersMap(true));
@@ -109,7 +110,7 @@ public class TestPdpSimulatorParameterGroup {
     }
 
     @Test
-    public void testApexStarterParameterGroupp_EmptyTopicParameters() {
+    void testApexStarterParameterGroupp_EmptyTopicParameters() {
         final Map<String, Object> map =
                 commonTestData.getPdpSimulatorParameterGroupMap(CommonTestData.PDP_SIMULATOR_GROUP_NAME);
         map.put("topicParameterGroup", commonTestData.getTopicParametersMap(true));

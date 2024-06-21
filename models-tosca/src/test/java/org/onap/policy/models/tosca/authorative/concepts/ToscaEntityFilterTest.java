@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +23,17 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -46,7 +47,7 @@ import org.yaml.snakeyaml.Yaml;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ToscaEntityFilterTest {
+class ToscaEntityFilterTest {
     // Logger for this class
     private static final Logger LOGGER = LoggerFactory.getLogger(ToscaEntityFilterTest.class);
 
@@ -81,7 +82,7 @@ public class ToscaEntityFilterTest {
      *
      * @throws CoderException on JSON decoding errors
      */
-    @BeforeClass
+    @BeforeAll
     public static void setupTypeList() throws CoderException {
         for (String policyTypeResourceName : policyTypeResourceNames) {
             String policyTypeString = ResourceUtils.getResourceAsString(policyTypeResourceName);
@@ -116,7 +117,7 @@ public class ToscaEntityFilterTest {
     }
 
     @Test
-    public void testNullList() {
+    void testNullList() {
         ToscaEntityFilter<ToscaPolicyType> filter = ToscaEntityFilter.<ToscaPolicyType>builder().build();
 
         assertThatThrownBy(() -> {
@@ -125,7 +126,7 @@ public class ToscaEntityFilterTest {
     }
 
     @Test
-    public void testFilterNothing() {
+    void testFilterNothing() {
         ToscaEntityFilter<ToscaPolicyType> filter = ToscaEntityFilter.<ToscaPolicyType>builder().build();
 
         List<ToscaPolicyType> filteredList = filter.filter(typeList);
@@ -133,7 +134,7 @@ public class ToscaEntityFilterTest {
     }
 
     @Test
-    public void testFilterLatestVersion() {
+    void testFilterLatestVersion() {
         ToscaEntityFilter<ToscaPolicyType> filter =
                 ToscaEntityFilter.<ToscaPolicyType>builder().version(ToscaEntityFilter.LATEST_VERSION).build();
 
@@ -164,7 +165,7 @@ public class ToscaEntityFilterTest {
     }
 
     @Test
-    public void testFilterNameVersion() {
+    void testFilterNameVersion() {
         ToscaEntityFilter<ToscaPolicyType> filter =
                 ToscaEntityFilter.<ToscaPolicyType>builder().name("onap.policies.Monitoring").build();
         List<ToscaPolicyType> filteredList = filter.filter(typeList);

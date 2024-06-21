@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,12 +25,12 @@ package org.onap.policy.models.tosca.utils;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -46,10 +47,10 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ToscaUtilsTest {
+class ToscaUtilsTest {
 
     @Test
-    public void testAssertDataTypes() {
+    void testAssertDataTypes() {
         JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
 
         assertFalse(ToscaUtils.doDataTypesExist(jpaToscaServiceTemplate));
@@ -79,7 +80,7 @@ public class ToscaUtilsTest {
     }
 
     @Test
-    public void testAssertPolicyTypes() {
+    void testAssertPolicyTypes() {
         JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
 
         assertFalse(ToscaUtils.doPolicyTypesExist(jpaToscaServiceTemplate));
@@ -108,7 +109,7 @@ public class ToscaUtilsTest {
     }
 
     @Test
-    public void testAssertPolicies() {
+    void testAssertPolicies() {
         JpaToscaServiceTemplate jpaToscaServiceTemplate = new JpaToscaServiceTemplate();
 
         assertFalse(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
@@ -146,7 +147,7 @@ public class ToscaUtilsTest {
     }
 
     @Test
-    public void testGetentityTypeAncestors() {
+    void testGetentityTypeAncestors() {
         assertThatThrownBy(() -> {
             ToscaUtils.getEntityTypeAncestors(null, null, null);
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
@@ -177,7 +178,7 @@ public class ToscaUtilsTest {
     }
 
     @Test
-    public void testGetentityTypeAncestorsDataType() {
+    void testGetentityTypeAncestorsDataType() {
 
         JpaToscaDataTypes dataTypes = new JpaToscaDataTypes();
         JpaToscaDataType dt0 = new JpaToscaDataType();
@@ -267,12 +268,12 @@ public class ToscaUtilsTest {
     }
 
     @Test
-    public void testGetPredefinedDataTypes() {
+    void testGetPredefinedDataTypes() {
         assertTrue(ToscaUtils.getPredefinedDataTypes().contains(new PfConceptKey("string", PfKey.NULL_KEY_VERSION)));
     }
 
     @Test
-    public void testgetEntityTree() {
+    void testgetEntityTree() {
         assertThatThrownBy(() -> {
             ToscaUtils.getEntityTree(null, null, null);
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");

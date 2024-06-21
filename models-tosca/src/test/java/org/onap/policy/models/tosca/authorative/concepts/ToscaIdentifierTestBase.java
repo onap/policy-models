@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +21,8 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -32,7 +33,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
  *
  * @param <T> type of key being tested
  */
-public class ToscaIdentifierTestBase<T extends Comparable<T>> {
+class ToscaIdentifierTestBase<T extends Comparable<T>> {
     public static final String NAME = "my-name";
     public static final String VERSION = "1.2.3";
 
@@ -61,7 +62,7 @@ public class ToscaIdentifierTestBase<T extends Comparable<T>> {
      *
      * @throws Exception if an error occurs
      */
-    public void testCompareTo() throws Exception {
+    void testCompareTo() throws Exception {
         T ident = makeIdent(NAME, VERSION);
         assertEquals(0, ident.compareTo(ident));
 

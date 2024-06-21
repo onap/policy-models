@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2020 Nordix Foundation.
+ * Modifications Copyright (C) 2020, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,15 +19,16 @@
 
 package org.onap.policy.models.tosca.simple.serialization;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -40,7 +41,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.yaml.snakeyaml.Yaml;
 
-public class OptimizationPolicyTypeSerializationTest {
+class OptimizationPolicyTypeSerializationTest {
 
     private static final String TYPE_ROOT = "tosca.policies.Root";
     private static final String VERSION = "1.0.0";
@@ -52,13 +53,13 @@ public class OptimizationPolicyTypeSerializationTest {
 
     private StandardCoder coder;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         coder = new StandardCoder();
     }
 
     @Test
-    public void testOptimization() throws CoderException {
+    void testOptimization() throws CoderException {
         JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_YAML);
         validate("initial object", svctmpl, TYPE_ROOT, "onap.policies.Optimization", false, false);
 
@@ -70,7 +71,7 @@ public class OptimizationPolicyTypeSerializationTest {
     }
 
     @Test
-    public void testOptimizationResource() throws CoderException {
+    void testOptimizationResource() throws CoderException {
         JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_RESOURCE_YAML);
         validate("initial object", svctmpl, "onap.policies.Optimization", "onap.policies.optimization.Resource", true,
                 true);
@@ -83,7 +84,7 @@ public class OptimizationPolicyTypeSerializationTest {
     }
 
     @Test
-    public void testOptimizationService() throws CoderException {
+    void testOptimizationService() throws CoderException {
         JpaToscaServiceTemplate svctmpl = loadYaml(INPUT_OPTIMIZATION_SERVICE_YAML);
         validate("initial object", svctmpl, "onap.policies.Optimization", "onap.policies.optimization.Service", false,
                 true);
@@ -120,17 +121,17 @@ public class OptimizationPolicyTypeSerializationTest {
             boolean checkResource, boolean checkService) {
         JpaToscaPolicyTypes policyTypes = svctmpl.getPolicyTypes();
 
-        assertEquals(testnm + " type count", 1, policyTypes.getConceptMap().size());
+        assertEquals(1, policyTypes.getConceptMap().size(), testnm + " type count");
         JpaToscaPolicyType policyType = policyTypes.getConceptMap().values().iterator().next();
 
-        assertEquals(testnm + " name", typeName, policyType.getName());
-        assertEquals(testnm + " version", VERSION, policyType.getVersion());
+        assertEquals(typeName, policyType.getName(), testnm + " name");
+        assertEquals(VERSION, policyType.getVersion(), testnm + " version");
 
-        assertNotNull(testnm + " derived from", policyType.getDerivedFrom());
-        assertEquals(testnm + " derived from name", derivedFrom, policyType.getDerivedFrom().getName());
+        assertNotNull(String.valueOf(policyType.getDerivedFrom()), testnm + " derived from");
+        assertEquals(derivedFrom, policyType.getDerivedFrom().getName(), testnm + " derived from name");
 
         Map<String, JpaToscaProperty> props = policyType.getProperties();
-        assertNotNull(testnm + " properties", props);
+        assertNotNull(props.toString(), testnm + " properties");
 
         if (checkResource && checkService) {
             validateResources(testnm, props.get("resources"));
@@ -149,59 +150,59 @@ public class OptimizationPolicyTypeSerializationTest {
     private void validateScope(String testName, JpaToscaProperty prop) {
         String testnm = testName + " scope";
 
-        assertNotNull(testnm, prop);
+        assertNotNull(prop, testnm);
         validateMatchable(testnm, prop.getMetadata());
     }
 
     private void validateServices(String testName, JpaToscaProperty prop) {
         String testnm = testName + " services";
 
-        assertNotNull(testnm, prop);
+        assertNotNull(prop, testnm);
         validateMatchable(testnm, prop.getMetadata());
     }
 
     private void validateResources(String testName, JpaToscaProperty prop) {
         String testnm = testName + " resources";
 
-        assertNotNull(testnm, prop);
+        assertNotNull(prop, testnm);
         validateMatchable(testnm, prop.getMetadata());
     }
 
     private void validateGeography(String testName, JpaToscaProperty prop) {
         String testnm = testName + " geography";
 
-        assertNotNull(testnm, prop);
+        assertNotNull(prop, testnm);
 
         // this line results in a stack overflow
         // assertEquals(testnm + " name", "geography", prop.getName());
 
-        assertEquals(testnm + " description", "One or more geographic regions", prop.getDescription());
-        assertEquals(testnm + " type", "list", prop.getType().getName());
+        assertEquals("One or more geographic regions", prop.getDescription(), testnm + " description");
+        assertEquals("list", prop.getType().getName(), testnm + " description");
         validateMatchable(testnm, prop.getMetadata());
-        assertTrue(testnm + " required", prop.isRequired());
-        assertEquals(testnm + " entry_schema", "string", prop.getEntrySchema().getType().getName());
+        assertTrue(prop.isRequired(), testnm + " required");
+        assertEquals("string", prop.getEntrySchema().getType().getName(), testnm + " description");
 
         List<JpaToscaConstraint> constraints = prop.getEntrySchema().getConstraints();
-        assertNotNull(testnm + " constraints", constraints);
+        assertNotNull(constraints, testnm + " constraints");
 
-        assertEquals(testnm + " constraint size", 1, constraints.size());
-        assertTrue(testnm + " constraint type", constraints.get(0) instanceof JpaToscaConstraintValidValues);
+        assertEquals(1, constraints.size(), testnm + " constraint size");
+        assertInstanceOf(JpaToscaConstraintValidValues.class, constraints.get(0), testnm + " constraint type");
         JpaToscaConstraintValidValues constraint = (JpaToscaConstraintValidValues) constraints.get(0);
 
-        assertEquals(testnm + " valid values", "[US, International]", constraint.getValidValues().toString());
+        assertEquals("[US, International]", constraint.getValidValues().toString(), testnm + " valid values");
     }
 
     private void validateIdentity(String testName, JpaToscaProperty prop) {
         String testnm = testName + " identity";
 
-        assertNotNull(testnm, prop);
-        assertEquals(testnm + " metadata", true, MapUtils.isEmpty(prop.getMetadata()));
+        assertNotNull(prop, testnm);
+        assertTrue(MapUtils.isEmpty(prop.getMetadata()), testnm + " metadata");
     }
 
     private void validateMatchable(String testName, Map<String, String> metadata) {
         String testnm = testName + " matchable";
 
-        assertNotNull(testnm + " metadata", metadata);
-        assertEquals(testnm + " value", "true", metadata.get("matchable"));
+        assertNotNull(metadata, testnm + " metadata");
+        assertEquals("true", metadata.get("matchable"), testnm + " value");
     }
 }

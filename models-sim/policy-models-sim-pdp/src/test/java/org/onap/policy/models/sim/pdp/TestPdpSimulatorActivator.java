@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +23,15 @@
 package org.onap.policy.models.sim.pdp;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
 import org.onap.policy.models.sim.pdp.exception.PdpSimulatorException;
@@ -43,7 +44,7 @@ import org.onap.policy.models.sim.pdp.parameters.PdpSimulatorParameterHandler;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpSimulatorActivator {
+class TestPdpSimulatorActivator {
 
     private PdpSimulatorActivator activator;
 
@@ -52,8 +53,8 @@ public class TestPdpSimulatorActivator {
      *
      * @throws Exception if an error occurs
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         Registry.newRegistry();
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         final PdpSimulatorCommandLineArguments arguments =
@@ -68,15 +69,15 @@ public class TestPdpSimulatorActivator {
      *
      * @throws Exception if an error occurs
      */
-    @After
-    public void teardown() throws Exception {
+    @AfterEach
+    void teardown() throws Exception {
         if (activator != null && activator.isAlive()) {
             activator.terminate();
         }
     }
 
     @Test
-    public void testPdpSimulatorActivator() throws PdpSimulatorException {
+    void testPdpSimulatorActivator() throws PdpSimulatorException {
         assertFalse(activator.isAlive());
         activator.initialize();
         assertTrue(activator.isAlive());
@@ -93,7 +94,7 @@ public class TestPdpSimulatorActivator {
     }
 
     @Test
-    public void testTerminate() throws Exception {
+    void testTerminate() throws Exception {
         activator.initialize();
         activator.terminate();
         assertFalse(activator.isAlive());

@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 
 package org.onap.policy.models.sim.pdp.comm;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,9 +32,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -51,7 +52,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpUpdateListener {
+class TestPdpUpdateListener {
     private PdpUpdateListener pdpUpdateMessageListener;
     private static final CommInfrastructure INFRA = CommInfrastructure.NOOP;
     private static final String TOPIC = "my-topic";
@@ -62,8 +63,8 @@ public class TestPdpUpdateListener {
      *
      * @throws Exception if an error occurs
      */
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         Registry.newRegistry();
         final String[] pdpSimulatorConfigParameters = { "-c", "src/test/resources/PdpSimulatorConfigParameters.json" };
         final PdpSimulatorCommandLineArguments arguments = new PdpSimulatorCommandLineArguments();
@@ -91,8 +92,8 @@ public class TestPdpUpdateListener {
      *
      * @throws Exception if an error occurs
      */
-    @After
-    public void teardown() throws Exception {
+    @AfterEach
+    void teardown() throws Exception {
 
         // clear the pdp simulator activator
         if (activator != null && activator.isAlive()) {
@@ -101,7 +102,7 @@ public class TestPdpUpdateListener {
     }
 
     @Test
-    public void testPdpUpdateMssageListener() {
+    void testPdpUpdateMssageListener() {
         final PdpStatus pdpStatus = Registry.get(PdpSimulatorConstants.REG_PDP_STATUS_OBJECT);
         final PdpUpdate pdpUpdateMsg = new PdpUpdate();
         pdpUpdateMsg.setDescription("dummy pdp status for test");

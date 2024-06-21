@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,20 +23,20 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaWithTypeAndObjectProperties;
 
-public class JpaToscaWithStringPropertiesTest {
+class JpaToscaWithStringPropertiesTest {
     private static final String SOME_DESCRIPTION = "some description";
     private static final String KEY1 = "abc";
     private static final String KEY2 = "def";
@@ -46,13 +47,13 @@ public class JpaToscaWithStringPropertiesTest {
 
     private MyJpa jpa;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         jpa = new MyJpa();
     }
 
     @Test
-    public void testGetKeys() {
+    void testGetKeys() {
         PfConceptKey key = new PfConceptKey("bye", "9.8.7");
         PfConceptKey typeKey = new PfConceptKey("type", "6.5.4");
 
@@ -65,7 +66,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testClean() {
+    void testClean() {
         jpa.setDescription("  some description  ");
         jpa.setProperties(Map.of(KEY1, "10 ", KEY2, " 20"));
 
@@ -75,7 +76,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testToAuthorative() {
+    void testToAuthorative() {
         jpa.setDescription(SOME_DESCRIPTION);
         jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
 
@@ -85,7 +86,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testFromAuthorative() {
+    void testFromAuthorative() {
         MyTosca tosca = new MyTosca();
         tosca.setType("type");
         tosca.setTypeVersion("1.2.3");
@@ -104,7 +105,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         jpa.setDescription(SOME_DESCRIPTION);
         jpa.setProperties(Map.of(KEY1, STRING1, KEY2, STRING2));
 
@@ -120,14 +121,14 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testJpaToscaWithStringProperties() {
+    void testJpaToscaWithStringProperties() {
         assertThat(jpa.getProperties()).isNull();
         assertThat(jpa.getKey().isNullKey()).isTrue();
 
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesPfConceptKey() {
+    void testJpaToscaWithStringPropertiesPfConceptKey() {
         PfConceptKey key = new PfConceptKey("hello", "1.2.3");
 
         jpa = new MyJpa(key);
@@ -135,7 +136,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesJpaToscaWithStringPropertiesOfT() {
+    void testJpaToscaWithStringPropertiesJpaToscaWithStringPropertiesOfT() {
         jpa.setDescription(SOME_DESCRIPTION);
         assertEquals(jpa, new MyJpa(jpa));
 
@@ -144,7 +145,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testJpaToscaWithStringPropertiesT() {
+    void testJpaToscaWithStringPropertiesT() {
         MyTosca tosca = new MyTosca();
         tosca.setName("world");
         tosca.setVersion("3.2.1");
@@ -161,7 +162,7 @@ public class JpaToscaWithStringPropertiesTest {
     }
 
     @Test
-    public void testValidateWithKey() {
+    void testValidateWithKey() {
         // null key - should fail
         jpa.setText("some text");
         assertThat(jpa.validateWithKey("fieldA").isValid()).isFalse();

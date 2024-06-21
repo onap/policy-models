@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +23,10 @@
 package org.onap.policy.models.tosca.utils;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Iterator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
@@ -42,9 +43,9 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class ToscaServiceTemplateUtilsTest {
+class ToscaServiceTemplateUtilsTest {
     @Test
-    public void testAddFragmentNulls() {
+    void testAddFragmentNulls() {
         assertThatThrownBy(() -> {
             ToscaServiceTemplateUtils.addFragment(null, null);
         }).hasMessageMatching("originalTemplate is marked .*on.*ull but is null");
@@ -62,7 +63,7 @@ public class ToscaServiceTemplateUtilsTest {
     }
 
     @Test
-    public void testAddFragment() {
+    void testAddFragment() {
         JpaToscaServiceTemplate originalTemplate = new JpaToscaServiceTemplate();
         JpaToscaServiceTemplate fragmentTemplate00 = new JpaToscaServiceTemplate();
 

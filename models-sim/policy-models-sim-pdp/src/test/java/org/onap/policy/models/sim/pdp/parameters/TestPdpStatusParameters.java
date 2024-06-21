@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +22,11 @@
 
 package org.onap.policy.models.sim.pdp.parameters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 
 /**
@@ -33,11 +34,11 @@ import org.onap.policy.common.parameters.ValidationResult;
  *
  * @author Ajith Sreekumar (ajith.sreekumar@est.tech)
  */
-public class TestPdpStatusParameters {
+class TestPdpStatusParameters {
     private static CommonTestData testData = new CommonTestData();
 
     @Test
-    public void test() {
+    void test() {
         final PdpStatusParameters pdpStatusParameters =
                 testData.toObject(testData.getPdpStatusParametersMap(false), PdpStatusParameters.class);
         final ValidationResult validationResult = pdpStatusParameters.validate();
@@ -50,7 +51,7 @@ public class TestPdpStatusParameters {
     }
 
     @Test
-    public void testValidate() {
+    void testValidate() {
         final PdpStatusParameters pdpStatusParameters =
                 testData.toObject(testData.getPdpStatusParametersMap(false), PdpStatusParameters.class);
         final ValidationResult result = pdpStatusParameters.validate();

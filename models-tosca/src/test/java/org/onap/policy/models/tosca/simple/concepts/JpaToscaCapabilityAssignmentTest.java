@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2020-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,14 +24,14 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignment;
@@ -38,12 +39,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaCapabilityAssignme
 /**
  * DAO test for JpaToscaCapabilityAssignment.
  */
-public class JpaToscaCapabilityAssignmentTest {
+class JpaToscaCapabilityAssignmentTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
-    public void testPropertyPojo() {
+    void testPropertyPojo() {
         ToscaCapabilityAssignment tca = new ToscaCapabilityAssignment();
         tca.setName("world");
         tca.setVersion("1.2.3");
@@ -116,7 +117,7 @@ public class JpaToscaCapabilityAssignmentTest {
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         assertEquals(-1, new JpaToscaCapabilityAssignment().compareTo(null));
         assertEquals(0, new JpaToscaCapabilityAssignment().compareTo(new JpaToscaCapabilityAssignment()));
 
@@ -154,7 +155,7 @@ public class JpaToscaCapabilityAssignmentTest {
     }
 
     @Test
-    public void testAuthorative() {
+    void testAuthorative() {
         ToscaCapabilityAssignment tca = new ToscaCapabilityAssignment();
         tca.setName("world");
         tca.setVersion("1.2.3");

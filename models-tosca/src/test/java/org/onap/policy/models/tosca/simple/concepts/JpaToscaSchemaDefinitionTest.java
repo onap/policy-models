@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,15 +23,15 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 
 /**
@@ -38,12 +39,12 @@ import org.onap.policy.models.base.PfConceptKey;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaSchemaDefinitionTest {
+class JpaToscaSchemaDefinitionTest {
 
     private static final String A_DESCRIPTION = "A Description";
 
     @Test
-    public void testEntrySchemaNull() {
+    void testEntrySchemaNull() {
         assertNotNull(new JpaToscaSchemaDefinition(new PfConceptKey()));
         assertNotNull(new JpaToscaSchemaDefinition(new JpaToscaSchemaDefinition(new PfConceptKey())));
 
@@ -55,7 +56,7 @@ public class JpaToscaSchemaDefinitionTest {
     }
 
     @Test
-    public void testEntrySchema() {
+    void testEntrySchema() {
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
         JpaToscaSchemaDefinition tes = new JpaToscaSchemaDefinition(typeKey);
 
@@ -100,7 +101,7 @@ public class JpaToscaSchemaDefinitionTest {
     }
 
     @Test
-    public void testEntrySchemaValidation() {
+    void testEntrySchemaValidation() {
         PfConceptKey typeKey = new PfConceptKey("type", "0.0.1");
         JpaToscaSchemaDefinition tes = setUpJpaToscaSchemaDefinition(typeKey);
 

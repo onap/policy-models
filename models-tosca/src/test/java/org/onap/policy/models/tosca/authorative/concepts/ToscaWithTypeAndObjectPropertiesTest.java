@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ToscaWithTypeAndObjectPropertiesTest {
+class ToscaWithTypeAndObjectPropertiesTest {
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         ToscaWithTypeAndObjectProperties tosca = new ToscaWithTypeAndObjectProperties();
         assertEquals(tosca, new ToscaWithTypeAndObjectProperties(tosca));
 

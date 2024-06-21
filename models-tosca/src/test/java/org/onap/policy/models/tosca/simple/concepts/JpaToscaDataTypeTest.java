@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,17 +23,17 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
 import org.onap.policy.models.base.PfReferenceKey;
@@ -44,12 +45,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaDataType;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaDataTypeTest {
+class JpaToscaDataTypeTest {
 
     private static final String VERSION_001 = "0.0.1";
 
     @Test
-    public void testDataTypePojo() {
+    void testDataTypePojo() {
         assertNotNull(new JpaToscaDataType());
         assertNotNull(new JpaToscaDataType(new PfConceptKey()));
         assertNotNull(new JpaToscaDataType(new JpaToscaDataType()));
@@ -64,7 +65,7 @@ public class JpaToscaDataTypeTest {
     }
 
     @Test
-    public void testDataTypeProperties() {
+    void testDataTypeProperties() {
         PfConceptKey dtKey = new PfConceptKey("tdt", VERSION_001);
         JpaToscaDataType tdt = new JpaToscaDataType(dtKey);
 
@@ -134,7 +135,7 @@ public class JpaToscaDataTypeTest {
     }
 
     @Test
-    public void testDataTypeConstraints() {
+    void testDataTypeConstraints() {
         ToscaDataType dat = new ToscaDataType();
         dat.setName("name");
         dat.setVersion("1.2.3");
@@ -152,7 +153,7 @@ public class JpaToscaDataTypeTest {
     }
 
     @Test
-    public void testGetReferencedDataTypes() {
+    void testGetReferencedDataTypes() {
         JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0", "0.0.1"));
 
         assertTrue(dt0.getReferencedDataTypes().isEmpty());

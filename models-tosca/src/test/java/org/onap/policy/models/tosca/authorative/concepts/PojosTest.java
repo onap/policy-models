@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.ToStringTester;
 
 /**
@@ -40,12 +40,12 @@ import org.onap.policy.common.utils.test.ToStringTester;
  * @author Chenfei Gao (cgao@research.att.com)
  *
  */
-public class PojosTest {
+class PojosTest {
 
     private static final String POJO_PACKAGE = "org.onap.policy.models.tosca.authorative.concepts";
 
     @Test
-    public void testPojos() {
+    void testPojos() {
         // @formatter:off
         final Validator validator = ValidatorBuilder
                 .create()

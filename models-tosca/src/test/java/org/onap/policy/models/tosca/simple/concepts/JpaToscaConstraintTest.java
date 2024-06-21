@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021, 2023 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +23,13 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
 
 /**
@@ -36,12 +37,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConstraint;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class JpaToscaConstraintTest {
+class JpaToscaConstraintTest {
 
     private static final String CONSTRAINT = "Constraint";
 
     @Test
-    public void testConstraintLogicalStringPojo() {
+    void testConstraintLogicalStringPojo() {
         assertNotNull(new JpaToscaConstraintLogical(JpaToscaConstraintOperation.EQ, CONSTRAINT));
 
         assertThatThrownBy(() -> new JpaToscaConstraintLogical((JpaToscaConstraintOperation) null, null))

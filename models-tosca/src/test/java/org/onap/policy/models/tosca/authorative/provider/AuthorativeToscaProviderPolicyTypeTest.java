@@ -22,19 +22,19 @@
 package org.onap.policy.models.tosca.authorative.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.gson.GsonBuilder;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
 import org.apache.commons.lang3.ObjectUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 import org.onap.policy.models.base.PfConceptKey;
@@ -51,7 +51,7 @@ import org.yaml.snakeyaml.Yaml;
 /**
  * Test of the {@link AuthorativeToscaProvider} class.
  */
-public class AuthorativeToscaProviderPolicyTypeTest {
+class AuthorativeToscaProviderPolicyTypeTest {
     private static final String VERSION = "version";
     private static final String POLICY_NO_VERSION_VERSION1 = "onap.policies.NoVersion:0.0.1";
     private static final String POLICY_NO_VERSION = "onap.policies.NoVersion";
@@ -67,7 +67,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
      *
      * @throws Exception on errors
      */
-    @BeforeClass
+    @BeforeAll
     public static void readPolicyDefinition() {
         String yamlString = ResourceUtils.getResourceAsString("src/test/resources/onap.policies.NoVersion.yaml");
 
@@ -80,8 +80,8 @@ public class AuthorativeToscaProviderPolicyTypeTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -107,18 +107,18 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     /**
      * Set up GSON.
      */
-    @Before
-    public void setupGson() {
+    @BeforeEach
+    void setupGson() {
         standardCoder = new StandardCoder();
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testPolicyTypesGet() throws Exception {
+    void testPolicyTypesGet() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getPolicyTypes(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -171,7 +171,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypesGetFiltered() throws Exception {
+    void testPolicyTypesGetFiltered() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().getFilteredPolicyTypes(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -268,7 +268,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypesCreate() throws Exception {
+    void testPolicyTypesCreate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -306,7 +306,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypesUpdate() throws Exception {
+    void testPolicyTypesUpdate() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().createPolicyTypes(null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -345,7 +345,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testPolicyTypesDelete() throws Exception {
+    void testPolicyTypesDelete() throws Exception {
         assertThatThrownBy(() -> {
             new AuthorativeToscaProvider().deletePolicyType(null, null, null);
         }).hasMessageMatching(DAO_IS_NULL);
@@ -400,7 +400,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testAssertPoliciesExist() {
+    void testAssertPoliciesExist() {
         ToscaServiceTemplate testServiceTemplate = new ToscaServiceTemplate();
 
         assertThatThrownBy(() -> {
@@ -423,7 +423,7 @@ public class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    public void testNullParameters() throws Exception {
+    void testNullParameters() throws Exception {
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(null, null, null))
                 .hasMessageMatching("^dao is marked .*on.*ull but is null$");
     }

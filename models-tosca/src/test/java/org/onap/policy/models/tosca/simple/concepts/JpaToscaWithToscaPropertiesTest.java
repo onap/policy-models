@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +22,7 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,9 +31,9 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.annotations.NotNull;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
@@ -40,7 +41,7 @@ import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaProperty;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaWithToscaProperties;
 
-public class JpaToscaWithToscaPropertiesTest {
+class JpaToscaWithToscaPropertiesTest {
     private static final String SOME_DESCRIPTION = "some description";
     private static final String KEY1 = "abc";
     private static final String KEY2 = "def";
@@ -60,7 +61,7 @@ public class JpaToscaWithToscaPropertiesTest {
     /**
      * Initializes the properties.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpBeforeClass() {
         JPA_PROP1.setDescription(DESCRIPT1);
         JPA_PROP2.setDescription(DESCRIPT2);
@@ -69,13 +70,13 @@ public class JpaToscaWithToscaPropertiesTest {
         PROP2 = JPA_PROP2.toAuthorative();
     }
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         jpa = new MyJpa();
     }
 
     @Test
-    public void testGetKeys() {
+    void testGetKeys() {
         PfConceptKey key = new PfConceptKey("bye", "9.8.7");
 
         jpa = new MyJpa(key);
@@ -92,7 +93,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testClean() {
+    void testClean() {
         jpa.clean();
 
         jpa.setDescription("  some description  ");
@@ -111,7 +112,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testToAuthorative() {
+    void testToAuthorative() {
         jpa.setDescription(SOME_DESCRIPTION);
         jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
 
@@ -121,7 +122,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testFromAuthorative() {
+    void testFromAuthorative() {
         MyTosca tosca = new MyTosca();
         tosca.setDescription(SOME_DESCRIPTION);
 
@@ -144,7 +145,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testCompareTo() {
+    void testCompareTo() {
         jpa.setDescription(SOME_DESCRIPTION);
         jpa.setProperties(Map.of(KEY1, JPA_PROP1, KEY2, JPA_PROP2));
 
@@ -160,19 +161,19 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testJpaToscaWithToscaProperties() {
+    void testJpaToscaWithToscaProperties() {
         assertThat(jpa.getProperties()).isNull();
         assertThat(jpa.getKey().isNullKey()).isTrue();
     }
 
     @Test
-    public void testJpaToscaWithToscaPropertiesPfConceptKey() {
+    void testJpaToscaWithToscaPropertiesPfConceptKey() {
         jpa = new MyJpa(CONCEPT_KEY1);
         assertEquals(CONCEPT_KEY1, jpa.getKey());
     }
 
     @Test
-    public void testJpaToscaWithToscaPropertiesJpaToscaWithToscaPropertiesOfT() {
+    void testJpaToscaWithToscaPropertiesJpaToscaWithToscaPropertiesOfT() {
         jpa.setDescription(SOME_DESCRIPTION);
         assertEquals(jpa, new MyJpa(jpa));
 
@@ -181,7 +182,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testJpaToscaWithToscaPropertiesT() {
+    void testJpaToscaWithToscaPropertiesT() {
         MyTosca tosca = new MyTosca();
         tosca.setName("world");
         tosca.setVersion("3.2.1");
@@ -203,7 +204,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testValidateWithKey() {
+    void testValidateWithKey() {
         // null key - should fail
         jpa.setText("some text");
         assertThat(jpa.validateWithKey("fieldA").isValid()).isFalse();
@@ -218,7 +219,7 @@ public class JpaToscaWithToscaPropertiesTest {
     }
 
     @Test
-    public void testGetReferencedDataTypes() {
+    void testGetReferencedDataTypes() {
         assertThat(jpa.getReferencedDataTypes()).isEmpty();
 
         // one with a schema

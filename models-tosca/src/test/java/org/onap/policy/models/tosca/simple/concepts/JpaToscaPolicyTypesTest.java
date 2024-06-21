@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2021 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
+ *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,27 +24,27 @@ package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicyType;
 
-public class JpaToscaPolicyTypesTest {
+class JpaToscaPolicyTypesTest {
 
     private static final String KEY_IS_NULL = "key is marked .*on.*ull but is null";
 
     @Test
-    public void testPolicyTypesNull() {
+    void testPolicyTypesNull() {
         assertNotNull(new JpaToscaPolicyTypes());
         assertNotNull(new JpaToscaPolicyTypes(new PfConceptKey()));
         assertNotNull(new JpaToscaPolicyTypes(new PfConceptKey(), new TreeMap<PfConceptKey, JpaToscaPolicyType>()));
@@ -64,7 +65,7 @@ public class JpaToscaPolicyTypesTest {
     }
 
     @Test
-    public void testPolicyTypes() {
+    void testPolicyTypes() {
         List<Map<String, ToscaPolicyType>> ptMapList = new ArrayList<>();
         ptMapList.add(new LinkedHashMap<>());
 

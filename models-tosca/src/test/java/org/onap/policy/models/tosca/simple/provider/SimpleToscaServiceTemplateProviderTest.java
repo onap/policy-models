@@ -22,16 +22,16 @@
 package org.onap.policy.models.tosca.simple.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Properties;
 import java.util.TreeMap;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.dao.DaoParameters;
@@ -52,7 +52,7 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class SimpleToscaServiceTemplateProviderTest {
+class SimpleToscaServiceTemplateProviderTest {
     private static final String TEMPLATE_IS_NULL = "^serviceTemplate is marked .*on.*ull but is null$";
     private static final String DAO_IS_NULL = "^dao is marked .*on.*ull but is null$";
 
@@ -63,8 +63,8 @@ public class SimpleToscaServiceTemplateProviderTest {
      *
      * @throws Exception on database errors
      */
-    @Before
-    public void setupDao() throws Exception {
+    @BeforeEach
+    void setupDao() throws Exception {
         final DaoParameters daoParameters = new DaoParameters();
         daoParameters.setPluginClass(DefaultPfDao.class.getName());
 
@@ -89,13 +89,13 @@ public class SimpleToscaServiceTemplateProviderTest {
         pfDao.init(daoParameters);
     }
 
-    @After
-    public void teardown() {
+    @AfterEach
+    void teardown() {
         pfDao.close();
     }
 
     @Test
-    public void testCreateUpdateGetDeleteDataType() throws PfModelException {
+    void testCreateUpdateGetDeleteDataType() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setMetadata(new TreeMap<String, String>());
 
@@ -166,7 +166,7 @@ public class SimpleToscaServiceTemplateProviderTest {
     }
 
     @Test
-    public void testNonNulls() {
+    void testNonNulls() {
         assertThatThrownBy(() -> {
             new SimpleToscaServiceTemplateProvider().write(null, null);
         }).hasMessageMatching(DAO_IS_NULL);

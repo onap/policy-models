@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,17 +22,17 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ToscaTopologyTemplateTest {
+class ToscaTopologyTemplateTest {
 
     @Test
-    public void testToscTopologyTemplate() {
+    void testToscTopologyTemplate() {
         assertThatThrownBy(() -> {
             new ToscaTopologyTemplate(null);
         }).hasMessageMatching("copyObject is marked .*on.*ull but is null");
