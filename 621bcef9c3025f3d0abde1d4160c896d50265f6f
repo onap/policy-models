@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1b58eb5_9c199b03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-24T13:34:07Z",
+      "side": 1,
+      "message": "Have to push another patch set to remove public keyword on class and methods.",
+      "revId": "621bcef9c3025f3d0abde1d4160c896d50265f6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
