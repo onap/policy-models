@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e4824a2_b4bbb1d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "Some small stuff",
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1be5f39e_d659c265",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/PapPolicyIdentifierTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "method doesn\u0027t actually have the potential to throw this exception. Sonar will complain",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4f88c7c_8754333c",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/PdpDeployPoliciesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "Same issue with both of these throws - sonar should catch these. They will be marked as maintainability issues",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 69
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a49e787_5ad432d1",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "Remove public modifier",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "714d1de0_07a7ba6b",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpResponseDetailsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "year missing",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f961eb42_4fd25aae",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "This exception cannot be thrown by this method. Can be removed. Sonar will mark this. Be sure to setup sonar lint locally",
+      "range": {
+        "startLine": 511,
+        "startChar": 46,
+        "endLine": 511,
+        "endChar": 62
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9265074b_76851b31",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "not thrown by within this method. Check sonar",
+      "range": {
+        "startLine": 309,
+        "startChar": 85,
+        "endLine": 309,
+        "endChar": 103
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d4b42aa_5a36d9a6",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-06-24T13:55:57Z",
+      "side": 1,
+      "message": "This exception cannot be thrown by this method",
+      "range": {
+        "startLine": 309,
+        "startChar": 51,
+        "endLine": 309,
+        "endChar": 65
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
