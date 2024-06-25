@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b75859_9169f5d2",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/PapPolicyIdentifierTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1be5f39e_d659c265",
+      "range": {
+        "startLine": 40,
+        "startChar": 35,
+        "endLine": 40,
+        "endChar": 56
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4f88c7c_8754333c",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-06-24T13:55:57Z",
       "side": 1,
       "message": "Same issue with both of these throws - sonar should catch these. They will be marked as maintainability issues",
+      "range": {
+        "startLine": 39,
+        "startChar": 35,
+        "endLine": 39,
+        "endChar": 69
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7a30333_40339f28",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/PdpDeployPoliciesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4f88c7c_8754333c",
       "range": {
         "startLine": 39,
         "startChar": 35,
@@ -87,6 +135,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "64ddb699_d019d8b7",
+        "filename": "models-pap/src/test/java/org/onap/policy/models/pap/concepts/TestModels.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a49e787_5ad432d1",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "714d1de0_07a7ba6b",
@@ -110,6 +182,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7a39dba_9ca49cfc",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/concepts/PdpResponseDetailsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "714d1de0_07a7ba6b",
+      "range": {
+        "startLine": 6,
+        "startChar": 3,
+        "endLine": 6,
+        "endChar": 48
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f961eb42_4fd25aae",
@@ -123,6 +219,30 @@
       "writtenOn": "2024-06-24T13:55:57Z",
       "side": 1,
       "message": "This exception cannot be thrown by this method. Can be removed. Sonar will mark this. Be sure to setup sonar lint locally",
+      "range": {
+        "startLine": 511,
+        "startChar": 46,
+        "endLine": 511,
+        "endChar": 62
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0004e6ed_690adae7",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f961eb42_4fd25aae",
       "range": {
         "startLine": 511,
         "startChar": 46,
@@ -174,6 +294,54 @@
         "startChar": 51,
         "endLine": 309,
         "endChar": 65
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b07f8c_90a2600e",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d4b42aa_5a36d9a6",
+      "range": {
+        "startLine": 309,
+        "startChar": 51,
+        "endLine": 309,
+        "endChar": 65
+      },
+      "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc6e1567_f6e15668",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/impl/PolicyToscaPersistenceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-06-25T13:13:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9265074b_76851b31",
+      "range": {
+        "startLine": 309,
+        "startChar": 85,
+        "endLine": 309,
+        "endChar": 103
       },
       "revId": "1da4d8351ea37adedfee10f18f599a191bde40c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
