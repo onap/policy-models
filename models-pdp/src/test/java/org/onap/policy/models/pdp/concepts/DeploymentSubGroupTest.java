@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,14 +22,14 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ValidationResult;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
@@ -40,12 +40,12 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
 /**
  * Test methods not tested by {@link ModelsTest}.
  */
-public class DeploymentSubGroupTest {
+class DeploymentSubGroupTest {
     private static final String VERSION_300 = "3.0.0";
     private static final Coder coder = new StandardCoder();
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new DeploymentSubGroup(null)).isInstanceOf(NullPointerException.class);
 
         final DeploymentSubGroup orig = new DeploymentSubGroup();
@@ -69,7 +69,7 @@ public class DeploymentSubGroupTest {
     }
 
     @Test
-    public void testValidatePapRest() throws Exception {
+    void testValidatePapRest() throws Exception {
         DeploymentSubGroup subgrp = new DeploymentSubGroup();
 
         subgrp.setPdpType("pdp-type");

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ package org.onap.policy.models.provider;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import lombok.ToString;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test the {@link PolicyModelsProviderFactory} class.
@@ -32,10 +32,10 @@ import org.junit.Test;
  * @author Liam Fallon (liam.fallon@est.tech)
  */
 @ToString
-public class PolicyModelsProviderFactoryTest {
+class PolicyModelsProviderFactoryTest {
 
     @Test
-    public void testFactory() {
+    void testFactory() {
         PolicyModelsProviderFactory factory = new PolicyModelsProviderFactory();
 
         // @formatter:off

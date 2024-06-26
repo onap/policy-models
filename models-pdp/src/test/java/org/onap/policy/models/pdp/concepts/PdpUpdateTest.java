@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,23 +22,23 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.onap.policy.models.pdp.concepts.PdpMessageUtils.removeVariableFields;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 
 /**
  * Test the copy constructor, as {@link ModelsTest} tests the other methods.
  */
-public class PdpUpdateTest {
+class PdpUpdateTest {
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new PdpUpdate(null)).isInstanceOf(NullPointerException.class);
 
         PdpUpdate orig = new PdpUpdate();

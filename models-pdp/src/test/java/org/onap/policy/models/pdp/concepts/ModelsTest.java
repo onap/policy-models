@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.test.ToStringTester;
 
 /**
@@ -35,11 +35,11 @@ import org.onap.policy.common.utils.test.ToStringTester;
  *
  * @author Ram Krishna Verma (ram.krishna.verma@est.tech)
  */
-public class ModelsTest {
+class ModelsTest {
     private static final String POJO_PACKAGE = "org.onap.policy.models.pdp.concepts";
 
     @Test
-    public void testPdpModels() {
+    void testPdpModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                 .with(new GetterTester()).build();
 

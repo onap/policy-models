@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ import com.openpojo.validation.rule.impl.GetterMustExistRule;
 import com.openpojo.validation.rule.impl.SetterMustExistRule;
 import com.openpojo.validation.test.impl.GetterTester;
 import com.openpojo.validation.test.impl.SetterTester;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Class to perform unit tests of all pojos.
@@ -35,12 +35,12 @@ import org.junit.Test;
  * @author liam.fallon@est.tech)
  *
  */
-public class TestPojos {
+class TestPojos {
 
     private static final String POJO_PACKAGE = "org.onap.policy.models.provider";
 
     @Test
-    public void testPojos() {
+    void testPojos() {
         // @formatter:off
         final Validator validator = ValidatorBuilder
                 .create()

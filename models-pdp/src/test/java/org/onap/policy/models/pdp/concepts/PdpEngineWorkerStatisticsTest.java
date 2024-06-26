@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.Instant;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.models.pdp.enums.PdpEngineWorkerState;
 
-public class PdpEngineWorkerStatisticsTest {
+class PdpEngineWorkerStatisticsTest {
 
     @Test
-    public void testCopyConstructor() {
+    void testCopyConstructor() {
         assertThatThrownBy(() -> new PdpEngineWorkerStatistics(null)).hasMessageContaining("source");
 
         PdpEngineWorkerStatistics stat = createPdpEngineWorkerStatistics();
@@ -39,7 +39,7 @@ public class PdpEngineWorkerStatisticsTest {
     }
 
     @Test
-    public void testClean() {
+    void testClean() {
         PdpEngineWorkerStatistics stat = createPdpEngineWorkerStatistics();
         stat.setEngineId(" Engine0 ");
         stat.clean();

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,14 +22,14 @@
 package org.onap.policy.models.pdp.concepts;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
@@ -41,7 +41,7 @@ import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
  *
  * @author Liam Fallon (liam.fallon@est.tech)
  */
-public class PdpGroupFilterTest {
+class PdpGroupFilterTest {
     private static final String POLICY_TYPE3 = "policy.type.3";
     private static final String POLICY_TYPE2 = "policy.type.2";
     private static final String POLICY_TYPE1 = "policy.type.1";
@@ -63,15 +63,15 @@ public class PdpGroupFilterTest {
      *
      * @throws CoderException on JSON decoding errors
      */
-    @Before
-    public void setupPdpGroupList() throws CoderException {
+    @BeforeEach
+    void setupPdpGroupList() throws CoderException {
         String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroupsForFiltering.json");
         PdpGroups pdpGroups = new StandardCoder().decode(originalJson, PdpGroups.class);
         pdpGroupList = pdpGroups.getGroups();
     }
 
     @Test
-    public void testNullList() {
+    void testNullList() {
         PdpGroupFilter filter = PdpGroupFilter.builder().build();
 
         assertThatThrownBy(() -> {
@@ -80,7 +80,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterNothing() {
+    void testFilterNothing() {
         PdpGroupFilter filter = PdpGroupFilter.builder().build();
 
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
@@ -88,7 +88,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterName() {
+    void testFilterName() {
         PdpGroupFilter filter = PdpGroupFilter.builder().name("PdpGroup0").build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
@@ -115,7 +115,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterPdpGroupState() {
+    void testFilterPdpGroupState() {
         PdpGroupFilter filter = PdpGroupFilter.builder().groupState(PdpState.ACTIVE).build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(1, filteredList.size());
@@ -138,7 +138,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterPdpType() {
+    void testFilterPdpType() {
         PdpGroupFilter filter = PdpGroupFilter.builder().pdpType("APEX").build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(5, filteredList.size());
@@ -153,7 +153,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterPdpState() {
+    void testFilterPdpState() {
         PdpGroupFilter filter = PdpGroupFilter.builder().pdpState(PdpState.ACTIVE).build();
         List<PdpGroup> filteredList = filter.filter(pdpGroupList);
         assertEquals(3, filteredList.size());
@@ -172,7 +172,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterPolicyType() {
+    void testFilterPolicyType() {
         List<ToscaConceptIdentifier> identifierList = new ArrayList<>();
 
         identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
@@ -288,7 +288,7 @@ public class PdpGroupFilterTest {
     }
 
     @Test
-    public void testFilterPolicy() {
+    void testFilterPolicy() {
         List<ToscaConceptIdentifier> identifierList = new ArrayList<>();
 
         identifierList.add(new ToscaConceptIdentifier(NON_EXISTANT, VERSION1));
