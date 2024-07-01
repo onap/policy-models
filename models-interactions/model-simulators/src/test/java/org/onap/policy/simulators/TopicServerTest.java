@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,23 +22,23 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoder;
 
-@RunWith(MockitoJUnitRunner.class)
-public class TopicServerTest {
+@ExtendWith(MockitoExtension.class)
+class TopicServerTest {
     private static final String MY_TOPIC = "my-topic";
     private static final String TEXT = "hello";
     private static final String RESPONSE = "world";
@@ -52,24 +53,24 @@ public class TopicServerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         server = new MyServer();
     }
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         verify(source).register(server);
     }
 
     @Test
-    public void testShutdown() {
+    void testShutdown() {
         server.shutdown();
         verify(source).unregister(server);
     }
 
     @Test
-    public void testOnTopicEvent() {
+    void testOnTopicEvent() {
         server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, "{\"text\": \"hello\"}");
         verify(sink).send(RESPONSE);
     }
@@ -78,7 +79,7 @@ public class TopicServerTest {
      * Tests onTopicEvent() when the coder throws an exception.
      */
     @Test
-    public void testOnTopicEventException() {
+    void testOnTopicEventException() {
         assertThatIllegalArgumentException()
                         .isThrownBy(() -> server.onTopicEvent(CommInfrastructure.NOOP, MY_TOPIC, "{invalid json"));
 
@@ -89,7 +90,7 @@ public class TopicServerTest {
      * Tests onTopicEvent() when there is no response.
      */
     @Test
-    public void testOnTopicEventNoResponse() {
+    void testOnTopicEventNoResponse() {
         server = new MyServer() {
             @Override
             protected String process(MyRequest request) {

@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,16 +22,16 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -39,13 +39,13 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.rest.RestManager;
 
-public class XacmlSimulatorTest {
+class XacmlSimulatorTest {
     private static final StandardCoder coder = new StandardCoder();
 
     /**
      * Set up test class.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setupSimulator() {
         try {
             var testServer = Util.buildXacmlSim();
@@ -55,13 +55,13 @@ public class XacmlSimulatorTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     @Test
-    public void testGuard() throws CoderException {
+    void testGuard() throws CoderException {
         String request = makeGuardRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
         DecisionResponse decision = sendRequest(request);
         assertEquals("Permit", decision.getStatus());
@@ -72,7 +72,7 @@ public class XacmlSimulatorTest {
     }
 
     @Test
-    public void testConfigure() throws CoderException {
+    void testConfigure() throws CoderException {
         // test retrieving a policy
         String request = makeConfigureRequest("policy-id", "test-policy");
         DecisionResponse decision = sendRequest(request);
@@ -92,7 +92,7 @@ public class XacmlSimulatorTest {
     }
 
     @Test
-    public void testConfigureMissingFile() throws CoderException {
+    void testConfigureMissingFile() throws CoderException {
         // test retrieving a policy
         String request = makeConfigureRequest("policy-id", "bogus-policy");
         DecisionResponse decision = sendRequest(request);
@@ -101,7 +101,7 @@ public class XacmlSimulatorTest {
     }
 
     @Test
-    public void testConfigureInvalidJson() throws CoderException {
+    void testConfigureInvalidJson() throws CoderException {
         // test retrieving a policy
         String request = makeConfigureRequest("policy-id", "invalid-policy");
         DecisionResponse decision = sendRequest(request);
@@ -110,7 +110,7 @@ public class XacmlSimulatorTest {
     }
 
     @Test
-    public void testUnknownAction() throws CoderException {
+    void testUnknownAction() throws CoderException {
         String request = makeGuardRequest("test_actor_id", "test_op_id", "test_target", "test_clName");
         request = request.replace("guard", "bogus-action");
         DecisionResponse decision = sendRequest(request);

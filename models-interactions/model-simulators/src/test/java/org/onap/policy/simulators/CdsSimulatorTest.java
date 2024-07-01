@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,8 +22,8 @@
 
 package org.onap.policy.simulators;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.google.protobuf.TextFormat.ParseException;
 import com.google.protobuf.util.JsonFormat;
@@ -37,9 +37,9 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -50,7 +50,7 @@ import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
-public class CdsSimulatorTest {
+class CdsSimulatorTest {
     private static final StandardCoder coder = new StandardCoder();
 
     private CdsSimulator sim;
@@ -59,20 +59,20 @@ public class CdsSimulatorTest {
      * Starts the simulator, allocating a unique port for each test so we don't have to
      * wait for the prior server to shut down.
      */
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         int port = NetworkUtil.allocPort();
         sim = new CdsSimulator(Util.LOCALHOST, port);
         sim.start();
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         sim.stop();
     }
 
     @Test
-    public void test() throws Exception {
+    void test() throws Exception {
         String reqstr = IOUtils.toString(Objects.requireNonNull(getClass().getResource("cds/cds.request.json")),
             StandardCharsets.UTF_8);
         Builder builder = ExecutionServiceInput.newBuilder();
@@ -127,7 +127,7 @@ public class CdsSimulatorTest {
     }
 
     @Test
-    public void testGetResponse() throws IOException, CoderException, ParseException {
+    void testGetResponse() throws IOException, CoderException, ParseException {
         CdsSimulator cdsSimulator = new CdsSimulator(Util.LOCALHOST, sim.getPort());
         String reqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/cds.request.json");

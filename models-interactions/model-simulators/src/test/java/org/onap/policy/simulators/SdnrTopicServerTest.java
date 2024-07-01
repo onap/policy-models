@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,24 +22,24 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
-@RunWith(MockitoJUnitRunner.class)
-public class SdnrTopicServerTest {
+@ExtendWith(MockitoExtension.class)
+class SdnrTopicServerTest {
     private static final String MY_TOPIC = "my-topic";
 
     @Mock
@@ -51,13 +52,13 @@ public class SdnrTopicServerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         server = new SdnrTopicServer(sink, source);
     }
 
     @Test
-    public void testProcess() {
+    void testProcess() {
         String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/sdnr/vpci.sdnr.request.json");
         assertNotNull(request);
 
@@ -73,7 +74,7 @@ public class SdnrTopicServerTest {
      * Tests process() when the message is a response.
      */
     @Test
-    public void testProcessNoResponse() {
+    void testProcessNoResponse() {
         // NOTE: this json file is a RESPONSE, not a request
         String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/sdnr/vpci.sdnr.success.json");
         assertNotNull(request);

@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * Modifications Copyright (C) 2020 Wipro Limited.
  * Modifications Copyright (C) 2022 CTC, Inc. and others.
  * ================================================================================
@@ -24,17 +24,17 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.so.SoCloudConfiguration;
@@ -49,12 +49,12 @@ import org.onap.policy.so.SoRequestInfo;
 import org.onap.policy.so.SoRequestParameters;
 import org.onap.policy.so.util.Serialization;
 
-public class SoSimulatorTest {
+class SoSimulatorTest {
 
     /**
      * Set up test class.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpSimulator() {
         try {
             var testServer = Util.buildSoSim();
@@ -64,7 +64,7 @@ public class SoSimulatorTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
         SoSimulatorJaxRs.setRequirePolling(false);
@@ -142,7 +142,7 @@ public class SoSimulatorTest {
     }
 
     @Test
-    public void testPost() {
+    void testPost() {
         SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createTestRequest());
         Pair<Integer, String> httpDetails = new RestManager().post(
@@ -184,7 +184,7 @@ public class SoSimulatorTest {
     }
 
     @Test
-    public void testDelete() {
+    void testDelete() {
         SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createTestRequest());
         Pair<Integer, String> httpDetails = new RestManager().delete(
@@ -226,7 +226,7 @@ public class SoSimulatorTest {
     }
 
     @Test
-    public void testModifyNssi() {
+    void testModifyNssi() {
         SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createNssiRequest());
         Pair<Integer, String> httpDetails = new RestManager().put(
@@ -252,7 +252,7 @@ public class SoSimulatorTest {
     }
 
     @Test
-    public void testModifyCll() {
+    void testModifyCll() {
         SoSimulatorJaxRs.setRequirePolling(false);
         String request = Serialization.gsonPretty.toJson(this.createCllRequest());
         Pair<Integer, String> httpDetails = new RestManager().put(
