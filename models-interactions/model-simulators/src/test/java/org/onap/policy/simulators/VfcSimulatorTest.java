@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,26 +21,26 @@
 
 package org.onap.policy.simulators;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.HashMap;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
 import org.onap.policy.vfc.VfcResponse;
 import org.onap.policy.vfc.util.Serialization;
 
-public class VfcSimulatorTest {
+class VfcSimulatorTest {
 
     /**
      * Set up test class.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpSimulator() {
         try {
             var testServer = Util.buildVfcSim();
@@ -50,13 +50,13 @@ public class VfcSimulatorTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     @Test
-    public void testPost() {
+    void testPost() {
         final Pair<Integer, String> httpDetails =
                 new RestManager().post("http://localhost:6668/api/nslcm/v1/ns/1234567890/heal", "username", "password",
                     new HashMap<>(), "application/json", "Some Request Here");
@@ -67,7 +67,7 @@ public class VfcSimulatorTest {
     }
 
     @Test
-    public void testGet() {
+    void testGet() {
         final Pair<Integer, String> httpDetails = new RestManager().get("http://localhost:6668/api/nslcm/v1/jobs/1234",
                 "username", "password", new HashMap<>());
         assertNotNull(httpDetails);

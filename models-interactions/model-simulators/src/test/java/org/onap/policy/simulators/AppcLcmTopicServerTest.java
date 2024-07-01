@@ -22,24 +22,24 @@
 package org.onap.policy.simulators;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.event.comm.TopicSink;
 import org.onap.policy.common.endpoints.event.comm.TopicSource;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AppcLcmTopicServerTest {
+@ExtendWith(MockitoExtension.class)
+class AppcLcmTopicServerTest {
     private static final String MY_TOPIC = "my-topic";
 
     @Mock
@@ -52,13 +52,13 @@ public class AppcLcmTopicServerTest {
     /**
      * Sets up.
      */
-    @Before
+    @BeforeEach
     public void setUp() {
         server = new AppcLcmTopicServer(sink, source);
     }
 
     @Test
-    public void testProcessAppcLcmMessageWrapper() {
+    void testProcessAppcLcmMessageWrapper() {
         String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appclcm/appc.lcm.request.json");
         assertNotNull(request);
 
@@ -74,7 +74,7 @@ public class AppcLcmTopicServerTest {
      * Tests process() when the message is a response.
      */
     @Test
-    public void testProcessNoResponse() {
+    void testProcessNoResponse() {
         // NOTE: this json file is a RESPONSE, not a request
         String request = ResourceUtils.getResourceAsString("org/onap/policy/simulators/appclcm/appc.lcm.success.json");
         assertNotNull(request);

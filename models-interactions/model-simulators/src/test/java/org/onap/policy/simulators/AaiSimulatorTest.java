@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,25 +21,26 @@
 
 package org.onap.policy.simulators;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.UUID;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.onap.policy.aai.AaiCqResponse;
 import org.onap.policy.aai.AaiManager;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.rest.RestManager;
 
-public class AaiSimulatorTest {
+class AaiSimulatorTest {
 
     /**
      * Set up test class.
      */
-    @BeforeClass
+    @BeforeAll
     public static void setUpSimulator() {
         try {
             var testServer = Util.buildAaiSim();
@@ -49,13 +50,13 @@ public class AaiSimulatorTest {
         }
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
     @Test
-    public void testCqGet() {
+    void testCqGet() {
         final AaiCqResponse response = new AaiManager(new RestManager()).getCustomQueryResponse("http://localhost:6666",
                 "testUser", "testPass", UUID.randomUUID(), "Ete_vFWCLvFWSNK_7ba1fbde_0");
         assertNotNull(response);
