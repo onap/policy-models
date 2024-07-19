@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.sim.pdp;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Random;
 import lombok.Getter;
@@ -60,7 +61,7 @@ public class PdpSimulatorActivator {
      * This simulator is only used for testing. Consequently, it is safe to use a simple
      * random number generator, thus the sonar is disabled.
      */
-    private static final Random RANDOM = new Random();      // NOSONAR
+    private static final Random RANDOM = new SecureRandom();      // NOSONAR
 
     /**
      * Listens for messages on the topic, decodes them into a message, and then dispatches them.
