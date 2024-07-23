@@ -3,7 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import org.onap.aai.domain.yang.Vserver;
 
 public class AaiCqResponse implements Serializable {
     private static final long serialVersionUID = 1L;
-    public static final String CONTEXT_KEY = AaiConstants.CONTEXT_PREFIX + "AaiCqResponse";
     public static final String OPERATION = "CustomQuery";
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
@@ -50,7 +49,7 @@ public class AaiCqResponse implements Serializable {
     @SerializedName("results")
     private List<Serializable> inventoryResponseItems = new LinkedList<>();
 
-    private final Gson gson;
+    private final transient Gson gson;
 
     /**
      * Constructor creates a custom query response from a valid json string.

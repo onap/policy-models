@@ -33,7 +33,6 @@ import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.dao.PfDao;
@@ -293,7 +292,8 @@ public class PdpProvider {
             return Collections.emptyList();
         }
 
-        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new).collect(Collectors.toList());
+        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new)
+            .collect(Collectors.toList());
 
         // validate the objects
         var result = new BeanValidationResult(fieldName, jpas);

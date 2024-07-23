@@ -3,7 +3,7 @@
  * aai
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2024 Nordix Foundation.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,6 +25,7 @@ package org.onap.policy.aai;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -47,8 +48,6 @@ import org.slf4j.LoggerFactory;
  */
 @AllArgsConstructor
 public final class AaiManager {
-
-    // TODO remove this class
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AaiManager.class);
@@ -246,12 +245,12 @@ public final class AaiManager {
             pnfName = URLEncoder.encode(pnfName, StandardCharsets.UTF_8.toString()) + AAI_DEPTH_SUFFIX;
         } catch (UnsupportedEncodingException e) {
             logger.error("Failed to encode the pnfName: {} using UTF-8", pnfName, e);
-            return null;
+            return Collections.emptyMap();
         }
         var responseGet = getStringQuery(urlGet, username, password, requestId, pnfName);
         if (responseGet == null) {
             logger.error("Null response from AAI for the url: {}.", urlGet);
-            return null;
+            return Collections.emptyMap();
         }
         try {
             @SuppressWarnings("unchecked")
@@ -261,7 +260,7 @@ public final class AaiManager {
                             .collect(Collectors.toMap(e -> "pnf." + e.getKey(), Map.Entry::getValue));
         } catch (CoderException e) {
             logger.error("Failed to fetch PNF from AAI", e);
-            return null;
+            return Collections.emptyMap();
         }
     }
 }

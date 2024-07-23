@@ -107,7 +107,7 @@ public class RestTest {
      * @throws Exception if there is a problem
      */
     @AfterAll
-    public static void tearDown() throws Exception {
+    public static void tearDown() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 

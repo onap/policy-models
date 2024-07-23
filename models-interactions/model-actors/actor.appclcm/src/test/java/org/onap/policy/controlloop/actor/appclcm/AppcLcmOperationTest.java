@@ -126,8 +126,6 @@ import org.onap.policy.simulators.TopicServer;
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
 
         outcome = oper.start().get();
-        // assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        // assertTrue(outcome.getResponse() instanceof AppcLcmMessageWrapper);
         assertNotNull(outcome);
     }
 
@@ -167,7 +165,7 @@ import org.onap.policy.simulators.TopicServer;
      * Tests makeRequest() when a property is missing.
      */
     @Test
-     void testMakeRequestMissingProperty() throws Exception {
+     void testMakeRequestMissingProperty() {
         oper = new AppcLcmOperation(params, config);
         oper.generateSubRequestId(1);
 

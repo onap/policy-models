@@ -43,7 +43,7 @@ class BasicHttpOperationTest {
 
 
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         oper = new BasicHttpOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }
@@ -62,7 +62,7 @@ class BasicHttpOperationTest {
     }
 
     @Test
-    void testSetUp() throws Exception {
+    void testSetUp() {
         assertNotNull(oper.client);
         assertSame(oper.client, oper.factory.get(BasicHttpOperation.MY_CLIENT));
         assertEquals(200, oper.rawResponse.getStatus());
@@ -73,7 +73,7 @@ class BasicHttpOperationTest {
     }
 
     @Test
-    void testInitOperator() throws Exception {
+    void testInitOperator() {
         oper.initConfig();
 
         assertSame(oper.client, oper.config.getClient());

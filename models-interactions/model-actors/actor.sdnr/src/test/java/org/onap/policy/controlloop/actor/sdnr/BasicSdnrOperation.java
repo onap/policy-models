@@ -70,7 +70,7 @@ abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMe
     /**
      * Initializes mocks and sets up.
      */
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
 
         response = new PciMessage();
@@ -102,7 +102,7 @@ abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMe
      * @param operation operation to run
      */
     protected void verifyOperation(SdnrOperation operation)
-        throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, ExecutionException {
 
         CompletableFuture<OperationOutcome> future2 = operation.start();
         executor.runAll(100);

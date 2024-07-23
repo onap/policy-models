@@ -174,7 +174,7 @@ class BidirectionalTopicOperationTest {
      * Tests startOperationAsync() when processResponse() throws an exception.
      */
     @Test
-    void testStartOperationAsyncProcException() throws Exception {
+    void testStartOperationAsyncProcException() {
         oper = new MyOperation(params, config) {
             @Override
             protected OperationOutcome processResponse(OperationOutcome outcome, String rawResponse,
@@ -202,7 +202,7 @@ class BidirectionalTopicOperationTest {
      * Tests startOperationAsync() when the publisher throws an exception.
      */
     @Test
-     void testStartOperationAsyncPubException() throws Exception {
+     void testStartOperationAsyncPubException() {
         // indicate that nothing was published
         when(handler.send(any())).thenReturn(false);
 
@@ -302,7 +302,7 @@ class BidirectionalTopicOperationTest {
      * Tests processResponse() when the decoder succeeds.
      */
     @Test
-     void testProcessResponseDecodeOk() throws CoderException {
+     void testProcessResponseDecodeOk() {
         assertSame(outcome, oper.processResponse(outcome, responseText, stdResponse));
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(response, outcome.getResponse());
@@ -312,7 +312,7 @@ class BidirectionalTopicOperationTest {
      * Tests processResponse() when the decoder throws an exception.
      */
     @Test
-     void testProcessResponseDecodeExcept() throws CoderException {
+     void testProcessResponseDecodeExcept() {
         assertThatIllegalArgumentException().isThrownBy(
             () -> oper.processResponse(outcome, "{invalid json", stdResponse));
     }

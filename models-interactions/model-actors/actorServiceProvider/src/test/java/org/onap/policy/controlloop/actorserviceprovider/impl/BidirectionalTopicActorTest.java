@@ -98,7 +98,7 @@ class BidirectionalTopicActorTest {
     }
 
     @Test
-    void testDoStart() throws BidirectionalTopicClientException {
+    void testDoStart() {
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -117,7 +117,7 @@ class BidirectionalTopicActorTest {
     }
 
     @Test
-    void testDoStop() throws BidirectionalTopicClientException {
+    void testDoStop() {
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
         actor.getTopicHandler(MY_SINK, MY_SOURCE2);
@@ -136,7 +136,7 @@ class BidirectionalTopicActorTest {
     }
 
     @Test
-    void testDoShutdown() throws BidirectionalTopicClientException {
+    void testDoShutdown() {
 
         // allocate some handlers
         actor.getTopicHandler(MY_SINK, MY_SOURCE1);
@@ -187,7 +187,7 @@ class BidirectionalTopicActorTest {
     }
 
     @Test
-     void testGetTopicHandler() throws BidirectionalTopicClientException {
+     void testGetTopicHandler() {
         assertSame(handler1, actor.getTopicHandler(MY_SINK, MY_SOURCE1));
         assertSame(handler2, actor.getTopicHandler(MY_SINK, MY_SOURCE2));
 
@@ -195,7 +195,7 @@ class BidirectionalTopicActorTest {
     }
 
     @Test
-     void testMakeTopicHandler() throws BidirectionalTopicClientException {
+     void testMakeTopicHandler() {
         // use a real actor
         actor = new BidirectionalTopicActor<>(ACTOR, BidirectionalTopicActorParams.class);
 

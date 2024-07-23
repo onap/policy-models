@@ -212,7 +212,7 @@ import org.onap.policy.so.SoResponse;
     }
 
     @Test
-     void testConstructCloudConfiguration() throws Exception {
+     void testConstructCloudConfiguration() {
         Tenant tenantItem = new Tenant();
         tenantItem.setTenantId("my-tenant-id");
 
@@ -235,7 +235,7 @@ import org.onap.policy.so.SoResponse;
     }
 
     @Test
-     void testGetRequiredText() throws Exception {
+     void testGetRequiredText() {
 
         assertThatCode(() -> oper.getRequiredText("some value", "my value")).doesNotThrowAnyException();
 

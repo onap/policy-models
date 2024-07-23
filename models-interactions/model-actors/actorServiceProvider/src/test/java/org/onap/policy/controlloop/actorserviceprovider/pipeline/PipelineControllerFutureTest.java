@@ -157,7 +157,7 @@ class PipelineControllerFutureTest {
      * Tests completeAsync(executor) when canceled before execution.
      */
     @Test
-     void testCompleteAsyncSupplierOfQextendsTExecutorCanceled() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsTExecutorCanceled() {
         CompletableFuture<String> future = controller.completeAsync(() -> TEXT, executor);
 
         assertTrue(future.cancel(false));
@@ -181,7 +181,7 @@ class PipelineControllerFutureTest {
      * Tests completeAsync() when canceled.
      */
     @Test
-     void testCompleteAsyncSupplierOfQextendsTCanceled() throws Exception {
+     void testCompleteAsyncSupplierOfQextendsTCanceled() {
         CountDownLatch canceled = new CountDownLatch(1);
 
         // run async, but await until canceled
@@ -210,7 +210,7 @@ class PipelineControllerFutureTest {
     @Test
      void testCompleteOnTimeoutTLongTimeUnit() throws Exception {
         CountDownLatch stopped = new CountDownLatch(1);
-        controller.add(() -> stopped.countDown());
+        controller.add(stopped::countDown);
 
         CompletableFuture<String> future = controller.completeOnTimeout(TEXT, 1, TimeUnit.MILLISECONDS);
 
@@ -288,7 +288,7 @@ class PipelineControllerFutureTest {
      * Tests delayedComplete() when an exception is generated.
      */
     @Test
-     void testDelayedCompleteWithException() throws Exception {
+     void testDelayedCompleteWithException() {
         controller.add(runnable1);
 
         BiConsumer<String, Throwable> stopper = controller.delayedComplete();
@@ -314,7 +314,7 @@ class PipelineControllerFutureTest {
     }
 
     @Test
-     void testDelayedRemoveFutureOfF() throws Exception {
+     void testDelayedRemoveFutureOfF() {
         BiConsumer<String, Throwable> remover = controller.delayedRemove(future1);
 
         remover.accept(TEXT, EXPECTED_EXCEPTION);
@@ -331,7 +331,7 @@ class PipelineControllerFutureTest {
     }
 
     @Test
-     void testDelayedRemoveRunnable() throws Exception {
+     void testDelayedRemoveRunnable() {
         BiConsumer<String, Throwable> remover = controller.delayedRemove(runnable1);
 
         remover.accept(TEXT, EXPECTED_EXCEPTION);
@@ -380,7 +380,7 @@ class PipelineControllerFutureTest {
      * Tests wrap(), when the controller is not running.
      */
     @Test
-     void testWrapNotRunning() throws Exception {
+     void testWrapNotRunning() {
         controller.cancel(false);
         controller = spy(controller);
 
@@ -395,7 +395,7 @@ class PipelineControllerFutureTest {
      * Tests wrap(), when the future throws an exception.
      */
     @Test
-     void testWrapException() throws Exception {
+     void testWrapException() {
         controller = spy(controller);
 
         CompletableFuture<String> future = controller.wrap(compFuture);
@@ -428,7 +428,7 @@ class PipelineControllerFutureTest {
      * Tests wrap(Function) when the controller is canceled after the future is added.
      */
     @Test
-     void testWrapFunctionCancel() throws Exception {
+     void testWrapFunctionCancel() {
         Function<String, CompletableFuture<String>> func = controller.wrap(input -> compFuture);
 
         CompletableFuture<String> future = func.apply(TEXT);

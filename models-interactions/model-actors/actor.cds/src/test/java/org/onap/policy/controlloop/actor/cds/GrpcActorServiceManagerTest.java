@@ -51,7 +51,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
      * Sets up the fields.
      */
     @BeforeEach
-     void setUp() throws Exception {
+     void setUp() {
         future = new CompletableFuture<>();
         manager = new CdsActorServiceManager(new OperationOutcome(), future);
     }
@@ -68,7 +68,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
     }
 
     @Test
-     void testOnMessageProcessing() throws InterruptedException, ExecutionException, TimeoutException {
+     void testOnMessageProcessing() {
 
         Status status = Status.newBuilder().setEventType(EventType.EVENT_COMPONENT_PROCESSING).build();
         output = ExecutionServiceOutput.newBuilder().setStatus(status).build();
@@ -89,7 +89,7 @@ import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
     }
 
     @Test
-     void testOnError() throws InterruptedException, ExecutionException, TimeoutException {
+     void testOnError() {
 
         Exception exception = new Exception("something failed");
         manager.onError(exception);

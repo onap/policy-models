@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,7 +121,6 @@ public class VfModuleDelete extends SoOperation {
      */
     protected CompletableFuture<Response> delete(String uri, Map<String, Object> headers, String contentType,
                     String request, InvocationCallback<Response> callback) {
-        // TODO move to HttpOperation
 
         final String url = getClient().getBaseUrl() + uri;
 
@@ -163,7 +162,6 @@ public class VfModuleDelete extends SoOperation {
      * @return the builder
      */
     protected Builder addAuthHeader(Builder builder) {
-        // TODO move to HttpOperation
         final HttpClient client = getClient();
         String username = client.getUserName();
         if (StringUtils.isBlank(username)) {
@@ -228,11 +226,6 @@ public class VfModuleDelete extends SoOperation {
 
         // requestInfo
         details.setRequestInfo(constructRequestInfo());
-
-        /*
-         * TODO the legacy SO code always passes null for the last argument, though it
-         * should be passing the vfModuleInstanceId
-         */
 
         // compute the path
         String svcId = getRequiredText("service instance ID", vnfServiceItem.getServiceInstanceId());

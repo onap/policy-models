@@ -146,16 +146,6 @@ class ToscaEntityFilterTest {
         typeList.get(12).setVersion("2.0.0");
         filteredList = filter.filter(typeList);
         assertEquals(19, filteredList.size());
-        //
-        // This seems to change around as to where this policy type
-        // got changed - perhaps we change this test to find a specific name
-        // to test for vs an index which never remains consistent?
-        //
-        // assertEquals("2.0.0", filteredList.get(18).getVersion());
-        //
-        // And now this index changes again??
-        //
-        // assertEquals(VERSION_100, filteredList.get(17).getVersion());
 
         typeList.get(12).setVersion(VERSION_100);
         filteredList = filter.filter(typeList);

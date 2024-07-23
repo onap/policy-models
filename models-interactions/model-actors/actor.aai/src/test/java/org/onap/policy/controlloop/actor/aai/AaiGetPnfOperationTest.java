@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,7 +75,7 @@ class AaiGetPnfOperationTest extends BasicAaiOperation {
      * Sets up.
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
         oper = new AaiGetPnfOperation(params, config);
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
@@ -174,7 +174,7 @@ class AaiGetPnfOperationTest extends BasicAaiOperation {
      * Tests startOperationAsync() when a property is missing.
      */
     @Test
-    void testStartOperationAsyncMissingProperty() throws Exception {
+    void testStartOperationAsyncMissingProperty() {
         oper = new AaiGetPnfOperation(params, config);
 
         oper.generateSubRequestId(1);

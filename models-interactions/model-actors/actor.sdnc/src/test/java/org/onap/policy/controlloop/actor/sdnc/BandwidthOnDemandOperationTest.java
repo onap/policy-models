@@ -129,7 +129,7 @@ class BandwidthOnDemandOperationTest extends BasicSdncOperation {
      */
 
     @Test
-     void testMakeRequestMissingBandwidth() throws Exception {
+     void testMakeRequestMissingBandwidth() {
         oper = new BandwidthOnDemandOperation(params, config);
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
         oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH_CHANGE_TIME, MY_CHANGE_TIME);
@@ -143,7 +143,7 @@ class BandwidthOnDemandOperationTest extends BasicSdncOperation {
     }
 
     @Test
-     void testMakeRequestMissingBandwidthChangeTime() throws Exception {
+     void testMakeRequestMissingBandwidthChangeTime() {
         oper = new BandwidthOnDemandOperation(params, config);
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
         oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH, MY_BANDWIDTH);
@@ -157,7 +157,7 @@ class BandwidthOnDemandOperationTest extends BasicSdncOperation {
     }
 
     @Test
-     void testMakeRequestMissingVnfId() throws Exception {
+     void testMakeRequestMissingVnfId() {
         oper = new BandwidthOnDemandOperation(params, config);
         oper.setProperty(OperationProperties.ENRICHMENT_SERVICE_ID, MY_SERVICE);
         oper.setProperty(OperationProperties.ENRICHMENT_BANDWIDTH, MY_BANDWIDTH);

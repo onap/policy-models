@@ -75,7 +75,7 @@ class AaiGetTenantOperationTest extends BasicAaiOperation {
      * Sets up.
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
         oper = new AaiGetTenantOperation(params, config);
         oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, TARGET_ENTITY);
@@ -174,7 +174,7 @@ class AaiGetTenantOperationTest extends BasicAaiOperation {
      * Tests startOperationAsync() when a property is missing.
      */
     @Test
-    void testStartOperationAsyncMissingProperty() throws Exception {
+    void testStartOperationAsyncMissingProperty() {
         oper = new AaiGetTenantOperation(params, config);
 
         oper.generateSubRequestId(1);

@@ -76,7 +76,6 @@ import org.onap.policy.vfc.VfcResponseDescriptor;
         VfcResponseDescriptor mockDescriptor = Mockito.mock(VfcResponseDescriptor.class);
         Mockito.when(mockResponse.getResponseDescriptor()).thenReturn(mockDescriptor);
 
-        // TODO use actual request state value
         Mockito.when(mockDescriptor.getStatus()).thenReturn("COMPLETE");
         assertNotNull(oper.getRequestState(mockResponse));
     }

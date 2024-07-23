@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019, 2023 Nordix Foundation.
+ *  Copyright (C) 2019, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -123,10 +123,10 @@ public abstract class PfModel extends PfConcept {
 
         for (final PfKey pfKey : this.getKeys()) {
             // Check for the two type of keys we have
-            if (pfKey instanceof PfConceptKey) {
-                validateArtifactKeyInModel((PfConceptKey) pfKey, artifactKeySet, result);
-            } else if (pfKey instanceof PfReferenceKey) {
-                validateReferenceKeyInModel((PfReferenceKey) pfKey, referenceKeySet, result);
+            if (pfKey instanceof PfConceptKey pfConceptKey) {
+                validateArtifactKeyInModel(pfConceptKey, artifactKeySet, result);
+            } else if (pfKey instanceof PfReferenceKey pfReferenceKey) {
+                validateReferenceKeyInModel(pfReferenceKey, referenceKeySet, result);
             } else {
                 // It must be a PfKeyUse, nothing else is legal
                 usedKeySet.add((PfKeyUse) pfKey);

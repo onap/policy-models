@@ -80,7 +80,7 @@ class PciCommonHeaderTest {
 
         assertEquals(commonHeader, (Object) commonHeader);
         assertEquals(commonHeader, copiedPciCommonHeader);
-        assertNotEquals(commonHeader, null);
+        assertNotNull(commonHeader);
         assertNotEquals(commonHeader, (Object) "Hello");
 
         PciCommonHeader clonedPciCommonHeader = new PciCommonHeader(commonHeader);

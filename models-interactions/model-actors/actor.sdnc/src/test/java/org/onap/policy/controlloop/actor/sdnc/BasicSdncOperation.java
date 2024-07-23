@@ -112,7 +112,7 @@ abstract class BasicSdncOperation extends BasicHttpOperation {
      * @return the request that was posted
      */
     protected SdncRequest verifyOperation(SdncOperation operation)
-                    throws InterruptedException, ExecutionException, TimeoutException, CoderException {
+                    throws InterruptedException, ExecutionException, CoderException {
 
         CompletableFuture<OperationOutcome> future2 = operation.start();
         executor.runAll(100);

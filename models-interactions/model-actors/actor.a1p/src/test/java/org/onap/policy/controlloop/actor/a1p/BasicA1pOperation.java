@@ -69,7 +69,7 @@ public abstract class BasicA1pOperation extends BasicBidirectionalTopicOperation
     /**
      * Initializes mocks and sets up.
      */
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
 
         response = new PciMessage();

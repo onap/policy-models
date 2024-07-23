@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,7 @@ class AaiCustomQueryOperationTest extends BasicAaiOperation {
      * Sets up.
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
 
         oper = new AaiCustomQueryOperation(params, config);
@@ -166,7 +166,7 @@ class AaiCustomQueryOperationTest extends BasicAaiOperation {
     }
 
     @Test
-    void testGetVserverLink() throws Exception {
+    void testGetVserverLink() {
         oper.setProperty(OperationProperties.AAI_VSERVER_LINK, MY_LINK);
         assertEquals(MY_LINK, oper.getVserverLink());
     }
@@ -194,7 +194,7 @@ class AaiCustomQueryOperationTest extends BasicAaiOperation {
 
 
     private OperationResult getResult(CompletableFuture<OperationOutcome> future2)
-                    throws InterruptedException, ExecutionException, TimeoutException {
+                    throws InterruptedException, ExecutionException {
 
         executor.runAll(100);
         assertTrue(future2.isDone());

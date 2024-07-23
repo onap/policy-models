@@ -423,7 +423,7 @@ class AuthorativeToscaProviderPolicyTypeTest {
     }
 
     @Test
-    void testNullParameters() throws Exception {
+    void testNullParameters() {
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(null, null, null))
                 .hasMessageMatching("^dao is marked .*on.*ull but is null$");
     }

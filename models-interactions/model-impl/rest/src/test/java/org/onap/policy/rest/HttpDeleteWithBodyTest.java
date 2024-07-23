@@ -33,6 +33,6 @@ class HttpDeleteWithBodyTest {
     void testGetMethod() {
         HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(NO_URI);
         assertEquals("DELETE", deleteWithBody.getMethod());
-        assertEquals(deleteWithBody.getURI().toString(), NO_URI);
+        assertEquals(NO_URI, deleteWithBody.getURI().toString());
     }
 }

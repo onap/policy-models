@@ -62,7 +62,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
 
     @BeforeEach
     @Override
-     void setUp() throws Exception {
+     void setUp() {
         super.setUp();
 
         oper = new ModifyConfigOperation(params, config);
@@ -90,8 +90,6 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.Bidirectional
         oper.setProperty(OperationProperties.AAI_RESOURCE_VNF, genvnf);
 
         outcome = oper.start().get();
-        // assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        // assertTrue(outcome.getResponse() instanceof Response);
         assertNotNull(outcome);
     }
 

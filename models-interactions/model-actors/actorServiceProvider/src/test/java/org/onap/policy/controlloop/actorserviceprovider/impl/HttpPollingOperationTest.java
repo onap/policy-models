@@ -89,7 +89,7 @@ class HttpPollingOperationTest {
      * Sets up.
      */
     @BeforeEach
-    void setUp() throws Exception {
+    void setUp() {
         Mockito.lenient().when(client.getBaseUrl()).thenReturn(BASE_URI);
 
         Mockito.lenient().when(config.getClient()).thenReturn(client);

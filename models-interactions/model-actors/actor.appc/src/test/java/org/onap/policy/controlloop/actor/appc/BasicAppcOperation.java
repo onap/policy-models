@@ -86,7 +86,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
     /**
      * Initializes mocks and sets up.
      */
-    void setUp() throws Exception {
+    void setUp() {
         super.setUpBasic();
 
         response = new Response();

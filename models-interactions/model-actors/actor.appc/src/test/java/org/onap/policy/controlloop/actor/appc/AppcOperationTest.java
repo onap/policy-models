@@ -66,7 +66,7 @@ import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOp
      */
     @BeforeEach
     @Override
-     void setUp() throws Exception {
+     void setUp() {
         super.setUp();
 
         oper = new MyOper(params, config);

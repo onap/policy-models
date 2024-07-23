@@ -110,7 +110,7 @@ class ModifyCllTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-     void testMakeRequestMissingProperty() throws Exception {
+     void testMakeRequestMissingProperty() {
         oper = new ModifyCll(params, config);
 
         assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest())

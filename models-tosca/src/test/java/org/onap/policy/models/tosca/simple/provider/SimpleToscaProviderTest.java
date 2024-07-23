@@ -531,13 +531,13 @@ class SimpleToscaProviderTest {
     }
 
     @Test
-    void testGetServiceTemplate() throws PfModelException {
+    void testGetServiceTemplate() {
         assertThatThrownBy(() -> new SimpleToscaProvider().getServiceTemplate(pfDao))
             .hasMessage("service template not found in database");
     }
 
     @Test
-    void testAppendToServiceTemplate() throws PfModelException {
+    void testAppendToServiceTemplate() {
         JpaToscaServiceTemplate serviceTemplateFragment = new JpaToscaServiceTemplate();
         serviceTemplateFragment.setPolicyTypes(new JpaToscaPolicyTypes());
         JpaToscaPolicyType badPt = new JpaToscaPolicyType();

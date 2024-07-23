@@ -137,7 +137,7 @@ class OperationPartialTest {
      * Attaches the appender to the logger.
      */
     @BeforeAll
-    static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() {
         /*
          * Attach appender to the logger.
          */
@@ -565,7 +565,7 @@ class OperationPartialTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-     void testAnyOfEdge() throws Exception {
+     void testAnyOfEdge() {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array
@@ -651,7 +651,7 @@ class OperationPartialTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-     void testAllOfEdge() throws Exception {
+     void testAllOfEdge() {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array
@@ -667,7 +667,7 @@ class OperationPartialTest {
     }
 
     @Test
-     void testAttachFutures() throws Exception {
+     void testAttachFutures() {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // third task throws an exception during construction
@@ -770,7 +770,7 @@ class OperationPartialTest {
      */
     @Test
     @SuppressWarnings("unchecked")
-     void testSequenceEdge() throws Exception {
+     void testSequenceEdge() {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array

@@ -55,7 +55,6 @@ import org.slf4j.LoggerFactory;
 public class AuthorativeToscaProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorativeToscaProvider.class);
 
-    // TODO: In next release this locking mechanism should be removed and replaced with proper session handling
     private static final Object providerLockObject = "providerLockObject";
 
     /**

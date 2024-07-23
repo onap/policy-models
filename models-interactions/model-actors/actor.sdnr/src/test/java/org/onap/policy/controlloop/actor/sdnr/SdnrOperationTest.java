@@ -66,7 +66,7 @@ import org.onap.policy.sdnr.util.StatusCodeEnum;
      */
     @BeforeEach
     @Override
-     void setUp() throws Exception {
+     void setUp() {
         super.setUp();
 
         operation = new SdnrOperation(params, config);
@@ -148,8 +148,6 @@ import org.onap.policy.sdnr.util.StatusCodeEnum;
         operation.setProperty(OperationProperties.EVENT_PAYLOAD, "my payload");
 
         outcome = operation.start().get();
-        // assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        // assertTrue(outcome.getResponse() instanceof PciMessage);
         assertNotNull(outcome);
     }
 

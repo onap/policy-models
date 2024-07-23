@@ -110,7 +110,7 @@ class ModifyNssiTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-     void testMakeRequestMissingProperty() throws Exception {
+     void testMakeRequestMissingProperty() {
         oper = new ModifyNssi(params, config);
 
         assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest())

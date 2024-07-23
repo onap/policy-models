@@ -221,7 +221,7 @@ class VfModuleCreateTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    void testMakeRequestMissingProperty() throws Exception {
+    void testMakeRequestMissingProperty() {
         loadProperties();
 
         ServiceInstance instance = new ServiceInstance();

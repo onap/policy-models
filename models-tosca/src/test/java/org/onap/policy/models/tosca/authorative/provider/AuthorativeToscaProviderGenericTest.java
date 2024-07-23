@@ -169,7 +169,7 @@ class AuthorativeToscaProviderGenericTest {
     }
 
     @Test
-    void testNullParameters() throws Exception {
+    void testNullParameters() {
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getServiceTemplateList(null, null, null))
             .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 

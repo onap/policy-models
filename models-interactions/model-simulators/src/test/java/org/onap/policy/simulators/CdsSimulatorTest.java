@@ -127,7 +127,7 @@ class CdsSimulatorTest {
     }
 
     @Test
-    void testGetResponse() throws IOException, CoderException, ParseException {
+    void testGetResponse() throws IOException, CoderException {
         CdsSimulator cdsSimulator = new CdsSimulator(Util.LOCALHOST, sim.getPort());
         String reqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/cds.request.json");

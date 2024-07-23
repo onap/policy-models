@@ -94,7 +94,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Sets up.
      */
     @BeforeEach
-     void setUp() throws Exception {
+     void setUp() {
         super.setUpBasic();
 
         guardConfig = mock(DecisionConfig.class);

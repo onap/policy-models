@@ -34,7 +34,7 @@ import org.junit.jupiter.api.Test;
  */
 class TestPdpSimulatorConstants {
     @Test
-    void test() throws Exception {
+    void test() {
         // verify that constructor does not throw an exception
         assertThatCode(() -> {
             Constructor<PdpSimulatorConstants> c = PdpSimulatorConstants.class.getDeclaredConstructor();

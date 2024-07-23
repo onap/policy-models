@@ -33,7 +33,6 @@ import org.onap.policy.models.base.PfObjectFilter;
 public class DummyPfObjectFilter implements PfObjectFilter<DummyPfObject> {
     @Override
     public List<DummyPfObject> filter(List<DummyPfObject> originalList) {
-        // TODO Auto-generated method stub
         return null;
     }
 }

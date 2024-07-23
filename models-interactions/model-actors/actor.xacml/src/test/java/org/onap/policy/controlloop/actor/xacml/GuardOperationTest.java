@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -86,7 +85,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Sets up.
      */
     @BeforeEach
-     void setUp() throws Exception {
+     void setUp() {
         super.setUpBasic();
 
         guardConfig = mock(DecisionConfig.class);

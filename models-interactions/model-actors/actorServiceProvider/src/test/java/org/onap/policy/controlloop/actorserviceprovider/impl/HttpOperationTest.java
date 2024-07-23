@@ -260,7 +260,7 @@ class HttpOperationTest {
      * Tests handleResponse() when it fails.
      */
     @Test
-   void testHandleResponseFailed() throws Exception {
+   void testHandleResponseFailed() {
         CompletableFuture<OperationOutcome> future2 = oper.handleResponse(outcome, PATH, cb -> {
             callback.set(cb);
             return future;
@@ -322,7 +322,7 @@ class HttpOperationTest {
      * Tests processResponse() when the decoder throws an exception.
      */
     @Test
-    void testProcessResponseDecodeExcept() throws CoderException {
+    void testProcessResponseDecodeExcept() {
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper2.processResponse(outcome, PATH, response));

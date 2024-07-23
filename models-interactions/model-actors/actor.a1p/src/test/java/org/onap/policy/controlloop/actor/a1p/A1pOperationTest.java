@@ -59,7 +59,7 @@ import org.onap.policy.sdnr.util.StatusCodeEnum;
      */
     @BeforeEach
     @Override
-     void setUp() throws Exception {
+     void setUp() {
         super.setUp();
 
         operation = new A1pOperation(params, config);

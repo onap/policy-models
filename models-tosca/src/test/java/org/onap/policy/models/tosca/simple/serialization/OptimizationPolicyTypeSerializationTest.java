@@ -173,9 +173,6 @@ class OptimizationPolicyTypeSerializationTest {
 
         assertNotNull(prop, testnm);
 
-        // this line results in a stack overflow
-        // assertEquals(testnm + " name", "geography", prop.getName());
-
         assertEquals("One or more geographic regions", prop.getDescription(), testnm + " description");
         assertEquals("list", prop.getType().getName(), testnm + " description");
         validateMatchable(testnm, prop.getMetadata());

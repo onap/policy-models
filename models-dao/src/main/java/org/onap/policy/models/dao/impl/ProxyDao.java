@@ -367,7 +367,7 @@ public class ProxyDao implements PfDao {
          * The invoking code only passes well-known classes into this method, thus
          * disabling the sonar about SQL injection.
          */
-        size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class) // NOSONAR
+        size = mg.createQuery("SELECT COUNT(c) FROM " + someClass.getSimpleName() + " c", Long.class)
                 .getSingleResult();
         return size;
     }

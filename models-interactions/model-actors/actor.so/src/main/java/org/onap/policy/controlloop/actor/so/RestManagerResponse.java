@@ -46,7 +46,6 @@ import org.onap.policy.common.utils.coder.CoderException;
  */
 @AllArgsConstructor
 public class RestManagerResponse extends Response {
-    // TODO move to actorServices
 
     @Getter
     private final int status;

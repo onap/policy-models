@@ -95,7 +95,6 @@ public abstract class BidirectionalTopicOperation<Q, S> extends OperationPartial
      */
     @Override
     protected long getTimeoutMs(Integer timeoutSec) {
-        // TODO move this method to the superclass
         return (timeoutSec == null || timeoutSec == 0 ? getTimeoutMs() : super.getTimeoutMs(timeoutSec));
     }
 

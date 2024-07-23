@@ -277,7 +277,7 @@ class VfModuleDeleteTest extends BasicSoOperation {
      */
     @Test
     @SuppressWarnings("unchecked")
-    void testDeleteException() throws Exception {
+    void testDeleteException() {
         Throwable thrown = new IllegalStateException(EXPECTED_EXCEPTION);
 
         // need a new future, with an exception
@@ -360,7 +360,7 @@ class VfModuleDeleteTest extends BasicSoOperation {
      * Tests makeRequest() when a property is missing.
      */
     @Test
-    void testMakeRequestMissingProperty() throws Exception {
+    void testMakeRequestMissingProperty() {
         loadProperties();
 
         ServiceInstance instance = new ServiceInstance();
@@ -381,7 +381,7 @@ class VfModuleDeleteTest extends BasicSoOperation {
     }
 
     @SuppressWarnings("unchecked")
-    private void configureResponse(String responseText) throws CoderException {
+    private void configureResponse(String responseText) {
         // indicate that the response was completed
         lenient().when(javaResp.statusCode()).thenReturn(200);
         lenient().when(javaResp.body()).thenReturn(responseText);
