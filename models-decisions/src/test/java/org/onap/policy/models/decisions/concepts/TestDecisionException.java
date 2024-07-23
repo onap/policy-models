@@ -1,10 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP
+ * ONAP Policy Decision Models
  * ================================================================================
- * Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +18,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.so;
+package org.onap.policy.models.decisions.concepts;
 
-import com.google.gson.annotations.SerializedName;
-import java.io.Serializable;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@Getter
-@Setter
-public class SoRequest3gpp implements Serializable {
+import jakarta.ws.rs.core.Response;
+import org.junit.jupiter.api.Test;
 
-    private static final long serialVersionUID = -3283942659786236032L;
+class TestDecisionException {
 
-    private String name;
+    @Test
+    void testException() {
+        Response.Status status = Response.Status.NOT_ACCEPTABLE;
+        String message = "Test exception thrown";
 
-    @SerializedName("serviceInstanceID")
-    private String serviceInstanceId;
+        DecisionException exception = new DecisionException(status, message);
 
-    private String globalSubscriberId;
-    private String subscriptionServiceType;
-    private String networkType;
-    private Map<String, Object> additionalProperties; //NOSONAR
+        assertNotNull(exception);
+        assertEquals(status, exception.getErrorResponse().getResponseCode());
+        assertEquals(message, exception.getMessage());
+
+        assertThrows(DecisionException.class, () -> {
+            throw exception;
+        });
+    }
 }

@@ -152,9 +152,7 @@ class CdsProcessorGrpcClientTest {
     @Test
     void testCdsProcessorGrpcClientConstructorFailure() {
         props.setHost(null);
-        assertThrows(IllegalStateException.class, () -> {
-            new CdsProcessorGrpcClient(listener, props).close();
-        });
+        assertThrows(IllegalStateException.class, () -> new CdsProcessorGrpcClient(listener, props));
     }
 
     @Test

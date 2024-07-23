@@ -1,10 +1,8 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP
+ * ONAP Policy Decision Models
  * ================================================================================
- * Copyright (C) 2020 Wipro Limited.
- * Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,27 +18,28 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.so;
+package org.onap.policy.models.decisions.serialization;
 
-import com.google.gson.annotations.SerializedName;
-import java.io.Serializable;
-import java.util.Map;
-import lombok.Getter;
-import lombok.Setter;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@Getter
-@Setter
-public class SoRequest3gpp implements Serializable {
+import com.google.gson.GsonBuilder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-    private static final long serialVersionUID = -3283942659786236032L;
+class TestDecisionResponseMessageBodyHandler {
 
-    private String name;
+    DecisionResponseMessageBodyHandler handler;
 
-    @SerializedName("serviceInstanceID")
-    private String serviceInstanceId;
+    @BeforeEach
+    void setUp() {
+        handler = new DecisionResponseMessageBodyHandler();
+    }
 
-    private String globalSubscriberId;
-    private String subscriptionServiceType;
-    private String networkType;
-    private Map<String, Object> additionalProperties; //NOSONAR
+    @Test
+    void testDecisionResponseMessageBodyHandler() {
+        GsonBuilder builder = new GsonBuilder();
+        DecisionResponseMessageBodyHandler handler2 = new DecisionResponseMessageBodyHandler(builder);
+        assertNotNull(handler);
+        assertNotNull(handler2);
+    }
 }

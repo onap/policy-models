@@ -3,7 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ public class AaiCqResponse implements Serializable {
     @SerializedName("results")
     private List<Serializable> inventoryResponseItems = new LinkedList<>();
 
-    private final Gson gson;
+    private final Gson gson; //NOSONAR
 
     /**
      * Constructor creates a custom query response from a valid json string.

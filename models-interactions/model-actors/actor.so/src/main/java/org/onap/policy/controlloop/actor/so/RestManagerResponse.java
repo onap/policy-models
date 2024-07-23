@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2023, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ import org.onap.policy.common.utils.coder.CoderException;
  */
 @AllArgsConstructor
 public class RestManagerResponse extends Response {
-    // TODO move to actorServices
+    // TODO move to actorServices NOSONAR
 
     @Getter
     private final int status;
