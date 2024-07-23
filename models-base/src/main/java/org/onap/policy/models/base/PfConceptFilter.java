@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -54,7 +54,7 @@ public class PfConceptFilter implements PfObjectFilter<PfConcept> {
                 .filter(filterStringPred(name, PfConcept::getName))
                 .filter(filterStringPred((LATEST_VERSION.equals(version) ? null : version), PfConcept::getVersion))
                 .filter(filterPrefixPred(versionPrefix, PfConcept::getVersion))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()); //NOSONAR
         // @formatter:off
 
         if (LATEST_VERSION.equals(version)) {

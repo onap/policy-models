@@ -74,7 +74,7 @@ class SoResponseWrapperTest {
 
         assertEquals(responseWrapper,  (Object) responseWrapper);
         assertEquals(responseWrapper,  identicalResponseWrapper);
-        assertNotEquals(responseWrapper, null);
+        assertNotNull(responseWrapper);
         assertNotEquals(responseWrapper, (Object) "AString");
 
         assertEquals(new SoResponseWrapper(null, null), new SoResponseWrapper(null, null));

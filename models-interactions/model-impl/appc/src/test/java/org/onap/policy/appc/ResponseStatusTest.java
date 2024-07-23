@@ -58,7 +58,7 @@ class ResponseStatusTest {
 
         assertEquals(status, (Object) status);
         assertEquals(status, copiedStatus);
-        assertNotEquals(status, null);
+        assertNotNull(status);
         assertNotEquals(status, (Object) "Hello");
 
         status.setCode(-1);

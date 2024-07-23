@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property.
- *  Modifications Copyright (C) 2021 Nordix Foundation.
+ *  Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +24,6 @@ package org.onap.policy.models.pdp.concepts;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -88,8 +87,8 @@ public class PdpUpdate extends PdpMessage {
         this.description = source.description;
         this.pdpHeartbeatIntervalMs = source.pdpHeartbeatIntervalMs;
         this.policiesToBeDeployed = (source.policiesToBeDeployed == null ? null
-                : source.policiesToBeDeployed.stream().map(ToscaPolicy::new).collect(Collectors.toList()));
+                : source.policiesToBeDeployed.stream().map(ToscaPolicy::new).toList());
         this.policiesToBeUndeployed = (source.policiesToBeUndeployed == null ? null
-                : source.policiesToBeUndeployed.stream().map(ToscaConceptIdentifier::new).collect(Collectors.toList()));
+                : source.policiesToBeUndeployed.stream().map(ToscaConceptIdentifier::new).toList());
     }
 }

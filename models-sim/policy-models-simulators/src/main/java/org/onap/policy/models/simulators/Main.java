@@ -52,6 +52,8 @@ public class Main extends ServiceManagerContainer {
 
     private static final String CANNOT_CONNECT = "cannot connect to port ";
 
+    private static final String FALSE_STRING = "false";
+
     @Getter(AccessLevel.PROTECTED)
     private static Main instance;
 
@@ -185,9 +187,9 @@ public class Main extends ServiceManagerContainer {
                         Boolean.toString(params.isHttps()));
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_REST_CLASSES_SUFFIX,
                         params.getProviderClass());
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "false");
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
-        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SNI_HOST_CHECK_SUFFIX, "false");
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, FALSE_STRING);
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, FALSE_STRING);
+        props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SNI_HOST_CHECK_SUFFIX, FALSE_STRING);
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_MANAGED_SUFFIX, "true");
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER, String.join(",",

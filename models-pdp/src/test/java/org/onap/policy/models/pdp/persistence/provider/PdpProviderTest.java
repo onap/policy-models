@@ -38,7 +38,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.resources.ResourceUtils;
-import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.Validated;
 import org.onap.policy.models.dao.DaoParameters;
@@ -66,7 +65,6 @@ import org.onap.policy.models.tosca.simple.provider.SimpleToscaProvider;
  */
 class PdpProviderTest {
     private static final String PDP_GROUPS0_JSON = "testdata/PdpGroups0.json";
-    private static final String PDP_TYPE_IS_NULL = "pdpType is marked .*ull but is null";
     private static final String SUBGROUP_IS_NULL = "pdpSubGroup is marked .*ull but is null";
     private static final String GROUP_IS_NULL = "pdpGroupName is marked .*ull but is null";
     private static final String DAO_IS_NULL = "dao is marked .*ull but is null";
@@ -594,7 +592,7 @@ class PdpProviderTest {
         List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
         assertThat(records).hasSize(2);
 
-        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        records.sort((rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
         assertThat(records.get(0)).isEqualTo(idx);
         assertThat(records.get(1)).isEqualTo(idy);
 

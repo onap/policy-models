@@ -61,7 +61,7 @@ class PciRequestTest {
 
         assertEquals(request, (Object) request);
         assertEquals(request, copiedPciRequest);
-        assertNotEquals(request, null);
+        assertNotNull(request);
         assertNotEquals(request, (Object) "Hello");
 
         request.setCommonHeader(null);

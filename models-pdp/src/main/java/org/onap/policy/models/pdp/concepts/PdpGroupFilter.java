@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 package org.onap.policy.models.pdp.concepts;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -76,7 +75,7 @@ public class PdpGroupFilter implements PfObjectFilter<PdpGroup> {
                 .filter(p -> filterOnPolicyTypeList(p, policyTypeList, matchPolicyTypesExactly))
                 .filter(p -> filterOnPolicyList(p, policyList, matchPoliciesExactly))
                 .filter(p -> filterOnPdpState(p, pdpState))
-                .collect(Collectors.toList());
+                .toList();
         // @formatter:on
     }
 

@@ -70,7 +70,7 @@ class JpaToscaServiceTemplateTest {
     }
 
     @Test
-    void testServiceTemplatePojo() {
+    void testServiceTemplatePojo() { //NOSONAR
         PfConceptKey tstKey = new PfConceptKey("tst", VERSION_001);
         JpaToscaServiceTemplate tst = new JpaToscaServiceTemplate(tstKey, "Tosca Version");
 

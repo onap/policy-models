@@ -37,7 +37,7 @@ class ControlLoopOperationTest {
 
         assertEquals(operation, (Object) operation);
         assertNotEquals(operation, (Object) "");
-        assertNotEquals(operation, null);
+        assertNotNull(operation);
 
         assertNotEquals(0, operation.hashCode());
         assertTrue(operation.toString().startsWith("ControlLoopOperation"));
