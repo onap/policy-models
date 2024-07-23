@@ -23,9 +23,9 @@ package org.onap.policy.controlloop.actor.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import java.util.Collections;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +44,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 
 
     @BeforeEach
-     void setUp() throws Exception {
+     void setUp() {
         oper = new BasicHttpOperation(ACTOR, OPERATION);
         oper.setUpBasic();
     }
@@ -63,7 +63,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
     }
 
     @Test
-     void testSetUp() throws Exception {
+     void testSetUp() {
         assertNotNull(oper.future);
         assertNotNull(oper.outcome);
         assertNotNull(oper.executor);
@@ -82,7 +82,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 
     @Test
      void testMakePayload() {
-        assertNull(oper.makePayload());
+        assertEquals(Collections.emptyMap(), oper.makePayload());
     }
 
     @Test

@@ -24,6 +24,7 @@ package org.onap.policy.controlloop.actor.test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.ws.rs.core.Response;
+import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
@@ -122,7 +123,7 @@ public class BasicOperation {
      * @return payload data
      */
     protected Map<String, Object> makePayload() {
-        return null;
+        return Collections.emptyMap();
     }
 
     /**

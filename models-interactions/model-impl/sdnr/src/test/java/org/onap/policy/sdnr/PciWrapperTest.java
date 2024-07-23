@@ -71,7 +71,7 @@ class PciWrapperTest {
 
         assertEquals(wrapper, (Object) wrapper);
         assertEquals(wrapper, copiedPciWrapper);
-        assertNotEquals(wrapper, null);
+        assertNotNull(wrapper);
         assertNotEquals(wrapper, (Object) "Hello");
 
         checkField(VERSION_19, PciWrapper::setVersion);

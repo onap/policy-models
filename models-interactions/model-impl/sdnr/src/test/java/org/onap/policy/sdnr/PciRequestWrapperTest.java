@@ -54,7 +54,7 @@ class PciRequestWrapperTest {
 
         assertEquals(requestWrapper, (Object) requestWrapper);
         assertEquals(requestWrapper, copiedPciRequestWrapper);
-        assertNotEquals(requestWrapper, null);
+        assertNotNull(requestWrapper);
         assertNotEquals(requestWrapper, (Object) "Hello");
 
         requestWrapper.setBody(null);

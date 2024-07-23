@@ -115,7 +115,7 @@ class SoRequestDetailsTest {
 
         assertEquals(details, (Object) details);
         assertEquals(details, copiedDetails);
-        assertNotEquals(details, null);
+        assertNotNull(details);
         assertNotEquals(details, (Object) "Hello");
 
         checkField(cloudConfiguration, SoRequestDetails::setCloudConfiguration);

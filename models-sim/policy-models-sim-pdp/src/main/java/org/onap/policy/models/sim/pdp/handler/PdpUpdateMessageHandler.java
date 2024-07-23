@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,7 +71,7 @@ public class PdpUpdateMessageHandler {
                 policies.addAll(pdpUpdateMsg.getPoliciesToBeDeployed());
                 policies.removeIf(policy -> pdpUpdateMsg.getPoliciesToBeUndeployed().contains(policy.getIdentifier()));
                 pdpStatusContext.setPolicies(policies.stream().map(ToscaPolicy::getIdentifier)
-                        .collect(Collectors.toList()));
+                        .collect(Collectors.toList())); //NOSONAR
                 if (pdpStatusContext.getState().equals(PdpState.ACTIVE)
                         && !pdpUpdateMsg.getPoliciesToBeDeployed().isEmpty()) {
                     pdpResponseDetails = pdpMessageHandler.createPdpResponseDetails(pdpUpdateMsg.getRequestId(),

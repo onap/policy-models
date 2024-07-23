@@ -3,7 +3,7 @@
  * controlloop
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,7 @@ public abstract class ControlLoopEvent implements Serializable {
     protected String policyName;
     protected String policyVersion;
     protected ControlLoopEventStatus closedLoopEventStatus;
-    protected Map<String, String> additionalEventParams;
+    private Map<String, String> additionalEventParams;
 
     /**
      * Construct an instance from an existing instance.

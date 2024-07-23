@@ -1,9 +1,6 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
- * rest
- * ================================================================================
- * Copyright (C) 2018 Amdocs. All rights reserved.
- * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
+ *  Copyright (C) 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,23 +13,24 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.policy.rest;
+package org.onap.policy.models.dao.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-class HttpDeleteWithBodyTest {
+class PfNonTimestampKeyFilterTest {
 
-    private static final String NO_URI = "BlahBlah";
+    static PfNonTimestampKeyFilter filter;
 
     @Test
-    void testGetMethod() {
-        HttpDeleteWithBody deleteWithBody = new HttpDeleteWithBody(NO_URI);
-        assertEquals("DELETE", deleteWithBody.getMethod());
-        assertEquals(NO_URI, deleteWithBody.getURI().toString());
+    void testPfNonTimestampKeyFilter() {
+        filter = new PfNonTimestampKeyFilter();
+        assertNotNull(filter);
     }
 }

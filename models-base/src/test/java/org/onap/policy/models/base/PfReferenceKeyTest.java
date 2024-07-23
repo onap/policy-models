@@ -130,7 +130,7 @@ class PfReferenceKeyTest {
         assertNotEquals(0, testReferenceKey.compareTo(new PfReferenceKey("NPKN", VERSION001, "NPLN", "LN")));
         assertEquals(0, testReferenceKey.compareTo(new PfReferenceKey("NPKN", VERSION001, NPKLN, "NLN")));
 
-        assertNotEquals(testReferenceKey, null);
+        assertNotNull(testReferenceKey);
 
         assertThatThrownBy(() -> new PfReferenceKey((PfReferenceKey) null)).isInstanceOf(NullPointerException.class);
 

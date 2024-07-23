@@ -33,9 +33,9 @@ class PdpFilterParametersTest {
 
     @Test
     void testGetFilterMap() {
-        assertThat(PdpFilterParameters.builder().build().getFilterMap()).isNull();
+        assertThat(PdpFilterParameters.builder().build().getFilterMap()).isEmpty();
 
-        assertThat(PdpFilterParameters.builder().subGroup(SUBGROUP).build().getFilterMap()).isNull();
+        assertThat(PdpFilterParameters.builder().subGroup(SUBGROUP).build().getFilterMap()).isEmpty();
 
         PdpFilterParameters params = PdpFilterParameters.builder().group(GROUP).build();
         Map<String, Object> map = params.getFilterMap();
