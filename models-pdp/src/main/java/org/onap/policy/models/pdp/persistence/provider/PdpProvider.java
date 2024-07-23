@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019, 2023 Nordix Foundation.
+ *  Copyright (C) 2019, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
@@ -33,7 +33,6 @@ import lombok.NonNull;
 import org.onap.policy.common.parameters.BeanValidationResult;
 import org.onap.policy.models.base.PfConceptKey;
 import org.onap.policy.models.base.PfKey;
-import org.onap.policy.models.base.PfModelException;
 import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.base.PfReferenceKey;
 import org.onap.policy.models.dao.PfDao;
@@ -226,7 +225,7 @@ public class PdpProvider {
      */
     public List<PdpPolicyStatus> getAllPolicyStatus(@NonNull final PfDao dao) {
         return dao.getAll(JpaPdpPolicyStatus.class).stream().map(JpaPdpPolicyStatus::toAuthorative)
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList()); //NOSONAR
     }
 
     /**
@@ -239,11 +238,11 @@ public class PdpProvider {
                     @NonNull ToscaConceptIdentifierOptVersion policy) {
         if (policy.getVersion() != null) {
             return dao.getAll(JpaPdpPolicyStatus.class, new PfConceptKey(policy.getName(), policy.getVersion()))
-                            .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                            .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList()); //NOSONAR
 
         } else {
             return dao.getAllVersionsByParent(JpaPdpPolicyStatus.class, policy.getName()).stream()
-                            .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                            .map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList()); //NOSONAR
         }
     }
 
@@ -259,7 +258,7 @@ public class PdpProvider {
         PfFilterParameters params = PfFilterParameters.builder().filterMap(Map.of("pdpGroup", groupName)).build();
 
         return dao.getFiltered(JpaPdpPolicyStatus.class, params)
-                        .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList());
+                        .stream().map(JpaPdpPolicyStatus::toAuthorative).collect(Collectors.toList()); //NOSONAR
     }
 
     /**
@@ -293,7 +292,8 @@ public class PdpProvider {
             return Collections.emptyList();
         }
 
-        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new).collect(Collectors.toList());
+        List<JpaPdpPolicyStatus> jpas = objs.stream().map(JpaPdpPolicyStatus::new)
+            .collect(Collectors.toList()); //NOSONAR
 
         // validate the objects
         var result = new BeanValidationResult(fieldName, jpas);

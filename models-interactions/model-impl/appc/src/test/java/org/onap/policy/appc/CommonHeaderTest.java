@@ -87,7 +87,7 @@ class CommonHeaderTest {
 
         assertEquals(commonHeader, (Object) commonHeader);
         assertEquals(commonHeader, copiedCommonHeader);
-        assertNotEquals(commonHeader, null);
+        assertNotNull(commonHeader);
         assertNotEquals(commonHeader, (Object) "Hello");
 
         CommonHeader clonedCommonHeader = new CommonHeader(commonHeader);

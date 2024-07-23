@@ -50,17 +50,13 @@ class PciResponseWrapperTest {
         copiedPciResponseWrapper.setBody(responseWrapper.getBody());
 
         assertEquals(responseWrapper, (Object) responseWrapper);
-        //assertEquals(responseWrapper, copiedPciResponseWrapper);
-        assertNotEquals(responseWrapper, null);
+        assertNotNull(responseWrapper);
         assertNotEquals(responseWrapper, (Object) "Hello");
 
         responseWrapper.setBody(null);
         assertNotEquals(responseWrapper, copiedPciResponseWrapper);
         copiedPciResponseWrapper.setBody(null);
-        //assertEquals(responseWrapper, copiedPciResponseWrapper);
         responseWrapper.setBody(response);
-        //assertNotEquals(responseWrapper, copiedPciResponseWrapper);
         copiedPciResponseWrapper.setBody(response);
-        //assertEquals(responseWrapper, copiedPciResponseWrapper);
     }
 }

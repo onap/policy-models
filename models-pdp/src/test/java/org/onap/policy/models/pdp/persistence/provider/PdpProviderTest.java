@@ -594,7 +594,7 @@ class PdpProviderTest {
         List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
         assertThat(records).hasSize(2);
 
-        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        records.sort((rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
         assertThat(records.get(0)).isEqualTo(idx);
         assertThat(records.get(1)).isEqualTo(idy);
 
