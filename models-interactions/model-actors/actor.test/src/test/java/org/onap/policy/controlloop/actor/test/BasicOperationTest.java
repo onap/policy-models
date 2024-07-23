@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
+import java.util.Collections;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,7 +83,7 @@ import org.onap.policy.controlloop.actorserviceprovider.Util;
 
     @Test
      void testMakePayload() {
-        assertNull(oper.makePayload());
+        assertEquals(Collections.emptyMap(), oper.makePayload());
     }
 
     @Test

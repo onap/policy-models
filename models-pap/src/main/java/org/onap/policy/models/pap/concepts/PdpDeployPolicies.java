@@ -3,7 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2021 Nordix Foundation.
+ * Modifications Copyright (C) 2021, 2024 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@
 package org.onap.policy.models.pap.concepts;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.ToString;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 
@@ -41,7 +40,7 @@ public class PdpDeployPolicies {
      */
     public List<ToscaConceptIdentifierOptVersion> getPolicies() {
         return policies == null ? null
-                : policies.stream().map(PapPolicyIdentifier::getGenericIdentifier).collect(Collectors.toList());
+                : policies.stream().map(PapPolicyIdentifier::getGenericIdentifier).toList();
     }
 
     /**
@@ -51,6 +50,6 @@ public class PdpDeployPolicies {
      */
     public void setPolicies(final List<ToscaConceptIdentifierOptVersion> policies) {
         this.policies =
-                policies == null ? null : policies.stream().map(PapPolicyIdentifier::new).collect(Collectors.toList());
+                policies == null ? null : policies.stream().map(PapPolicyIdentifier::new).toList();
     }
 }

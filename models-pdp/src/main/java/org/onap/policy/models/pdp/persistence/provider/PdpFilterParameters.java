@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +22,7 @@
 package org.onap.policy.models.pdp.persistence.provider;
 
 import java.time.Instant;
+import java.util.Collections;
 import java.util.Map;
 import lombok.Builder;
 import lombok.Getter;
@@ -53,7 +55,7 @@ public class PdpFilterParameters implements PfFilterParametersIntfc {
             return filterMap;
 
         } else if (group == null) {
-            return null;
+            return Collections.emptyMap();
 
         } else if (subGroup == null) {
             filterMap = Map.of("pdpGroupName", group);

@@ -22,9 +22,11 @@
 
 package org.onap.policy.models.provider.impl;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.models.base.PfModelException;
+import org.onap.policy.models.base.PfModelRuntimeException;
 import org.onap.policy.models.pdp.concepts.Pdp;
 import org.onap.policy.models.pdp.concepts.PdpGroup;
 import org.onap.policy.models.pdp.concepts.PdpGroupFilter;
@@ -44,6 +47,7 @@ import org.onap.policy.models.provider.PolicyModelsProvider;
 import org.onap.policy.models.provider.PolicyModelsProviderFactory;
 import org.onap.policy.models.provider.PolicyModelsProviderParameters;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifier;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaConceptIdentifierOptVersion;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaEntityFilter;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeTemplate;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaNodeType;
@@ -487,6 +491,53 @@ class DatabasePolicyModelsProviderTest {
         assertThatThrownBy(() -> {
             databaseProvider.deleteToscaNodeTemplate("invalidName", "1.0.1");
         }).hasMessage("node template invalidName:1.0.1 not found");
+
+        assertThatCode(() -> databaseProvider.getServiceTemplateList(NAME, VERSION_100))
+            .doesNotThrowAnyException();
+
+        assertThatCode(() -> databaseProvider.getFilteredServiceTemplateList(ToscaEntityFilter
+            .<ToscaServiceTemplate>builder().build()))
+            .doesNotThrowAnyException();
+
+
+    }
+
+    @Test
+    void testToscaTemplateMethods() throws PfModelException {
+        databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
+
+        assertThatThrownBy(() -> databaseProvider.createServiceTemplate(new ToscaServiceTemplate()))
+            .hasMessageContaining("\"service template\" INVALID");
+
+        assertThatThrownBy(() -> databaseProvider.updateServiceTemplate(new ToscaServiceTemplate()))
+            .hasMessageContaining("\"service template\" INVALID");
+
+        assertThatThrownBy(() -> databaseProvider.deleteServiceTemplate(NAME, VERSION_100))
+            .hasMessageContaining("service template not found in database");
+
+        assertThatThrownBy(() -> databaseProvider.getToscaNodeTemplate(NAME, VERSION_100))
+            .hasMessageContaining("service template not found in database");
+
+        assertNotNull(databaseProvider.getAllPolicyStatus());
+
+        assertNotNull(databaseProvider.getAllPolicyStatus(new ToscaConceptIdentifierOptVersion()));
+
+        assertNotNull(databaseProvider.getGroupPolicyStatus("testGroup"));
+
+        ToscaServiceTemplate serviceTemplate = makeNodeTemplate();
+        databaseProvider.createToscaNodeTemplates(serviceTemplate);
+
+        assertThatCode(() -> databaseProvider.createServiceTemplate(new ToscaServiceTemplate()))
+            .doesNotThrowAnyException();
+        assertThatCode(() -> databaseProvider.getToscaNodeTemplate(serviceTemplate.getName(),
+            serviceTemplate.getVersion())).doesNotThrowAnyException();
+
+        assertThatCode(() -> databaseProvider.updateServiceTemplate(new ToscaServiceTemplate()))
+            .doesNotThrowAnyException();
+        assertThatCode(() -> databaseProvider.deleteServiceTemplate(serviceTemplate.getName(),
+            serviceTemplate.getVersion())).doesNotThrowAnyException();
+
+
 
         databaseProvider.close();
     }

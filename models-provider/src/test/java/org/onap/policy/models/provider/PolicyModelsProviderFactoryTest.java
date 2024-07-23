@@ -23,8 +23,16 @@ package org.onap.policy.models.provider;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import jakarta.persistence.EntityManager;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.onap.policy.models.dao.DaoParameters;
+import org.onap.policy.models.dao.PfDao;
+import org.onap.policy.models.dao.PfDaoFactory;
+import org.onap.policy.models.dao.impl.ProxyDao;
 
 /**
  * Test the {@link PolicyModelsProviderFactory} class.
@@ -33,6 +41,11 @@ import org.junit.jupiter.api.Test;
  */
 @ToString
 class PolicyModelsProviderFactoryTest {
+
+    @Getter
+    @Setter
+    @Mock
+    private EntityManager mgr;
 
     @Test
     void testFactory() {
@@ -70,5 +83,30 @@ class PolicyModelsProviderFactoryTest {
         }).hasMessage("could not create an instance of PolicyModelsProvider "
                 + "\"org.onap.policy.models.provider.impl.DummyBadProviderImpl\"");
         // @formatter:on
+
+        assertThatThrownBy(() -> {
+            PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
+            DaoParameters parsDao = new DaoParameters();
+
+            ProxyDao dao = new ProxyDao(mgr);
+            factory.createPolicyModelsProvider(dao, pars);
+        }).hasMessageContaining("could not create an instance of PolicyModelsProvider");
+
+        assertThatThrownBy(() -> {
+            PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
+            pars.setImplementation(null);
+            DaoParameters parsDao = new DaoParameters();
+            ProxyDao dao = new ProxyDao(mgr);
+            factory.createPolicyModelsProvider(dao, pars);
+        }).hasMessage("could not find implementation of the \"PolicyModelsProvider\" interface \"null\"");
+
+        assertThatThrownBy(() -> {
+            PolicyModelsProviderParameters pars = new PolicyModelsProviderParameters();
+            pars.setImplementation("java.lang.String");
+            DaoParameters parsDao = new DaoParameters();
+            ProxyDao dao = new ProxyDao(mgr);
+            factory.createPolicyModelsProvider(dao, pars);
+        }).hasMessage(
+            "the class \"java.lang.String\" is not an implementation of the \"PolicyModelsProvider\" interface");
     }
 }

@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2023 Nordix Foundation.
+ *  Copyright (C) 2019-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 public class AuthorativeToscaProvider {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorativeToscaProvider.class);
 
-    // TODO: In next release this locking mechanism should be removed and replaced with proper session handling
+    // TODO: In next release this locking mechanism should be removed and replaced with proper session handling NOSONAR
     private static final Object providerLockObject = "providerLockObject";
 
     /**
