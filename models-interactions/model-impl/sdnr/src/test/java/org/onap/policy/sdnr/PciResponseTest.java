@@ -68,7 +68,7 @@ class PciResponseTest {
     void testEqualsObject() {
         PciResponse response = new PciResponse();
         assertEquals(response, response);
-        assertNotEquals(response, null);
+        assertNotNull(response);
         assertNotEquals(response, new Object());
 
         PciResponse response2 = new PciResponse();

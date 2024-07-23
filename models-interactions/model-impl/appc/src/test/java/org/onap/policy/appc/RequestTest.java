@@ -76,7 +76,7 @@ class RequestTest {
 
         assertEquals(request, (Object) request);
         assertEquals(request, copiedRequest);
-        assertNotEquals(request, null);
+        assertNotNull(request);
         assertNotEquals(request, (Object) "Hello");
 
         checkField(commonHeader, Request::setCommonHeader);

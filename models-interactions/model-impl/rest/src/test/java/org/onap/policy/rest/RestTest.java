@@ -112,7 +112,7 @@ public class RestTest {
     }
 
     @Test
-    public void testGetUrlNull() {
+    public void testGetUrlNull() { // NOSONAR
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.get(null, "user", null, null);
@@ -120,7 +120,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPutUrlNull() {
+    public void testPutUrlNull() { // NOSONAR
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.put(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
@@ -128,7 +128,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPostUrlNull() {
+    public void testPostUrlNull() { // NOSONAR
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.post(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
@@ -136,7 +136,7 @@ public class RestTest {
     }
 
     @Test
-    public void testDeleteUrlNull() {
+    public void testDeleteUrlNull() { // NOSONAR
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.delete(null, "user", null, null, null, null);
@@ -144,7 +144,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPatchUrlNull() {
+    public void testPatchUrlNull() { // NOSONAR
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.patch(null, "user", null, null, PAYLOAD);
@@ -152,7 +152,7 @@ public class RestTest {
     }
 
     @Test
-    public void testUsernameNull() {
+    public void testUsernameNull() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, null, null, null);
@@ -192,7 +192,7 @@ public class RestTest {
     }
 
     @Test
-    public void testUsernameEmpty() {
+    public void testUsernameEmpty() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "", null, null);
@@ -222,7 +222,7 @@ public class RestTest {
     }
 
     @Test
-    public void testGoodUrl() {
+    public void testGoodUrl() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "user", null, null);
@@ -252,7 +252,7 @@ public class RestTest {
     }
 
     @Test
-    public void testNoUrlParamUrl() {
+    public void testNoUrlParamUrl() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "RestTest/GetHello/", null, null, null);
@@ -274,7 +274,7 @@ public class RestTest {
     }
 
     @Test
-    public void testNoQueryParamUrl() {
+    public void testNoQueryParamUrl() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "RestTest/GetHello/" + NAME_PARAM, null, null, null);
@@ -297,7 +297,7 @@ public class RestTest {
     }
 
     @Test
-    public void testBadUrl() {
+    public void testBadUrl() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "NonExistant/URL/", null, null, null);
@@ -319,7 +319,7 @@ public class RestTest {
     }
 
     @Test
-    public void testWrongUrl() {
+    public void testWrongUrl() { // NOSONAR
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(deleteUri, null, null, null);
