@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,6 @@
 package org.onap.policy.models.tosca.authorative.concepts;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NonNull;
@@ -52,7 +51,7 @@ public class ToscaEntityFilter<T extends ToscaEntity> implements PfObjectFilter<
                 .filter(p -> filterString(p.getName(), name))
                 .filter(p -> LATEST_VERSION.equals(version)
                         || filterString(p.getVersion(), version))
-                .collect(Collectors.toList());
+                .toList();
         // @formatter:off
 
         if (LATEST_VERSION.equals(version)) {

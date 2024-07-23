@@ -48,7 +48,7 @@ class PfUtilsTest {
         assertEquals(0, PfUtils.compareObjects(null, null));
         assertEquals(-1, PfUtils.compareObjects(HELLO, null));
         assertEquals(1, PfUtils.compareObjects(null, HELLO));
-        assertNotEquals(PfUtils.compareObjects(HELLO, "goodbye"), 0);
+        assertNotEquals(0, PfUtils.compareObjects(HELLO, "goodbye"));
         assertEquals(0, PfUtils.compareObjects(HELLO, HELLO));
     }
 

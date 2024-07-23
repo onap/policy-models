@@ -68,7 +68,7 @@ class HierarchyFetchTest {
     }
 
     @Test
-    void testMultipleVersions() throws Exception {
+    void testMultipleVersions() throws Exception { //NOSONAR
         databaseProvider = new PolicyModelsProviderFactory().createPolicyModelsProvider(parameters);
 
         ToscaServiceTemplate serviceTemplate = new YamlJsonTranslator().fromYaml(

@@ -70,7 +70,7 @@ class ResponseTest {
 
         assertEquals(response, (Object) response);
         assertEquals(response, copiedResponse);
-        assertNotEquals(response, null);
+        assertNotNull(response);
         assertNotEquals(response, (Object) "Hello");
 
         response.setCommonHeader(null);
