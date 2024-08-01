@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2020, 2023 Nordix Foundation.
+ *  Copyright (C) 2019-2020, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -29,7 +29,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Table;
 import jakarta.ws.rs.core.Response;
 import java.io.Serial;
 import java.lang.reflect.ParameterizedType;
@@ -66,10 +65,8 @@ import org.onap.policy.models.base.validation.annotations.VerifyKey;
  */
 //@formatter:on
 @MappedSuperclass
-@Table(name = "PfConceptContainer")
 @Data
 @EqualsAndHashCode(callSuper = false)
-
 public class PfConceptContainer<C extends PfConcept, A extends PfNameVersion> extends PfConcept
     implements PfConceptGetter<C>, PfAuthorative<List<Map<String, A>>> {
     @Serial
