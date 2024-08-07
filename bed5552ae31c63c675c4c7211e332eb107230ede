@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bba55e90_bbc8028b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-07T08:44:15Z",
+      "side": 1,
+      "message": "Can you review these issues: https://sonarcloud.io/project/issues?issueStatuses\u003dOPEN%2CCONFIRMED\u0026sinceLeakPeriod\u003dtrue\u0026branch\u003d138644-1\u0026id\u003donap_policy-models",
+      "revId": "bed5552ae31c63c675c4c7211e332eb107230ede",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
