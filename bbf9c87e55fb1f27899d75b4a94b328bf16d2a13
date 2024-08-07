@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7354b5c_e96015dd",
+        "filename": "models-provider/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-07T15:55:57Z",
+      "side": 1,
+      "message": "mockito is already declared on parent, no need to introduce a new version.",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a877a113_7c977b2f",
+        "filename": "models-tosca/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-07T15:55:57Z",
+      "side": 1,
+      "message": "mockito is already declared on parent, no need to introduce a new version.",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49c977b6_5ad0a39b",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-07T15:55:57Z",
+      "side": 1,
+      "message": "this should be replaced by MockitoAnnotations.openMocks(this);\n\nOR\n\nvar mockKey \u003d Mock.mock(PfConceptKey.class);",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
