@@ -1,6 +1,322 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaa87aa6_69b78cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Hi Wayne. Most of these are related to the use of NOSONAR. We should just clarify why this is being used in so many places. I didn\u0027t mark all of the occurrences.",
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb4acc2_c2c014c0",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Is there some sonar issue arising here?",
+      "range": {
+        "startLine": 57,
+        "startChar": 47,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9156b334_a0bf0757",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/RestManagerResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Remove TODO. Is there some reason we are moving stuff to NOSONAR?",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea00fc98_6af23a76",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "looks like this is never used",
+      "range": {
+        "startLine": 45,
+        "startChar": 31,
+        "endLine": 45,
+        "endChar": 42
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca56db96_9da277c6",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Just need to clarify why this is being done",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "410ba962_46e0d7bd",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Should remove TODO",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1688308c_5571ddd7",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Same as above questions",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da390fe5_439d6570",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Just marking this too",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23227247_cc738ebb",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Should clarify",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 66
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0018c331_319f4a3b",
+        "filename": "models-interactions/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Sure this is redundant",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29863420_8fd26daf",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "Not sure if it is good to put this everywhere",
+      "range": {
+        "startLine": 45,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76bd1bd2_fde62535",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "unused import",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f49b0a4_98ea2a0a",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "import not used",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d862920_a6860ed2",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-08T10:34:53Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7354b5c_e96015dd",
