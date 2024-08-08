@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4346fa4b_31265682",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "With this one, sonar is suggesting we return an immutable list using the .toList() method instead of .collect(Collectors.toList()). Making this change is causing build failures. Adding //NOSONAR means sonar will not flag this as an issue.",
+      "parentUuid": "bfb4acc2_c2c014c0",
+      "range": {
+        "startLine": 57,
+        "startChar": 47,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9156b334_a0bf0757",
         "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/RestManagerResponse.java",
         "patchSetId": 4
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9447aba2_02b16987",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/RestManagerResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "There seem to be quiet a few TODO comments in models about refactoring code. I will remove the NOSONAR and we could take this refactoring work in another JIRA.",
+      "parentUuid": "9156b334_a0bf0757",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea00fc98_6af23a76",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
         "patchSetId": 4
@@ -77,6 +125,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "looks like this is never used",
+      "range": {
+        "startLine": 45,
+        "startChar": 31,
+        "endLine": 45,
+        "endChar": 42
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c258ce07_536f1d40",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ea00fc98_6af23a76",
       "range": {
         "startLine": 45,
         "startChar": 31,
@@ -112,6 +184,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2189fbe_2b0f8f60",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Sonar complains that the Gson variable should be made transient or serializable. When I made the change, the sonar issue still remained.",
+      "parentUuid": "ca56db96_9da277c6",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "410ba962_46e0d7bd",
         "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
         "patchSetId": 4
@@ -123,6 +219,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "Should remove TODO",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3ba79be_356222d2",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "I will remove this.",
+      "parentUuid": "410ba962_46e0d7bd",
       "range": {
         "startLine": 52,
         "startChar": 4,
@@ -158,6 +278,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "874e7816_8fc1ae59",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Same as before, sonar complains that this should be made serializable or transient.",
+      "parentUuid": "1688308c_5571ddd7",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da390fe5_439d6570",
         "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
         "patchSetId": 4
@@ -169,6 +313,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "Just marking this too",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81dba1b7_3e0fa7d9",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Same as above. I will take another look at these warnings.",
+      "parentUuid": "da390fe5_439d6570",
       "range": {
         "startLine": 55,
         "startChar": 59,
@@ -204,6 +372,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a9596d79_d0c10177",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Same as above. Transisent or serializable.",
+      "parentUuid": "23227247_cc738ebb",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 66
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0018c331_319f4a3b",
         "filename": "models-interactions/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
         "patchSetId": 4
@@ -215,6 +407,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "Sure this is redundant",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c011cd_d7a81170",
+        "filename": "models-interactions/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "I\u0027ll remove this.",
+      "parentUuid": "0018c331_319f4a3b",
       "range": {
         "startLine": 70,
         "startChar": 8,
@@ -250,6 +466,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b36cefe_727b06b4",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "29863420_8fd26daf",
+      "range": {
+        "startLine": 45,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76bd1bd2_fde62535",
         "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
         "patchSetId": 4
@@ -261,6 +501,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "unused import",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 35
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11d0c330_aa56f248",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroupFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "76bd1bd2_fde62535",
       "range": {
         "startLine": 25,
         "startChar": 0,
@@ -294,6 +558,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b880b687_d9b10b3b",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3f49b0a4_98ea2a0a",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 52
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d862920_a6860ed2",
@@ -307,6 +595,30 @@
       "writtenOn": "2024-08-08T10:34:53Z",
       "side": 1,
       "message": "not used",
+      "range": {
+        "startLine": 69,
+        "startChar": 32,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "941f12e3_7e043421",
+        "filename": "models-pdp/src/test/java/org/onap/policy/models/pdp/persistence/provider/PdpProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-08T11:28:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d862920_a6860ed2",
       "range": {
         "startLine": 69,
         "startChar": 32,
