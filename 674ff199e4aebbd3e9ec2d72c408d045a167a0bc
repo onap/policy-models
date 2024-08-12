@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44e80006_5d5ede59",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2019-2020, 2024",
+      "range": {
+        "startLine": 3,
+        "startChar": 18,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c94f4387_f35d8ff5",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfModel.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2023-2024",
+      "range": {
+        "startLine": 3,
+        "startChar": 24,
+        "endLine": 3,
+        "endChar": 28
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65f3b3fa_686461d5",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2023-2024",
+      "range": {
+        "startLine": 3,
+        "startChar": 29,
+        "endLine": 3,
+        "endChar": 33
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c15904ae_8592cc62",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "missing removal",
+      "range": {
+        "startLine": 117,
+        "startChar": 74,
+        "endLine": 117,
+        "endChar": 83
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49b9504f_f8ed45f6",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2023-2024",
+      "range": {
+        "startLine": 6,
+        "startChar": 31,
+        "endLine": 6,
+        "endChar": 41
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3855b66f_54ee2898",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2023-2024",
+      "range": {
+        "startLine": 6,
+        "startChar": 31,
+        "endLine": 6,
+        "endChar": 41
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e404e1bf_83adda51",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "NOSONAR to be removed. also in the following tests",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 10
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26becf5f_83f3b6f0",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/concepts/PdpGroups.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "2020, 2024",
+      "range": {
+        "startLine": 6,
+        "startChar": 31,
+        "endLine": 6,
+        "endChar": 40
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1023c4d_eab01caa",
+        "filename": "models-pdp/src/main/java/org/onap/policy/models/pdp/persistence/provider/PdpProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "NOSONAR comments to be removed",
+      "range": {
+        "startLine": 228,
+        "startChar": 57,
+        "endLine": 228,
+        "endChar": 64
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53445ca8_c5fa1368",
+        "filename": "models-provider/src/test/java/org/onap/policy/models/provider/revisionhierarchy/HierarchyFetchTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "NOSONAR comments to be removed",
+      "range": {
+        "startLine": 71,
+        "startChar": 53,
+        "endLine": 71,
+        "endChar": 60
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f052108_af7c2935",
+        "filename": "models-sim/policy-models-sim-pdp/src/main/java/org/onap/policy/models/sim/pdp/handler/PdpUpdateMessageHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "NOSONAR to be removed",
+      "range": {
+        "startLine": 74,
+        "startChar": 58,
+        "endLine": 74,
+        "endChar": 65
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c5021e8_387545bb",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaServiceTemplateTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-08-12T08:35:20Z",
+      "side": 1,
+      "message": "NOSONAR to be removed",
+      "range": {
+        "startLine": 73,
+        "startChar": 39,
+        "endLine": 73,
+        "endChar": 46
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
