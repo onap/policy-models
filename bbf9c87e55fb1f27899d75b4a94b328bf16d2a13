@@ -206,6 +206,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7950ad4_d1db191f",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiCqResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2189fbe_2b0f8f60",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 38
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "410ba962_46e0d7bd",
@@ -243,6 +267,30 @@
       "side": 1,
       "message": "I will remove this.",
       "parentUuid": "410ba962_46e0d7bd",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e8b6b02_ff6eb79a",
+        "filename": "models-interactions/model-impl/aai/src/main/java/org/onap/policy/aai/AaiManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3ba79be_356222d2",
       "range": {
         "startLine": 52,
         "startChar": 4,
@@ -300,6 +348,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23dc5be9_0f2c4d30",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "874e7816_8fc1ae59",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da390fe5_439d6570",
@@ -337,6 +409,30 @@
       "side": 1,
       "message": "Same as above. I will take another look at these warnings.",
       "parentUuid": "da390fe5_439d6570",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a1b6dc4_80afeeed",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81dba1b7_3e0fa7d9",
       "range": {
         "startLine": 55,
         "startChar": 59,
@@ -394,6 +490,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01dfc9b8_1526ec4d",
+        "filename": "models-interactions/model-impl/events/src/main/java/org/onap/policy/controlloop/ControlLoopEvent.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9596d79_d0c10177",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 66
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0018c331_319f4a3b",
@@ -441,6 +561,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2e7a217_a0bfa6bc",
+        "filename": "models-interactions/model-impl/sdnr/src/test/java/org/onap/policy/sdnr/PciResponseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0c011cd_d7a81170",
+      "range": {
+        "startLine": 70,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29863420_8fd26daf",
@@ -478,6 +622,30 @@
       "side": 1,
       "message": "Same as above.",
       "parentUuid": "29863420_8fd26daf",
+      "range": {
+        "startLine": 45,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8d6fa2e_5bf925b2",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b36cefe_727b06b4",
       "range": {
         "startLine": 45,
         "startChar": 54,
@@ -652,6 +820,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af15f45_adfdd52e",
+        "filename": "models-provider/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7354b5c_e96015dd",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 97,
+        "endChar": 36
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a877a113_7c977b2f",
@@ -675,6 +867,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "595054bd_e9671f23",
+        "filename": "models-tosca/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a877a113_7c977b2f",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 87,
+        "endChar": 36
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49c977b6_5ad0a39b",
@@ -688,6 +904,30 @@
       "writtenOn": "2024-08-07T15:55:57Z",
       "side": 1,
       "message": "this should be replaced by MockitoAnnotations.openMocks(this);\n\nOR\n\nvar mockKey \u003d Mock.mock(PfConceptKey.class);",
+      "range": {
+        "startLine": 46,
+        "startChar": 8,
+        "endLine": 46,
+        "endChar": 24
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91a2fe10_8f75111a",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaCapabilityAssignmentsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49c977b6_5ad0a39b",
       "range": {
         "startLine": 46,
         "startChar": 8,

@@ -41,6 +41,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "828dc053_42452eea",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Request.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73ece66c_21b63d52",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "b46e9884c946fe012d4b6494a2d95f66cf2b0a10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c0128be_ed9527c7",
@@ -54,6 +78,30 @@
       "writtenOn": "2024-08-12T08:35:20Z",
       "side": 1,
       "message": "NOSONAR to be removed",
+      "range": {
+        "startLine": 55,
+        "startChar": 59,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "b46e9884c946fe012d4b6494a2d95f66cf2b0a10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b9818a_4c86cc9c",
+        "filename": "models-interactions/model-impl/appc/src/main/java/org/onap/policy/appc/Response.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c0128be_ed9527c7",
       "range": {
         "startLine": 55,
         "startChar": 59,
@@ -87,6 +135,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c50ebb_704fbd4b",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequest3gpp.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39d0cacd_cb71fa1c",
+      "range": {
+        "startLine": 45,
+        "startChar": 54,
+        "endLine": 45,
+        "endChar": 63
+      },
+      "revId": "b46e9884c946fe012d4b6494a2d95f66cf2b0a10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0784027b_20d1a0e6",
@@ -100,6 +172,30 @@
       "writtenOn": "2024-08-12T08:35:20Z",
       "side": 1,
       "message": "NOSONAR to be removed",
+      "range": {
+        "startLine": 44,
+        "startChar": 54,
+        "endLine": 44,
+        "endChar": 63
+      },
+      "revId": "b46e9884c946fe012d4b6494a2d95f66cf2b0a10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b9cdfc7_7a552181",
+        "filename": "models-interactions/model-impl/so/src/main/java/org/onap/policy/so/SoRequestCll.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:56:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0784027b_20d1a0e6",
       "range": {
         "startLine": 44,
         "startChar": 54,
