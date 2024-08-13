@@ -165,6 +165,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cca7af4e_7c70eac8",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfUtils.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-13T07:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c15904ae_8592cc62",
+      "range": {
+        "startLine": 117,
+        "startChar": 74,
+        "endLine": 117,
+        "endChar": 83
+      },
+      "revId": "674ff199e4aebbd3e9ec2d72c408d045a167a0bc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49b9504f_f8ed45f6",
