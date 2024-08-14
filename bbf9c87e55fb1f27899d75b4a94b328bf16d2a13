@@ -65,6 +65,30 @@
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d6eba61_0ca3c525",
+        "filename": "models-base/src/main/java/org/onap/policy/models/base/PfConceptFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-14T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4346fa4b_31265682",
+      "range": {
+        "startLine": 57,
+        "startChar": 47,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9156b334_a0bf0757",
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "There seem to be quiet a few TODO comments in models about refactoring code. I will remove the NOSONAR and we could take this refactoring work in another JIRA.",
       "parentUuid": "9156b334_a0bf0757",
+      "range": {
+        "startLine": 49,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 41
+      },
+      "revId": "bbf9c87e55fb1f27899d75b4a94b328bf16d2a13",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58492d88_4a6a627f",
+        "filename": "models-interactions/model-actors/actor.so/src/main/java/org/onap/policy/controlloop/actor/so/RestManagerResponse.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7603
+      },
+      "writtenOn": "2024-08-14T12:44:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9447aba2_02b16987",
       "range": {
         "startLine": 49,
         "startChar": 4,
