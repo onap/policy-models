@@ -22,6 +22,30 @@
       },
       "revId": "7310231d28a33215ab10ace26005ed42800496fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4521ff34_18d13800",
+        "filename": "models-tosca/src/test/java/org/onap/policy/models/tosca/simple/concepts/JpaToscaRequirementTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 6722
+      },
+      "writtenOn": "2024-08-15T13:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12365ad7_565f7c1c",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 58
+      },
+      "revId": "7310231d28a33215ab10ace26005ed42800496fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
