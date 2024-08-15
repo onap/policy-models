@@ -42,6 +42,7 @@ import org.onap.aai.domain.yang.Vserver;
 
 public class AaiCqResponse implements Serializable {
     private static final long serialVersionUID = 1L;
+    public static final String CONTEXT_KEY = AaiConstants.CONTEXT_PREFIX + "AaiCqResponse";
     public static final String OPERATION = "CustomQuery";
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
