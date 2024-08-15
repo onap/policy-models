@@ -21,21 +21,26 @@
 package org.onap.policy.models.tosca.simple.concepts;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.onap.policy.models.base.PfConceptKey;
+import org.onap.policy.models.tosca.authorative.concepts.ToscaRequirement;
 
 class JpaToscaRequirementTest {
 
     @Mock
     private PfConceptKey mockKey;
-    @Mock
-    private List<Integer> mockOccurrences;
+
+    private List<Integer> occurrences = new ArrayList<>();
 
     private JpaToscaRequirement jpaToscaRequirementUnderTest;
 
@@ -45,12 +50,33 @@ class JpaToscaRequirementTest {
     void setUp() {
         mockitoCloseable = openMocks(this);
         jpaToscaRequirementUnderTest = new JpaToscaRequirement(mockKey);
-        jpaToscaRequirementUnderTest.setOccurrences(mockOccurrences);
+        when(mockKey.getName()).thenReturn("testName");
+        when(mockKey.getVersion()).thenReturn("1.0.0");
+        occurrences.add(1);
+        jpaToscaRequirementUnderTest.setOccurrences(occurrences);
     }
 
     @AfterEach
     void tearDown() throws Exception {
         mockitoCloseable.close();
+    }
+
+    @Test
+    void testConstructor() {
+        JpaToscaRequirement requirementCopy = new JpaToscaRequirement(jpaToscaRequirementUnderTest);
+        assertNotNull(requirementCopy);
+
+        ToscaRequirement req = new ToscaRequirement();
+        req.setNode("nodeTest");
+        req.setCapability("capabilityTest");
+        List<Object> testOccurrences = new ArrayList<>();
+        testOccurrences.add(1);
+        req.setOccurrences(testOccurrences);
+        req.setName("nameTest");
+        req.setType("testType");
+        req.setTypeVersion("1.0.0");
+        requirementCopy = new JpaToscaRequirement(req);
+        assertNotNull(requirementCopy);
     }
 
     @Test
@@ -67,10 +93,29 @@ class JpaToscaRequirementTest {
         jpaToscaRequirementUnderTest.setRelationship(relationship);
         assertThat(jpaToscaRequirementUnderTest.getRelationship()).isEqualTo(relationship);
 
-        assertThat(jpaToscaRequirementUnderTest.getOccurrences()).isEqualTo(mockOccurrences);
+        assertThat(jpaToscaRequirementUnderTest.getOccurrences()).isEqualTo(occurrences);
 
         assertThat(jpaToscaRequirementUnderTest.toString())
             .hasToString("JpaToscaRequirement(capability=capability, node=node, relationship=relationship, "
-                + "occurrences=mockOccurrences)");
+                + "occurrences=[1])");
+    }
+
+    @Test
+    void testToAuthorative() {
+        ToscaRequirement toAuthoritiveReq = jpaToscaRequirementUnderTest.toAuthorative();
+        assertNotNull(toAuthoritiveReq);
+    }
+
+    @Test
+    void testDeserialize() {
+        assertNotNull(jpaToscaRequirementUnderTest.deserializePropertyValue("occurences"));
+    }
+
+    @Test
+    void testClean() {
+        jpaToscaRequirementUnderTest.setCapability("capabilityTestValue");
+        jpaToscaRequirementUnderTest.setNode("nodeTestValue");
+        jpaToscaRequirementUnderTest.setRelationship("relationshipTestValue");
+        assertThatCode(() -> jpaToscaRequirementUnderTest.clean()).doesNotThrowAnyException();
     }
 }
