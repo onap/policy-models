@@ -24,10 +24,13 @@ package org.onap.policy.aai;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.aai.domain.yang.CloudRegion;
@@ -41,11 +44,16 @@ import org.onap.aai.domain.yang.VfModule;
 import org.onap.aai.domain.yang.Vserver;
 
 public class AaiCqResponse implements Serializable {
+
+    @Serial
     private static final long serialVersionUID = 1L;
+    public static final String CONTEXT_KEY = AaiConstants.CONTEXT_PREFIX + "AaiCqResponse"; // NOSONAR used in pdps
     public static final String OPERATION = "CustomQuery";
     private static final String GENERIC_VNF = "generic-vnf";
     private static final String VF_MODULE = "vf-module";
 
+    @Getter
+    @Setter
     @SerializedName("results")
     private List<Serializable> inventoryResponseItems = new LinkedList<>();
 
@@ -164,14 +172,6 @@ public class AaiCqResponse implements Serializable {
             var modelVer = gson.fromJson(json, ModelVer.class);
             this.inventoryResponseItems.add(modelVer);
         }
-    }
-
-    public List<Serializable> getInventoryResponseItems() {
-        return inventoryResponseItems;
-    }
-
-    public void setInventoryResponseItems(List<Serializable> inventoryResponseItems) {
-        this.inventoryResponseItems = inventoryResponseItems;
     }
 
     /**
@@ -360,25 +360,7 @@ public class AaiCqResponse implements Serializable {
         List<Relationship> relations = vserver.getRelationshipList().getRelationship();
 
         // Find the relationship of the genericVNF
-        var genericVnfId = "";
-        List<RelationshipData> relationshipData = null;
-
-        // Iterate through the list of relationships and get generic vnf
-        // relationship data
-        for (Relationship r : relations) {
-            // Get the name of generic-vnf related to this server
-            if (GENERIC_VNF.equals(r.getRelatedTo())) {
-                relationshipData = r.getRelationshipData();
-            }
-        }
-
-        // Iterate through relationship data, and get vnf-id
-        for (RelationshipData rd : relationshipData) {
-            // Get the id of the generic-vnf
-            if ("generic-vnf.vnf-id".equals(rd.getRelationshipKey())) {
-                genericVnfId = rd.getRelationshipValue();
-            }
-        }
+        var genericVnfId = getGenericVnfId(relations, GENERIC_VNF, "generic-vnf.vnf-id");
 
         // Get the list of generic vnfs
         List<GenericVnf> genericVnfList = this.getGenericVnfs();
@@ -390,6 +372,29 @@ public class AaiCqResponse implements Serializable {
         }
 
         return genericVnf;
+    }
+
+    private static String getGenericVnfId(List<Relationship> relations, String genericVnf, String x) {
+        var genericVnfId = "";
+        List<RelationshipData> relationshipData = new ArrayList<>();
+
+        // Iterate through the list of relationships and get generic vnf
+        // relationship data
+        for (Relationship r : relations) {
+            // Get the name of generic-vnf related to this server
+            if (genericVnf.equals(r.getRelatedTo())) {
+                relationshipData = r.getRelationshipData();
+            }
+        }
+
+        // Iterate through relationship data, and get vnf-id
+        for (RelationshipData rd : relationshipData) {
+            // Get the id of the generic-vnf
+            if (x.equals(rd.getRelationshipKey())) {
+                genericVnfId = rd.getRelationshipValue();
+            }
+        }
+        return genericVnfId;
     }
 
     /**
@@ -408,25 +413,7 @@ public class AaiCqResponse implements Serializable {
         List<Relationship> relations = vserver.getRelationshipList().getRelationship();
 
         // Find the relationship of VfModule
-        var vfModuleId = "";
-        List<RelationshipData> relationshipData = null;
-
-        // Iterate through the list of relationships and get vf module
-        // relationship data
-        for (Relationship r : relations) {
-            // Get relationship data of vfmodule related to this server
-            if (VF_MODULE.equals(r.getRelatedTo())) {
-                relationshipData = r.getRelationshipData();
-            }
-        }
-
-        // Iterate through relationship data, and get vf-module-id
-        for (RelationshipData rd : relationshipData) {
-            // Get the id of the vf-module
-            if ("vf-module.vf-module-id".equals(rd.getRelationshipKey())) {
-                vfModuleId = rd.getRelationshipValue();
-            }
-        }
+        var vfModuleId = getGenericVnfId(relations, VF_MODULE, "vf-module.vf-module-id");
 
         // Get the generic VNF associated with this vserver query
         genericVnf = this.getDefaultGenericVnf();
