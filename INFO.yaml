@@ -31,11 +31,6 @@ repositories:
     - 'policy/models'
 committers:
     - <<: *onap_releng_ptl
-    - name: 'Pamela Dragosh'
-      email: 'pd1248@att.com'
-      company: 'ATT'
-      id: 'pdragosh'
-      timezone: 'America/New_York'
     - name: 'Jorge Hernandez'
       email: 'jorge.hernandez-herrero@att.com'
       company: 'ATT'
@@ -46,6 +41,11 @@ committers:
       company: 'Bell Canada'
       id: 'ramverma'
       timezone: 'America/Montreal'
+    - name: 'Liam Fallon'
+      email: 'liam.fallon@est.tech'
+      id: 'liamfallon'
+      company: 'Ericsson'
+      timezone: 'Europe/Ireland'
     - name: 'Ramesh Murugan Iyer'
       email: 'ramesh.murugan.iyer@est.tech'
       company: 'Ericsson'
@@ -89,3 +89,7 @@ tsc:
         - type: 'Addition'
           name: 'Adheli Tavares'
           link: https://lists.onap.org/g/onap-tsc/message/9296
+          #Stepped Down
+        - type: 'Removal'
+          name: 'Pamela Dragosh'
+          link: https://lists.onap.org/g/onap-tsc/message/9550
