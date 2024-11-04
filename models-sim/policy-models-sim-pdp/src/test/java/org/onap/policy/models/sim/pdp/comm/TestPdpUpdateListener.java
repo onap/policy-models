@@ -25,7 +25,6 @@ package org.onap.policy.models.sim.pdp.comm;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
 import org.onap.policy.models.pdp.concepts.PdpUpdate;
@@ -109,7 +108,7 @@ class TestPdpUpdateListener {
         pdpUpdateMsg.setPdpGroup("pdpGroup");
         pdpUpdateMsg.setPdpSubgroup("pdpSubgroup");
         pdpUpdateMsg.setName(pdpStatus.getName());
-        pdpUpdateMsg.setPdpHeartbeatIntervalMs(Long.valueOf(3000));
+        pdpUpdateMsg.setPdpHeartbeatIntervalMs(3000L);
         final ToscaPolicy toscaPolicy = new ToscaPolicy();
         toscaPolicy.setType("apexpolicytype");
         toscaPolicy.setVersion("1.0");
@@ -117,8 +116,7 @@ class TestPdpUpdateListener {
         final Map<String, Object> propertiesMap = new LinkedHashMap<>();
         String properties;
         try {
-            properties = new String(Files.readAllBytes(Paths.get("src\\test\\resources\\dummyProperties.json")),
-                    StandardCharsets.UTF_8);
+            properties = Files.readString(Paths.get("src\\test\\resources\\dummyProperties.json"));
             propertiesMap.put("content", properties);
         } catch (final IOException e) {
             propertiesMap.put("content", "");

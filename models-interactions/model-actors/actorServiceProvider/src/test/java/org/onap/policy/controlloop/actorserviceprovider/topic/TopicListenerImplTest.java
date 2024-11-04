@@ -30,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +39,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
@@ -86,8 +87,8 @@ class TopicListenerImplTest {
         assertNotNull(forwarder2);
         assertNotSame(forwarder1, forwarder2);
 
-        forwarder1.register(Arrays.asList(VALUEA_REQID), listener1);
-        forwarder1.register(Arrays.asList(VALUEB_REQID), listener1b);
+        forwarder1.register(List.of(VALUEA_REQID), listener1);
+        forwarder1.register(List.of(VALUEB_REQID), listener1b);
         forwarder2.register(Arrays.asList(VALUEA_REQID, VALUEA_SUBREQID), listener2);
     }
 

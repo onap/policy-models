@@ -25,7 +25,6 @@ package org.onap.policy.models.sim.pdp.comm;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -35,7 +34,7 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpStateChange;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
@@ -125,8 +124,7 @@ class TestPdpStateChangeListener {
 
         String properties;
         try {
-            properties = new String(Files.readAllBytes(Paths.get("src\\test\\resources\\dummyProperties.json")),
-                    StandardCharsets.UTF_8);
+            properties = Files.readString(Paths.get("src\\test\\resources\\dummyProperties.json"));
             propertiesMap.put("content", properties);
         } catch (final IOException e) {
             propertiesMap.put("content", "");

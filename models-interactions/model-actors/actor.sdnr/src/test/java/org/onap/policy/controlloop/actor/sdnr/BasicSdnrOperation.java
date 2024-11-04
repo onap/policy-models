@@ -29,10 +29,9 @@ import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import java.util.function.BiConsumer;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.event.comm.TopicSource;
+import org.onap.policy.common.message.bus.event.TopicSink;
+import org.onap.policy.common.message.bus.event.TopicSource;
 import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.controlloop.actor.test.BasicBidirectionalTopicOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -123,15 +122,14 @@ abstract class BasicSdnrOperation extends BasicBidirectionalTopicOperation<PciMe
      *
      * @param listener listener to which to provide the response
      * @param code response code
-     * @param description response description
      */
-    protected void provideResponse(BiConsumer<String, StandardCoderObject> listener, int code, String description) {
-        PciResponse response = new PciResponse();
+    protected void provideResponse(BiConsumer<String, StandardCoderObject> listener, int code) {
+        PciResponse pciResponse = new PciResponse();
 
         Status status = new Status();
-        response.setStatus(status);
+        pciResponse.setStatus(status);
         status.setCode(code);
 
-        provideResponse(listener, Util.translate("", response, String.class));
+        provideResponse(listener, Util.translate("", pciResponse, String.class));
     }
 }

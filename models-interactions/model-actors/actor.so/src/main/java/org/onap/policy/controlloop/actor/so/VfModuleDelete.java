@@ -39,9 +39,9 @@ import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.utils.NetLoggerUtil.EventType;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.ControlLoopOperationParams;
@@ -102,7 +102,7 @@ public class VfModuleDelete extends SoOperation {
 
         // @formatter:off
         return handleResponse(outcome, url,
-            callback -> delete(url, headers, MediaType.APPLICATION_JSON, strRequest, callback));
+            callback -> delete(url, headers,  strRequest, callback));
         // @formatter:on
     }
 
@@ -111,21 +111,20 @@ public class VfModuleDelete extends SoOperation {
      * HttpClient, as the JerseyClient does not support it. This will add the content-type
      * and authorization headers, so they should not be included within "headers".
      *
-     * @param uri URI suffix, to be appended to the URI prefix
-     * @param headers headers to be included
-     * @param contentType content type of the request
-     * @param request request to be posted
+     * @param uri      URI suffix, to be appended to the URI prefix
+     * @param headers  headers to be included
+     * @param request  request to be posted
      * @param callback response callbacks
      * @return a future to await the response. Note: it's untested whether canceling this
      *         future will actually cancel the underlying HTTP request
      */
-    protected CompletableFuture<Response> delete(String uri, Map<String, Object> headers, String contentType,
-                    String request, InvocationCallback<Response> callback) {
+    protected CompletableFuture<Response> delete(String uri, Map<String, Object> headers,
+                                                 String request, InvocationCallback<Response> callback) {
 
         final String url = getClient().getBaseUrl() + uri;
 
         var builder = HttpRequest.newBuilder(URI.create(url));
-        builder = builder.header("Content-type", contentType);
+        builder = builder.header("Content-type", MediaType.APPLICATION_JSON);
         builder = addAuthHeader(builder);
 
         for (Entry<String, Object> header : headers.entrySet()) {

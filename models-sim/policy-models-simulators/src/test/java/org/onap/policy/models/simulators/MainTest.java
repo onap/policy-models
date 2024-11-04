@@ -25,6 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,12 +46,12 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientConfigException;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.internal.JettyJerseyServer;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.network.NetworkUtil;
@@ -67,7 +68,7 @@ class MainTest {
      * Saves system properties.
      */
     @BeforeAll
-    public static void setUpBeforeClass() throws IOException, InterruptedException {
+    public static void setUpBeforeClass() throws IOException {
         savedValues = new HashMap<>();
 
         for (String prop : List.of(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME,
@@ -233,9 +234,7 @@ class MainTest {
 
         RuntimeException ex = queue.poll(5, TimeUnit.SECONDS);
         assertNotNull(ex);
-        assertTrue(ex.getCause() instanceof IllegalStateException);
+        assertInstanceOf(IllegalStateException.class, ex.getCause());
         assertThat(ex.getCause()).hasMessageStartingWith("interrupted while building");
     }
-
-
 }

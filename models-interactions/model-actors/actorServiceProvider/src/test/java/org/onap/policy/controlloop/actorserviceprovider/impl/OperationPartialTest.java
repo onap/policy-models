@@ -60,8 +60,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -1063,9 +1063,7 @@ class OperationPartialTest {
      * @param expectedCallbacks number of callbacks expected
      * @param expectedOperations number of operation invocations expected
      * @param expectedResult expected outcome
-     * @param manipulator function to modify the future returned by
-     *        {@link OperationPartial#start(ControlLoopOperationParams)} before the tasks
-     *        in the executor are run
+     * @param manipulator function to modify the future returned before the tasks in the executor are run
      */
     private void verifyRun(String testName, int expectedCallbacks, int expectedOperations,
             OperationResult expectedResult, Consumer<CompletableFuture<OperationOutcome>> manipulator) {

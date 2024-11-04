@@ -37,7 +37,6 @@
             <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-pdp</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models</groupId>
@@ -51,9 +50,39 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
+            <artifactId>common-parameters</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
             <artifactId>utils-test</artifactId>
             <version>${policy.common.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
