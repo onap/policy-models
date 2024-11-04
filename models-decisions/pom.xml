@@ -37,7 +37,6 @@
             <groupId>org.onap.policy.common</groupId>
             <artifactId>gson</artifactId>
             <version>${policy.common.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models</groupId>
@@ -49,6 +48,19 @@
             <artifactId>utils-test</artifactId>
             <version>${policy.common.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>com.openpojo</groupId>

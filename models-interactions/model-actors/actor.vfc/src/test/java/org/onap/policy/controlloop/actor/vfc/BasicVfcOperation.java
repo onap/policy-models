@@ -24,9 +24,9 @@ package org.onap.policy.controlloop.actor.vfc;
 import static org.mockito.Mockito.lenient;
 
 import org.mockito.Mock;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.parameters.HttpPollingConfig;
 import org.onap.policy.simulators.Util;

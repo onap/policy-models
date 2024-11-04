@@ -37,9 +37,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -47,7 +47,7 @@ import org.onap.policy.models.decisions.concepts.DecisionRequest;
 import org.onap.policy.models.decisions.concepts.DecisionResponse;
 
 @ExtendWith(MockitoExtension.class)
- class ConfigureOperationTest extends BasicHttpOperation {
+class ConfigureOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;
@@ -61,17 +61,17 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
      * Starts the simulator.
      */
     @BeforeAll
-     static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() throws Exception {
         org.onap.policy.simulators.Util.buildXacmlSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
-                        .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
-                        .build();
+            .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
+            .build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
     }
 
     @AfterAll
-     static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -80,7 +80,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
      * Sets up.
      */
     @BeforeEach
-     void setUp() {
+    void setUp() {
         super.setUpBasic();
 
         operConfig = mock(DecisionConfig.class);
@@ -102,7 +102,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
     }
 
     @Test
-     void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
@@ -111,13 +111,13 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
      * Tests "success" case with simulator.
      */
     @Test
-     void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         DecisionParams opParams =
-                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("configure").build();
+            DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("configure").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().payload(Map.of("policy-id", "test-policy")).retry(0).timeoutSec(5)
-                        .executor(blockingExecutor).build();
+            .executor(blockingExecutor).build();
         oper = new ConfigureOperation(params, config);
 
         outcome = oper.start().get();
@@ -133,13 +133,13 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
      * Tests "failure" case with simulator.
      */
     @Test
-     void testFailure() throws Exception {
+    void testFailure() throws Exception {
         DecisionParams opParams =
-                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("configure").build();
+            DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("configure").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().payload(Map.of("policy-id", "nonexistent")).retry(0).timeoutSec(5)
-                        .executor(blockingExecutor).build();
+            .executor(blockingExecutor).build();
         oper = new ConfigureOperation(params, config);
 
         outcome = oper.start().get();

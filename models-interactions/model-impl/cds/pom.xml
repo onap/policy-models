@@ -34,21 +34,32 @@
     <description>gRPC client implementation to send process message to CDS blueprint processor gRPC endpoint.
     </description>
 
-    <properties>
-        <grpc.version>1.29.0</grpc.version>
-    </properties>
-
     <dependencies>
         <!-- CDS dependencies -->
         <dependency>
             <groupId>org.onap.ccsdk.cds.blueprintsprocessor.modules</groupId>
             <artifactId>blueprint-proto</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-stub</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-testing</artifactId>
-            <version>${grpc.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!-- Policy dependencies -->
@@ -59,13 +70,16 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
-            <artifactId>policy-endpoints</artifactId>
+            <artifactId>message-bus</artifactId>
             <version>${policy.common.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>utils</artifactId>
-            <version>${policy.common.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>

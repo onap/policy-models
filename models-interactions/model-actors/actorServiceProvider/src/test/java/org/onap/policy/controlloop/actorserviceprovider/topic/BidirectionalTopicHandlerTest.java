@@ -31,17 +31,18 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.TopicEndpoint;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.event.comm.TopicSource;
-import org.onap.policy.common.endpoints.event.comm.client.BidirectionalTopicClientException;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.TopicEndpoint;
+import org.onap.policy.common.message.bus.event.TopicSink;
+import org.onap.policy.common.message.bus.event.TopicSource;
+import org.onap.policy.common.message.bus.event.client.BidirectionalTopicClientException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -69,8 +70,8 @@ class BidirectionalTopicHandlerTest {
      */
     @BeforeEach
     void setUp() throws BidirectionalTopicClientException {
-        when(mgr.getTopicSinks(MY_SINK)).thenReturn(Arrays.asList(publisher));
-        when(mgr.getTopicSources(Arrays.asList(MY_SOURCE))).thenReturn(Arrays.asList(subscriber));
+        when(mgr.getTopicSinks(MY_SINK)).thenReturn(List.of(publisher));
+        when(mgr.getTopicSources(List.of(MY_SOURCE))).thenReturn(List.of(subscriber));
 
         when(publisher.getTopicCommInfrastructure()).thenReturn(CommInfrastructure.NOOP);
 
