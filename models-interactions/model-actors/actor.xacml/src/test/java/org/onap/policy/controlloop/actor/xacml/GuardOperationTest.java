@@ -40,9 +40,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
@@ -52,7 +52,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.XacmlSimulatorJaxRs;
 
 @ExtendWith(MockitoExtension.class)
- class GuardOperationTest extends BasicHttpOperation {
+class GuardOperationTest extends BasicHttpOperation {
 
     @Mock
     private Consumer<OperationOutcome> started;
@@ -66,17 +66,17 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Starts the simulator.
      */
     @BeforeAll
-     static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() throws Exception {
         org.onap.policy.simulators.Util.buildXacmlSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
-                        .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
-                        .build();
+            .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
+            .build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
     }
 
     @AfterAll
-     static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -85,7 +85,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Sets up.
      */
     @BeforeEach
-     void setUp() {
+    void setUp() {
         super.setUpBasic();
 
         guardConfig = mock(DecisionConfig.class);
@@ -110,9 +110,9 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Tests "success" case with simulator.
      */
     @Test
-     void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         DecisionParams opParams =
-                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
+            DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
@@ -127,13 +127,13 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Tests "failure" case with simulator.
      */
     @Test
-     void testFailure() throws Exception {
+    void testFailure() throws Exception {
         DecisionParams opParams =
-                        DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
+            DecisionParams.builder().clientName(MY_CLIENT).path("decision").action("guard").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
-                        .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
+            .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
         oper = new GuardOperation(params, config);
 
         outcome = oper.start().get();
@@ -142,18 +142,18 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
     }
 
     @Test
-     void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
 
     @Test
-     void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEmpty();
     }
 
     @Test
-     void testMakeRequest() throws CoderException {
+    void testMakeRequest() throws CoderException {
         oper.generateSubRequestId(2);
 
         verifyPayload("makeReqStd.json", makePayload());
@@ -182,7 +182,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
     }
 
     @Test
-     void testPostProcessResponse() {
+    void testPostProcessResponse() {
         DecisionResponse response = new DecisionResponse();
 
         // null status

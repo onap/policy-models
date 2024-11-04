@@ -74,6 +74,12 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>message-bus</artifactId>
+            <version>${policy.common.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
             <artifactId>actor.test</artifactId>
             <version>${project.version}</version>

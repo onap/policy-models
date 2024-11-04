@@ -27,6 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -68,18 +69,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams.TopicParamsBuilder;
 import org.onap.policy.common.endpoints.http.client.HttpClient;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactory;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServer;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
 import org.onap.policy.common.endpoints.properties.PolicyEndPointProperties;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
 import org.onap.policy.common.gson.GsonMessageBodyHandler;
-import org.onap.policy.common.utils.coder.CoderException;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
+import org.onap.policy.common.parameters.topic.BusTopicParams.TopicParamsBuilder;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -122,8 +122,8 @@ class HttpOperationTest {
     @Mock
     private Executor executor;
 
-    private ControlLoopOperationParams params;
-    private OperationOutcome outcome;
+    private ControlLoopOperationParams operationParams;
+    private OperationOutcome operationOutcome;
     private AtomicReference<InvocationCallback<Response>> callback;
     private Future<Response> future;
     private HttpConfig config;
@@ -133,7 +133,7 @@ class HttpOperationTest {
      * Starts the simulator.
      */
     @BeforeAll
-   void setUpBeforeClass() throws Exception {
+    void setUpBeforeClass() throws Exception {
         // allocate a port
         int port = NetworkUtil.allocPort();
 
@@ -141,7 +141,7 @@ class HttpOperationTest {
          * Start the simulator. Must use "Properties" to configure it, otherwise the
          * server will use the wrong serialization provider.
          */
-        Properties svrprops = getServerProperties("my-server", port);
+        Properties svrprops = getServerProperties(port);
         HttpServletServerFactoryInstance.getServerFactory().build(svrprops).forEach(HttpServletServer::start);
 
         if (!NetworkUtil.isTcpPortOpen("localhost", port, 100, 100)) {
@@ -157,14 +157,14 @@ class HttpOperationTest {
         HttpClientFactoryInstance.getClientFactory().build(builder.clientName(HTTP_CLIENT).port(port).build());
 
         HttpClientFactoryInstance.getClientFactory()
-                        .build(builder.clientName(HTTP_NO_SERVER).port(NetworkUtil.allocPort()).build());
+            .build(builder.clientName(HTTP_NO_SERVER).port(NetworkUtil.allocPort()).build());
     }
 
     /**
      * Destroys the Http factories and stops the appender.
      */
     @AfterAll
-   static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -174,7 +174,7 @@ class HttpOperationTest {
      * the REST server.
      */
     @BeforeEach
-   void setUp() {
+    void setUp() {
         rejectRequest = false;
         nget = 0;
         npost = 0;
@@ -184,41 +184,42 @@ class HttpOperationTest {
         Mockito.lenient().when(response.readEntity(String.class)).thenReturn(TEXT);
         Mockito.lenient().when(response.getStatus()).thenReturn(200);
 
-        params = ControlLoopOperationParams.builder().actor(ACTOR).operation(OPERATION).requestId(REQ_ID).build();
+        operationParams = ControlLoopOperationParams.builder().actor(ACTOR)
+            .operation(OPERATION).requestId(REQ_ID).build();
 
-        outcome = params.makeOutcome();
+        operationOutcome = operationParams.makeOutcome();
 
         callback = new AtomicReference<>();
         future = new CompletableFuture<>();
 
         Mockito.lenient().when(clientFactory.get(any())).thenReturn(client);
 
-        initConfig(HTTP_CLIENT);
+        initConfig();
 
         oper = new MyGetOperation<>(String.class);
     }
 
     @Test
-   void testHttpOperator() {
+    void testHttpOperator() {
         assertEquals(ACTOR, oper.getActorName());
         assertEquals(OPERATION, oper.getName());
         assertEquals(ACTOR + "." + OPERATION, oper.getFullName());
     }
 
     @Test
-   void testMakeHeaders() {
+    void testMakeHeaders() {
         assertEquals(Collections.emptyMap(), oper.makeHeaders());
     }
 
     @Test
-   void testGetPath() {
+    void testGetPath() {
         assertEquals(PATH, oper.getPath());
     }
 
     @Test
-   void testMakeUrl() {
+    void testMakeUrl() {
         // use a real client
-        initRealConfig(HTTP_CLIENT);
+        initRealConfig();
 
         oper = new MyGetOperation<>(String.class);
 
@@ -226,7 +227,7 @@ class HttpOperationTest {
     }
 
     @Test
-   void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
+    void testDoConfigureMapOfStringObject_testGetClient_testGetPath_testGetTimeoutMs() {
 
         // use value from operator
         assertEquals(1000L, oper.getTimeoutMs(null));
@@ -240,8 +241,8 @@ class HttpOperationTest {
      * Tests handleResponse() when it completes.
      */
     @Test
-   void testHandleResponseComplete() throws Exception {
-        CompletableFuture<OperationOutcome> future2 = oper.handleResponse(outcome, PATH, cb -> {
+    void testHandleResponseComplete() throws Exception {
+        CompletableFuture<OperationOutcome> future2 = oper.handleResponse(operationOutcome, PATH, cb -> {
             callback.set(cb);
             return future;
         });
@@ -250,18 +251,18 @@ class HttpOperationTest {
         assertNotNull(callback.get());
         callback.get().completed(response);
 
-        assertSame(outcome, future2.get(5, TimeUnit.SECONDS));
-        assertSame(TEXT, outcome.getResponse());
+        assertSame(operationOutcome, future2.get(5, TimeUnit.SECONDS));
+        assertSame(TEXT, operationOutcome.getResponse());
 
-        assertEquals(OperationResult.SUCCESS, outcome.getResult());
+        assertEquals(OperationResult.SUCCESS, operationOutcome.getResult());
     }
 
     /**
      * Tests handleResponse() when it fails.
      */
     @Test
-   void testHandleResponseFailed() {
-        CompletableFuture<OperationOutcome> future2 = oper.handleResponse(outcome, PATH, cb -> {
+    void testHandleResponseFailed() {
+        CompletableFuture<OperationOutcome> future2 = oper.handleResponse(operationOutcome, PATH, cb -> {
             callback.set(cb);
             return future;
         });
@@ -282,11 +283,11 @@ class HttpOperationTest {
      */
     @Test
     void testProcessResponseSuccessString() throws Exception {
-        CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
+        CompletableFuture<OperationOutcome> result = oper.processResponse(operationOutcome, PATH, response);
         assertTrue(result.isDone());
-        assertSame(outcome, result.get());
-        assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertSame(TEXT, outcome.getResponse());
+        assertSame(operationOutcome, result.get());
+        assertEquals(OperationResult.SUCCESS, operationOutcome.getResult());
+        assertSame(TEXT, operationOutcome.getResponse());
     }
 
     /**
@@ -295,11 +296,11 @@ class HttpOperationTest {
     @Test
     void testProcessResponseFailure() throws Exception {
         when(response.getStatus()).thenReturn(555);
-        CompletableFuture<OperationOutcome> result = oper.processResponse(outcome, PATH, response);
+        CompletableFuture<OperationOutcome> result = oper.processResponse(operationOutcome, PATH, response);
         assertTrue(result.isDone());
-        assertSame(outcome, result.get());
-        assertEquals(OperationResult.FAILURE, outcome.getResult());
-        assertSame(TEXT, outcome.getResponse());
+        assertSame(operationOutcome, result.get());
+        assertEquals(OperationResult.FAILURE, operationOutcome.getResult());
+        assertSame(TEXT, operationOutcome.getResponse());
     }
 
     /**
@@ -311,11 +312,11 @@ class HttpOperationTest {
 
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
-        CompletableFuture<OperationOutcome> result = oper2.processResponse(outcome, PATH, response);
+        CompletableFuture<OperationOutcome> result = oper2.processResponse(operationOutcome, PATH, response);
         assertTrue(result.isDone());
-        assertSame(outcome, result.get());
-        assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertEquals(Integer.valueOf(10), outcome.getResponse());
+        assertSame(operationOutcome, result.get());
+        assertEquals(OperationResult.SUCCESS, operationOutcome.getResult());
+        assertEquals(Integer.valueOf(10), operationOutcome.getResponse());
     }
 
     /**
@@ -325,12 +326,12 @@ class HttpOperationTest {
     void testProcessResponseDecodeExcept() {
         MyGetOperation<Integer> oper2 = new MyGetOperation<>(Integer.class);
 
-        assertThatIllegalArgumentException().isThrownBy(() -> oper2.processResponse(outcome, PATH, response));
+        assertThatIllegalArgumentException().isThrownBy(() -> oper2.processResponse(operationOutcome, PATH, response));
     }
 
     @Test
     void testPostProcessResponse() {
-        assertThatCode(() -> oper.postProcessResponse(outcome, PATH, null, null)).doesNotThrowAnyException();
+        assertThatCode(() -> oper.postProcessResponse(operationOutcome, PATH, null, null)).doesNotThrowAnyException();
     }
 
     @Test
@@ -348,7 +349,7 @@ class HttpOperationTest {
     @Test
     void testGet() throws Exception {
         // use a real client
-        initRealConfig(HTTP_CLIENT);
+        initRealConfig();
 
         MyGetOperation<MyResponse> oper2 = new MyGetOperation<>(MyResponse.class);
 
@@ -356,7 +357,7 @@ class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, nget);
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof MyResponse);
+        assertInstanceOf(MyResponse.class, outcome.getResponse());
     }
 
     /**
@@ -365,7 +366,7 @@ class HttpOperationTest {
     @Test
     void testDelete() throws Exception {
         // use a real client
-        initRealConfig(HTTP_CLIENT);
+        initRealConfig();
 
         MyDeleteOperation oper2 = new MyDeleteOperation();
 
@@ -373,7 +374,7 @@ class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, ndelete);
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof String);
+        assertInstanceOf(String.class, outcome.getResponse());
     }
 
     /**
@@ -382,14 +383,14 @@ class HttpOperationTest {
     @Test
     void testPost() throws Exception {
         // use a real client
-        initRealConfig(HTTP_CLIENT);
+        initRealConfig();
         MyPostOperation oper2 = new MyPostOperation();
 
         OperationOutcome outcome = runOperation(oper2);
         assertNotNull(outcome);
         assertEquals(1, npost);
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof MyResponse);
+        assertInstanceOf(MyResponse.class, outcome.getResponse());
     }
 
     /**
@@ -398,7 +399,7 @@ class HttpOperationTest {
     @Test
     void testPut() throws Exception {
         // use a real client
-        initRealConfig(HTTP_CLIENT);
+        initRealConfig();
 
         MyPutOperation oper2 = new MyPutOperation();
 
@@ -406,7 +407,7 @@ class HttpOperationTest {
         assertNotNull(outcome);
         assertEquals(1, nput);
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof MyResponse);
+        assertInstanceOf(MyResponse.class, outcome.getResponse());
     }
 
     @Test
@@ -417,15 +418,14 @@ class HttpOperationTest {
     /**
      * Gets server properties.
      *
-     * @param name server name
      * @param port server port
      * @return server properties
      */
-    private static Properties getServerProperties(String name, int port) {
+    private static Properties getServerProperties(int port) {
         final Properties props = new Properties();
-        props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, name);
+        props.setProperty(PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES, "my-server");
 
-        final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + name;
+        final String svcpfx = PolicyEndPointProperties.PROPERTY_HTTP_SERVER_SERVICES + "." + "my-server";
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_REST_CLASSES_SUFFIX, Server.class.getName());
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_HOST_SUFFIX, "localhost");
@@ -434,51 +434,45 @@ class HttpOperationTest {
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SWAGGER_SUFFIX, "false");
 
         props.setProperty(svcpfx + PolicyEndPointProperties.PROPERTY_HTTP_SERIALIZATION_PROVIDER,
-                        GsonMessageBodyHandler.class.getName());
+            GsonMessageBodyHandler.class.getName());
         return props;
     }
 
     /**
      * Initializes the configuration.
-     *
-     * @param clientName name of the client which it should use
      */
-    private void initConfig(String clientName) {
-        initConfig(clientName, clientFactory);
+    private void initConfig() {
+        initConfig(clientFactory);
     }
 
     /**
      * Initializes the configuration with a real client.
-     *
-     * @param clientName name of the client which it should use
      */
-    private void initConfig(String clientName, HttpClientFactory factory) {
-        HttpParams params = HttpParams.builder().clientName(clientName).path(PATH).timeoutSec(1).build();
+    private void initConfig(HttpClientFactory factory) {
+        HttpParams params = HttpParams.builder().clientName(HttpOperationTest.HTTP_CLIENT)
+            .path(PATH).timeoutSec(1).build();
         config = new HttpConfig(executor, params, factory);
     }
 
     /**
      * Initializes the configuration with a real client.
-     *
-     * @param clientName name of the client which it should use
      */
-    private void initRealConfig(String clientName) {
-        initConfig(clientName, HttpClientFactoryInstance.getClientFactory());
+    private void initRealConfig() {
+        initConfig(HttpClientFactoryInstance.getClientFactory());
     }
 
     /**
      * Runs the operation.
      *
      * @param operator operator on which to start the operation
-     * @return the outcome of the operation, or {@code null} if it does not complete in
-     *         time
+     * @return the outcome of the operation, or {@code null} if it does not complete in time
      */
     private <T> OperationOutcome runOperation(HttpOperation<T> operator)
-                    throws InterruptedException, ExecutionException, TimeoutException {
+        throws InterruptedException, ExecutionException, TimeoutException {
 
-        CompletableFuture<OperationOutcome> future = operator.start();
+        CompletableFuture<OperationOutcome> completableFuture = operator.start();
 
-        return future.get(5, TimeUnit.SECONDS);
+        return completableFuture.get(5, TimeUnit.SECONDS);
     }
 
     @Getter
@@ -495,7 +489,8 @@ class HttpOperationTest {
 
     private class MyGetOperation<T> extends HttpOperation<T> {
         MyGetOperation(Class<T> responseClass) {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, responseClass, Collections.emptyList());
+            super(HttpOperationTest.this.operationParams, HttpOperationTest.this.config,
+                responseClass, Collections.emptyList());
         }
 
         @Override
@@ -509,15 +504,15 @@ class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().get(callback, getPath(), headers));
+                invocationCallback -> getClient().get(invocationCallback, getPath(), headers));
             // @formatter:on
         }
     }
 
     private class MyPostOperation extends HttpOperation<MyResponse> {
         MyPostOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
-                            Collections.emptyList());
+            super(HttpOperationTest.this.operationParams, HttpOperationTest.this.config, MyResponse.class,
+                Collections.emptyList());
         }
 
         @Override
@@ -537,15 +532,15 @@ class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().post(callback, getPath(), entity, headers));
+                invocationCallback -> getClient().post(invocationCallback, getPath(), entity, headers));
             // @formatter:on
         }
     }
 
     private class MyPutOperation extends HttpOperation<MyResponse> {
         MyPutOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, MyResponse.class,
-                            Collections.emptyList());
+            super(HttpOperationTest.this.operationParams, HttpOperationTest.this.config, MyResponse.class,
+                Collections.emptyList());
         }
 
         @Override
@@ -565,14 +560,15 @@ class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().put(callback, getPath(), entity, headers));
+                invocationCallback -> getClient().put(invocationCallback, getPath(), entity, headers));
             // @formatter:on
         }
     }
 
     private class MyDeleteOperation extends HttpOperation<String> {
         MyDeleteOperation() {
-            super(HttpOperationTest.this.params, HttpOperationTest.this.config, String.class, Collections.emptyList());
+            super(HttpOperationTest.this.operationParams, HttpOperationTest.this.config,
+                String.class, Collections.emptyList());
         }
 
         @Override
@@ -586,7 +582,7 @@ class HttpOperationTest {
 
             // @formatter:off
             return handleResponse(outcome, url,
-                callback -> getClient().delete(callback, getPath(), headers));
+                invocationCallback -> getClient().delete(invocationCallback, getPath(), headers));
             // @formatter:on
         }
     }
