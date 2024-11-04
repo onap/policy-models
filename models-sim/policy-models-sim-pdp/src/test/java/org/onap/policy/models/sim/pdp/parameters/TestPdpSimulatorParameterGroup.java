@@ -25,12 +25,13 @@ package org.onap.policy.models.sim.pdp.parameters;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.endpoints.parameters.TopicParameterGroup;
 import org.onap.policy.common.parameters.ValidationResult;
+import org.onap.policy.common.parameters.topic.TopicParameterGroup;
 
 /**
  * Class to perform unit test of {@link PdpSimulatorParameterGroup}.
@@ -70,7 +71,7 @@ class TestPdpSimulatorParameterGroup {
                 .toObject(commonTestData.getPdpSimulatorParameterGroupMap(null), PdpSimulatorParameterGroup.class);
         final ValidationResult validationResult = pdpSimulatorParameters.validate();
         assertFalse(validationResult.isValid());
-        assertEquals(null, pdpSimulatorParameters.getName());
+        assertNull(pdpSimulatorParameters.getName());
         assertTrue(validationResult.getResult().contains("is null"));
     }
 

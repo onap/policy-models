@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2024 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,7 +24,7 @@ package org.onap.policy.models.sim.pdp.handler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
+import org.onap.policy.common.message.bus.event.TopicSink;
 import org.onap.policy.common.utils.services.Registry;
 import org.onap.policy.models.pdp.concepts.PdpResponseDetails;
 import org.onap.policy.models.pdp.concepts.PdpStatus;

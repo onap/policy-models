@@ -35,7 +35,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -51,7 +50,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.common.utils.coder.Coder;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
@@ -142,7 +141,7 @@ class BidirectionalTopicOperationTest {
         CompletableFuture<OperationOutcome> future = oper.startOperationAsync(1, outcome);
         assertFalse(future.isDone());
 
-        verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
+        verify(forwarder).register(eq(List.of(REQ_ID)), listenerCaptor.capture());
 
         verify(forwarder, never()).unregister(any(), any());
 
@@ -167,7 +166,7 @@ class BidirectionalTopicOperationTest {
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(response, outcome.getResponse());
 
-        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
+        verify(forwarder).unregister(List.of(REQ_ID), listenerCaptor.getValue());
     }
 
     /**
@@ -186,7 +185,7 @@ class BidirectionalTopicOperationTest {
         CompletableFuture<OperationOutcome> future = oper.startOperationAsync(1, outcome);
         assertFalse(future.isDone());
 
-        verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
+        verify(forwarder).register(eq(List.of(REQ_ID)), listenerCaptor.capture());
 
         verify(forwarder, never()).unregister(any(), any());
 
@@ -195,7 +194,7 @@ class BidirectionalTopicOperationTest {
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(future.isCompletedExceptionally());
 
-        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
+        verify(forwarder).unregister(List.of(REQ_ID), listenerCaptor.getValue());
     }
 
     /**
@@ -208,10 +207,10 @@ class BidirectionalTopicOperationTest {
 
         assertThatIllegalStateException().isThrownBy(() -> oper.startOperationAsync(1, outcome));
 
-        verify(forwarder).register(eq(Arrays.asList(REQ_ID)), listenerCaptor.capture());
+        verify(forwarder).register(eq(List.of(REQ_ID)), listenerCaptor.capture());
 
         // must still unregister
-        verify(forwarder).unregister(Arrays.asList(REQ_ID), listenerCaptor.getValue());
+        verify(forwarder).unregister(List.of(REQ_ID), listenerCaptor.getValue());
     }
 
     @Test
@@ -360,7 +359,7 @@ class BidirectionalTopicOperationTest {
     }
 
 
-    private class MyStringOperation extends BidirectionalTopicOperation<String, String> {
+    private static class MyStringOperation extends BidirectionalTopicOperation<String, String> {
 
         MyStringOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
             super(params, config, String.class, Collections.emptyList());
@@ -373,7 +372,7 @@ class BidirectionalTopicOperationTest {
 
         @Override
         protected List<String> getExpectedKeyValues(int attempt, String request) {
-            return Arrays.asList(REQ_ID);
+            return List.of(REQ_ID);
         }
 
         @Override
@@ -383,7 +382,7 @@ class BidirectionalTopicOperationTest {
     }
 
 
-    private class MyScoOperation extends BidirectionalTopicOperation<MyRequest, StandardCoderObject> {
+    private static class MyScoOperation extends BidirectionalTopicOperation<MyRequest, StandardCoderObject> {
         MyScoOperation(ControlLoopOperationParams params, BidirectionalTopicConfig config) {
             super(params, config, StandardCoderObject.class, Collections.emptyList());
         }
@@ -395,7 +394,7 @@ class BidirectionalTopicOperationTest {
 
         @Override
         protected List<String> getExpectedKeyValues(int attempt, MyRequest request) {
-            return Arrays.asList(REQ_ID);
+            return List.of(REQ_ID);
         }
 
         @Override
@@ -417,7 +416,7 @@ class BidirectionalTopicOperationTest {
 
         @Override
         protected List<String> getExpectedKeyValues(int attempt, MyRequest request) {
-            return Arrays.asList(REQ_ID);
+            return List.of(REQ_ID);
         }
 
         @Override

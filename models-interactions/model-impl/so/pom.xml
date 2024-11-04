@@ -34,20 +34,22 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>gson</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-            <artifactId>rest</artifactId>
-            <version>${project.version}</version>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.onap.policy.common</groupId>
-            <artifactId>policy-endpoints</artifactId>
-            <version>${policy.common.version}</version>
-            <scope>provided</scope>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>

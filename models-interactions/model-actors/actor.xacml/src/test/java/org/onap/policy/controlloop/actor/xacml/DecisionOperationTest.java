@@ -46,9 +46,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationResult;
@@ -60,7 +60,7 @@ import org.onap.policy.models.decisions.concepts.DecisionResponse;
 import org.onap.policy.simulators.XacmlSimulatorJaxRs;
 
 @ExtendWith(MockitoExtension.class)
- class DecisionOperationTest extends BasicHttpOperation {
+class DecisionOperationTest extends BasicHttpOperation {
     private static final List<String> PROPERTY_NAMES = List.of("prop-A", "prop-B");
 
     @Mock
@@ -75,17 +75,17 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Starts the simulator.
      */
     @BeforeAll
-     static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() throws Exception {
         org.onap.policy.simulators.Util.buildXacmlSim();
 
         BusTopicParams clientParams = BusTopicParams.builder().clientName(MY_CLIENT).basePath("policy/pdpx/v1/")
-                        .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
-                        .build();
+            .hostname("localhost").managed(true).port(org.onap.policy.simulators.Util.XACMLSIM_SERVER_PORT)
+            .build();
         HttpClientFactoryInstance.getClientFactory().build(clientParams);
     }
 
     @AfterAll
-     static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         HttpClientFactoryInstance.getClientFactory().destroy();
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
@@ -94,7 +94,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Sets up.
      */
     @BeforeEach
-     void setUp() {
+    void setUp() {
         super.setUpBasic();
 
         guardConfig = mock(DecisionConfig.class);
@@ -119,12 +119,12 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Tests with simulator.
      */
     @Test
-     void testSimulator() throws Exception {
+    void testSimulator() throws Exception {
         DecisionParams opParams = DecisionParams.builder().clientName(MY_CLIENT).path("decision").build();
         config = new DecisionConfig(blockingExecutor, opParams, HttpClientFactoryInstance.getClientFactory());
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor)
-                        .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
+            .payload(Map.of("clname", XacmlSimulatorJaxRs.DENY_CLNAME)).build();
         oper = new MyOper(params, config);
 
         outcome = oper.start().get();
@@ -133,18 +133,18 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
     }
 
     @Test
-     void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
 
     @Test
-     void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(PROPERTY_NAMES);
     }
 
     @Test
-     void testStartOperationAsync() throws Exception {
+    void testStartOperationAsync() throws Exception {
         CompletableFuture<OperationOutcome> future2 = oper.start();
         executor.runAll(100);
         assertFalse(future2.isDone());
@@ -171,7 +171,7 @@ import org.onap.policy.simulators.XacmlSimulatorJaxRs;
      * Tests startOperationAsync() when the guard is disabled.
      */
     @Test
-     void testStartOperationAsyncDisabled() throws Exception {
+    void testStartOperationAsyncDisabled() throws Exception {
         // indicate that it's disabled
         when(guardConfig.isDisabled()).thenReturn(true);
 

@@ -23,6 +23,7 @@ package org.onap.policy.controlloop.actor.sdnc;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,11 +31,10 @@ import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import org.mockito.Mockito;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.common.utils.coder.CoderException;
 import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
@@ -126,7 +126,7 @@ abstract class BasicSdncOperation extends BasicHttpOperation {
 
         outcome = future2.get();
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
-        assertTrue(outcome.getResponse() instanceof SdncResponse);
+        assertInstanceOf(SdncResponse.class, outcome.getResponse());
 
         assertNotNull(outcome.getSubRequestId());
 

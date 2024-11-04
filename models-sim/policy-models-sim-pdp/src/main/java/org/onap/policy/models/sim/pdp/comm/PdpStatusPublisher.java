@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019, 2023 Nordix Foundation.
+ *  Copyright (C) 2019, 2023-2024 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import lombok.Getter;
-import org.onap.policy.common.endpoints.event.comm.TopicSink;
-import org.onap.policy.common.endpoints.event.comm.client.TopicSinkClient;
+import org.onap.policy.common.message.bus.event.TopicSink;
+import org.onap.policy.common.message.bus.event.client.TopicSinkClient;
 import org.onap.policy.models.pdp.concepts.PdpStatus;
 import org.onap.policy.models.sim.pdp.handler.PdpMessageHandler;
 import org.slf4j.Logger;

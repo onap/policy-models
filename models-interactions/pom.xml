@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-   Copyright (C) 2019 Nordix Foundation.
+   Copyright (C) 2019, 2024 Nordix Foundation.
    Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,6 +33,9 @@
 
     <properties>
         <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
+        <grpc.version>1.29.0</grpc.version>
+        <aai.version>1.12.5</aai.version>
+        <protobuf-java.version>3.10.0</protobuf-java.version>
     </properties>
 
     <modules>
@@ -40,4 +43,61 @@
         <module>model-impl</module>
         <module>model-actors</module>
     </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.onap.aai.schema-service</groupId>
+                <artifactId>aai-schema</artifactId>
+                <version>${aai.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.javaparser</groupId>
+                        <artifactId>javaparser</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.googlecode.json-simple</groupId>
+                        <artifactId>json-simple</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-core</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-api</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-netty</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-testing</artifactId>
+                <version>${grpc.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf-java.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf-java.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
 </project>

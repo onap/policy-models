@@ -1,8 +1,9 @@
 /*-
- * ============LICENSE_START=======================================================
+ * ============LICENSE_START=============================================================
  * Copyright (C) 2019-2021 Bell Canada.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
+ * Modifications Copyright (C) 2024 Nordix Foundation.
+ * ======================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -28,9 +29,9 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessin
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
 import org.onap.policy.cds.api.CdsProcessorListener;
-import org.onap.policy.common.endpoints.event.comm.Topic.CommInfrastructure;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil;
-import org.onap.policy.common.endpoints.utils.NetLoggerUtil.EventType;
+import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
+import org.onap.policy.common.message.bus.utils.NetLoggerUtil;
+import org.onap.policy.common.message.bus.utils.NetLoggerUtil.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +60,7 @@ public class CdsProcessorHandler {
             @Override
             public void onError(Throwable throwable) {
                 LOGGER.info(LOG_MSG, EventType.IN, CommInfrastructure.REST, url, NetLoggerUtil.SYSTEM_LS,
-                                throwable);
+                                throwable.getMessage());
                 listener.onError(throwable);
                 finishLatch.countDown();
             }

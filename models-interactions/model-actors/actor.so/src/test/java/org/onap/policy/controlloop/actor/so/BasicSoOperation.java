@@ -29,9 +29,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.mockito.Mock;
-import org.onap.policy.common.endpoints.event.comm.bus.internal.BusTopicParams;
 import org.onap.policy.common.endpoints.http.client.HttpClientFactoryInstance;
 import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInstance;
+import org.onap.policy.common.parameters.topic.BusTopicParams;
 import org.onap.policy.controlloop.actor.test.BasicHttpOperation;
 import org.onap.policy.controlloop.actorserviceprovider.TargetType;
 import org.onap.policy.controlloop.actorserviceprovider.Util;
@@ -167,9 +167,9 @@ abstract class BasicSoOperation extends BasicHttpOperation {
         payload.put(SoOperation.REQ_PARAM_NM, Util.translate("", reqParams, String.class));
 
         // config parameters
-        List<Map<String, String>> config = new LinkedList<>();
-        config.add(Collections.emptyMap());
-        payload.put(SoOperation.CONFIG_PARAM_NM, Util.translate("", config, String.class));
+        List<Map<String, String>> configLinkedList = new LinkedList<>();
+        configLinkedList.add(Collections.emptyMap());
+        payload.put(SoOperation.CONFIG_PARAM_NM, Util.translate("", configLinkedList, String.class));
 
         return payload;
     }

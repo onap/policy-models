@@ -248,7 +248,7 @@ class VfModuleDeleteTest extends BasicSoOperation {
         String reqText = oper.prettyPrint(req);
 
         final CompletableFuture<Response> delFuture =
-            oper.delete("my-uri", headers, MediaType.APPLICATION_JSON, reqText, callback);
+            oper.delete("my-uri", headers, reqText, callback);
 
         ArgumentCaptor<HttpRequest> reqCaptor = ArgumentCaptor.forClass(HttpRequest.class);
         verify(javaClient).sendAsync(reqCaptor.capture(), any());
@@ -290,7 +290,7 @@ class VfModuleDeleteTest extends BasicSoOperation {
         String reqText = oper.prettyPrint(req);
 
         CompletableFuture<Response> delFuture =
-            oper.delete("/my-uri", Map.of(), MediaType.APPLICATION_JSON, reqText, callback);
+            oper.delete("/my-uri", Map.of(), reqText, callback);
 
         assertTrue(delFuture.isCompletedExceptionally());
 

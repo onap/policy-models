@@ -41,6 +41,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.models</groupId>
+            <artifactId>policy-models-dao</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.models</groupId>
             <artifactId>policy-models-tosca</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -51,8 +56,39 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
+            <artifactId>gson</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
             <artifactId>utils-test</artifactId>
             <version>${policy.common.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

@@ -49,6 +49,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>
+            <artifactId>message-bus</artifactId>
+            <version>${policy.common.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.policy.common</groupId>
             <artifactId>utils-test</artifactId>
             <version>${policy.common.version}</version>
             <scope>test</scope>
