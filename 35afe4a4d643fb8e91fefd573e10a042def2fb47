@@ -39,6 +39,30 @@
       },
       "revId": "35afe4a4d643fb8e91fefd573e10a042def2fb47",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0a2b6ed_b63ff4a9",
+        "filename": "models-interactions/model-actors/actorServiceProvider/src/test/java/org/onap/policy/controlloop/actorserviceprovider/impl/BidirectionalTopicOperationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2024-11-07T09:46:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0952877c_498ffca7",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "35afe4a4d643fb8e91fefd573e10a042def2fb47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
