@@ -33,7 +33,6 @@
 
     <properties>
         <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
-        <grpc.version>1.29.0</grpc.version>
         <aai.version>1.12.5</aai.version>
         <protobuf-java.version>3.10.0</protobuf-java.version>
     </properties>
@@ -60,32 +59,6 @@
                         <artifactId>json-simple</artifactId>
                     </exclusion>
                 </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-core</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-stub</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-api</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-netty</artifactId>
-                <version>${grpc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.grpc</groupId>
-                <artifactId>grpc-testing</artifactId>
-                <version>${grpc.version}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.google.protobuf</groupId>

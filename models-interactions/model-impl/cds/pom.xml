@@ -39,27 +39,12 @@
         <dependency>
             <groupId>org.onap.ccsdk.cds.blueprintsprocessor.modules</groupId>
             <artifactId>blueprint-proto</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-stub</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.grpc</groupId>
-            <artifactId>grpc-netty</artifactId>
         </dependency>
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-testing</artifactId>
+            <version>1.29.0</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- Policy dependencies -->
