@@ -1,0 +1,11 @@
+Code-Review+1: Saul Gill <saul.gill@est.tech>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Code-Review+2: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Adam Kenihan <adam.kenihan@est.tech>
+Submitted-by: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-at: Tue, 12 Nov 2024 12:32:05 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/139377
+Project: policy/models
+Branch: refs/heads/master
