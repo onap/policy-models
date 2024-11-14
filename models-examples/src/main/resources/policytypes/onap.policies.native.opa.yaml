@@ -1,0 +1,20 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+  onap.policies.Native:
+    derived_from: tosca.policies.Root
+    description: a base policy type for all native PDP policies
+    version: 1.0.0
+    name: onap.policies.Native
+  onap.policies.native.opa:
+    derived_from: onap.policies.Native
+    version: 1.0.0
+    name: onap.policies.native.opa
+    description: a policy type for native opa policies
+    properties:
+      policy:
+        type: string
+        type_version: 0.0.0
+        description: The rego PolicySet or Policy
+        required: true
+        metadata:
+          encoding: Base64
