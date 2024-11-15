@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4b51ef1_82104d8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2024-11-15T09:58:16Z",
+      "side": 1,
+      "message": "From the next review, Please try to add the username in the Signed-off-by field. Thanks",
+      "revId": "4a47d6ff832ba6df66eaabe9acea2f0e37ae18b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
