@@ -1,0 +1,9 @@
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Liam Fallon <liam.fallon@est.tech>
+Submitted-by: Liam Fallon <liam.fallon@est.tech>
+Submitted-at: Wed, 20 Nov 2024 09:00:13 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/139482
+Project: policy/models
+Branch: refs/heads/master
