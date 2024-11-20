@@ -1,0 +1,388 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+policy_types:
+  onap.policies.native.ToscaXacml:
+    derived_from: tosca.policies.Root
+    version: 1.0.0
+    name: onap.policies.native.ToscaXacml
+    description: Generic TOSCA Policy Type for XACML
+    properties:
+      description:
+        type: string
+      combiningAlgo:
+        type: string
+      appliesTo:
+        type: onap.datatypes.AppliesToType
+      rules:
+        type: list
+        items:
+          anyOf:
+            type: onap.datatypes.RuleType
+data_types:
+  onap.datatypes.FunctionType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    required:
+      - operator
+      - keys
+    properties:
+      operator:
+        type: onap.datatypes.OperatorType
+      keys:
+        type: list
+        items:
+          oneOf:
+            - type: string
+            - type: onap.datatypes.ConditionType
+      compareWith:
+        type: onap.datatypes.CompareType
+  onap.datatypes.ConditionType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    required:
+      - function
+    properties:
+      function:
+        type: onap.datatypes.FunctionType
+  onap.datatypes.RuleType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.1
+    type: object
+    required:
+      - decision
+    properties:
+      description:
+        type: string
+      appliesTo:
+        type: onap.datatypes.AppliesToType
+      condition:
+        type: onap.datatypes.ConditionType
+      advice:
+        type: string
+      decision:
+        type: onap.datatypes.DecisionType
+  onap.datatypes.OperatorType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: string
+    enum:
+      - string-equal
+      - boolean-equal
+      - integer-equal
+      - double-equal
+      - date-equal
+      - time-equal
+      - dateTime-equal
+      - dayTimeDuration-equal
+      - yearonthDuration-equal
+      - string-equal-ignore-case
+      - anyURI-equal
+      - x500Name-equal
+      - rfc822Name-equal
+      - hexBinary-equal
+      - base64Binary-equal
+      - integer-add
+      - double-add
+      - integer-subtract
+      - double-subtract
+      - integer-multiply
+      - double-multiply
+      - integer-divide
+      - double-divide
+      - integer-mod
+      - integer-abs
+      - double-abs
+      - round
+      - floor
+      - string-normalize-space
+      - string-normalize-to-lower-case
+      - double-to-integer
+      - integer-to-double
+      - or
+      - and
+      - n-of
+      - not
+      - integer-greater-than
+      - integer-greater-than-or-equal
+      - integer-less-than
+      - integer-less-than-or-equal
+      - double-greater-than
+      - double-greater-than-or-equal
+      - double-less-than
+      - double-less-than-or-equal
+      - dateTime-add-dayTimeDuration
+      - dateTime-add-yearonthDuration
+      - dateTime-subtract-dayTimeDuration
+      - dateTime-subtract-yearonthDuration
+      - date-add-yearonthDuration
+      - date-subtract-yearonthDuration
+      - string-greater-than
+      - string-greater-than-or-equal
+      - string-less-than
+      - string-less-than-or-equal
+      - time-greater-than
+      - time-greater-than-or-equal
+      - time-less-than
+      - time-less-than-or-equal
+      - time-in-range
+      - dateTime-greater-than
+      - dateTime-greater-than-or-equal
+      - dateTime-less-than
+      - dateTime-less-than-or-equal
+      - date-greater-than
+      - date-greater-than-or-equal
+      - date-less-than
+      - date-less-than-or-equal
+      - string-one-and-only
+      - string-bag-size
+      - string-is-in
+      - string-bag
+      - boolean-one-and-only
+      - boolean-bag-size
+      - boolean-is-in
+      - boolean-bag
+      - integer-one-and-only
+      - integer-bag-size
+      - integer-is-in
+      - integer-bag
+      - double-one-and-only
+      - double-bag-size
+      - double-is-in
+      - double-bag
+      - time-one-and-only
+      - time-bag-size
+      - time-is-in
+      - time-bag
+      - date-one-and-only
+      - date-bag-size
+      - date-is-in
+      - date-bag
+      - dateTime-one-and-only
+      - dateTime-bag-size
+      - dateTime-is-in
+      - dateTime-bag
+      - anyURI-one-and-only
+      - anyURI-bag-size
+      - anyURI-is-in
+      - anyURI-bag
+      - hexBinary-one-and-only
+      - hexBinary-bag-size
+      - hexBinary-is-in
+      - hexBinary-bag
+      - base64Binary-one-and-only
+      - base64Binary-bag-size
+      - base64Binary-is-in
+      - base64Binary-bag
+      - dayTimeDuration-one-and-only
+      - dayTimeDuration-bag-size
+      - dayTimeDuration-is-in
+      - dayTimeDuration-bag
+      - yearonthDuration-one-and-only
+      - yearonthDuration-bag-size
+      - yearonthDuration-is-in
+      - yearonthDuration-bag
+      - x500Name-one-and-only
+      - x500Name-bag-size
+      - x500Name-is-in
+      - x500Name-bag
+      - rfc822Name-one-and-only
+      - rfc822Name-bag-size
+      - rfc822Name-is-in
+      - rfc822Name-bag
+      - ipAddress-one-and-only
+      - ipAddress-bag-size
+      - ipAddress-bag
+      - dnsName-one-and-only
+      - dnsName-bag-size
+      - dnsName-bag
+      - string-concatenate
+      - boolean-from-string
+      - string-from-boolean
+      - integer-from-string
+      - string-from-integer
+      - double-from-string
+      - string-from-double
+      - time-from-string
+      - string-from-time
+      - date-from-string
+      - string-from-date
+      - dateTime-from-string
+      - string-from-dateTime
+      - anyURI-from-string
+      - string-from-anyURI
+      - dayTimeDuration-from-string
+      - string-from-dayTimeDuration
+      - yearonthDuration-from-string
+      - string-from-yearonthDuration
+      - x500Name-from-string
+      - string-from-x500Name
+      - rfc822Name-from-string
+      - string-from-rfc822Name
+      - ipAddress-from-string
+      - string-from-ipAddress
+      - dnsName-from-string
+      - string-from-dnsName
+      - string-starts-with
+      - anyURI-starts-with
+      - string-ends-with
+      - anyURI-ends-with
+      - string-contains
+      - anyURI-contains
+      - string-substring
+      - anyURI-substring
+      - any-of
+      - all-of
+      - any-of-any
+      - all-of-any
+      - any-of-all
+      - all-of-all
+      - map
+      - x500Name-match
+      - rfc822Name-match
+      - string-regexp-match
+      - anyURI-regexp-match
+      - ipAddress-regexp-match
+      - dnsName-regexp-match
+      - rfc822Name-regexp-match
+      - x500Name-regexp-match
+      - xpath-node-count
+      - xpath-node-equal
+      - xpath-node-match
+      - string-intersection
+      - string-at-least-one-member-of
+      - string-union
+      - string-subset
+      - string-set-equals
+      - boolean-intersection
+      - boolean-at-least-one-member-of
+      - boolean-union
+      - boolean-subset
+      - boolean-set-equals
+      - integer-intersection
+      - integer-at-least-one-member-of
+      - integer-union
+      - integer-subset
+      - integer-set-equals
+      - double-intersection
+      - double-at-least-one-member-of
+      - double-union
+      - double-subset
+      - double-set-equals
+      - time-intersection
+      - time-at-least-one-member-of
+      - time-union
+      - time-subset
+      - time-set-equals
+      - date-intersection
+      - date-at-least-one-member-of
+      - date-union
+      - date-subset
+      - date-set-equals
+      - dateTime-intersection
+      - dateTime-at-least-one-member-of
+      - dateTime-union
+      - dateTime-subset
+      - dateTime-set-equals
+      - anyURI-intersection
+      - anyURI-at-least-one-member-of
+      - anyURI-union
+      - anyURI-subset
+      - anyURI-set-equals
+      - hexBinary-intersection
+      - hexBinary-at-least-one-member-of
+      - hexBinary-union
+      - hexBinary-subset
+      - hexBinary-set-equals
+      - base64Binary-intersection
+      - base64Binary-at-least-one-member-of
+      - base64Binary-union
+      - base64Binary-subset
+      - base64Binary-set-equals
+      - dayTimeDuration-intersection
+      - dayTimeDuration-at-least-one-member-of
+      - dayTimeDuration-union
+      - dayTimeDuration-subset
+      - dayTimeDuration-set-equals
+      - yearonthDuration-intersection
+      - yearonthDuration-at-least-one-member-of
+      - yearonthDuration-union
+      - yearonthDuration-subset
+      - yearonthDuration-set-equals
+      - x500Name-intersection
+      - x500Name-at-least-one-member-of
+      - x500Name-union
+      - x500Name-subset
+      - x500Name-set-equal
+      - rfc822Name-intersection
+      - rfc822Name-at-least-one-member-of
+      - rfc822Name-union
+      - rfc822Name-subset
+      - rfc822Name-set-equals
+      - access-permitted
+  onap.datatypes.DecisionType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: string
+    enum:
+      - Permit
+      - Deny
+  onap.datatypes.CompareType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    oneOf:
+      - type: onap.datatypes.ValueType
+      - type: onap.datatypes.KeyType
+  onap.datatypes.ValueType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    required:
+      - value
+    properties:
+      value:
+        type: string
+  onap.datatypes.KeyType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    required:
+      - key
+    properties:
+      key:
+        type: string
+  onap.datatypes.AppliesToType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    properties:
+      anyOf:
+        type: list
+        items:
+          type: onap.datatypes.AnyOfType
+  onap.datatypes.AnyOfType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    required:
+      - allOf
+    properties:
+      allOf:
+        type: list
+        items:
+          type: onap.datatypes.AllOfType
+  onap.datatypes.AllOfType:
+    derived_from: tosca.datatypes.Root
+    version: 1.0.0
+    type: object
+    required:
+      - key
+      - operator
+      - value
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+      operator:
+        type: onap.datatypes.OperatorType
