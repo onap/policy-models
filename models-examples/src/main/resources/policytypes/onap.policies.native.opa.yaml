@@ -11,8 +11,15 @@ policy_types:
     name: onap.policies.native.opa
     description: a policy type for native opa policies
     properties:
+      data:
+        type: map
+        type_version: 0.0.0
+        description: The data for Policy
+        required: false
+        metadata:
+          encoding: Base64
       policy:
-        type: string
+        type: map
         type_version: 0.0.0
         description: The rego PolicySet or Policy
         required: true
