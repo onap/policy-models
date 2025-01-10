@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -118,7 +118,7 @@ class OperationPartialTest {
     private PseudoExecutor executor;
     private ControlLoopOperationParams params;
 
-    private MyOper oper;
+    private MyOper myOperation;
 
     private int numStart;
     private int numEnd;
@@ -156,7 +156,7 @@ class OperationPartialTest {
     }
 
     /**
-     * Initializes the fields, including {@link #oper}.
+     * Initializes the fields, including {@link #myOperation}.
      */
     @BeforeEach
     void setUp() {
@@ -168,7 +168,7 @@ class OperationPartialTest {
 
         config = new OperatorConfig(executor);
 
-        oper = new MyOper();
+        myOperation = new MyOper();
 
         tstart = null;
 
@@ -181,9 +181,9 @@ class OperationPartialTest {
 
     @Test
     void testOperatorPartial_testGetActorName_testGetName() {
-        assertEquals(ACTOR, oper.getActorName());
-        assertEquals(OPERATION, oper.getName());
-        assertEquals(ACTOR + "." + OPERATION, oper.getFullName());
+        assertEquals(ACTOR, myOperation.getActorName());
+        assertEquals(OPERATION, myOperation.getName());
+        assertEquals(ACTOR + "." + OPERATION, myOperation.getFullName());
     }
 
     @Test
@@ -205,24 +205,24 @@ class OperationPartialTest {
 
     @Test
      void testGetPropertyNames() {
-        assertThat(oper.getPropertyNames()).isEqualTo(PROP_NAMES);
+        assertThat(myOperation.getPropertyNames()).isEqualTo(PROP_NAMES);
     }
 
     @Test
      void testGetProperty_testSetProperty_testGetRequiredProperty() {
-        oper.setProperty("propertyA", "valueA");
-        oper.setProperty("propertyB", "valueB");
-        oper.setProperty("propertyC", 20);
-        oper.setProperty("propertyD", "valueD");
+        myOperation.setProperty("propertyA", "valueA");
+        myOperation.setProperty("propertyB", "valueB");
+        myOperation.setProperty("propertyC", 20);
+        myOperation.setProperty("propertyD", "valueD");
 
-        assertEquals("valueA", oper.getProperty("propertyA"));
-        assertEquals("valueB", oper.getProperty("propertyB"));
-        assertEquals(Integer.valueOf(20), oper.getProperty("propertyC"));
+        assertEquals("valueA", myOperation.getProperty("propertyA"));
+        assertEquals("valueB", myOperation.getProperty("propertyB"));
+        assertEquals(Integer.valueOf(20), myOperation.getProperty("propertyC"));
 
-        assertEquals("valueD", oper.getRequiredProperty("propertyD", "typeD"));
+        assertEquals("valueD", myOperation.getRequiredProperty("propertyD", "typeD"));
 
-        assertThatIllegalStateException().isThrownBy(() -> oper.getRequiredProperty("propertyUnknown", "some type"))
-                        .withMessage("missing some type");
+        assertThatIllegalStateException().isThrownBy(() ->
+                myOperation.getRequiredProperty("propertyUnknown", "some type")).withMessage("missing some type");
     }
 
     @Test
@@ -236,7 +236,7 @@ class OperationPartialTest {
     @Test
      void testStartMultiple() {
         for (int count = 0; count < MAX_PARALLEL; ++count) {
-            oper.start();
+            myOperation.start();
         }
 
         assertTrue(executor.runAll(MAX_REQUESTS * MAX_PARALLEL));
@@ -246,65 +246,65 @@ class OperationPartialTest {
         assertEquals(OperationResult.SUCCESS, opend.getResult());
 
         assertEquals(MAX_PARALLEL, numStart);
-        assertEquals(MAX_PARALLEL, oper.getCount());
+        assertEquals(MAX_PARALLEL, myOperation.getCount());
         assertEquals(MAX_PARALLEL, numEnd);
     }
 
     @Test
      void testStartOperationAsync() {
-        oper.start();
+        myOperation.start();
         assertTrue(executor.runAll(MAX_REQUESTS));
 
-        assertEquals(1, oper.getCount());
+        assertEquals(1, myOperation.getCount());
     }
 
     @Test
      void testIsSuccess() {
-        assertFalse(oper.isSuccess(null));
+        assertFalse(myOperation.isSuccess(null));
 
         OperationOutcome outcome = new OperationOutcome();
 
         outcome.setResult(OperationResult.SUCCESS);
-        assertTrue(oper.isSuccess(outcome));
+        assertTrue(myOperation.isSuccess(outcome));
 
         for (OperationResult failure : FAILURE_RESULTS) {
             outcome.setResult(failure);
-            assertFalse(oper.isSuccess(outcome), "testIsSuccess-" + failure);
+            assertFalse(myOperation.isSuccess(outcome), "testIsSuccess-" + failure);
         }
     }
 
     @Test
      void testIsActorFailed() {
-        assertFalse(oper.isActorFailed(null));
+        assertFalse(myOperation.isActorFailed(null));
 
         OperationOutcome outcome = params.makeOutcome();
 
         // incorrect outcome
         outcome.setResult(OperationResult.SUCCESS);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
 
         outcome.setResult(OperationResult.FAILURE_RETRIES);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
 
         // correct outcome
         outcome.setResult(OperationResult.FAILURE);
 
         // incorrect actor
         outcome.setActor(MY_SINK);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
         outcome.setActor(null);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
         outcome.setActor(ACTOR);
 
         // incorrect operation
         outcome.setOperation(MY_SINK);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
         outcome.setOperation(null);
-        assertFalse(oper.isActorFailed(outcome));
+        assertFalse(myOperation.isActorFailed(outcome));
         outcome.setOperation(OPERATION);
 
         // correct values
-        assertTrue(oper.isActorFailed(outcome));
+        assertTrue(myOperation.isActorFailed(outcome));
     }
 
     @Test
@@ -328,7 +328,7 @@ class OperationPartialTest {
         params = params.toBuilder().executor(ForkJoinPool.commonPool()).build();
 
         // trigger timeout very quickly
-        oper = new MyOper() {
+        myOperation = new MyOper() {
             @Override
             protected long getTimeoutMs(Integer timeoutSec) {
                 return 1;
@@ -353,7 +353,7 @@ class OperationPartialTest {
             }
         };
 
-        assertEquals(OperationResult.FAILURE_TIMEOUT, oper.start().get().getResult());
+        assertEquals(OperationResult.FAILURE_TIMEOUT, myOperation.start().get().getResult());
     }
 
     /**
@@ -364,9 +364,9 @@ class OperationPartialTest {
         params = params.toBuilder().retry(0).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        oper.setMaxFailures(10);
+        myOperation.setMaxFailures(10);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_ZeroRetries", 1, 1, OperationResult.FAILURE);
     }
@@ -379,9 +379,9 @@ class OperationPartialTest {
         params = params.toBuilder().retry(null).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        oper.setMaxFailures(10);
+        myOperation.setMaxFailures(10);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_NullRetries", 1, 1, OperationResult.FAILURE);
     }
@@ -395,9 +395,9 @@ class OperationPartialTest {
         params = params.toBuilder().retry(maxRetries).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        oper.setMaxFailures(10);
+        myOperation.setMaxFailures(10);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_RetriesExhausted", maxRetries + 1, maxRetries + 1,
                         OperationResult.FAILURE_RETRIES);
@@ -411,10 +411,10 @@ class OperationPartialTest {
         params = params.toBuilder().retry(10).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
         final int maxFailures = 3;
-        oper.setMaxFailures(maxFailures);
+        myOperation.setMaxFailures(maxFailures);
 
         verifyRun("testSetRetryFlag_testRetryOnFailure_SuccessAfterRetries", maxFailures + 1, maxFailures + 1,
                         OperationResult.SUCCESS);
@@ -427,7 +427,7 @@ class OperationPartialTest {
      void testSetRetryFlag_testRetryOnFailure_NullOutcome() {
 
         // arrange to return null from doOperation()
-        oper = new MyOper() {
+        myOperation = new MyOper() {
             @Override
             protected OperationOutcome doOperation(int attempt, OperationOutcome outcome) {
 
@@ -442,12 +442,12 @@ class OperationPartialTest {
 
     @Test
      void testSleep() throws Exception {
-        CompletableFuture<Void> future = oper.sleep(-1, TimeUnit.SECONDS);
+        CompletableFuture<Void> future = myOperation.sleep(-1, TimeUnit.SECONDS);
         assertTrue(future.isDone());
         assertNull(future.get());
 
         // edge case
-        future = oper.sleep(0, TimeUnit.SECONDS);
+        future = myOperation.sleep(0, TimeUnit.SECONDS);
         assertTrue(future.isDone());
         assertNull(future.get());
 
@@ -455,9 +455,9 @@ class OperationPartialTest {
          * Start a second sleep we can use to check the first while it's running.
          */
         tstart = Instant.now();
-        future = oper.sleep(100, TimeUnit.MILLISECONDS);
+        future = myOperation.sleep(100, TimeUnit.MILLISECONDS);
 
-        CompletableFuture<Void> future2 = oper.sleep(10, TimeUnit.MILLISECONDS);
+        CompletableFuture<Void> future2 = myOperation.sleep(10, TimeUnit.MILLISECONDS);
 
         // wait for second to complete and verify that the first has not completed
         future2.get();
@@ -472,31 +472,31 @@ class OperationPartialTest {
 
     @Test
      void testIsSameOperation() {
-        assertFalse(oper.isSameOperation(null));
+        assertFalse(myOperation.isSameOperation(null));
 
         OperationOutcome outcome = params.makeOutcome();
 
         // wrong actor - should be false
         outcome.setActor(null);
-        assertFalse(oper.isSameOperation(outcome));
+        assertFalse(myOperation.isSameOperation(outcome));
         outcome.setActor(MY_SINK);
-        assertFalse(oper.isSameOperation(outcome));
+        assertFalse(myOperation.isSameOperation(outcome));
         outcome.setActor(ACTOR);
 
         // wrong operation - should be null
         outcome.setOperation(null);
-        assertFalse(oper.isSameOperation(outcome));
+        assertFalse(myOperation.isSameOperation(outcome));
         outcome.setOperation(MY_SINK);
-        assertFalse(oper.isSameOperation(outcome));
+        assertFalse(myOperation.isSameOperation(outcome));
         outcome.setOperation(OPERATION);
 
-        assertTrue(oper.isSameOperation(outcome));
+        assertTrue(myOperation.isSameOperation(outcome));
     }
 
     @Test
      void testFromException() {
         // arrange to generate an exception when operation runs
-        oper.setGenException(true);
+        myOperation.setGenException(true);
 
         verifyRun("testFromException", 1, 1, OperationResult.FAILURE_EXCEPTION);
     }
@@ -520,11 +520,11 @@ class OperationPartialTest {
         final OperationOutcome outcome = params.makeOutcome();
 
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
-        tasks.add(() -> new CompletableFuture<>());
+        tasks.add(CompletableFuture::new);
         tasks.add(() -> null);
-        tasks.add(() -> new CompletableFuture<>());
+        tasks.add(CompletableFuture::new);
 
-        CompletableFuture<OperationOutcome> result = oper.anyOf(tasks);
+        CompletableFuture<OperationOutcome> result = myOperation.anyOf(tasks);
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
@@ -532,29 +532,29 @@ class OperationPartialTest {
         // repeat using array form
         @SuppressWarnings("unchecked")
         Supplier<CompletableFuture<OperationOutcome>>[] taskArray = new Supplier[tasks.size()];
-        result = oper.anyOf(tasks.toArray(taskArray));
+        result = myOperation.anyOf(tasks.toArray(taskArray));
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
 
         // second task completes, others do not
         tasks.clear();
-        tasks.add(() -> new CompletableFuture<>());
+        tasks.add(CompletableFuture::new);
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
-        tasks.add(() -> new CompletableFuture<>());
+        tasks.add(CompletableFuture::new);
 
-        result = oper.anyOf(tasks);
+        result = myOperation.anyOf(tasks);
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
 
         // third task completes, others do not
         tasks.clear();
-        tasks.add(() -> new CompletableFuture<>());
-        tasks.add(() -> new CompletableFuture<>());
+        tasks.add(CompletableFuture::new);
+        tasks.add(CompletableFuture::new);
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
 
-        result = oper.anyOf(tasks);
+        result = myOperation.anyOf(tasks);
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
@@ -569,15 +569,15 @@ class OperationPartialTest {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array
-        assertNull(oper.anyOf(tasks));
-        assertNull(oper.anyOf());
+        assertNull(myOperation.anyOf(tasks));
+        assertNull(myOperation.anyOf());
 
         // one item: : check both using a list and using an array
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         tasks.add(() -> future1);
 
-        assertSame(future1, oper.anyOf(tasks));
-        assertSame(future1, oper.anyOf(() -> future1));
+        assertSame(future1, myOperation.anyOf(tasks));
+        assertSame(future1, myOperation.anyOf(() -> future1));
     }
 
     @Test
@@ -590,7 +590,7 @@ class OperationPartialTest {
 
         @SuppressWarnings("unchecked")
         CompletableFuture<OperationOutcome> result =
-                        oper.allOf(() -> future1, () -> future2, () -> null, () -> future3);
+                        myOperation.allOf(() -> future1, () -> future2, () -> null, () -> future3);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertFalse(result.isDone());
@@ -625,7 +625,7 @@ class OperationPartialTest {
         tasks.add(() -> null);
         tasks.add(() -> future3);
 
-        CompletableFuture<OperationOutcome> result = oper.allOf(tasks);
+        CompletableFuture<OperationOutcome> result = myOperation.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertFalse(result.isDone());
@@ -655,15 +655,15 @@ class OperationPartialTest {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array
-        assertNull(oper.allOf(tasks));
-        assertNull(oper.allOf());
+        assertNull(myOperation.allOf(tasks));
+        assertNull(myOperation.allOf());
 
         // one item: : check both using a list and using an array
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         tasks.add(() -> future1);
 
-        assertSame(future1, oper.allOf(tasks));
-        assertSame(future1, oper.allOf(() -> future1));
+        assertSame(future1, myOperation.allOf(tasks));
+        assertSame(future1, myOperation.allOf(() -> future1));
     }
 
     @Test
@@ -681,7 +681,7 @@ class OperationPartialTest {
         });
         tasks.add(() -> future3);
 
-        assertThatIllegalStateException().isThrownBy(() -> oper.anyOf(tasks)).withMessage(EXPECTED_EXCEPTION);
+        assertThatIllegalStateException().isThrownBy(() -> myOperation.anyOf(tasks)).withMessage(EXPECTED_EXCEPTION);
 
         // should have canceled the first two, but not the last
         assertTrue(future1.isCancelled());
@@ -705,7 +705,7 @@ class OperationPartialTest {
         tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         tasks.add(() -> CompletableFuture.completedFuture(null));
         tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
-        CompletableFuture<OperationOutcome> result = oper.allOf(tasks);
+        CompletableFuture<OperationOutcome> result = myOperation.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
@@ -718,7 +718,7 @@ class OperationPartialTest {
         tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
         tasks.add(() -> CompletableFuture.failedFuture(except));
         tasks.add(() -> CompletableFuture.completedFuture(params.makeOutcome()));
-        result = oper.allOf(tasks);
+        result = myOperation.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isCompletedExceptionally());
@@ -738,7 +738,7 @@ class OperationPartialTest {
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
 
-        CompletableFuture<OperationOutcome> result = oper.sequence(tasks);
+        CompletableFuture<OperationOutcome> result = myOperation.sequence(tasks);
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
@@ -746,7 +746,7 @@ class OperationPartialTest {
         // repeat using array form
         @SuppressWarnings("unchecked")
         Supplier<CompletableFuture<OperationOutcome>>[] taskArray = new Supplier[tasks.size()];
-        result = oper.sequence(tasks.toArray(taskArray));
+        result = myOperation.sequence(tasks.toArray(taskArray));
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(outcome, result.get());
@@ -759,7 +759,7 @@ class OperationPartialTest {
         tasks.add(() -> CompletableFuture.completedFuture(failure));
         tasks.add(() -> CompletableFuture.completedFuture(outcome));
 
-        result = oper.sequence(tasks);
+        result = myOperation.sequence(tasks);
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
         assertSame(failure, result.get());
@@ -774,15 +774,15 @@ class OperationPartialTest {
         List<Supplier<CompletableFuture<OperationOutcome>>> tasks = new LinkedList<>();
 
         // zero items: check both using a list and using an array
-        assertNull(oper.sequence(tasks));
-        assertNull(oper.sequence());
+        assertNull(myOperation.sequence(tasks));
+        assertNull(myOperation.sequence());
 
         // one item: : check both using a list and using an array
         CompletableFuture<OperationOutcome> future1 = new CompletableFuture<>();
         tasks.add(() -> future1);
 
-        assertSame(future1, oper.sequence(tasks));
-        assertSame(future1, oper.sequence(() -> future1));
+        assertSame(future1, myOperation.sequence(tasks));
+        assertSame(future1, myOperation.sequence(() -> future1));
     }
 
     private void verifyOutcomes(int expected, OperationResult... results) throws Exception {
@@ -800,7 +800,7 @@ class OperationPartialTest {
             }
         }
 
-        CompletableFuture<OperationOutcome> result = oper.allOf(tasks);
+        CompletableFuture<OperationOutcome> result = myOperation.allOf(tasks);
 
         assertTrue(executor.runAll(MAX_REQUESTS));
         assertTrue(result.isDone());
@@ -809,7 +809,7 @@ class OperationPartialTest {
 
     @Test
      void testDetmPriority() throws CoderException {
-        assertEquals(1, oper.detmPriority(null));
+        assertEquals(1, myOperation.detmPriority(null));
 
         OperationOutcome outcome = params.makeOutcome();
 
@@ -819,7 +819,7 @@ class OperationPartialTest {
 
         for (Entry<OperationResult, Integer> ent : map.entrySet()) {
             outcome.setResult(ent.getKey());
-            assertEquals(ent.getValue().intValue(), oper.detmPriority(outcome), ent.getKey().toString());
+            assertEquals(ent.getValue().intValue(), myOperation.detmPriority(outcome), ent.getKey().toString());
         }
 
         /*
@@ -827,7 +827,7 @@ class OperationPartialTest {
          * won't allow it. Instead, we decode it from a structure.
          */
         outcome = new StandardCoder().decode("{\"result\":null}", OperationOutcome.class);
-        assertEquals(1, oper.detmPriority(outcome));
+        assertEquals(1, myOperation.detmPriority(outcome));
     }
 
     /**
@@ -841,15 +841,15 @@ class OperationPartialTest {
          * arrange to stop the controller when the start-callback is invoked, but capture
          * the outcome
          */
-        params = params.toBuilder().startCallback(oper -> {
-            starter(oper);
+        params = params.toBuilder().startCallback(outcome -> {
+            starter(outcome);
             future.get().cancel(false);
         }).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        future.set(oper.start());
+        future.set(myOperation.start());
         assertTrue(executor.runAll(MAX_REQUESTS));
 
         // should have only run once
@@ -864,14 +864,14 @@ class OperationPartialTest {
         AtomicReference<Future<OperationOutcome>> future = new AtomicReference<>();
 
         // arrange to stop the controller when the start-callback is invoked
-        params = params.toBuilder().startCallback(oper -> {
+        params = params.toBuilder().startCallback(outcome -> {
             future.get().cancel(false);
         }).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        future.set(oper.start());
+        future.set(myOperation.start());
         assertTrue(executor.runAll(MAX_REQUESTS));
 
         // should not have been set
@@ -886,12 +886,12 @@ class OperationPartialTest {
         OperationOutcome outcome;
 
         outcome = new OperationOutcome();
-        oper.setOutcome(outcome, timex);
+        myOperation.setOutcome(outcome, timex);
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());
         assertEquals(OperationResult.FAILURE_TIMEOUT, outcome.getResult());
 
         outcome = new OperationOutcome();
-        oper.setOutcome(outcome, new IllegalStateException(EXPECTED_EXCEPTION));
+        myOperation.setOutcome(outcome, new IllegalStateException(EXPECTED_EXCEPTION));
         assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage());
         assertEquals(OperationResult.FAILURE_EXCEPTION, outcome.getResult());
     }
@@ -901,17 +901,17 @@ class OperationPartialTest {
         OperationOutcome outcome;
 
         outcome = new OperationOutcome();
-        oper.setOutcome(outcome, OperationResult.SUCCESS);
+        myOperation.setOutcome(outcome, OperationResult.SUCCESS);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
 
-        oper.setOutcome(outcome, OperationResult.SUCCESS);
+        myOperation.setOutcome(outcome, OperationResult.SUCCESS);
         assertEquals(ControlLoopOperation.SUCCESS_MSG, outcome.getMessage());
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
 
         for (OperationResult result : FAILURE_RESULTS) {
             outcome = new OperationOutcome();
-            oper.setOutcome(outcome, result);
+            myOperation.setOutcome(outcome, result);
             assertEquals(ControlLoopOperation.FAILED_MSG, outcome.getMessage(), result.toString());
             assertEquals(result, outcome.getResult(), result.toString());
         }
@@ -919,22 +919,22 @@ class OperationPartialTest {
 
     @Test
      void testMakeOutcome() {
-        oper.setProperty(OperationProperties.AAI_TARGET_ENTITY, MY_TARGET_ENTITY);
-        assertEquals(MY_TARGET_ENTITY, oper.makeOutcome().getTarget());
+        myOperation.setProperty(OperationProperties.AAI_TARGET_ENTITY, MY_TARGET_ENTITY);
+        assertEquals(MY_TARGET_ENTITY, myOperation.makeOutcome().getTarget());
     }
 
     @Test
      void testIsTimeout() {
         final TimeoutException timex = new TimeoutException(EXPECTED_EXCEPTION);
 
-        assertFalse(oper.isTimeout(new IllegalStateException(EXPECTED_EXCEPTION)));
-        assertFalse(oper.isTimeout(new IllegalStateException(timex)));
-        assertFalse(oper.isTimeout(new CompletionException(new IllegalStateException(timex))));
-        assertFalse(oper.isTimeout(new CompletionException(null)));
-        assertFalse(oper.isTimeout(new CompletionException(new CompletionException(timex))));
+        assertFalse(myOperation.isTimeout(new IllegalStateException(EXPECTED_EXCEPTION)));
+        assertFalse(myOperation.isTimeout(new IllegalStateException(timex)));
+        assertFalse(myOperation.isTimeout(new CompletionException(new IllegalStateException(timex))));
+        assertFalse(myOperation.isTimeout(new CompletionException(null)));
+        assertFalse(myOperation.isTimeout(new CompletionException(new CompletionException(timex))));
 
-        assertTrue(oper.isTimeout(timex));
-        assertTrue(oper.isTimeout(new CompletionException(timex)));
+        assertTrue(myOperation.isTimeout(timex));
+        assertTrue(myOperation.isTimeout(new CompletionException(timex)));
     }
 
     @Test
@@ -943,7 +943,7 @@ class OperationPartialTest {
 
         // log structured data
         appender.clearExtractions();
-        oper.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, new MyData());
+        myOperation.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, new MyData());
         List<String> output = appender.getExtracted();
         assertEquals(1, output.size());
 
@@ -952,7 +952,7 @@ class OperationPartialTest {
 
         // repeat with a response
         appender.clearExtractions();
-        oper.logMessage(EventType.IN, SOURCE_INFRA, MY_SOURCE, new MyData());
+        myOperation.logMessage(EventType.IN, SOURCE_INFRA, MY_SOURCE, new MyData());
         output = appender.getExtracted();
         assertEquals(1, output.size());
 
@@ -961,14 +961,14 @@ class OperationPartialTest {
 
         // log a plain string
         appender.clearExtractions();
-        oper.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, TEXT);
+        myOperation.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, TEXT);
         output = appender.getExtracted();
         assertEquals(1, output.size());
         assertThat(output.get(0)).contains(infraStr).contains(MY_SINK).contains(TEXT);
 
         // log a null request
         appender.clearExtractions();
-        oper.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, null);
+        myOperation.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, null);
         output = appender.getExtracted();
         assertEquals(1, output.size());
 
@@ -978,7 +978,7 @@ class OperationPartialTest {
         setOperCoderException();
 
         appender.clearExtractions();
-        oper.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, new MyData());
+        myOperation.logMessage(EventType.OUT, SINK_INFRA, MY_SINK, new MyData());
         output = appender.getExtracted();
         assertEquals(2, output.size());
         assertThat(output.get(0)).contains("cannot pretty-print request");
@@ -986,7 +986,7 @@ class OperationPartialTest {
 
         // repeat with a response
         appender.clearExtractions();
-        oper.logMessage(EventType.IN, SOURCE_INFRA, MY_SOURCE, new MyData());
+        myOperation.logMessage(EventType.IN, SOURCE_INFRA, MY_SOURCE, new MyData());
         output = appender.getExtracted();
         assertEquals(2, output.size());
         assertThat(output.get(0)).contains("cannot pretty-print response");
@@ -995,8 +995,8 @@ class OperationPartialTest {
 
     @Test
      void testGetRetry() {
-        assertEquals(0, oper.getRetry(null));
-        assertEquals(10, oper.getRetry(10));
+        assertEquals(0, myOperation.getRetry(null));
+        assertEquals(10, myOperation.getRetry(10));
     }
 
     @Test
@@ -1008,14 +1008,14 @@ class OperationPartialTest {
 
     @Test
      void testGetTimeOutMs() {
-        assertEquals(TIMEOUT * 1000, oper.getTimeoutMs(params.getTimeoutSec()));
+        assertEquals(TIMEOUT * 1000, myOperation.getTimeoutMs(params.getTimeoutSec()));
 
         params = params.toBuilder().timeoutSec(null).build();
 
         // new params, thus need a new operation
-        oper = new MyOper();
+        myOperation = new MyOper();
 
-        assertEquals(0, oper.getTimeoutMs(params.getTimeoutSec()));
+        assertEquals(0, myOperation.getTimeoutMs(params.getTimeoutSec()));
     }
 
     private void starter(OperationOutcome oper) {
@@ -1074,7 +1074,7 @@ class OperationPartialTest {
         starts.clear();
         ends.clear();
 
-        CompletableFuture<OperationOutcome> future = oper.start();
+        CompletableFuture<OperationOutcome> future = myOperation.start();
 
         manipulator.accept(future);
 
@@ -1112,20 +1112,20 @@ class OperationPartialTest {
             }
 
             if (expectedOperations > 0) {
-                assertNotNull(testName, oper.getSubRequestId());
-                assertEquals(oper.getSubRequestId(), opstart.getSubRequestId(), testName + " op start");
-                assertEquals(oper.getSubRequestId(), opend.getSubRequestId(), testName + " op end");
+                assertNotNull(testName, myOperation.getSubRequestId());
+                assertEquals(myOperation.getSubRequestId(), opstart.getSubRequestId(), testName + " op start");
+                assertEquals(myOperation.getSubRequestId(), opend.getSubRequestId(), testName + " op end");
             }
         }
 
-        assertEquals(expectedOperations, oper.getCount(), testName);
+        assertEquals(expectedOperations, myOperation.getCount(), testName);
     }
 
     /**
-     * Creates a new {@link #oper} whose coder will throw an exception.
+     * Creates a new {@link #myOperation} whose coder will throw an exception.
      */
     private void setOperCoderException() {
-        oper = new MyOper() {
+        myOperation = new MyOper() {
             @Override
             protected Coder getCoder() {
                 return new StandardCoder() {
@@ -1141,7 +1141,7 @@ class OperationPartialTest {
 
     @Getter
     static class MyData {
-        private String text = TEXT;
+        private final String text = TEXT;
     }
 
 

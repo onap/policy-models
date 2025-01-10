@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.controlloop.actorserviceprovider.pipeline;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -253,7 +254,7 @@ class PipelineControllerFutureTest {
      void testNewIncompleteFuture() {
         PipelineControllerFuture<String> future = controller.newIncompleteFuture();
         assertNotNull(future);
-        assertTrue(future instanceof PipelineControllerFuture);
+        assertInstanceOf(PipelineControllerFuture.class, future);
         assertNotSame(controller, future);
         assertFalse(future.isDone());
     }
@@ -402,7 +403,7 @@ class PipelineControllerFutureTest {
         verify(controller, never()).remove(compFuture);
 
         compFuture.completeExceptionally(EXPECTED_EXCEPTION);
-        assertThatThrownBy(() -> future.get()).hasCause(EXPECTED_EXCEPTION);
+        assertThatThrownBy(future::get).hasCause(EXPECTED_EXCEPTION);
 
         verify(controller).remove(compFuture);
     }

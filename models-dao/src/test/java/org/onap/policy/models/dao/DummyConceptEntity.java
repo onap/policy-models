@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019, 2023 Nordix Foundation.
+ *  Copyright (C) 2019, 2023, 2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -73,14 +73,6 @@ public class DummyConceptEntity extends PfConcept {
         this.description = source.description;
     }
 
-    public DummyConceptEntity(final Double doubleValue) {
-        this.key = new PfConceptKey();
-    }
-
-    public DummyConceptEntity(final PfConceptKey key, final Double doubleValue) {
-        this.key = key;
-    }
-
     /**
      * Constructor.
      *
@@ -114,7 +106,7 @@ public class DummyConceptEntity extends PfConcept {
     }
 
     @Override
-    public int compareTo(final PfConcept otherObj) {
+    public int compareTo(final @NonNull PfConcept otherObj) {
         Assertions.argumentNotNull(otherObj, "comparison object may not be null");
 
         if (this == otherObj) {

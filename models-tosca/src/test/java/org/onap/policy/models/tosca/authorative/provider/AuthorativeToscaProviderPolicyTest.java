@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -459,9 +459,8 @@ class AuthorativeToscaProviderPolicyTest {
         ToscaDataType duplDataType = toscaServiceTemplatePolicyType.getDataTypes().values().iterator().next();
         toscaServiceTemplatePolicyType.getDataTypes().put("DuplicateDataType", duplDataType);
 
-        assertThatThrownBy(() -> {
-            toscaServiceTemplatePolicyType.getDataTypesAsMap();
-        }).hasMessageContaining("list of map of entities contains more than one entity with key");
+        assertThatThrownBy(toscaServiceTemplatePolicyType::getDataTypesAsMap)
+            .hasMessageContaining("list of map of entities contains more than one entity with key");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

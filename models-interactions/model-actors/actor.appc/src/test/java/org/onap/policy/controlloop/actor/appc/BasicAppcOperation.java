@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,7 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
         assertFalse(future2.isDone());
 
         verify(forwarder).register(any(), listenerCaptor.capture());
-        provideResponse(listenerCaptor.getValue(), ResponseCode.SUCCESS.getValue(), MY_DESCRIPTION);
+        provideResponse(listenerCaptor.getValue(), ResponseCode.SUCCESS.getValue());
 
         executor.runAll(100);
         assertTrue(future2.isDone());
@@ -145,18 +145,17 @@ public abstract class BasicAppcOperation extends BasicBidirectionalTopicOperatio
      * Provides a response to the listener.
      *
      * @param listener listener to which to provide the response
-     * @param code response code
-     * @param description response description
+     * @param code     response code
      */
-    protected void provideResponse(BiConsumer<String, StandardCoderObject> listener, int code, String description) {
-        Response response = new Response();
+    protected void provideResponse(BiConsumer<String, StandardCoderObject> listener, int code) {
+        Response response1 = new Response();
 
         ResponseStatus status = new ResponseStatus();
-        response.setStatus(status);
+        response1.setStatus(status);
         status.setCode(code);
-        status.setDescription(description);
+        status.setDescription(BasicAppcOperation.MY_DESCRIPTION);
 
-        provideResponse(listener, Util.translate("", response, String.class));
+        provideResponse(listener, Util.translate("", response1, String.class));
     }
 
     @Override

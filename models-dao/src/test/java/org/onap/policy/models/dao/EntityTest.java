@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
@@ -112,17 +112,7 @@ class EntityTest {
     @Test
     void testEntityTestAllOpsJpa() throws PfModelException {
 
-        final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getName());
-        daoParameters.setPersistenceUnit("DaoTest");
-
-        Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "sa");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
-
-        daoParameters.setJdbcProperties(jdbcProperties);
+        final DaoParameters daoParameters = getDaoParameters();
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -133,24 +123,14 @@ class EntityTest {
 
         testVersionOps();
 
-        testgetFilteredOps();
+        testGetFilteredOps();
 
         testgetFilteredOps3();
     }
 
     @Test
     void testEntityTestBadVals() throws PfModelException {
-        final DaoParameters daoParameters = new DaoParameters();
-        daoParameters.setPluginClass(DefaultPfDao.class.getName());
-        daoParameters.setPersistenceUnit("DaoTest");
-
-        Properties jdbcProperties = new Properties();
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "sa");
-        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
-
-        daoParameters.setJdbcProperties(jdbcProperties);
+        final DaoParameters daoParameters = getDaoParameters();
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
         pfDao.init(daoParameters);
@@ -190,6 +170,21 @@ class EntityTest {
         pfDao.getConcept(PfReferenceKey.class, nullRefKey);
 
         assertThatCode(() -> pfDao.size(null)).doesNotThrowAnyException();
+    }
+
+    private static DaoParameters getDaoParameters() {
+        final DaoParameters daoParameters = new DaoParameters();
+        daoParameters.setPluginClass(DefaultPfDao.class.getName());
+        daoParameters.setPersistenceUnit("DaoTest");
+
+        Properties jdbcProperties = new Properties();
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:EntityTest");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "sa");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "");
+
+        daoParameters.setJdbcProperties(jdbcProperties);
+        return daoParameters;
     }
 
     private void testAllOps() {
@@ -371,11 +366,9 @@ class EntityTest {
 
         tkeyInfoSetIn.add(tkeyInfo2);
         pfDao.createCollection(tkeyInfoSetIn);
-        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
         assertEquals(keyInfoSetIn, keyInfoSetOut);
 
         pfDao.delete(DummyTimestampEntity.class, atKey2);
-        tkeyInfoSetOut = new TreeSet<>(pfDao.getAll(DummyTimestampEntity.class));
         assertEquals(3, keyInfoSetOut.size());
         assertEquals(1, pfDao.size(DummyTimestampEntity.class));
 
@@ -388,7 +381,7 @@ class EntityTest {
         final PfConceptKey owner1Key = new PfConceptKey("Owner1", VERSION001);
         final PfConceptKey owner2Key = new PfConceptKey("Owner2", VERSION001);
         final PfReferenceTimestampKey arKey0 = new PfReferenceTimestampKey(owner0Key, "AT-KEY0", TIMESTAMP0);
-        final PfReferenceTimestampKey arKey1 = new PfReferenceTimestampKey(owner1Key, "AT-KEY1", TIMESTAMP1);;
+        final PfReferenceTimestampKey arKey1 = new PfReferenceTimestampKey(owner1Key, "AT-KEY1", TIMESTAMP1);
         final PfReferenceTimestampKey arKey2 = new PfReferenceTimestampKey(owner2Key, "AT-KEY2", TIMESTAMP2);
         final DummyReferenceTimestampEntity rkeyInfo0 = new DummyReferenceTimestampEntity(arKey0);
         final DummyReferenceTimestampEntity rkeyInfo1 = new DummyReferenceTimestampEntity(arKey1);
@@ -466,7 +459,7 @@ class EntityTest {
         assertEquals(0, pfDao.getAllVersions(DummyConceptEntity.class, null).size());
     }
 
-    private void testgetFilteredOps() {
+    private void testGetFilteredOps() {
         final PfConceptKey aKey0 = new PfConceptKey("AAA0", VERSION001);
         final PfConceptKey aKey1 = new PfConceptKey("AAA0", VERSION002);
         final PfConceptKey aKey2 = new PfConceptKey("AAA0", VERSION003);
@@ -540,7 +533,7 @@ class EntityTest {
         final PfConceptKey owner1Key = new PfConceptKey("Owner1", VERSION001);
         final PfConceptKey owner2Key = new PfConceptKey("Owner2", VERSION001);
         final PfReferenceTimestampKey arKey0 = new PfReferenceTimestampKey(owner0Key, "AT-KEY0", TIMESTAMP0);
-        final PfReferenceTimestampKey arKey1 = new PfReferenceTimestampKey(owner1Key, "AT-KEY1", TIMESTAMP1);;
+        final PfReferenceTimestampKey arKey1 = new PfReferenceTimestampKey(owner1Key, "AT-KEY1", TIMESTAMP1);
         final PfReferenceTimestampKey arKey2 = new PfReferenceTimestampKey(owner2Key, "AT-KEY2", TIMESTAMP2);
         final DummyReferenceTimestampEntity rkeyInfo0 = new DummyReferenceTimestampEntity(arKey0);
         final DummyReferenceTimestampEntity rkeyInfo1 = new DummyReferenceTimestampEntity(arKey1);

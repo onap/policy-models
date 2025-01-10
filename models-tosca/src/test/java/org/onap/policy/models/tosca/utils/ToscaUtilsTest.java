@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2025 Nordix Foundation.
  *  Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
@@ -28,6 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -72,10 +73,8 @@ class ToscaUtilsTest {
         jpaToscaServiceTemplate.getDataTypes().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doDataTypesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkDataTypesExist(jpaToscaServiceTemplate));
-        assertThatCode(() -> {
-            ToscaUtils.assertDataTypesExist(jpaToscaServiceTemplate);
-        }).doesNotThrowAnyException();
+        assertNull(ToscaUtils.checkDataTypesExist(jpaToscaServiceTemplate));
+        assertThatCode(() -> ToscaUtils.assertDataTypesExist(jpaToscaServiceTemplate)).doesNotThrowAnyException();
 
     }
 
@@ -102,10 +101,8 @@ class ToscaUtilsTest {
         jpaToscaServiceTemplate.getPolicyTypes().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doPolicyTypesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkPolicyTypesExist(jpaToscaServiceTemplate));
-        assertThatCode(() -> {
-            ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate);
-        }).doesNotThrowAnyException();
+        assertNull(ToscaUtils.checkPolicyTypesExist(jpaToscaServiceTemplate));
+        assertThatCode(() -> ToscaUtils.assertPolicyTypesExist(jpaToscaServiceTemplate)).doesNotThrowAnyException();
     }
 
     @Test
@@ -140,14 +137,12 @@ class ToscaUtilsTest {
         jpaToscaServiceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(new PfConceptKey(), null);
 
         assertTrue(ToscaUtils.doPoliciesExist(jpaToscaServiceTemplate));
-        assertEquals(null, ToscaUtils.checkPoliciesExist(jpaToscaServiceTemplate));
-        assertThatCode(() -> {
-            ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate);
-        }).doesNotThrowAnyException();
+        assertNull(ToscaUtils.checkPoliciesExist(jpaToscaServiceTemplate));
+        assertThatCode(() -> ToscaUtils.assertPoliciesExist(jpaToscaServiceTemplate)).doesNotThrowAnyException();
     }
 
     @Test
-    void testGetentityTypeAncestors() {
+    void testGetEntityTypeAncestors() {
         assertThatThrownBy(() -> {
             ToscaUtils.getEntityTypeAncestors(null, null, null);
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
@@ -236,7 +231,7 @@ class ToscaUtilsTest {
 
         dt1.setDerivedFrom(new PfConceptKey("tosca.datatyps.Root", PfKey.NULL_KEY_VERSION));
         checkSingleEmptyEntityTypeAncestor(dataTypes, dt0, result);
-        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt1, dt2, result, 1, 0);
+        checkMultipleEmptyEntityTypeAncestors(dataTypes, dt1, dt2, result);
 
         dataTypes.getConceptMap().remove(dt1.getKey());
         assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, dt2, result)).isEmpty();
@@ -259,11 +254,11 @@ class ToscaUtilsTest {
     }
 
     private void checkMultipleEmptyEntityTypeAncestors(JpaToscaDataTypes dataTypes, JpaToscaDataType emptydt,
-            JpaToscaDataType notemptydt, BeanValidationResult result, int size1, int size2) {
+            JpaToscaDataType notemptydt, BeanValidationResult result) {
         assertThat(ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result)).isEmpty();
         assertFalse(ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).isEmpty());
-        assertEquals(size1, ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).size());
-        assertEquals(size2, ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result).size());
+        assertEquals(1, ToscaUtils.getEntityTypeAncestors(dataTypes, notemptydt, result).size());
+        assertEquals(0, ToscaUtils.getEntityTypeAncestors(dataTypes, emptydt, result).size());
         assertTrue(result.isValid());
     }
 
@@ -273,7 +268,7 @@ class ToscaUtilsTest {
     }
 
     @Test
-    void testgetEntityTree() {
+    void testGetEntityTree() {
         assertThatThrownBy(() -> {
             ToscaUtils.getEntityTree(null, null, null);
         }).hasMessageMatching("entityTypes is marked .*on.*ull but is null");
@@ -378,7 +373,6 @@ class ToscaUtilsTest {
         assertEquals(3, filteredDataTypes.getConceptMap().size());
 
         dt9.setDerivedFrom(new PfConceptKey("i.dont.Exist", "0.0.0"));
-        filteredDataTypes = new JpaToscaDataTypes(dataTypes);
 
         assertThatThrownBy(() -> {
             final JpaToscaDataTypes badDataTypes = new JpaToscaDataTypes(dataTypes);

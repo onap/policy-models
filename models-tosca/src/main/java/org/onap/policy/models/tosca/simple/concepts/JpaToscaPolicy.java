@@ -3,7 +3,7 @@
  * ONAP Policy Model
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2021, 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2021, 2023, 2025 Nordix Foundation.
  * Modifications Copyright (C) 2022 Bell Canada. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -152,10 +152,10 @@ public class JpaToscaPolicy extends JpaToscaWithTypeAndStringProperties<ToscaPol
         if (getMetadata().containsKey(METADATA_METADATA_SET_NAME_TAG)
                 && getMetadata().containsKey(METADATA_METADATA_SET_VERSION_TAG)) {
             getMetadata().put(METADATA_METADATA_SET_NAME_TAG, getMetadata().get(METADATA_METADATA_SET_NAME_TAG)
-                    .replaceAll("^\"|\"$", ""));
+                    .replaceAll("^\"|\"$", "")); // NOSONAR operator precedence is explicit
 
             getMetadata().put(METADATA_METADATA_SET_VERSION_TAG, getMetadata().get(METADATA_METADATA_SET_VERSION_TAG)
-                    .replaceAll("^\"|\"$", ""));
+                    .replaceAll("^\"|\"$", "")); // NOSONAR operator precedence is explicit
         }
     }
 

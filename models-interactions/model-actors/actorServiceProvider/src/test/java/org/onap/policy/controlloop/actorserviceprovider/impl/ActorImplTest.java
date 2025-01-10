@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
@@ -74,7 +73,7 @@ class ActorImplTest {
      * Initializes the fields, including a fully populated {@link #actor}.
      */
     @BeforeEach
-   void setUp() {
+    void setUp() {
         oper1 = spy(new MyOper(OPER1));
         oper2 = spy(new MyOper(OPER2));
         oper3 = spy(new MyOper(OPER3));
@@ -91,14 +90,14 @@ class ActorImplTest {
     }
 
     @Test
-   void testActorImpl_testGetName() {
+    void testActorImpl_testGetName() {
         assertEquals(ACTOR_NAME, actor.getName());
         assertEquals(4, actor.getOperationNames().size());
         assertEquals(0, actor.getSequenceNumber());
     }
 
     @Test
-   void testDoStart() {
+    void testDoStart() {
         actor.configure(params);
         assertEquals(4, actor.getOperationNames().size());
 
@@ -131,7 +130,7 @@ class ActorImplTest {
     }
 
     @Test
-   void testDoStop() {
+    void testDoStop() {
         actor.configure(params);
         actor.start();
         assertEquals(4, actor.getOperationNames().size());
@@ -163,7 +162,7 @@ class ActorImplTest {
     }
 
     @Test
-   void testDoShutdown() {
+    void testDoShutdown() {
         actor.configure(params);
         actor.start();
         assertEquals(4, actor.getOperationNames().size());
@@ -230,7 +229,7 @@ class ActorImplTest {
                         actor.getOperators().stream()
                             .map(Operator::getName)
                             .sorted()
-                            .collect(Collectors.toList())
+                            .toList()
                             .toString());
         // @formatter:on
     }
@@ -241,7 +240,7 @@ class ActorImplTest {
         assertEquals("[add, divide, multiply, subtract]",
                         actor.getOperationNames().stream()
                             .sorted()
-                            .collect(Collectors.toList())
+                            .toList()
                             .toString());
         // @formatter:on
     }
@@ -328,19 +327,19 @@ class ActorImplTest {
 
     /**
      * Arranges for an operator to throw a validation exception when
-     * {@link Operator#configure(Map)} is invoked.
+     * {@link Operator#configure(Object)} is invoked.
      *
      * @param oper operator of interest
      */
     private void makeValidException(Operator oper) {
         ParameterValidationRuntimeException ex = new ParameterValidationRuntimeException(
-                        new ObjectValidationResult(actor.getName(), null, ValidationStatus.INVALID, "null"));
+            new ObjectValidationResult(actor.getName(), null, ValidationStatus.INVALID, "null"));
         doThrow(ex).when(oper).configure(any());
     }
 
     /**
      * Arranges for an operator to throw a runtime exception when
-     * {@link Operator#configure(Map)} is invoked.
+     * {@link Operator#configure(Object)} is invoked.
      *
      * @param oper operator of interest
      */
@@ -367,13 +366,13 @@ class ActorImplTest {
      * @return a new actor
      */
     private ActorImpl makeActor(Operator... operators) {
-        ActorImpl actor = new ActorImpl(ACTOR_NAME);
+        ActorImpl actorImpl = new ActorImpl(ACTOR_NAME);
 
         for (Operator oper : operators) {
-            actor.addOperator(oper);
+            actorImpl.addOperator(oper);
         }
 
-        return actor;
+        return actorImpl;
     }
 
     private static class MyOper extends OperatorPartial {

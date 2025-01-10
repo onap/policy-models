@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2020-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -76,9 +76,7 @@ class HierarchyFetchTest {
                 .getTextFileAsString("src/test/resources/servicetemplates/MultipleRevisionServiceTemplate.yaml"),
             ToscaServiceTemplate.class);
 
-        assertThatCode(() -> {
-            databaseProvider.createPolicies(serviceTemplate);
-        }).doesNotThrowAnyException();
+        assertThatCode(() -> databaseProvider.createPolicies(serviceTemplate)).doesNotThrowAnyException();
 
         ToscaServiceTemplate fetchedServiceTemplate = databaseProvider.getPolicies(null, null);
 

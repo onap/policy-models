@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020, 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2023-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@
 package org.onap.policy.rest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -104,7 +104,6 @@ public class RestTest {
     /**
      * Tear down server endpoint for the tests.
      *
-     * @throws Exception if there is a problem
      */
     @AfterAll
     public static void tearDown() {
@@ -112,7 +111,7 @@ public class RestTest {
     }
 
     @Test
-    public void testGetUrlNull() {
+    void testGetUrlNull() {
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.get(null, "user", null, null);
@@ -120,7 +119,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPutUrlNull() {
+    void testPutUrlNull() {
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.put(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
@@ -128,7 +127,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPostUrlNull() {
+    void testPostUrlNull() {
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.post(null, "user", null, null, MediaType.TEXT_PLAIN, PAYLOAD);
@@ -136,7 +135,7 @@ public class RestTest {
     }
 
     @Test
-    public void testDeleteUrlNull() {
+    void testDeleteUrlNull() {
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.delete(null, "user", null, null, null, null);
@@ -144,7 +143,7 @@ public class RestTest {
     }
 
     @Test
-    public void testPatchUrlNull() {
+    void testPatchUrlNull() {
         RestManager mgr = new RestManager();
         assertThrows(NullPointerException.class, () -> {
             mgr.patch(null, "user", null, null, PAYLOAD);
@@ -152,7 +151,7 @@ public class RestTest {
     }
 
     @Test
-    public void testUsernameNull() {
+    void testUsernameNull() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, null, null, null);
@@ -187,12 +186,12 @@ public class RestTest {
     private void checkResult(Pair<Integer, String> result, String expectedText) {
         assertEquals((Integer) 200, result.getLeft());
         assertNotNull(result.getRight());
-        assertTrue(result.getRight().length() > 0);
+        assertFalse(result.getRight().isEmpty());
         assertEquals(expectedText, result.getRight());
     }
 
     @Test
-    public void testUsernameEmpty() {
+    void testUsernameEmpty() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "", null, null);
@@ -222,7 +221,7 @@ public class RestTest {
     }
 
     @Test
-    public void testGoodUrl() {
+    void testGoodUrl() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(getUri, "user", null, null);
@@ -252,7 +251,7 @@ public class RestTest {
     }
 
     @Test
-    public void testNoUrlParamUrl() {
+    void testNoUrlParamUrl() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "RestTest/GetHello/", null, null, null);
@@ -274,7 +273,7 @@ public class RestTest {
     }
 
     @Test
-    public void testNoQueryParamUrl() {
+    void testNoQueryParamUrl() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "RestTest/GetHello/" + NAME_PARAM, null, null, null);
@@ -297,7 +296,7 @@ public class RestTest {
     }
 
     @Test
-    public void testBadUrl() {
+    void testBadUrl() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(baseUri + "NonExistant/URL/", null, null, null);
@@ -319,7 +318,7 @@ public class RestTest {
     }
 
     @Test
-    public void testWrongUrl() {
+    void testWrongUrl() {
         RestManager mgr = new RestManager();
 
         Pair<Integer, String> result = mgr.get(deleteUri, null, null, null);

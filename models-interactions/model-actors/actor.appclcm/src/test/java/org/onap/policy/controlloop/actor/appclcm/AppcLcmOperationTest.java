@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,13 +65,12 @@ import org.onap.policy.simulators.AppcLcmTopicServer;
 import org.onap.policy.simulators.TopicServer;
 
 @ExtendWith(MockitoExtension.class)
- class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcLcmMessageWrapper> {
+class AppcLcmOperationTest extends BasicBidirectionalTopicOperation<AppcLcmMessageWrapper> {
 
     private static final String EXPECTED_EXCEPTION = "expected exception";
     private static final String PAYLOAD_KEY1 = "key-A";
     private static final String PAYLOAD_VALUE1 = "value-A";
     private static final String MY_MESSAGE = "my-message";
-    protected static final String MY_VNF = "my-vnf";
     protected static final String RESOURCE_ID = "my-resource";
     private static final int SUCCESS_CODE = 400;
 
@@ -79,12 +78,12 @@ import org.onap.policy.simulators.TopicServer;
     private AppcLcmOperation oper;
 
     @BeforeAll
-     static void setUpBeforeClass() throws Exception {
+    static void setUpBeforeClass() throws Exception {
         initBeforeClass(MY_SINK, MY_SOURCE);
     }
 
     @AfterAll
-     static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         destroyAfterClass();
     }
 
@@ -92,7 +91,7 @@ import org.onap.policy.simulators.TopicServer;
      * Sets up.
      */
     @BeforeEach
-     void setUp() {
+    void setUp() {
         super.setUpBasic();
 
         response = makeResponse();
@@ -102,7 +101,7 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     @AfterEach
-     void tearDown() {
+    void tearDown() {
         super.tearDownBasic();
     }
 
@@ -115,9 +114,9 @@ import org.onap.policy.simulators.TopicServer;
      * Tests "success" case with simulator.
      */
     @Test
-     void testSuccess() throws Exception {
+    void testSuccess() throws Exception {
         BidirectionalTopicParams opParams =
-                        BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SOURCE).build();
+            BidirectionalTopicParams.builder().sinkTopic(MY_SINK).sourceTopic(MY_SOURCE).build();
         config = new BidirectionalTopicConfig(blockingExecutor, opParams, topicMgr, AppcLcmOperation.SELECTOR_KEYS);
 
         params = params.toBuilder().retry(0).timeoutSec(5).executor(blockingExecutor).build();
@@ -130,18 +129,18 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     @Test
-     void testConstructor() {
+    void testConstructor() {
         assertEquals(DEFAULT_ACTOR, oper.getActorName());
         assertEquals(DEFAULT_OPERATION, oper.getName());
     }
 
     @Test
-     void testGetPropertyNames() {
+    void testGetPropertyNames() {
         assertThat(oper.getPropertyNames()).isEqualTo(List.of(OperationProperties.AAI_TARGET_ENTITY));
     }
 
     @Test
-     void testMakeRequest() {
+    void testMakeRequest() {
         oper.generateSubRequestId(2);
         String subreq = oper.getSubRequestId();
         assertNotNull(subreq);
@@ -165,16 +164,16 @@ import org.onap.policy.simulators.TopicServer;
      * Tests makeRequest() when a property is missing.
      */
     @Test
-     void testMakeRequestMissingProperty() {
+    void testMakeRequestMissingProperty() {
         oper = new AppcLcmOperation(params, config);
         oper.generateSubRequestId(1);
 
         assertThatIllegalStateException().isThrownBy(() -> oper.makeRequest(1))
-                        .withMessageContaining("missing target entity");
+            .withMessageContaining("missing target entity");
     }
 
     @Test
-     void testConvertPayload() {
+    void testConvertPayload() {
         // only builds a payload for ConfigModify
         params = params.toBuilder().operation(AppcLcmConstants.OPERATION_CONFIG_MODIFY).build();
         oper = new AppcLcmOperation(params, config);
@@ -201,19 +200,19 @@ import org.onap.policy.simulators.TopicServer;
         oper.generateSubRequestId(2);
 
         assertThatIllegalArgumentException().isThrownBy(() -> oper.makeRequest(2))
-                        .withMessageContaining("Cannot convert payload");
+            .withMessageContaining("Cannot convert payload");
     }
 
     @Test
-     void testGetExpectedKeyValues() {
+    void testGetExpectedKeyValues() {
         oper.generateSubRequestId(2);
         AppcLcmMessageWrapper request = oper.makeRequest(2);
         assertEquals(List.of(request.getBody().getInput().getCommonHeader().getSubRequestId()),
-                        oper.getExpectedKeyValues(50, request));
+            oper.getExpectedKeyValues(50, request));
     }
 
     @Test
-     void testDetmStatus() {
+    void testDetmStatus() {
         assertEquals(Status.SUCCESS, oper.detmStatus(null, response));
 
         // failure
@@ -242,7 +241,7 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     @Test
-     void testSetOutcome() {
+    void testSetOutcome() {
         oper.setOutcome(outcome, OperationResult.SUCCESS, response);
         assertEquals(OperationResult.SUCCESS, outcome.getResult());
         assertEquals(MY_MESSAGE, outcome.getMessage());
@@ -268,7 +267,7 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     @Test
-     void testGetStatus() {
+    void testGetStatus() {
         assertNotNull(oper.getStatus(response));
 
         // null status
@@ -288,7 +287,7 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     @Test
-     void testOperationSupportsPayload() {
+    void testOperationSupportsPayload() {
         // these should support a payload
         Set<String> supported = Set.of(AppcLcmConstants.OPERATION_CONFIG_MODIFY);
 
@@ -300,7 +299,7 @@ import org.onap.policy.simulators.TopicServer;
 
         // these should NOT support a payload
         Set<String> unsupported = AppcLcmConstants.OPERATION_NAMES.stream().filter(name -> !supported.contains(name))
-                        .collect(Collectors.toSet());
+            .collect(Collectors.toSet());
 
         for (String name : unsupported) {
             params = params.toBuilder().operation(name).build();
@@ -343,10 +342,10 @@ import org.onap.policy.simulators.TopicServer;
     }
 
     private AppcLcmMessageWrapper makeResponse() {
-        AppcLcmMessageWrapper response = new AppcLcmMessageWrapper();
+        AppcLcmMessageWrapper wrapper = new AppcLcmMessageWrapper();
 
         AppcLcmBody body = new AppcLcmBody();
-        response.setBody(body);
+        wrapper.setBody(body);
 
         AppcLcmOutput output = new AppcLcmOutput();
         body.setOutput(output);
@@ -356,6 +355,6 @@ import org.onap.policy.simulators.TopicServer;
         status.setMessage(MY_MESSAGE);
         status.setCode(SUCCESS_CODE);
 
-        return response;
+        return wrapper;
     }
 }

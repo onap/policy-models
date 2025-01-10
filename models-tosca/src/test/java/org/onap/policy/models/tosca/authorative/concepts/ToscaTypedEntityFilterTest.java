@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
@@ -70,7 +70,7 @@ class ToscaTypedEntityFilterTest {
     };
     // @formatter:on
 
-    private static List<ToscaPolicy> policyList = new ArrayList<>();
+    private static final List<ToscaPolicy> policyList = new ArrayList<>();
 
     /**
      * Set up a Tosca Policy type list for filtering.
@@ -96,8 +96,8 @@ class ToscaTypedEntityFilterTest {
         }
 
         for (ToscaPolicy policy : policyList) {
-            LOGGER.info("using policy-" + policy.getName() + ":" + policy.getVersion() + ", type-" + policy.getType()
-                    + ":" + policy.getTypeVersion());
+            LOGGER.info("using policy-{}:{}, type-{}:{}", policy.getName(), policy.getVersion(),
+                policy.getType(), policy.getTypeVersion());
         }
     }
 
@@ -140,7 +140,7 @@ class ToscaTypedEntityFilterTest {
     @Test
     void testFilterLatestVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
-                ToscaTypedEntityFilter.<ToscaPolicy>builder().version(ToscaTypedEntityFilter.LATEST_VERSION).build();
+            ToscaTypedEntityFilter.<ToscaPolicy>builder().version(ToscaTypedEntityFilter.LATEST_VERSION).build();
 
         List<ToscaPolicy> filteredList = filter.filter(policyList);
         assertEquals(22, filteredList.size());
@@ -182,9 +182,7 @@ class ToscaTypedEntityFilterTest {
         // Change versions back
         //
         policyList.forEach(policy -> {
-            if ("onap.vfirewall.tca".equals(policy.getName())) {
-                policy.setVersion(VERSION_100);
-            } else if ("operational.modifyconfig".equals(policy.getName())) {
+            if ("onap.vfirewall.tca".equals(policy.getName()) || "operational.modifyconfig".equals(policy.getName())) {
                 policy.setVersion(VERSION_100);
             }
         });
@@ -202,7 +200,7 @@ class ToscaTypedEntityFilterTest {
     @Test
     void testFilterNameVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
-                ToscaTypedEntityFilter.<ToscaPolicy>builder().name("operational.modifyconfig").build();
+            ToscaTypedEntityFilter.<ToscaPolicy>builder().name("operational.modifyconfig").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
         assertEquals(1, filteredList.size());
 
@@ -219,12 +217,12 @@ class ToscaTypedEntityFilterTest {
         assertEquals(22, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().name("OSDF_CASABLANCA.SubscriberPolicy_v1")
-                .version(VERSION_100).build();
+            .version(VERSION_100).build();
         filteredList = filter.filter(policyList);
         assertEquals(1, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().name("operational.modifyconfig").version(VERSION_100)
-                .build();
+            .build();
         filteredList = filter.filter(policyList);
         assertEquals(1, filteredList.size());
     }
@@ -233,7 +231,7 @@ class ToscaTypedEntityFilterTest {
     void testFilterVersionPrefix() {
         // null pattern
         ToscaTypedEntityFilter<ToscaPolicy> filter =
-                ToscaTypedEntityFilter.<ToscaPolicy>builder().versionPrefix(null).build();
+            ToscaTypedEntityFilter.<ToscaPolicy>builder().versionPrefix(null).build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
         assertEquals(22, filteredList.size());
 
@@ -249,17 +247,17 @@ class ToscaTypedEntityFilterTest {
     @Test
     void testFilterTypeVersion() {
         ToscaTypedEntityFilter<ToscaPolicy> filter =
-                ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.controlloop.Operational").build();
+            ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.controlloop.Operational").build();
         List<ToscaPolicy> filteredList = filter.filter(policyList);
         assertEquals(0, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.controlloop.operational.common.Apex")
-                .build();
+            .build();
         filteredList = filter.filter(policyList);
         assertEquals(0, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder()
-                .type("onap.policies.controlloop.operational.common.Drools").build();
+            .type("onap.policies.controlloop.operational.common.Drools").build();
         filteredList = filter.filter(policyList);
         assertEquals(3, filteredList.size());
 
@@ -276,12 +274,12 @@ class ToscaTypedEntityFilterTest {
         assertEquals(0, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.optimization.resource.HpaPolicy")
-                .typeVersion(VERSION_100).build();
+            .typeVersion(VERSION_100).build();
         filteredList = filter.filter(policyList);
         assertEquals(2, filteredList.size());
 
         filter = ToscaTypedEntityFilter.<ToscaPolicy>builder().type("onap.policies.controlloop.Operational")
-                .typeVersion(VERSION_000).build();
+            .typeVersion(VERSION_000).build();
         filteredList = filter.filter(policyList);
         assertEquals(0, filteredList.size());
     }

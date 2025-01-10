@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
@@ -143,8 +143,7 @@ class JpaToscaTimeIntervalTest {
     private JpaToscaTimeInterval setUpJpaToscaTimeInterval(Instant startTime, Instant endTime) {
         PfConceptKey ttiParentKey = new PfConceptKey("tParentKey", "0.0.1");
         PfReferenceKey ttiKey = new PfReferenceKey(ttiParentKey, "trigger0");
-        JpaToscaTimeInterval tti = new JpaToscaTimeInterval(ttiKey, startTime, endTime);
 
-        return tti;
+        return new JpaToscaTimeInterval(ttiKey, startTime, endTime);
     }
 }

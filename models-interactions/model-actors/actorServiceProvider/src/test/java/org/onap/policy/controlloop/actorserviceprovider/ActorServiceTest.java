@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.onap.policy.common.parameters.ObjectValidationResult;
@@ -244,7 +243,7 @@ class ActorServiceTest {
                         service.getActors().stream()
                             .map(Actor::getName)
                             .sorted()
-                            .collect(Collectors.toList())
+                            .toList()
                             .toString());
         // @formatter:on
     }
@@ -255,7 +254,7 @@ class ActorServiceTest {
         assertEquals("[actor A, actor B, actor C, actor D]",
                         service.getActorNames().stream()
                             .sorted()
-                            .collect(Collectors.toList())
+                            .toList()
                             .toString());
         // @formatter:on
     }
@@ -344,7 +343,7 @@ class ActorServiceTest {
 
     /**
      * Arranges for an actor to throw a validation exception when
-     * {@link Actor#configure(Map)} is invoked.
+     * {@link Actor#configure(Object)} is invoked.
      *
      * @param actor actor of interest
      */
@@ -356,7 +355,7 @@ class ActorServiceTest {
 
     /**
      * Arranges for an actor to throw a runtime exception when
-     * {@link Actor#configure(Map)} is invoked.
+     * {@link Actor#configure(Object)} is invoked.
      *
      * @param actor actor of interest
      */
@@ -367,9 +366,9 @@ class ActorServiceTest {
 
     @Test
     void testLoadActors() {
-        ActorService service = new ActorService();
-        assertFalse(service.getActors().isEmpty());
-        assertNotNull(service.getActor(DummyActor.class.getSimpleName()));
+        ActorService actorService = new ActorService();
+        assertFalse(actorService.getActors().isEmpty());
+        assertNotNull(actorService.getActor(DummyActor.class.getSimpleName()));
     }
 
     /**

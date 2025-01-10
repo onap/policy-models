@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2021-2024 Nordix Foundation.
+ *  Copyright (C) 2021-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -83,7 +83,7 @@ class JpaPolicyAuditTest {
     void testClean() {
         audit.setUser("   user");
         JpaPolicyAudit jpaAudit = new JpaPolicyAudit(audit);
-        assertThatNoException().isThrownBy(() -> jpaAudit.clean());
+        assertThatNoException().isThrownBy(jpaAudit::clean);
         assertEquals(USER, jpaAudit.getUserName());
     }
 

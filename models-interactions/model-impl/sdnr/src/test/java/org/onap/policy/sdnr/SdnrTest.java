@@ -3,7 +3,7 @@
  * sdnr
  * ================================================================================
  * Copyright (C) 2018 Wipro Limited Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2024-2025 Nordix Foundation.
  * Modifications Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -106,7 +106,7 @@ class SdnrTest {
          */
         assertTrue(jsonRequest.contains("Action"));
 
-        logger.debug("Request as JSON: " + jsonRequest + "\n\n");
+        logger.debug("Request as JSON: {} \n\n", jsonRequest);
     }
 
     @Test
@@ -147,7 +147,7 @@ class SdnrTest {
         assertNotNull(sdnrRequest.getAction());
         assertEquals("ModifyConfig", sdnrRequest.getAction());
 
-        logger.debug("Request as a Java Object: \n" + sdnrRequest.toString() + "\n\n");
+        logger.debug("Request as a Java Object:\n {} \n\n", sdnrRequest);
     }
 
     @Test
@@ -172,7 +172,7 @@ class SdnrTest {
         assertTrue(jsonResponse.contains("SubRequestID"));
         assertTrue(jsonResponse.contains("Status"));
 
-        logger.debug("Response as JSON: " + jsonResponse + "\n\n");
+        logger.debug("Response as JSON: {}\n\n", jsonResponse);
     }
 
     @Test
@@ -212,6 +212,6 @@ class SdnrTest {
         assertNotNull(sdnrResponse.getStatus());
         assertEquals(400, sdnrResponse.getStatus().getCode());
 
-        logger.debug("Response as a Java Object: \n" + sdnrResponse.toString() + "\n\n");
+        logger.debug("Response as a Java Object:\n {} \n\n", sdnrResponse);
     }
 }

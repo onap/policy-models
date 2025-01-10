@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.policy.models.tosca.simple.concepts;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -51,8 +52,8 @@ class JpaToscaWithToscaPropertiesTest {
     private static final PfReferenceKey REF_KEY2 = new PfReferenceKey(CONCEPT_KEY2);
     private static final JpaToscaProperty JPA_PROP1 = new JpaToscaProperty(REF_KEY1);
     private static final JpaToscaProperty JPA_PROP2 = new JpaToscaProperty(REF_KEY2);
-    private static ToscaProperty PROP1;
-    private static ToscaProperty PROP2;
+    private static ToscaProperty toscaPropertyOne;
+    private static ToscaProperty toscaPropertyTwo;
     private static final String DESCRIPT1 = "description A";
     private static final String DESCRIPT2 = "description B";
 
@@ -66,8 +67,8 @@ class JpaToscaWithToscaPropertiesTest {
         JPA_PROP1.setDescription(DESCRIPT1);
         JPA_PROP2.setDescription(DESCRIPT2);
 
-        PROP1 = JPA_PROP1.toAuthorative();
-        PROP2 = JPA_PROP2.toAuthorative();
+        toscaPropertyOne = JPA_PROP1.toAuthorative();
+        toscaPropertyTwo = JPA_PROP2.toAuthorative();
     }
 
     @BeforeEach
@@ -118,7 +119,7 @@ class JpaToscaWithToscaPropertiesTest {
 
         MyTosca tosca = jpa.toAuthorative();
         assertEquals(SOME_DESCRIPTION, tosca.getDescription());
-        assertThat(tosca.getProperties()).isEqualTo(Map.of(KEY1, PROP1, KEY2, PROP2));
+        assertThat(tosca.getProperties()).isEqualTo(Map.of(KEY1, toscaPropertyOne, KEY2, toscaPropertyTwo));
     }
 
     @Test
@@ -130,12 +131,12 @@ class JpaToscaWithToscaPropertiesTest {
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
         assertThat(jpa.getProperties()).isNull();
 
-        tosca.setProperties(Map.of(KEY1, PROP1, KEY2, PROP2));
+        tosca.setProperties(Map.of(KEY1, toscaPropertyOne, KEY2, toscaPropertyTwo));
 
-        JpaToscaProperty jpa1 = new JpaToscaProperty(PROP1);
+        JpaToscaProperty jpa1 = new JpaToscaProperty(toscaPropertyOne);
         jpa1.setKey(new PfReferenceKey(jpa.getKey(), KEY1));
 
-        JpaToscaProperty jpa2 = new JpaToscaProperty(PROP2);
+        JpaToscaProperty jpa2 = new JpaToscaProperty(toscaPropertyTwo);
         jpa2.setKey(new PfReferenceKey(jpa.getKey(), KEY2));
 
         jpa = new MyJpa();
@@ -187,15 +188,15 @@ class JpaToscaWithToscaPropertiesTest {
         tosca.setName("world");
         tosca.setVersion("3.2.1");
         tosca.setDescription(SOME_DESCRIPTION);
-        tosca.setProperties(Map.of(KEY1, PROP1, KEY2, PROP2));
+        tosca.setProperties(Map.of(KEY1, toscaPropertyOne, KEY2, toscaPropertyTwo));
 
         jpa = new MyJpa(tosca);
         assertEquals(SOME_DESCRIPTION, jpa.getDescription());
 
-        JpaToscaProperty jpa1 = new JpaToscaProperty(PROP1);
+        JpaToscaProperty jpa1 = new JpaToscaProperty(toscaPropertyOne);
         jpa1.setKey(new PfReferenceKey(jpa.getKey(), KEY1));
 
-        JpaToscaProperty jpa2 = new JpaToscaProperty(PROP2);
+        JpaToscaProperty jpa2 = new JpaToscaProperty(toscaPropertyTwo);
         jpa2.setKey(new PfReferenceKey(jpa.getKey(), KEY2));
 
         assertThat(jpa.getProperties()).isEqualTo(Map.of(KEY1, jpa1, KEY2, jpa2));
@@ -244,17 +245,18 @@ class JpaToscaWithToscaPropertiesTest {
     }
 
 
-    private static class MyTosca extends ToscaWithToscaProperties {
+    protected static class MyTosca extends ToscaWithToscaProperties {
 
     }
 
+    @Setter
+    @Getter
     @NoArgsConstructor
     protected static class MyJpa extends JpaToscaWithToscaProperties<MyTosca> {
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @NotNull
-        @Getter
-        @Setter
         private String text;
 
         public MyJpa(MyJpa jpa) {
@@ -277,6 +279,7 @@ class JpaToscaWithToscaPropertiesTest {
     }
 
     private static class MyJpa2 extends MyJpa {
+        @Serial
         private static final long serialVersionUID = 1L;
     }
 }

@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2025 Nordix Foundation
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,7 +65,6 @@ class BidirectionalTopicOperatorTest {
     @Mock
     private BidirectionalTopicOperation<String, Integer> operation;
 
-    private List<SelectorKey> keys;
     private BidirectionalTopicParams params;
     private MyOperator oper;
 
@@ -75,7 +73,7 @@ class BidirectionalTopicOperatorTest {
      */
     @BeforeEach
     void setUp() {
-        keys = List.of(new SelectorKey(""));
+        List<SelectorKey> keys = List.of(new SelectorKey(""));
 
         Mockito.lenient().when(mgr.getTopicHandler(MY_SINK, MY_SOURCE)).thenReturn(handler);
         Mockito.lenient().when(handler.addForwarder(keys)).thenReturn(forwarder);
@@ -113,8 +111,8 @@ class BidirectionalTopicOperatorTest {
 
         // @formatter:off
         OperationMaker<BidirectionalTopicConfig, BidirectionalTopicOperation<?, ?>> maker =
-            (params, config) -> {
-                paramsRef.set(params);
+            (operationParams, config) -> {
+                paramsRef.set(operationParams);
                 configRef.set(config);
                 return operation;
             };
@@ -144,7 +142,7 @@ class BidirectionalTopicOperatorTest {
 
         // with no operation-maker
         BidirectionalTopicOperator oper3 =
-                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, Arrays.asList(new SelectorKey("")));
+                        new BidirectionalTopicOperator(ACTOR, OPERATION, mgr, List.of(new SelectorKey("")));
         assertThatThrownBy(() -> oper3.buildOperation(params2)).isInstanceOf(UnsupportedOperationException.class);
     }
 
