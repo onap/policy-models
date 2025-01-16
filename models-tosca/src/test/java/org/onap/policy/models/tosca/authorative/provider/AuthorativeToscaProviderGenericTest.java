@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2020-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2024 Nordix Foundation
  * ================================================================================
@@ -62,8 +62,6 @@ class AuthorativeToscaProviderGenericTest {
 
     /**
      * Read the policy type definition.
-     *
-     * @throws Exception on errors
      */
     @BeforeAll
     public static void readPolicyDefinition() {
@@ -88,14 +86,9 @@ class AuthorativeToscaProviderGenericTest {
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
-        if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
-        } else {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
-                "jdbc:h2:mem:AuthorativeToscaProviderGenericTest");
-        }
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
+            "jdbc:h2:mem:AuthorativeToscaProviderGenericTest");
         daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
@@ -117,9 +110,8 @@ class AuthorativeToscaProviderGenericTest {
 
     @Test
     void testCreateGetDelete() throws Exception {
-        assertThatThrownBy(() -> {
-            new AuthorativeToscaProvider().getServiceTemplateList(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new AuthorativeToscaProvider().getServiceTemplateList(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
         ToscaServiceTemplate toscaServiceTemplate = standardCoder.decode(yamlAsJsonString, ToscaServiceTemplate.class);
 
@@ -131,32 +123,32 @@ class AuthorativeToscaProviderGenericTest {
 
         ToscaPolicyType beforePolicyType = toscaServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
         ToscaPolicyType createdPolicyType = createdServiceTemplate.getPolicyTypes().get(policyTypeKey.getName());
-        assertEquals(true, beforePolicyType.getName().equals(createdPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), createdPolicyType.getName());
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaServiceTemplate> gotServiceTemplateList =
             new AuthorativeToscaProvider().getServiceTemplateList(pfDao, null, null);
 
         ToscaPolicyType gotPolicyType = gotServiceTemplateList.get(0).getPolicyTypes().get(policyTypeKey.getName());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), gotPolicyType.getName());
         assertEquals(0, ObjectUtils.compare(beforePolicyType.getDescription(), createdPolicyType.getDescription()));
 
         List<ToscaPolicyType> gotPolicyTypeList =
             new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), gotPolicyType.getName());
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, POLICY_NO_VERSION, null);
         assertEquals(2, gotPolicyTypeList.size());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), gotPolicyType.getName());
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, null);
         assertEquals(2, gotPolicyTypeList.size());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), gotPolicyType.getName());
 
         gotPolicyTypeList = new AuthorativeToscaProvider().getPolicyTypeList(pfDao, null, VERSION_001);
         assertEquals(2, gotPolicyTypeList.size());
-        assertEquals(true, beforePolicyType.getName().equals(gotPolicyType.getName()));
+        assertEquals(beforePolicyType.getName(), gotPolicyType.getName());
 
         assertThatThrownBy(() -> new AuthorativeToscaProvider().getPolicyTypeList(new DefaultPfDao(), POLICY_NO_VERSION,
             VERSION_001)).hasMessageContaining("Policy Framework DAO has not been initialized");

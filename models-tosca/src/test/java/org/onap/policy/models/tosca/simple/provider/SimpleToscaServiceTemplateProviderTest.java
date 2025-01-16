@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2020-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,14 +38,11 @@ import org.onap.policy.models.dao.DaoParameters;
 import org.onap.policy.models.dao.PfDao;
 import org.onap.policy.models.dao.PfDaoFactory;
 import org.onap.policy.models.dao.impl.DefaultPfDao;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
 
 /**
  * Test the {@link SimpleToscaProvider} class.
@@ -73,15 +70,9 @@ class SimpleToscaServiceTemplateProviderTest {
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
-
-        if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
-        } else {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
-                            "jdbc:h2:mem:SimpleToscaServiceTemplateProviderTest");
-        }
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
+            "jdbc:h2:mem:SimpleToscaServiceTemplateProviderTest");
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
@@ -97,7 +88,7 @@ class SimpleToscaServiceTemplateProviderTest {
     @Test
     void testCreateUpdateGetDeleteDataType() throws PfModelException {
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
-        serviceTemplate.setMetadata(new TreeMap<String, String>());
+        serviceTemplate.setMetadata(new TreeMap<>());
 
         JpaToscaServiceTemplate dbServiceTemplate =
             new SimpleToscaServiceTemplateProvider().write(pfDao, serviceTemplate);
@@ -112,9 +103,9 @@ class SimpleToscaServiceTemplateProviderTest {
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
         JpaToscaDataType dataType0 = new JpaToscaDataType();
         dataType0.setKey(dataType0Key);
-        dataType0.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dataType0.setMetadata(new TreeMap<String, String>());
-        dataType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dataType0.setConstraints(new ArrayList<>());
+        dataType0.setMetadata(new TreeMap<>());
+        dataType0.setProperties(new LinkedHashMap<>());
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         serviceTemplate.getDataTypes().getConceptMap().put(dataType0Key, dataType0);
 
@@ -144,10 +135,10 @@ class SimpleToscaServiceTemplateProviderTest {
         JpaToscaPolicyType policyType0 = new JpaToscaPolicyType();
 
         policyType0.setKey(policyType0Key);
-        policyType0.setMetadata(new TreeMap<String, String>());
-        policyType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        policyType0.setTargets(new ArrayList<PfConceptKey>());
-        policyType0.setTriggers(new ArrayList<JpaToscaTrigger>());
+        policyType0.setMetadata(new TreeMap<>());
+        policyType0.setProperties(new LinkedHashMap<>());
+        policyType0.setTargets(new ArrayList<>());
+        policyType0.setTriggers(new ArrayList<>());
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         serviceTemplate.getPolicyTypes().getConceptMap().put(policyType0Key, policyType0);
@@ -167,24 +158,19 @@ class SimpleToscaServiceTemplateProviderTest {
 
     @Test
     void testNonNulls() {
-        assertThatThrownBy(() -> {
-            new SimpleToscaServiceTemplateProvider().write(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().write(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaServiceTemplateProvider().write(pfDao, null);
-        }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().write(pfDao, null))
+            .hasMessageMatching(TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaServiceTemplateProvider().write(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().write(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaServiceTemplateProvider().read(null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().read(null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaServiceTemplateProvider().delete(null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaServiceTemplateProvider().delete(null))
+            .hasMessageMatching(DAO_IS_NULL);
     }
 }

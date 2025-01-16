@@ -47,7 +47,6 @@ import org.onap.policy.models.dao.impl.DefaultPfDao;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaPolicy;
 import org.onap.policy.models.tosca.authorative.concepts.ToscaServiceTemplate;
 import org.onap.policy.models.tosca.authorative.provider.AuthorativeToscaProvider;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaConstraint;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataType;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaDataTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicies;
@@ -57,7 +56,6 @@ import org.onap.policy.models.tosca.simple.concepts.JpaToscaPolicyTypes;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaProperty;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaServiceTemplate;
 import org.onap.policy.models.tosca.simple.concepts.JpaToscaTopologyTemplate;
-import org.onap.policy.models.tosca.simple.concepts.JpaToscaTrigger;
 import org.yaml.snakeyaml.Yaml;
 
 /**
@@ -90,13 +88,8 @@ class SimpleToscaProviderTest {
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
 
-        if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
-        } else {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:SimpleToscaProviderTest");
-        }
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:SimpleToscaProviderTest");
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
@@ -122,9 +115,9 @@ class SimpleToscaProviderTest {
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
         JpaToscaDataType dataType0 = new JpaToscaDataType();
         dataType0.setKey(dataType0Key);
-        dataType0.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dataType0.setMetadata(new TreeMap<String, String>());
-        dataType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dataType0.setConstraints(new ArrayList<>());
+        dataType0.setMetadata(new TreeMap<>());
+        dataType0.setProperties(new LinkedHashMap<>());
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
@@ -135,7 +128,7 @@ class SimpleToscaProviderTest {
 
         assertEquals(1, createdServiceTemplate.getDataTypes().getConceptMap().size());
         assertEquals(dataType0, createdServiceTemplate.getDataTypes().get(dataType0Key));
-        assertEquals(null, createdServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
+        assertNull(createdServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
 
         dataType0.setDescription("Updated Description");
 
@@ -190,9 +183,9 @@ class SimpleToscaProviderTest {
             .hasMessage("data type DataType0:0.0.1 is in use, it is referenced in policy type pt0:0.0.2");
 
         JpaToscaDataType dataType0v2 = new JpaToscaDataType(new PfConceptKey("DataType0:0.0.2"));
-        dataType0v2.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dataType0v2.setMetadata(new TreeMap<String, String>());
-        dataType0v2.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dataType0v2.setConstraints(new ArrayList<>());
+        dataType0v2.setMetadata(new TreeMap<>());
+        dataType0v2.setProperties(new LinkedHashMap<>());
         updatedServiceTemplate.getDataTypes().getConceptMap().put(dataType0v2.getKey(), dataType0v2);
         new SimpleToscaProvider().createDataTypes(pfDao, updatedServiceTemplate);
 
@@ -229,10 +222,10 @@ class SimpleToscaProviderTest {
         PfConceptKey policyType0Key = new PfConceptKey("PolicyType0", "0.0.1");
         JpaToscaPolicyType policyType0 = new JpaToscaPolicyType();
         policyType0.setKey(policyType0Key);
-        policyType0.setMetadata(new TreeMap<String, String>());
-        policyType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        policyType0.setTargets(new ArrayList<PfConceptKey>());
-        policyType0.setTriggers(new ArrayList<JpaToscaTrigger>());
+        policyType0.setMetadata(new TreeMap<>());
+        policyType0.setProperties(new LinkedHashMap<>());
+        policyType0.setTargets(new ArrayList<>());
+        policyType0.setTriggers(new ArrayList<>());
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
         serviceTemplate.getPolicyTypes().getConceptMap().put(policyType0Key, policyType0);
 
@@ -241,7 +234,7 @@ class SimpleToscaProviderTest {
 
         assertEquals(1, createdServiceTemplate.getPolicyTypes().getConceptMap().size());
         assertEquals(policyType0, createdServiceTemplate.getPolicyTypes().get(policyType0Key));
-        assertEquals(null, createdServiceTemplate.getPolicyTypes().get(policyType0Key).getDescription());
+        assertNull(createdServiceTemplate.getPolicyTypes().get(policyType0Key).getDescription());
 
         policyType0.setDescription("Updated Description");
 
@@ -258,9 +251,9 @@ class SimpleToscaProviderTest {
         assertEquals(policyType0, gotServiceTemplate.getPolicyTypes().get(policyType0Key));
         assertEquals("Updated Description", gotServiceTemplate.getPolicyTypes().get(policyType0Key).getDescription());
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicyType(pfDao, new PfConceptKey("IDontExist:0.0.1"));
-        }).hasMessage("policy type IDontExist:0.0.1 not found");
+        assertThatThrownBy(
+            () -> new SimpleToscaProvider().deletePolicyType(pfDao, new PfConceptKey("IDontExist:0.0.1")))
+            .hasMessage("policy type IDontExist:0.0.1 not found");
 
         JpaToscaPolicyType pt1 = new JpaToscaPolicyType(new PfConceptKey("pt1:0.0.2"));
         pt1.setDerivedFrom(policyType0Key);
@@ -314,10 +307,10 @@ class SimpleToscaProviderTest {
         PfConceptKey policyType0Key = new PfConceptKey("PolicyType0", "0.0.1");
         JpaToscaPolicyType policyType0 = new JpaToscaPolicyType();
         policyType0.setKey(policyType0Key);
-        policyType0.setMetadata(new TreeMap<String, String>());
-        policyType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        policyType0.setTargets(new ArrayList<PfConceptKey>());
-        policyType0.setTriggers(new ArrayList<JpaToscaTrigger>());
+        policyType0.setMetadata(new TreeMap<>());
+        policyType0.setProperties(new LinkedHashMap<>());
+        policyType0.setTargets(new ArrayList<>());
+        policyType0.setTriggers(new ArrayList<>());
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
@@ -327,7 +320,7 @@ class SimpleToscaProviderTest {
             new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
 
         assertEquals(policyType0, createdServiceTemplate.getPolicyTypes().get(policyType0Key));
-        assertEquals(null, createdServiceTemplate.getPolicyTypes().get(policyType0Key).getDescription());
+        assertNull(createdServiceTemplate.getPolicyTypes().get(policyType0Key).getDescription());
 
         policyType0.setDescription("Updated Description");
 
@@ -419,27 +412,23 @@ class SimpleToscaProviderTest {
         toscaPolicy.setType(null);
         toscaPolicy.setTypeVersion(null);
 
-        assertThatThrownBy(() -> {
-            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
-        }).hasMessage("Type not specified, the type of this TOSCA entity must be specified in the type field");
+        assertThatThrownBy(() -> originalServiceTemplate.fromAuthorative(toscaServiceTemplate))
+            .hasMessage("Type not specified, the type of this TOSCA entity must be specified in the type field");
 
         toscaPolicy.setType("IDontExist");
-        assertThatThrownBy(() -> {
-            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
-        }).hasMessage("Version not specified, the version of this TOSCA entity must be "
-            + "specified in the type_version field");
+        assertThatThrownBy(() -> originalServiceTemplate.fromAuthorative(toscaServiceTemplate))
+            .hasMessage("Version not specified, the version of this TOSCA entity must be "
+                    + "specified in the type_version field");
 
         toscaPolicy.setTypeVersion("hello");
-        assertThatThrownBy(() -> {
-            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
-        }).hasMessageContaining("value \"hello\", does not match regular expression");
+        assertThatThrownBy(() -> originalServiceTemplate.fromAuthorative(toscaServiceTemplate))
+            .hasMessageContaining("value \"hello\", does not match regular expression");
 
         toscaPolicy.setTypeVersion("99.100.101");
         originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate);
-        }).hasMessageContaining("policy type").hasMessageContaining("IDontExist:99.100.101")
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicies(pfDao, originalServiceTemplate))
+            .hasMessageContaining("policy type").hasMessageContaining("IDontExist:99.100.101")
             .hasMessageContaining(Validated.NOT_FOUND);
 
         toscaPolicy.setType("IDontExist");
@@ -447,9 +436,8 @@ class SimpleToscaProviderTest {
 
         toscaPolicy.setType(null);
 
-        assertThatThrownBy(() -> {
-            originalServiceTemplate.fromAuthorative(toscaServiceTemplate);
-        }).hasMessage("Type not specified, the type of this TOSCA entity must be specified in the type field");
+        assertThatThrownBy(() -> originalServiceTemplate.fromAuthorative(toscaServiceTemplate))
+            .hasMessage("Type not specified, the type of this TOSCA entity must be specified in the type field");
 
         toscaPolicy.setType(originalPolicyType);
         toscaPolicy.setTypeVersion(originalPolicyTypeVersion);
@@ -504,9 +492,9 @@ class SimpleToscaProviderTest {
         assertEquals(0, originalServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey)
             .compareTo(deletedServiceTemplate.getTopologyTemplate().getPolicies().get(policyKey)));
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion());
-        }).hasMessage("policies for onap.restart.tca:1.0.0 do not exist");
+        assertThatThrownBy(
+            () -> new SimpleToscaProvider().getPolicies(pfDao, policyKey.getName(), policyKey.getVersion()))
+            .hasMessage("policies for onap.restart.tca:1.0.0 do not exist");
 
         assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicy(pfDao, policyKey))
             .hasMessage("no policies found");
@@ -550,9 +538,8 @@ class SimpleToscaProviderTest {
 
     @Test
     void testGetDataTypesCornerCases() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("service template not found in database");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("service template not found in database");
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
@@ -561,23 +548,21 @@ class SimpleToscaProviderTest {
 
         new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("data types for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("data types for hello:0.0.1 do not exist");
 
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
 
         JpaToscaDataType dt01 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
-        dt01.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dt01.setMetadata(new TreeMap<String, String>());
-        dt01.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dt01.setConstraints(new ArrayList<>());
+        dt01.setMetadata(new TreeMap<>());
+        dt01.setProperties(new LinkedHashMap<>());
         serviceTemplate.getDataTypes().getConceptMap().put(dt01.getKey(), dt01);
 
         new SimpleToscaProvider().createDataTypes(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("data types for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getDataTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("data types for hello:0.0.1 do not exist");
 
         JpaToscaServiceTemplate gotSt =
             new SimpleToscaProvider().getDataTypes(pfDao, dt01.getName(), dt01.getVersion());
@@ -592,9 +577,9 @@ class SimpleToscaProviderTest {
         assertEquals(1, gotSt.getDataTypes().getAll(dt01.getName(), dt01.getVersion()).size());
 
         JpaToscaDataType dt02 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.2"));
-        dt02.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dt02.setMetadata(new TreeMap<String, String>());
-        dt02.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dt02.setConstraints(new ArrayList<>());
+        dt02.setMetadata(new TreeMap<>());
+        dt02.setProperties(new LinkedHashMap<>());
         serviceTemplate.getDataTypes().getConceptMap().put(dt02.getKey(), dt02);
 
         new SimpleToscaProvider().createDataTypes(pfDao, serviceTemplate);
@@ -613,9 +598,8 @@ class SimpleToscaProviderTest {
 
     @Test
     void testGetPolicyTypesCornerCases() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("service template not found in database");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("service template not found in database");
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
@@ -624,24 +608,22 @@ class SimpleToscaProviderTest {
 
         new SimpleToscaProvider().createDataTypes(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("policy types for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("policy types for hello:0.0.1 do not exist");
 
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         JpaToscaPolicyType pt01 = new JpaToscaPolicyType(new PfConceptKey("p0:0.0.1"));
-        pt01.setMetadata(new TreeMap<String, String>());
-        pt01.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        pt01.setTargets(new ArrayList<PfConceptKey>());
-        pt01.setTriggers(new ArrayList<JpaToscaTrigger>());
+        pt01.setMetadata(new TreeMap<>());
+        pt01.setProperties(new LinkedHashMap<>());
+        pt01.setTargets(new ArrayList<>());
+        pt01.setTriggers(new ArrayList<>());
         serviceTemplate.getPolicyTypes().getConceptMap().put(pt01.getKey(), pt01);
 
         new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("policy types for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicyTypes(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("policy types for hello:0.0.1 do not exist");
 
         JpaToscaServiceTemplate gotSt =
             new SimpleToscaProvider().getPolicyTypes(pfDao, pt01.getName(), pt01.getVersion());
@@ -656,10 +638,10 @@ class SimpleToscaProviderTest {
         assertEquals(1, gotSt.getPolicyTypes().getAll(pt01.getName(), pt01.getVersion()).size());
 
         JpaToscaPolicyType pt02 = new JpaToscaPolicyType(new PfConceptKey("p0:0.0.2"));
-        pt02.setMetadata(new TreeMap<String, String>());
-        pt02.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        pt02.setTargets(new ArrayList<PfConceptKey>());
-        pt02.setTriggers(new ArrayList<JpaToscaTrigger>());
+        pt02.setMetadata(new TreeMap<>());
+        pt02.setProperties(new LinkedHashMap<>());
+        pt02.setTargets(new ArrayList<>());
+        pt02.setTriggers(new ArrayList<>());
         serviceTemplate.getPolicyTypes().getConceptMap().put(pt02.getKey(), pt02);
 
         new SimpleToscaProvider().createPolicyTypes(pfDao, serviceTemplate);
@@ -678,31 +660,29 @@ class SimpleToscaProviderTest {
 
     @Test
     void testGetPoliciesCornerCases() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("service template not found in database");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("service template not found in database");
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
         JpaToscaDataType dt0 = new JpaToscaDataType(new PfConceptKey("dt0:0.0.1"));
-        dt0.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dt0.setMetadata(new TreeMap<String, String>());
-        dt0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dt0.setConstraints(new ArrayList<>());
+        dt0.setMetadata(new TreeMap<>());
+        dt0.setProperties(new LinkedHashMap<>());
         serviceTemplate.getDataTypes().getConceptMap().put(dt0.getKey(), dt0);
 
         new SimpleToscaProvider().createDataTypes(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("policies for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("policies for hello:0.0.1 do not exist");
 
         serviceTemplate.setPolicyTypes(new JpaToscaPolicyTypes());
 
         JpaToscaPolicyType pt01 = new JpaToscaPolicyType(new PfConceptKey("pt0:0.0.1"));
-        pt01.setMetadata(new TreeMap<String, String>());
-        pt01.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
-        pt01.setTargets(new ArrayList<PfConceptKey>());
-        pt01.setTriggers(new ArrayList<JpaToscaTrigger>());
+        pt01.setMetadata(new TreeMap<>());
+        pt01.setProperties(new LinkedHashMap<>());
+        pt01.setTargets(new ArrayList<>());
+        pt01.setTriggers(new ArrayList<>());
         serviceTemplate.getPolicyTypes().getConceptMap().put(pt01.getKey(), pt01);
 
         serviceTemplate.setTopologyTemplate(new JpaToscaTopologyTemplate());
@@ -710,16 +690,15 @@ class SimpleToscaProviderTest {
 
         JpaToscaPolicy p01 = new JpaToscaPolicy(new PfConceptKey("p0:0.0.1"));
         p01.setType(pt01.getKey());
-        p01.setMetadata(new TreeMap<String, String>());
-        p01.setProperties(new LinkedHashMap<String, String>());
-        p01.setTargets(new ArrayList<PfConceptKey>());
+        p01.setMetadata(new TreeMap<>());
+        p01.setProperties(new LinkedHashMap<>());
+        p01.setTargets(new ArrayList<>());
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(p01.getKey(), p01);
 
         new SimpleToscaProvider().createPolicies(pfDao, serviceTemplate);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1");
-        }).hasMessageMatching("policies for hello:0.0.1 do not exist");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicies(pfDao, "hello", "0.0.1"))
+            .hasMessageMatching("policies for hello:0.0.1 do not exist");
 
         JpaToscaServiceTemplate gotSt = new SimpleToscaProvider().getPolicies(pfDao, p01.getName(), p01.getVersion());
 
@@ -735,9 +714,9 @@ class SimpleToscaProviderTest {
         JpaToscaPolicy p02 = new JpaToscaPolicy(new PfConceptKey("p0:0.0.2"));
         p02.setType(pt01.getKey());
         p02.setType(pt01.getKey());
-        p02.setMetadata(new TreeMap<String, String>());
-        p02.setProperties(new LinkedHashMap<String, String>());
-        p02.setTargets(new ArrayList<PfConceptKey>());
+        p02.setMetadata(new TreeMap<>());
+        p02.setProperties(new LinkedHashMap<>());
+        p02.setTargets(new ArrayList<>());
         serviceTemplate.getTopologyTemplate().getPolicies().getConceptMap().put(p02.getKey(), p02);
 
         new SimpleToscaProvider().createPolicies(pfDao, serviceTemplate);
@@ -756,162 +735,126 @@ class SimpleToscaProviderTest {
 
     @Test
     void testNonNullsDataType() {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getServiceTemplate(null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().getServiceTemplate(null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().appendToServiceTemplate(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().appendToServiceTemplate(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().appendToServiceTemplate(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().appendToServiceTemplate(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().appendToServiceTemplate(pfDao, null);
-        }).hasMessageMatching("^incomingServiceTemplateFragment is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().appendToServiceTemplate(pfDao, null))
+            .hasMessageMatching("^incomingServiceTemplateFragment is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getDataTypes(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().getDataTypes(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createDataTypes(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createDataTypes(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createDataTypes(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createDataTypes(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createDataTypes(pfDao, null);
-        }).hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createDataTypes(pfDao, null))
+            .hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updateDataTypes(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updateDataTypes(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updateDataTypes(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updateDataTypes(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updateDataTypes(pfDao, null);
-        }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updateDataTypes(pfDao, null))
+            .hasMessageMatching(TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deleteDataType(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deleteDataType(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deleteDataType(null, new PfConceptKey());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deleteDataType(null, new PfConceptKey()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deleteDataType(pfDao, null);
-        }).hasMessageMatching("^dataTypeKey is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().deleteDataType(pfDao, null))
+            .hasMessageMatching("^dataTypeKey is marked .*on.*ull but is null$");
     }
 
     @Test
     void testNotNullsPolicyTypes() {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicyTypes(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicyTypes(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicyTypes(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicyTypes(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicyTypes(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicyTypes(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicyTypes(pfDao, null);
-        }).hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicyTypes(pfDao, null))
+            .hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicyTypes(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicyTypes(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicyTypes(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicyTypes(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicyTypes(pfDao, null);
-        }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicyTypes(pfDao, null))
+            .hasMessageMatching(TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicyType(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicyType(null, new PfConceptKey());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(null, new PfConceptKey()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicyType(pfDao, null);
-        }).hasMessageMatching("^policyTypeKey is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicyType(pfDao, null))
+            .hasMessageMatching("^policyTypeKey is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getPolicies(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().getPolicies(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicies(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicies(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicies(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().createPolicies(pfDao, null);
-        }).hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().createPolicies(pfDao, null))
+            .hasMessageMatching(INCOMING_TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicies(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicies(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicies(null, new JpaToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicies(null, new JpaToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().updatePolicies(pfDao, null);
-        }).hasMessageMatching(TEMPLATE_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().updatePolicies(pfDao, null))
+            .hasMessageMatching(TEMPLATE_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicy(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicy(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicy(null, new PfConceptKey());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicy(null, new PfConceptKey()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deletePolicy(pfDao, null);
-        }).hasMessageMatching("^policyKey is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().deletePolicy(pfDao, null))
+            .hasMessageMatching("^policyKey is marked .*on.*ull but is null$");
     }
 
     @Test
     void testDeleteServiceTemplate() throws PfModelException {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deleteServiceTemplate(null);
-        }).hasMessageMatching("^dao is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().deleteServiceTemplate(null))
+            .hasMessageMatching("^dao is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().deleteServiceTemplate(pfDao);
-        }).hasMessage("service template not found in database");
+        assertThatThrownBy(() -> new SimpleToscaProvider().deleteServiceTemplate(pfDao))
+            .hasMessage("service template not found in database");
 
         PfConceptKey dataType0Key = new PfConceptKey("DataType0", "0.0.1");
         JpaToscaDataType dataType0 = new JpaToscaDataType();
         dataType0.setKey(dataType0Key);
-        dataType0.setConstraints(new ArrayList<JpaToscaConstraint>());
-        dataType0.setMetadata(new TreeMap<String, String>());
-        dataType0.setProperties(new LinkedHashMap<String, JpaToscaProperty>());
+        dataType0.setConstraints(new ArrayList<>());
+        dataType0.setMetadata(new TreeMap<>());
+        dataType0.setProperties(new LinkedHashMap<>());
 
         JpaToscaServiceTemplate serviceTemplate = new JpaToscaServiceTemplate();
         serviceTemplate.setDataTypes(new JpaToscaDataTypes());
@@ -922,7 +865,7 @@ class SimpleToscaProviderTest {
 
         assertEquals(1, createdServiceTemplate.getDataTypes().getConceptMap().size());
         assertEquals(dataType0, createdServiceTemplate.getDataTypes().get(dataType0Key));
-        assertEquals(null, createdServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
+        assertNull(createdServiceTemplate.getDataTypes().get(dataType0Key).getDescription());
 
         JpaToscaServiceTemplate deletedServiceTemplate = new SimpleToscaProvider().deleteServiceTemplate(pfDao);
 
@@ -931,9 +874,8 @@ class SimpleToscaProviderTest {
 
     @Test
     void testNullParameters() {
-        assertThatThrownBy(() -> {
-            new SimpleToscaProvider().getCascadedDataTypes(null, null, null);
-        }).hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> new SimpleToscaProvider().getCascadedDataTypes(null, null, null))
+            .hasMessageMatching("^dbServiceTemplate is marked .*on.*ull but is null$");
     }
 
     private void createPolicyTypes() throws CoderException, PfModelException {

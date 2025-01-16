@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  *  Modifications Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
@@ -60,8 +60,8 @@ import org.slf4j.LoggerFactory;
 class PolicyToscaPersistenceTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(PolicyToscaPersistenceTest.class);
 
-    private static YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
-    private StandardCoder standardCoder = new StandardCoder();
+    private static final YamlJsonTranslator yamlJsonTranslator = new YamlJsonTranslator();
+    private final StandardCoder standardCoder = new StandardCoder();
 
     private static PolicyModelsProvider databaseProvider;
 
@@ -73,17 +73,11 @@ class PolicyToscaPersistenceTest {
      */
     @BeforeAll
     public static void setupParameters() throws Exception {
-        // H2, use "org.mariadb.jdbc.Driver" and "jdbc:mariadb://localhost:3306/policy" for locally installed MariaDB
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
 
-        if (System.getProperty("USE-MARIADB") != null) {
-            parameters.setDatabaseDriver("org.mariadb.jdbc.Driver");
-            parameters.setDatabaseUrl("jdbc:mariadb://localhost:3306/policy");
-        } else {
-            parameters.setDatabaseDriver("org.h2.Driver");
-            parameters.setDatabaseUrl("jdbc:h2:mem:PolicyToscaPersistenceTest");
-        }
+        parameters.setDatabaseDriver("org.h2.Driver");
+        parameters.setDatabaseUrl("jdbc:h2:mem:PolicyToscaPersistenceTest");
 
         parameters.setDatabaseUser("policy");
         parameters.setDatabasePassword("P01icY");
@@ -257,14 +251,11 @@ class PolicyToscaPersistenceTest {
         CountDownLatch threadCountDownLatch = new CountDownLatch(10);
 
         for (int i = 0; i < 10; i++) {
-            new Thread() {
-                @Override
-                public void run() {
-                    assertThatCode(() -> databaseProvider.createPolicies(serviceTemplate)).doesNotThrowAnyException();
-                    assertThatCode(() -> databaseProvider.updatePolicies(serviceTemplate)).doesNotThrowAnyException();
-                    threadCountDownLatch.countDown();
-                }
-            }.start();
+            new Thread(() -> {
+                assertThatCode(() -> databaseProvider.createPolicies(serviceTemplate)).doesNotThrowAnyException();
+                assertThatCode(() -> databaseProvider.updatePolicies(serviceTemplate)).doesNotThrowAnyException();
+                threadCountDownLatch.countDown();
+            }).start();
         }
 
         threadCountDownLatch.await(10, TimeUnit.SECONDS);

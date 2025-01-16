@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2022-2024 Nordix Foundation.
+ *  Copyright (C) 2022-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,6 +68,7 @@ class AuthorativeToscaProviderNodeTemplateTest {
 
     /**
      * Read policy metadataSet input json.
+     *
      * @throws Exception Coder exception
      */
     @BeforeEach
@@ -97,14 +98,9 @@ class AuthorativeToscaProviderNodeTemplateTest {
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
-        if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
-        } else {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
-                "jdbc:h2:mem:AuthorativeToscaProviderNodeTemplatesTest");
-        }
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url",
+            "jdbc:h2:mem:AuthorativeToscaProviderNodeTemplatesTest");
         daoParameters.setJdbcProperties(jdbcProperties);
 
         pfDao = new PfDaoFactory().createPfDao(daoParameters);
@@ -119,9 +115,8 @@ class AuthorativeToscaProviderNodeTemplateTest {
     @Test
     void testPolicyMetadataSetsGet() throws Exception {
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.getNodeTemplateMetadataSet(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.getNodeTemplateMetadataSet(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
         assertNotNull(toscaServiceTemplate);
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
@@ -145,9 +140,8 @@ class AuthorativeToscaProviderNodeTemplateTest {
     @Test
     void testToscaNodeTemplatesGet() throws Exception {
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.getToscaNodeTemplate(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.getToscaNodeTemplate(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
         assertNotNull(toscaServiceTemplate);
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
@@ -170,17 +164,14 @@ class AuthorativeToscaProviderNodeTemplateTest {
 
     @Test
     void testToscaNodeTemplatesCreate() throws Exception {
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.createToscaNodeTemplates(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.createToscaNodeTemplates(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.createToscaNodeTemplates(null, new ToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.createToscaNodeTemplates(null, new ToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.createToscaNodeTemplates(pfDao, null);
-        }).hasMessageMatching("^toscaServiceTemplate is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> authorativeToscaProvider.createToscaNodeTemplates(pfDao, null))
+            .hasMessageMatching("^toscaServiceTemplate is marked .*on.*ull but is null$");
 
         ToscaServiceTemplate createdNodeTemplates =
             authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
@@ -194,25 +185,21 @@ class AuthorativeToscaProviderNodeTemplateTest {
         //Create node template with invalid node type
         createToscaNodeTemplate.getToscaTopologyTemplate().getNodeTemplates().get("apexMetadata_adaptive")
             .setType("invalid.type");
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.createToscaNodeTemplates(pfDao, createToscaNodeTemplate);
-        }).hasMessageMatching("^NODE_TYPE .* for toscaNodeTemplate .* does not exist$");
+        assertThatThrownBy(() -> authorativeToscaProvider.createToscaNodeTemplates(pfDao, createToscaNodeTemplate))
+            .hasMessageMatching("^NODE_TYPE .* for toscaNodeTemplate .* does not exist$");
 
     }
 
     @Test
     void testToscaNodeTemplateUpdate() throws Exception {
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.updateToscaNodeTemplates(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.updateToscaNodeTemplates(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.updateToscaNodeTemplates(null, new ToscaServiceTemplate());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.updateToscaNodeTemplates(null, new ToscaServiceTemplate()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.updateToscaNodeTemplates(pfDao, null);
-        }).hasMessageMatching("^serviceTemplate is marked non-null but is null$");
+        assertThatThrownBy(() -> authorativeToscaProvider.updateToscaNodeTemplates(pfDao, null))
+            .hasMessageMatching("^serviceTemplate is marked non-null but is null$");
 
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
         ToscaServiceTemplate updatedTemplate =
@@ -224,33 +211,27 @@ class AuthorativeToscaProviderNodeTemplateTest {
         //Update nodeTemplate with invalid node type
         updatedToscaServiceTemplate.getToscaTopologyTemplate().getNodeTemplates().get("apexMetadata_grpc")
             .setTypeVersion("0.0.0");
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.updateToscaNodeTemplates(pfDao, updatedToscaServiceTemplate);
-        }).hasMessageMatching("^NODE_TYPE .* for toscaNodeTemplate .* does not exist$");
+        assertThatThrownBy(() -> authorativeToscaProvider.updateToscaNodeTemplates(pfDao, updatedToscaServiceTemplate))
+            .hasMessageMatching("^NODE_TYPE .* for toscaNodeTemplate .* does not exist$");
     }
 
     @Test
     void testToscaNodeTemplateDelete() throws Exception {
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.deleteToscaNodeTemplate(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.deleteToscaNodeTemplate(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.deleteToscaNodeTemplate(null, null, "0.0.1");
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> authorativeToscaProvider.deleteToscaNodeTemplate(null, null, "0.0.1"))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, null, null);
-        }).hasMessageMatching("^name is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, null, null))
+            .hasMessageMatching("^name is marked .*on.*ull but is null$");
 
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, "name", null);
-        }).hasMessageMatching("^version is marked .*on.*ull but is null$");
+        assertThatThrownBy(() -> authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, "name", null))
+            .hasMessageMatching("^version is marked .*on.*ull but is null$");
 
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, "dummyname", "1.0.1");
-        }).hasMessage("node template dummyname:1.0.1 not found");
+        assertThatThrownBy(() -> authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, "dummyname", "1.0.1"))
+            .hasMessage("node template dummyname:1.0.1 not found");
 
 
         ToscaServiceTemplate responseTemplate =
@@ -282,11 +263,10 @@ class AuthorativeToscaProviderNodeTemplateTest {
         authorativeToscaProvider.createToscaNodeTemplates(pfDao, toscaServiceTemplate);
 
         //delete node templates referenced in existing policy
-        assertThatThrownBy(() -> {
-            authorativeToscaProvider
-                .deleteToscaNodeTemplate(pfDao, "apexMetadata_decisionMaker", "1.0.0");
-        }).hasMessageEndingWith("Node template is in use, it is referenced in Tosca Policy "
-            + "operational.apex.decisionMaker version 1.0.0");
+        assertThatThrownBy(() -> authorativeToscaProvider
+            .deleteToscaNodeTemplate(pfDao, "apexMetadata_decisionMaker", "1.0.0"))
+            .hasMessageEndingWith("Node template is in use, it is referenced in Tosca Policy "
+                + "operational.apex.decisionMaker version 1.0.0");
 
         //delete unreferenced node template
         authorativeToscaProvider.deleteToscaNodeTemplate(pfDao, "apexMetadata_adaptive", "2.3.1");

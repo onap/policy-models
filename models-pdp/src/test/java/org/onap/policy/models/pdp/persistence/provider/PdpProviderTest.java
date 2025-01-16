@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2019-2021, 2023-2024 Nordix Foundation.
+ *  Copyright (C) 2019-2021, 2023-2025 Nordix Foundation.
  *  Modifications Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2023 Bell Canada. All rights reserved.
  * ================================================================================
@@ -30,7 +30,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
@@ -93,14 +93,8 @@ class PdpProviderTest {
         Properties jdbcProperties = new Properties();
         jdbcProperties.setProperty("jakarta.persistence.jdbc.user", "policy");
         jdbcProperties.setProperty("jakarta.persistence.jdbc.password", "P01icY");
-
-        if (System.getProperty("USE-MARIADB") != null) {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.mariadb.jdbc.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:mariadb://localhost:3306/policy");
-        } else {
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
-            jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:PdpProviderTest");
-        }
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.driver", "org.h2.Driver");
+        jdbcProperties.setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:mem:PdpProviderTest");
 
         daoParameters.setJdbcProperties(jdbcProperties);
 
@@ -134,13 +128,11 @@ class PdpProviderTest {
 
     @Test
     void testGroupsGet() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getPdpGroups(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getPdpGroups(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().getPdpGroups(null, "name");
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getPdpGroups(null, "name"))
+            .hasMessageMatching(DAO_IS_NULL);
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -160,17 +152,14 @@ class PdpProviderTest {
 
     @Test
     void testFilteredPdpGroupGet() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getFilteredPdpGroups(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getFilteredPdpGroups(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().getFilteredPdpGroups(null, PdpGroupFilter.builder().build());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getFilteredPdpGroups(null, PdpGroupFilter.builder().build()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().getFilteredPdpGroups(pfDao, null);
-        }).hasMessageMatching("filter is marked .*ull but is null");
+        assertThatThrownBy(() -> new PdpProvider().getFilteredPdpGroups(pfDao, null))
+            .hasMessageMatching("filter is marked .*ull but is null");
 
         String originalJson = ResourceUtils.getResourceAsString("testdata/PdpGroupsForFiltering.json");
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -200,17 +189,14 @@ class PdpProviderTest {
 
     @Test
     void testGroupsCreate() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().createPdpGroups(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().createPdpGroups(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().createPdpGroups(null, new ArrayList<>());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().createPdpGroups(null, new ArrayList<>()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().createPdpGroups(pfDao, null);
-        }).hasMessageMatching("pdpGroups is marked .*ull but is null");
+        assertThatThrownBy(() -> new PdpProvider().createPdpGroups(pfDao, null))
+            .hasMessageMatching("pdpGroups is marked .*ull but is null");
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -227,9 +213,8 @@ class PdpProviderTest {
         assertEquals(originalJson.replaceAll("\\s+", ""), gotJson.replaceAll("\\s+", ""));
 
         pdpGroups0.getGroups().get(0).setPdpGroupState(null);
-        assertThatThrownBy(() -> {
-            new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups());
-        }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
+        assertThatThrownBy(() -> new PdpProvider().createPdpGroups(pfDao, pdpGroups0.getGroups()))
+            .hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
             .hasMessageContaining(Validated.IS_NULL);
     }
 
@@ -256,17 +241,14 @@ class PdpProviderTest {
 
     @Test
     void testGroupsUpdate() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpGroups(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpGroups(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpGroups(null, new ArrayList<>());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpGroups(null, new ArrayList<>()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpGroups(pfDao, null);
-        }).hasMessageMatching("pdpGroups is marked .*ull but is null");
+        assertThatThrownBy(() -> new PdpProvider().updatePdpGroups(pfDao, null))
+            .hasMessageMatching("pdpGroups is marked .*ull but is null");
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -293,29 +275,24 @@ class PdpProviderTest {
         assertTrue(beforePdpInstances.containsAll(afterPdpInstances));
 
         pdpGroups0.getGroups().get(0).setPdpGroupState(null);
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpGroups(pfDao, pdpGroups0.getGroups());
-        }).hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
+        assertThatThrownBy(() -> new PdpProvider().updatePdpGroups(pfDao, pdpGroups0.getGroups()))
+            .hasMessageContaining("PDP group").hasMessageContaining("pdpGroupState")
             .hasMessageContaining(Validated.IS_NULL);
     }
 
     @Test
     void testPoliciesDelete() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().deletePdpGroup(null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(null, "name");
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().deletePdpGroup(null, "name"))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(pfDao, null);
-        }).hasMessageMatching("name is marked .*ull but is null");
+        assertThatThrownBy(() -> new PdpProvider().deletePdpGroup(pfDao, null))
+            .hasMessageMatching("name is marked .*ull but is null");
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(pfDao, "name");
-        }).hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
+        assertThatThrownBy(() -> new PdpProvider().deletePdpGroup(pfDao, "name"))
+            .hasMessage("delete of PDP group \"name:0.0.0\" failed, PDP group does not exist");
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -337,44 +314,35 @@ class PdpProviderTest {
 
         assertEquals(0, new PdpProvider().getPdpGroups(pfDao, PDP_GROUP0).size());
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().deletePdpGroup(pfDao, PDP_GROUP0);
-        }).hasMessage("delete of PDP group \"PdpGroup0:0.0.0\" failed, PDP group does not exist");
+        assertThatThrownBy(() -> new PdpProvider().deletePdpGroup(pfDao, PDP_GROUP0))
+            .hasMessage("delete of PDP group \"PdpGroup0:0.0.0\" failed, PDP group does not exist");
     }
 
     @Test
     void testPdpSubgroupUpdate() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(null, null, new PdpSubGroup());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(null, null, new PdpSubGroup()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(null, "name", null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(null, "name", null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(null, "name", new PdpSubGroup());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(null, "name", new PdpSubGroup()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(pfDao, null, null))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, null, new PdpSubGroup());
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(pfDao, null, new PdpSubGroup()))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, "name", null);
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(pfDao, "name", null))
+            .hasMessageMatching(SUBGROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, "name", new PdpSubGroup());
-        }).hasMessage("parameter \"localName\" is null");
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(pfDao, "name", new PdpSubGroup()))
+            .hasMessage("parameter \"localName\" is null");
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -400,78 +368,61 @@ class PdpProviderTest {
         assertEquals(10, afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getDesiredInstanceCount());
 
         existingSubGroup.setDesiredInstanceCount(-1);
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup);
-        }).hasMessageContaining("PDP sub group").hasMessageContaining("desiredInstanceCount")
+        assertThatThrownBy(() -> new PdpProvider().updatePdpSubGroup(pfDao, PDP_GROUP0, existingSubGroup))
+            .hasMessageContaining("PDP sub group").hasMessageContaining("desiredInstanceCount")
             .hasMessageContaining("below the minimum value");
         existingSubGroup.setDesiredInstanceCount(10);
     }
 
     @Test
     void testPdpUpdate() throws Exception {
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, null, null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, null, null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, null, null, new Pdp());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, null, null, new Pdp()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, null, "TYPE", null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, null, "TYPE", null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, null, "TYPE", new Pdp());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, null, "TYPE", new Pdp()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, "name", null, null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, "name", null, null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, "name", null, new Pdp());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, "name", null, new Pdp()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, "name", "TYPE", null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, "name", "TYPE", null))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(null, "name", "TYPE", new Pdp());
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(null, "name", "TYPE", new Pdp()))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, null, null, null);
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, null, null, null))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, null, null, new Pdp());
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, null, null, new Pdp()))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, null, "TYPE", null);
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, null, "TYPE", null))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, null, "TYPE", new Pdp());
-        }).hasMessageMatching(GROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, null, "TYPE", new Pdp()))
+            .hasMessageMatching(GROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, "name", null, null);
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, "name", null, null))
+            .hasMessageMatching(SUBGROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, "name", null, new Pdp());
-        }).hasMessageMatching(SUBGROUP_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, "name", null, new Pdp()))
+            .hasMessageMatching(SUBGROUP_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, "name", "TYPE", null);
-        }).hasMessageMatching("pdp is marked .*ull but is null");
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, "name", "TYPE", null))
+            .hasMessageMatching("pdp is marked .*ull but is null");
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, "name", "TYPE", new Pdp());
-        }).hasMessage("parameter \"localName\" is null");
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, "name", "TYPE", new Pdp()))
+            .hasMessage("parameter \"localName\" is null");
 
         String originalJson = ResourceUtils.getResourceAsString(PDP_GROUPS0_JSON);
         PdpGroups pdpGroups0 = standardCoder.decode(originalJson, PdpGroups.class);
@@ -499,17 +450,15 @@ class PdpProviderTest {
             afterUpdatePdpGroups.get(0).getPdpSubgroups().get(0).getPdpInstances().get(0).getHealthy());
 
         existingPdp.setMessage("");
-        assertThatThrownBy(() -> {
-            new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp);
-        }).hasMessageContaining("PDP").hasMessageContaining("message").hasMessageContaining(Validated.IS_BLANK);
+        assertThatThrownBy(() -> new PdpProvider().updatePdp(pfDao, PDP_GROUP0, "APEX", existingPdp))
+            .hasMessageContaining("PDP").hasMessageContaining("message").hasMessageContaining(Validated.IS_BLANK);
         existingPdp.setMessage("A Message");
     }
 
     @Test
     void testGetAllPolicyStatusPfDao() {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getAllPolicyStatus(null);
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getAllPolicyStatus(null))
+            .hasMessageMatching(DAO_IS_NULL);
 
         assertThat(new PdpProvider().getAllPolicyStatus(pfDao)).isEmpty();
 
@@ -535,13 +484,12 @@ class PdpProviderTest {
 
     @Test
     void testGetAllPolicyStatusPfDaoToscaConceptIdentifierOptVersion() {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getAllPolicyStatus(null, new ToscaConceptIdentifierOptVersion("somePdp", null));
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider()
+            .getAllPolicyStatus(null, new ToscaConceptIdentifierOptVersion("somePdp", null)))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().getAllPolicyStatus(pfDao, null);
-        }).hasMessageContaining("policy").hasMessageContaining("null");
+        assertThatThrownBy(() -> new PdpProvider().getAllPolicyStatus(pfDao, null))
+            .hasMessageContaining("policy").hasMessageContaining("null");
 
         assertThat(new PdpProvider().getAllPolicyStatus(pfDao, new ToscaConceptIdentifierOptVersion("somePdp", null)))
             .isEmpty();
@@ -554,13 +502,11 @@ class PdpProviderTest {
 
     @Test
     void testGetGroupPolicyStatus() {
-        assertThatThrownBy(() -> {
-            new PdpProvider().getGroupPolicyStatus(null, "someGroup");
-        }).hasMessageMatching(DAO_IS_NULL);
+        assertThatThrownBy(() -> new PdpProvider().getGroupPolicyStatus(null, "someGroup"))
+            .hasMessageMatching(DAO_IS_NULL);
 
-        assertThatThrownBy(() -> {
-            new PdpProvider().getGroupPolicyStatus(pfDao, null);
-        }).hasMessageContaining("group").hasMessageContaining("null");
+        assertThatThrownBy(() -> new PdpProvider().getGroupPolicyStatus(pfDao, null))
+            .hasMessageContaining("group").hasMessageContaining("null");
 
         assertThat(new PdpProvider().getGroupPolicyStatus(pfDao, PDP_GROUP0)).isEmpty();
 
@@ -592,7 +538,7 @@ class PdpProviderTest {
         List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
         assertThat(records).hasSize(2);
 
-        records.sort((rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        records.sort(Comparator.comparing(PdpPolicyStatus::getPdpId));
         assertThat(records.get(0)).isEqualTo(idx);
         assertThat(records.get(1)).isEqualTo(idy);
 
@@ -622,7 +568,7 @@ class PdpProviderTest {
         List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
         assertThat(records).hasSize(4);
 
-        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        records.sort(Comparator.comparing(PdpPolicyStatus::getPdpId));
         assertThat(records.get(0)).isEqualTo(idw);
         assertThat(records.get(1)).isEqualTo(idx);
         assertThat(records.get(2)).isEqualTo(idy);
@@ -649,7 +595,7 @@ class PdpProviderTest {
         List<PdpPolicyStatus> records = prov.getGroupPolicyStatus(pfDao, GROUP_A);
         assertThat(records).hasSize(2);
 
-        Collections.sort(records, (rec1, rec2) -> rec1.getPdpId().compareTo(rec2.getPdpId()));
+        records.sort(Comparator.comparing(PdpPolicyStatus::getPdpId));
         assertThat(records.get(0)).isEqualTo(idx);
         assertThat(records.get(1)).isEqualTo(idz);
     }
