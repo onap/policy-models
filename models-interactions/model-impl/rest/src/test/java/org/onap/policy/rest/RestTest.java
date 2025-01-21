@@ -16,6 +16,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *  SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
@@ -43,6 +45,8 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -340,6 +344,25 @@ public class RestTest {
         result = mgr.patch(getUri, null, null, null, PAYLOAD);
         assertEquals((Integer) 405, result.getLeft());
 
+    }
+
+    @Test
+    void testBody() {
+        RestManager mgr = new RestManager();
+
+        Pair<Integer, String> result = mgr.delete(getUri, null, null, null, null, "");
+        assertEquals((Integer) 405, result.getLeft());
+
+        Map<String, String> hm = new HashMap<String, String>();
+        hm.put("header", "header");
+        result = mgr.delete(getUri, null, null, hm, null, "");
+        assertEquals((Integer) 405, result.getLeft());
+
+        result = mgr.delete(deleteUri, "user", null, null, MediaType.TEXT_PLAIN, "body");
+        checkResult(result, "DELETE: " + EXPECT_STRING);
+
+        result = mgr.put(deleteUri, "user", null, null, "content", "body");
+        assertEquals((Integer) 400, result.getLeft());
     }
 
     @GET

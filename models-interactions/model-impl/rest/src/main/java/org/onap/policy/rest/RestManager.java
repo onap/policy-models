@@ -3,7 +3,7 @@
  * rest
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020, 2023 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2020, 2023-2025 Nordix Foundation.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ *  SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
@@ -25,20 +27,28 @@ import jakarta.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.tuple.Pair;
-import org.apache.http.HttpHeaders;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPatch;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPatch;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
+import org.apache.hc.client5.http.classic.methods.HttpUriRequestBase;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.core5.http.ClassicHttpResponse;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpHeaders;
+import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
+import org.apache.hc.core5.http.message.StatusLine;
+import org.apache.hc.core5.ssl.SSLContexts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,8 +75,8 @@ public class RestManager {
         addHeaders(put, username, password, headers);
         put.addHeader(CONTENT_TYPE, contentType);
         try {
-            var input = new StringEntity(body);
-            input.setContentType(contentType);
+            var contentType1 = ContentType.create(contentType);
+            var input = new StringEntity(body, contentType1);
             put.setEntity(input);
         } catch (Exception e) {
             logger.error("put threw: ", e);
@@ -92,8 +102,8 @@ public class RestManager {
         addHeaders(post, username, password, headers);
         post.addHeader(CONTENT_TYPE, contentType);
         try {
-            var input = new StringEntity(body);
-            input.setContentType(contentType);
+            var contentType1 = ContentType.create(contentType);
+            var input = new StringEntity(body, contentType1);
             post.setEntity(input);
         } catch (Exception e) {
             logger.error("post threw: ", e);
@@ -131,13 +141,13 @@ public class RestManager {
      */
     public Pair<Integer, String> delete(String url, String username, String password, Map<String, String> headers,
             String contentType, String body) {
-        var delete = new HttpDeleteWithBody(url);
+        var delete = new HttpDelete(url);
         addHeaders(delete, username, password, headers);
         if (body != null && !body.isEmpty()) {
             delete.addHeader(CONTENT_TYPE, contentType);
             try {
-                var input = new StringEntity(body);
-                input.setContentType(contentType);
+                ContentType contentType1 = ContentType.create(contentType);
+                var input = new StringEntity(body, contentType1);
                 delete.setEntity(input);
             } catch (Exception e) {
                 logger.error("delete threw: ", e);
@@ -179,8 +189,8 @@ public class RestManager {
         addHeaders(patch, username, password, headers);
         patch.addHeader(CONTENT_TYPE, contentType);
         try {
-            var input = new StringEntity(body);
-            input.setContentType(contentType);
+            ContentType contentType1 = ContentType.create(contentType);
+            var input = new StringEntity(body, contentType1);
             patch.setEntity(input);
         } catch (Exception e) {
             logger.error("patch threw: ", e);
@@ -195,27 +205,39 @@ public class RestManager {
      * @param request http request to send
      * @return the response status code and the body
      */
-    private Pair<Integer, String> sendRequest(HttpRequestBase request) {
+    private Pair<Integer, String> sendRequest(HttpUriRequestBase request) {
         if (logger.isDebugEnabled()) {
-            logger.debug("***** sendRequest to url {}:", request.getURI());
+            logger.debug("***** sendRequest to url {}:", request.getRequestUri());
         }
 
+        var sslContext = SSLContexts.createDefault();
+        PoolingHttpClientConnectionManager connectionManager =
+            PoolingHttpClientConnectionManagerBuilder.create()
+                .setSSLSocketFactory(
+                        SSLConnectionSocketFactoryBuilder.create()
+                                .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                                .setSslContext(sslContext)
+                                .build()
+                )
+                .build();
         try (CloseableHttpClient client =
-                HttpClientBuilder.create().setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE).build()) {
+                     HttpClientBuilder.create().setConnectionManager(connectionManager).build()) {
             HttpResponse response = client.execute(request);
             if (response != null) {
-                var returnBody = EntityUtils.toString(response.getEntity(), "UTF-8");
-                logger.debug("HTTP Response Status Code: {}", response.getStatusLine().getStatusCode());
+                ClassicHttpResponse classicHttpResponse = (ClassicHttpResponse) response;
+                var returnBody = EntityUtils.toString(classicHttpResponse.getEntity(), "UTF-8");
+
+                logger.debug("HTTP Response Status Code: {}", new StatusLine(response).getStatusCode());
                 logger.debug("HTTP Response Body:");
                 logger.debug(returnBody);
 
-                return Pair.of(response.getStatusLine().getStatusCode(), returnBody);
+                return Pair.of(new StatusLine(response).getStatusCode(), returnBody);
             } else {
-                logger.error("Response from {} is null", request.getURI());
+                logger.error("Response from {} is null", request.getRequestUri());
                 return null;
             }
         } catch (Exception e) {
-            logger.error("Request failed to {}", request.getURI(), e);
+            logger.error("Request failed to {}", request.getRequestUri(), e);
             return null;
         }
     }
@@ -228,7 +250,7 @@ public class RestManager {
      * @param password the password
      * @param headers any headers
      */
-    private void addHeaders(HttpRequestBase request, String username, String password, Map<String, String> headers) {
+    private void addHeaders(HttpUriRequestBase request, String username, String password, Map<String, String> headers) {
         String authHeader = makeAuthHeader(username, password);
         if (headers != null) {
             for (Entry<String, String> entry : headers.entrySet()) {
