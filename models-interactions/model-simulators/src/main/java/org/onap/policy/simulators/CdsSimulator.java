@@ -1,6 +1,6 @@
 /*-
  * ============LICENSE_START=======================================================
- *  Copyright (C) 2020 Nordix Foundation.
+ *  Copyright (C) 2020, 2025 Nordix Foundation.
  *  Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
  *  Modifications Copyright (C) 2020 Bell Canada. All rights reserved.
  * ================================================================================
@@ -55,7 +55,7 @@ public class CdsSimulator implements Runnable {
 
     private final String resourceLocation;
 
-    private AtomicInteger countOfEvents = new AtomicInteger(1);
+    private final AtomicInteger countOfEvents = new AtomicInteger(1);
 
     /**
      * Constructs the object, but does not start it.
@@ -72,10 +72,10 @@ public class CdsSimulator implements Runnable {
      *
      * @param host host name of the server
      * @param port port of the server
-     * @param countOfSuccesfulEvents number of successive successful events
+     * @param countOfSuccessfulEvents number of successive successful events
      * @param requestedResponseDelayMs time for the request to be processed
      */
-    public CdsSimulator(String host, int port, String resourceLocation, int countOfSuccesfulEvents,
+    public CdsSimulator(String host, int port, String resourceLocation, int countOfSuccessfulEvents,
         long requestedResponseDelayMs) {
         this.port = port;
         this.resourceLocation = resourceLocation;
@@ -86,13 +86,13 @@ public class CdsSimulator implements Runnable {
             public StreamObserver<ExecutionServiceInput> process(
                 final StreamObserver<ExecutionServiceOutput> responseObserver) {
 
-                return new StreamObserver<ExecutionServiceInput>() {
+                return new StreamObserver<>() {
 
                     @Override
                     public void onNext(final ExecutionServiceInput executionServiceInput) {
                         LOGGER.info("Received request input to CDS: {}", executionServiceInput);
                         try {
-                            var builder = getResponse(executionServiceInput, countOfSuccesfulEvents);
+                            var builder = getResponse(executionServiceInput, countOfSuccessfulEvents);
                             TimeUnit.MILLISECONDS.sleep(requestedResponseDelayMs);
                             responseObserver.onNext(builder.build());
                         } catch (InvalidProtocolBufferException e) {
@@ -116,7 +116,9 @@ public class CdsSimulator implements Runnable {
             }
         };
 
-        server = NettyServerBuilder.forAddress(new InetSocketAddress(host, port)).addService(testCdsBlueprintServerImpl)
+        server = NettyServerBuilder
+            .forAddress(new InetSocketAddress(host, port))
+            .addService(testCdsBlueprintServerImpl)
             .build();
     }
 
@@ -127,7 +129,7 @@ public class CdsSimulator implements Runnable {
      */
     public void start() throws IOException {
         server.start();
-        // The grpc server uses daemon threads by default. Hence the application will exit as soon the main thread
+        // The grpc server uses daemon threads by default. Hence, the application will exit as soon the main thread
         // completes. So, wrap the server in a non-daemon thread and call awaitTermination to keep the thread alive
         // until the server is terminated.
         new Thread(this).start();
@@ -144,18 +146,18 @@ public class CdsSimulator implements Runnable {
      * Constructs the ResponseString on the basis of request.
      *
      * @param executionServiceInput service input
-     * @param countOfSuccesfulEvents number of successive successful events
+     * @param countOfSuccessfulEvents number of successive successful events
      * @return builder for ExecutionServiceOutput response
      * @throws InvalidProtocolBufferException when response string cannot be converted
      */
-    public Builder getResponse(ExecutionServiceInput executionServiceInput, int countOfSuccesfulEvents)
+    public Builder getResponse(ExecutionServiceInput executionServiceInput, int countOfSuccessfulEvents)
         throws InvalidProtocolBufferException {
         var resourceName = "DefaultResponseEvent";
         if (!StringUtils.isBlank(executionServiceInput.getActionIdentifiers().getActionName())) {
             var actionIdentifiers = executionServiceInput.getActionIdentifiers();
             resourceName = actionIdentifiers.getBlueprintName() + "-" + actionIdentifiers.getActionName();
         }
-        if (countOfSuccesfulEvents > 0 && countOfEvents.getAndIncrement() % countOfSuccesfulEvents == 0) {
+        if (countOfSuccessfulEvents > 0 && countOfEvents.getAndIncrement() % countOfSuccessfulEvents == 0) {
             // generating the failure response
             resourceName = resourceName + "-error.json";
         } else {
