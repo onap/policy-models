@@ -17,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * SPDX-License-Identifier: Apache-2.0
  * ============LICENSE_END=========================================================
  */
 
@@ -38,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc.BluePrintProcessingServiceStub;
@@ -59,23 +62,26 @@ class CdsSimulatorTest {
      * wait for the prior server to shut down.
      */
     @BeforeEach
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         int port = NetworkUtil.allocPort();
         sim = new CdsSimulator(Util.LOCALHOST, port);
         sim.start();
+        assertTrue(NetworkUtil.isTcpPortOpen(Util.LOCALHOST, port, 200, 250L));
     }
 
     @AfterEach
-    public void tearDown() {
+    void tearDown() {
         sim.stop();
     }
 
     @Test
+    @Order(1)
     void test() throws Exception {
-        String reqstr = IOUtils.toString(Objects.requireNonNull(getClass().getResource("cds/cds.request.json")),
+        String requestStr = IOUtils.toString(
+            Objects.requireNonNull(getClass().getResource("cds/cds.request.json")),
             StandardCharsets.UTF_8);
         Builder builder = ExecutionServiceInput.newBuilder();
-        JsonFormat.parser().ignoringUnknownFields().merge(reqstr, builder);
+        JsonFormat.parser().ignoringUnknownFields().merge(requestStr, builder);
         ExecutionServiceInput request = builder.build();
         ManagedChannel channel = NettyChannelBuilder.forAddress(Util.LOCALHOST, sim.getPort()).usePlaintext().build();
 
@@ -126,6 +132,7 @@ class CdsSimulatorTest {
     }
 
     @Test
+    @Order(2)
     void testGetResponse() throws IOException, CoderException {
         CdsSimulator cdsSimulator = new CdsSimulator(Util.LOCALHOST, sim.getPort());
         String reqstr = ResourceUtils.getResourceAsString(
