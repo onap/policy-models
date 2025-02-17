@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96a06925_c31f78bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-17T10:06:42Z",
+      "side": 1,
+      "message": "There are 3 issues being introduced with this review, but they can be fixed in a separated review https://sonarcloud.io/project/issues?issueStatuses\u003dOPEN%2CCONFIRMED\u0026sinceLeakPeriod\u003dtrue\u0026branch\u003d140171-2\u0026id\u003donap_policy-models",
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae3f356d_eb49bf3c",
