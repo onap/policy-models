@@ -43,6 +43,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "05f94933_a045c899",
+        "filename": "models-interactions/model-impl/rest/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-17T10:10:07Z",
+      "side": 1,
+      "message": "add SPDX-License-Identifier: Apache-2.0 in a new line\nexample: https://github.com/onap/policy-clamp/blob/master/runtime-acm/pom.xml",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 32
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a7cca0b_40d25f5f",
         "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
         "patchSetId": 2
@@ -59,6 +82,29 @@
         "startChar": 42,
         "endLine": 6,
         "endChar": 47
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddbfe775_44a37a86",
+        "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-17T10:10:07Z",
+      "side": 1,
+      "message": "add SPDX-License-Identifier: Apache-2.0 in a new line\nexample: https://github.com/onap/policy-clamp/blob/master/runtime-acm/src/main/java/org/onap/policy/clamp/acm/runtime/Application.java",
+      "range": {
+        "startLine": 18,
+        "startChar": 25,
+        "endLine": 18,
+        "endChar": 32
       },
       "revId": "0685a447d283da56574c84ac9876c26bbd613291",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
@@ -128,6 +174,29 @@
         "startChar": 8,
         "endLine": 211,
         "endChar": 19
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e7ad089_603623c6",
+        "filename": "models-interactions/model-impl/rest/src/test/java/org/onap/policy/rest/RestTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-02-17T10:10:07Z",
+      "side": 1,
+      "message": "add SPDX-License-Identifier: Apache-2.0 in a new line\nexample: https://github.com/onap/policy-clamp/blob/master/runtime-acm/src/main/java/org/onap/policy/clamp/acm/runtime/Application.java",
+      "range": {
+        "startLine": 18,
+        "startChar": 25,
+        "endLine": 18,
+        "endChar": 32
       },
       "revId": "0685a447d283da56574c84ac9876c26bbd613291",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
