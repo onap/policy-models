@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae3f356d_eb49bf3c",
+        "filename": "models-interactions/model-impl/rest/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-17T09:03:05Z",
+      "side": 1,
+      "message": "license 2025",
+      "range": {
+        "startLine": 6,
+        "startChar": 41,
+        "endLine": 6,
+        "endChar": 46
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a7cca0b_40d25f5f",
+        "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-17T09:03:05Z",
+      "side": 1,
+      "message": "license",
+      "range": {
+        "startLine": 6,
+        "startChar": 42,
+        "endLine": 6,
+        "endChar": 47
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74d9efb1_a5ea6d19",
+        "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-17T09:03:05Z",
+      "side": 1,
+      "message": "var",
+      "range": {
+        "startLine": 76,
+        "startChar": 12,
+        "endLine": 76,
+        "endChar": 24
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e170e6b_fd7aac74",
+        "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-17T09:03:05Z",
+      "side": 1,
+      "message": "Looks like a typo?",
+      "range": {
+        "startLine": 88,
+        "startChar": 5,
+        "endLine": 88,
+        "endChar": 13
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64020373_586879d6",
+        "filename": "models-interactions/model-impl/rest/src/main/java/org/onap/policy/rest/RestManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-02-17T09:03:05Z",
+      "side": 1,
+      "message": "var",
+      "range": {
+        "startLine": 211,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 19
+      },
+      "revId": "0685a447d283da56574c84ac9876c26bbd613291",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
