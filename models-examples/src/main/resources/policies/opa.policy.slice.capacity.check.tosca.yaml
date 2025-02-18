@@ -1,0 +1,16 @@
+tosca_definitions_version: tosca_simple_yaml_1_1_0
+topology_template:
+  policies:
+    - slice.capacity.check:
+        type: onap.policies.native.opa
+        type_version: 1.0.0
+        properties:
+          data:
+            node.slice.capacity.check: ewogICAgInRocmVzaG9sZCI6IDcwCn0=
+          policy:
+           slice.capacity.check: cGFja2FnZSBzbGljZS5jYXBhY2l0eS5jaGVjawoKIyBEZWZhdWx0IHJ1bGUgdG8gZGVueSBpZiBubyBwb2xpY3kgbWF0Y2hlcwpkZWZhdWx0IGRlY2lzaW9uIDo9IHsKCSJyZXN1bHQiOiAiUGVybWl0IiwKCSJyZWFzb24iOiAiTm8gbWF0Y2hpbmcgcnVsZXMgYXBwbGllZCIsCn0KCiMgRGVueSBydWxlIGZvciBgc3N0ID0gMWAgYW5kIGB0b3RhbF9yZXNvdXJjZSA+IDQwYApkZWNpc2lvbiA6PSB7CgkicmVzdWx0IjogIkRlbnkiLAoJInJlYXNvbiI6IHNwcmludGYoIlNsaWNpbmcgY2FwYWNpdHkgaW4gY2VsbCBjcm9zc2VzIGxpbWl0IG9mICV2IiwgW2RhdGEubm9kZS5zbGljZS5jYXBhY2l0eS5jaGVjay50aHJlc2hvbGRdKSwKfSBpZiB7CglpbnB1dC5hY3Rpb24gPT0gImNlbGxzbGljaW5nY2FwYWNpdHljaGVjayIKCWlucHV0LnNzdCA9PSAxCglpbnB1dC50b3RhbF9yZXNvdXJjZSA+IGRhdGEubm9kZS5zbGljZS5jYXBhY2l0eS5jaGVjay50aHJlc2hvbGQKfQoKIyBEZW55IHJ1bGUgZm9yIGBzc3QgPSAyOWAgYW5kIGB0b3RhbF9yZXNvdXJjZSA+IDQwYApkZWNpc2lvbiA6PSB7CgkicmVzdWx0IjogIkRlbnkiLAoJInJlYXNvbiI6IHNwcmludGYoIlNsaWNpbmcgY2FwYWNpdHkgaW4gY2VsbCBjcm9zc2VzIGxpbWl0IG9mICV2IiwgW2RhdGEubm9kZS5zbGljZS5jYXBhY2l0eS5jaGVjay50aHJlc2hvbGRdKSwKfSBpZiB7CglpbnB1dC5hY3Rpb24gPT0gImNlbGxzbGljaW5nY2FwYWNpdHljaGVjayIKCWlucHV0LnNzdCA9PSAyOQoJaW5wdXQudG90YWxfcmVzb3VyY2UgPiBkYXRhLm5vZGUuc2xpY2UuY2FwYWNpdHkuY2hlY2sudGhyZXNob2xkCn0K
+        name: slice.capacity.check
+        version: 1.0.0
+        metadata:
+          policy-id: slice.capacity.check
+          policy-version: 1.0.0
