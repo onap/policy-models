@@ -59,11 +59,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
+	    <artifactId>httpclient</artifactId>
+	    <version>4.5.14</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
+	    <artifactId>httpcore</artifactId>
+	    <version>5.3.3</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
