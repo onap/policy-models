@@ -16,6 +16,24 @@
       "message": "please rebase",
       "revId": "aa178fb2979f5b185a397447c43250e841d2b27a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ae02a7_8ef67e00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 8217
+      },
+      "writtenOn": "2025-02-19T14:23:40Z",
+      "side": 1,
+      "message": "If I try to rebase it says\nChange is up to date with the target branch already (master)",
+      "parentUuid": "77d6d198_0705b009",
+      "revId": "aa178fb2979f5b185a397447c43250e841d2b27a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
