@@ -27,7 +27,6 @@ import jakarta.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.net.ssl.SSLContext;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.hc.client5.http.classic.methods.HttpDelete;
 import org.apache.hc.client5.http.classic.methods.HttpGet;
@@ -39,8 +38,8 @@ import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.DefaultClientTlsStrategy;
 import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
-import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
 import org.apache.hc.core5.http.ClassicHttpResponse;
 import org.apache.hc.core5.http.ContentType;
 import org.apache.hc.core5.http.HttpHeaders;
@@ -212,14 +211,10 @@ public class RestManager {
 
         var sslContext = SSLContexts.createDefault();
         PoolingHttpClientConnectionManager connectionManager =
-            PoolingHttpClientConnectionManagerBuilder.create()
-                .setSSLSocketFactory(
-                        SSLConnectionSocketFactoryBuilder.create()
-                                .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                                .setSslContext(sslContext)
-                                .build()
-                )
-                .build();
+                PoolingHttpClientConnectionManagerBuilder.create()
+                        .setTlsSocketStrategy(new DefaultClientTlsStrategy(
+                                sslContext, NoopHostnameVerifier.INSTANCE))
+                        .build();
         try (CloseableHttpClient client =
                      HttpClientBuilder.create().setConnectionManager(connectionManager).build()) {
             HttpResponse response = client.execute(request);

@@ -120,7 +120,7 @@ public class RestTest {
         assertThrows(NullPointerException.class, () -> {
             mgr.get(null, "user", null, null);
         });
-    }
+    }   
 
     @Test
     void testPutUrlNull() {
