@@ -1,0 +1,10 @@
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+1: Adheli Tavares <adheli.tavares@est.tech>
+Submitted-by: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Submitted-at: Tue, 25 Feb 2025 10:00:09 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/140290
+Project: policy/models
+Branch: refs/heads/master
