@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac9c84d4_edcebea4",
+        "filename": "models-interactions/model-actors/actor.cds/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2025-03-07T15:29:05Z",
+      "side": 1,
+      "message": "SPDX identifier",
+      "range": {
+        "startLine": 18,
+        "startChar": 14,
+        "endLine": 18,
+        "endChar": 25
+      },
+      "revId": "94b46342348504c98d46426386334d202920cefd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
