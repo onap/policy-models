@@ -39,6 +39,24 @@
       "message": "You could consider upgrading to `1.12.9`. It\u0027s basically `1.12.8` with bug fixes. It was releases [a few days ago](https://gerrit.onap.org/r/c/aai/schema-service/+/140276)",
       "revId": "94b46342348504c98d46426386334d202920cefd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6efc3e15_7be0b3ef",
+        "filename": "models-interactions/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7625
+      },
+      "writtenOn": "2025-03-10T08:50:15Z",
+      "side": 1,
+      "message": "I got an error when changing to that. I think nexus doesn\u0027t know about it?\n\nThe POM for org.onap.aai.schema-service:aai-schema:jar:1.12.9 is missing, no dependency information available\n\nhttps://nexus.onap.org/#nexus-search;quick~aai-schema",
+      "parentUuid": "a3571e1c_cc96ab3c",
+      "revId": "94b46342348504c98d46426386334d202920cefd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
