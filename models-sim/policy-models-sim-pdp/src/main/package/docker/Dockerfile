@@ -1,6 +1,6 @@
 #
 # ============LICENSE_START=======================================================
-#  Copyright (C) 2019-2021,2023 Nordix Foundation.
+#  Copyright (C) 2019-2021,2023-2025 Nordix Foundation.
 #  Modifications Copyright (C) 2019 AT&T Intellectual Property.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@
 # Docker file to build an image that runs the PDP simulator on Java 8 in alpine
 #
 
-FROM onap/policy-jre-alpine:4.1.1-SNAPSHOT
+FROM onap/policy-jre-alpine:4.1.1
 
 LABEL maintainer="Policy Team"
 
