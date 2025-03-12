@@ -40,7 +40,7 @@
     <description>This repo holds model code agnostic to PDP engines</description>
 
     <properties>
-        <policy.common.version>3.1.1-SNAPSHOT</policy.common.version>
+        <policy.common.version>3.1.2-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
