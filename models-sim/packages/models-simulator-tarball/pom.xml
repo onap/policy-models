@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.policy.models.sim</groupId>
         <artifactId>models-sim-packages</artifactId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.1.1</version>
     </parent>
 
     <artifactId>models-simulator-tarball</artifactId>
