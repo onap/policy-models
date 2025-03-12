@@ -26,7 +26,7 @@ RUN mkdir /packages /extracted
 COPY /maven/lib/models-simulator.tar.gz /packages/
 RUN tar xvzf /packages/models-simulator.tar.gz --directory /extracted/
 
-FROM onap/policy-jre-alpine:4.1.1
+FROM onap/policy-jre-alpine:4.1.1-SNAPSHOT
 
 LABEL maintainer="Policy Team"
 LABEL org.opencontainers.image.title="Policy Models Simulator"

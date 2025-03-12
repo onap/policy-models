@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
    Copyright (C) 2020 Bell Canada.
    Modifications Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
-   Modifications Copyright (C) 2022-2023 Nordix Foundation.
+   Modifications Copyright (C) 2022-2025 Nordix Foundation.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.models.sim</groupId>
         <artifactId>models-sim-packages</artifactId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>models-simulator-docker</artifactId>

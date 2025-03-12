@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-   Copyright (C) 2019, 2024 Nordix Foundation.
+   Copyright (C) 2019, 2024-2025 Nordix Foundation.
    Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.policy.models</groupId>
         <artifactId>policy-models</artifactId>
-        <version>4.1.1-SNAPSHOT</version>
+        <version>4.1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>policy-models-dao</artifactId>
