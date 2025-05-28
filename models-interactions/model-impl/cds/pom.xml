@@ -28,7 +28,7 @@
     <parent>
         <artifactId>model-impl</artifactId>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
-        <version>4.1.3-SNAPSHOT</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>cds</artifactId>

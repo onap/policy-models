@@ -27,13 +27,13 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>5.1.3-SNAPSHOT</version>
+        <version>5.2.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.policy.models</groupId>
     <artifactId>policy-models</artifactId>
-    <version>4.1.3-SNAPSHOT</version>
+    <version>4.2.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>policy-models</name>

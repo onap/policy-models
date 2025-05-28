@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
         <artifactId>model-actors</artifactId>
-        <version>4.1.3-SNAPSHOT</version>
+        <version>4.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>actor.xacml</artifactId>
