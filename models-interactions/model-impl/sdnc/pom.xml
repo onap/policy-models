@@ -27,7 +27,7 @@
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
         <artifactId>model-impl</artifactId>
-        <version>4.2.0-SNAPSHOT</version>
+        <version>4.2.0</version>
     </parent>
 
     <artifactId>sdnc</artifactId>
