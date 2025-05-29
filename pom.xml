@@ -27,20 +27,20 @@
     <parent>
         <groupId>org.onap.policy.parent</groupId>
         <artifactId>integration</artifactId>
-        <version>5.2.0</version>
+        <version>5.2.1-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.policy.models</groupId>
     <artifactId>policy-models</artifactId>
-    <version>4.2.0-SNAPSHOT</version>
+    <version>4.2.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>policy-models</name>
     <description>This repo holds model code agnostic to PDP engines</description>
 
     <properties>
-        <policy.common.version>3.2.0</policy.common.version>
+        <policy.common.version>3.2.1-SNAPSHOT</policy.common.version>
     </properties>
 
     <modules>
