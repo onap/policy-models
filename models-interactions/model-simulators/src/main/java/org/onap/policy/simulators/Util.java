@@ -3,7 +3,7 @@
  * simulators
  * ================================================================================
  * Copyright (C) 2017-2019, 2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019, 2023-2025 Nordix Foundation.
+ * Modifications Copyright (C) 2019, 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,13 +34,11 @@ import org.onap.policy.common.utils.network.NetworkUtil;
 public final class Util {
     public static final String AAISIM_SERVER_NAME = "aaiSim";
     public static final String SOSIM_SERVER_NAME = "soSim";
-    public static final String VFCSIM_SERVER_NAME = "vfcSim";
     public static final String XACMLSIM_SERVER_NAME = "xacmlSim";
     public static final String SDNCSIM_SERVER_NAME = "sdncSim";
 
     public static final int AAISIM_SERVER_PORT = 6666;
     public static final int SOSIM_SERVER_PORT = 6667;
-    public static final int VFCSIM_SERVER_PORT = 6668;
     public static final int XACMLSIM_SERVER_PORT = 6669;
     public static final int SDNCSIM_SERVER_PORT = 6670;
     public static final int CDSSIM_SERVER_PORT = 6671;
@@ -103,21 +101,6 @@ public final class Util {
         final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
                 .build(SOSIM_SERVER_NAME, LOCALHOST, SOSIM_SERVER_PORT, "/", false, true);
         testServer.addServletClass("/*", SoSimulatorJaxRs.class.getName());
-        testServer.waitedStart(5000);
-        waitForServerToListen(testServer.getPort());
-        return testServer;
-    }
-
-    /**
-     * Build a VFC simulator.
-     *
-     * @return the simulator
-     * @throws InterruptedException if a thread is interrupted
-     */
-    public static HttpServletServer buildVfcSim() throws InterruptedException {
-        final HttpServletServer testServer = HttpServletServerFactoryInstance.getServerFactory()
-                .build(VFCSIM_SERVER_NAME, LOCALHOST, VFCSIM_SERVER_PORT, "/", false, true);
-        testServer.addServletClass("/*", VfcSimulatorJaxRs.class.getName());
         testServer.waitedStart(5000);
         waitForServerToListen(testServer.getPort());
         return testServer;

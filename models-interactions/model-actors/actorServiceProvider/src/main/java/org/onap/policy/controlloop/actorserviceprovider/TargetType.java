@@ -3,6 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,11 +22,11 @@
 package org.onap.policy.controlloop.actorserviceprovider;
 
 public enum TargetType {
-    VM("VM"), PNF("PNF"), VFC("VFC"), VNF("VNF"), VFMODULE("VFMODULE");
+    VM("VM"), PNF("PNF"), VNF("VNF"), VFMODULE("VFMODULE");
 
-    private String target;
+    private final String target;
 
-    private TargetType(String targetType) {
+    TargetType(String targetType) {
         this.target = targetType;
     }
 
@@ -49,9 +50,6 @@ public enum TargetType {
         }
         if (targetType.equalsIgnoreCase(PNF.toString())) {
             return PNF;
-        }
-        if (targetType.equalsIgnoreCase(VFC.toString())) {
-            return VFC;
         }
         if (targetType.equalsIgnoreCase(VNF.toString())) {
             return VNF;

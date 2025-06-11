@@ -50,6 +50,5 @@
       <module>sdnc</module>
       <module>sdnr</module>
       <module>so</module>
-      <module>vfc</module>
   </modules>
 </project>

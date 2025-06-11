@@ -48,7 +48,6 @@
         <module>actor.sdnr</module>
         <module>actor.a1p</module>
         <module>actor.so</module>
-        <module>actor.vfc</module>
         <module>actor.xacml</module>
     </modules>
     <dependencies>
