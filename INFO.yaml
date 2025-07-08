@@ -59,7 +59,7 @@ committers:
     - name: 'Wayne Dunican'
       email: 'wayne.dunican@est.tech'
       company: 'Ericsson'
-      id: 'waynedunican '
+      id: 'waynedunican'
       timezone: 'Europe/Ireland'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
