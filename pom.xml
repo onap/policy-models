@@ -33,7 +33,7 @@
 
     <groupId>org.onap.policy.models</groupId>
     <artifactId>policy-models</artifactId>
-    <version>4.2.1-SNAPSHOT</version>
+    <version>4.2.1</version>
 
     <packaging>pom</packaging>
     <name>policy-models</name>

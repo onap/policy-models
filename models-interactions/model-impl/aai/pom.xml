@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-impl</groupId>
         <artifactId>model-impl</artifactId>
-        <version>4.2.1-SNAPSHOT</version>
+        <version>4.2.1</version>
     </parent>
 
     <artifactId>aai</artifactId>
