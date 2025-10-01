@@ -27,13 +27,6 @@
             "host": "localhost",
             "port": 6669,
             "https": true
-        },
-        {
-            "name": "VFC simulator",
-            "providerClass": "org.onap.policy.simulators.VfcSimulatorJaxRs",
-            "host": "localhost",
-            "port": 6670,
-            "https": true
         }
     ],
 

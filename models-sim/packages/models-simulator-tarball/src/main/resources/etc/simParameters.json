@@ -25,13 +25,6 @@
             "https": false,
             "userName": "InfraPortalClient",
             "password": "password1$"
-        },
-        {
-            "name": "VFC simulator",
-            "providerClass": "org.onap.policy.simulators.VfcSimulatorJaxRs",
-            "host": "0.0.0.0",
-            "port": 6670,
-            "https": false
         }
     ],
     "grpcServer": {
