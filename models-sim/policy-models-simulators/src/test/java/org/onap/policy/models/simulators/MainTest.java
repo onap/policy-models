@@ -3,7 +3,7 @@
  * ONAP
  * ================================================================================
  * Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ class MainTest {
      * Saves system properties.
      */
     @BeforeAll
-    public static void setUpBeforeClass() throws IOException {
+    static void setUpBeforeClass() throws IOException {
         savedValues = new HashMap<>();
 
         for (String prop : List.of(JettyJerseyServer.SYSTEM_KEYSTORE_PASSWORD_PROPERTY_NAME,
@@ -93,7 +93,7 @@ class MainTest {
      * Restores system properties.
      */
     @AfterAll
-    public static void tearDownAfterClass() {
+    static void tearDownAfterClass() {
         for (Entry<String, String> ent : savedValues.entrySet()) {
             if (ent.getValue() == null) {
                 System.getProperties().remove(ent.getKey());
@@ -126,11 +126,11 @@ class MainTest {
         Main.main(new String[] {PARAMETER_FILE});
 
         // don't need to wait long, because buildXxx() does the wait for us
-        for (int port : new int[] {6666, 6667, 6668, 6669, 6670, 6680}) {
+        for (int port : new int[] {6666, 6667, 6668, 6669, 6680}) {
             assertTrue(NetworkUtil.isTcpPortOpen(HOST, port, 1, 100), "simulator on port " + port);
         }
 
-        // it's sufficient to verify that one of the simulators works
+        // it's enough to verify that one of the simulators works
         checkAai();
     }
 
@@ -192,7 +192,7 @@ class MainTest {
             }
 
             @Override
-            protected boolean isTcpPortOpen(String hostName, int port) throws InterruptedException {
+            protected boolean isTcpPortOpen(String hostName, int port) {
                 return false;
             }
         };
