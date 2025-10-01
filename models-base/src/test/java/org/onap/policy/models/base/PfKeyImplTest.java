@@ -68,7 +68,7 @@ class PfKeyImplTest {
      * Sets data in Keys for the tests.
      */
     @BeforeAll
-    public static void setUp() {
+    static void setUp() {
         someKey = new MyKey();
 
         someKey0 = new MyKey();

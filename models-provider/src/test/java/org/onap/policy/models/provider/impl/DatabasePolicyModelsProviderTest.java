@@ -85,7 +85,7 @@ class DatabasePolicyModelsProviderTest {
      * Initialize parameters.
      */
     @BeforeAll
-    public static void setupParameters() {
+    static void setupParameters() {
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:DatabasePolicyModelsProviderTest");
@@ -98,7 +98,7 @@ class DatabasePolicyModelsProviderTest {
      * Closes the DB.
      */
     @AfterAll
-    public static void tearDown() throws PfModelException {
+    static void tearDown() throws PfModelException {
         if (databaseProvider != null) {
             databaseProvider.close();
         }

@@ -58,7 +58,7 @@ class PolicyTypePersistenceTest {
      * @throws PfModelException on exceptions in the tests
      */
     @BeforeAll
-    public static void setupParameters() throws PfModelException {
+    static void setupParameters() throws PfModelException {
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
 
@@ -72,7 +72,7 @@ class PolicyTypePersistenceTest {
     }
 
     @AfterAll
-    public static void teardown() throws Exception {
+    static void teardown() throws Exception {
         databaseProvider.close();
     }
 

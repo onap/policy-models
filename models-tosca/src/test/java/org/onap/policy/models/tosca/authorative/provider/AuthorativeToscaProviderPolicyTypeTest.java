@@ -67,7 +67,7 @@ class AuthorativeToscaProviderPolicyTypeTest {
      *
      */
     @BeforeAll
-    public static void readPolicyDefinition() {
+    static void readPolicyDefinition() {
         String yamlString = ResourceUtils.getResourceAsString("src/test/resources/onap.policies.NoVersion.yaml");
 
         Object yamlObject = new Yaml().load(yamlString);

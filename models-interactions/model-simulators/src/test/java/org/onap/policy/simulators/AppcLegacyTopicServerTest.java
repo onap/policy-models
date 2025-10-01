@@ -53,7 +53,7 @@ class AppcLegacyTopicServerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         server = new AppcLegacyTopicServer(sink, source);
     }
 

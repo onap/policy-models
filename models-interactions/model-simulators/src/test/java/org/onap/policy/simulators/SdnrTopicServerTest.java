@@ -53,7 +53,7 @@ class SdnrTopicServerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         server = new SdnrTopicServer(sink, source);
     }
 

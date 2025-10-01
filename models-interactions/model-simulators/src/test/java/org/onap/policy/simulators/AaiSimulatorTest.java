@@ -41,7 +41,7 @@ class AaiSimulatorTest {
      * Set up test class.
      */
     @BeforeAll
-    public static void setUpSimulator() {
+    static void setUpSimulator() {
         try {
             var testServer = Util.buildAaiSim();
             assertNotNull(testServer);
@@ -51,7 +51,7 @@ class AaiSimulatorTest {
     }
 
     @AfterAll
-    public static void tearDownSimulator() {
+    static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 

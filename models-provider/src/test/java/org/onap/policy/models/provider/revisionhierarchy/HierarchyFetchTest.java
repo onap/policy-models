@@ -48,7 +48,7 @@ class HierarchyFetchTest {
     private static PolicyModelsProvider databaseProvider;
 
     @BeforeAll
-    public static void beforeSetupParameters() {
+    static void beforeSetupParameters() {
         parameters = new PolicyModelsProviderParameters();
         parameters.setDatabaseDriver("org.h2.Driver");
         parameters.setDatabaseUrl("jdbc:h2:mem:HierarchyFetchTest");
@@ -61,7 +61,7 @@ class HierarchyFetchTest {
      * Closes the DB.
      */
     @AfterAll
-    public static void tearDown() throws PfModelException {
+    static void tearDown() throws PfModelException {
         if (databaseProvider != null) {
             databaseProvider.close();
         }

@@ -53,7 +53,7 @@ class AppcLcmTopicServerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         server = new AppcLcmTopicServer(sink, source);
     }
 

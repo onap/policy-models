@@ -54,7 +54,7 @@ class TopicServerTest {
      * Sets up.
      */
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         server = new MyServer();
     }
 

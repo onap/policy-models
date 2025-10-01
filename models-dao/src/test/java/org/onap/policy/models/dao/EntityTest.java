@@ -71,7 +71,7 @@ class EntityTest {
      * Closes the DAO.
      */
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         if (pfDao != null) {
             pfDao.close();
             pfDao = null;

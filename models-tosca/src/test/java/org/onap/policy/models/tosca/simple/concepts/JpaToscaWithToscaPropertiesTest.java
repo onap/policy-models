@@ -63,7 +63,7 @@ class JpaToscaWithToscaPropertiesTest {
      * Initializes the properties.
      */
     @BeforeAll
-    public static void setUpBeforeClass() {
+    static void setUpBeforeClass() {
         JPA_PROP1.setDescription(DESCRIPT1);
         JPA_PROP2.setDescription(DESCRIPT2);
 

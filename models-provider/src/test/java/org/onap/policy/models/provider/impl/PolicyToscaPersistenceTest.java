@@ -72,7 +72,7 @@ class PolicyToscaPersistenceTest {
      * @throws CoderException on JSON encoding and decoding errors
      */
     @BeforeAll
-    public static void setupParameters() throws Exception {
+    static void setupParameters() throws Exception {
 
         PolicyModelsProviderParameters parameters = new PolicyModelsProviderParameters();
 
@@ -90,7 +90,7 @@ class PolicyToscaPersistenceTest {
     }
 
     @AfterAll
-    public static void teardown() throws Exception {
+    static void teardown() throws Exception {
         databaseProvider.close();
     }
 

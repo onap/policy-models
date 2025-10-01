@@ -56,7 +56,7 @@ import org.onap.policy.common.endpoints.http.server.HttpServletServerFactoryInst
 import org.onap.policy.common.utils.network.NetworkUtil;
 
 @Path("RestTest")
-public class RestTest {
+public class RestTest {   // NOSONAR - class needs to be public for Jersey to work
     private static final String MERGE_PATCH_PLUS_JSON = "application/merge-patch+json";
 
     private static final String NAME_PARAM = "Bob";
@@ -85,7 +85,7 @@ public class RestTest {
      * Sets server endpoint for the tests.
      */
     @BeforeAll
-    public static void setUp() throws Exception {
+    static void setUp() throws Exception {
 
         port = NetworkUtil.allocPort();
         baseUri = "http://" + LOCALHOST + ":" + port + "/" + BASE + "/";
@@ -110,7 +110,7 @@ public class RestTest {
      *
      */
     @AfterAll
-    public static void tearDown() {
+    static void tearDown() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 

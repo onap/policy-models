@@ -83,7 +83,7 @@ class ToscaEntityFilterTest {
      * @throws CoderException on JSON decoding errors
      */
     @BeforeAll
-    public static void setupTypeList() throws CoderException {
+    static void setupTypeList() throws CoderException {
         for (String policyTypeResourceName : policyTypeResourceNames) {
             String policyTypeString = ResourceUtils.getResourceAsString(policyTypeResourceName);
             Object yamlObject = new Yaml().load(policyTypeString);

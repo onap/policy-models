@@ -46,7 +46,7 @@ class XacmlSimulatorTest {
      * Set up test class.
      */
     @BeforeAll
-    public static void setupSimulator() {
+    static void setupSimulator() {
         try {
             var testServer = Util.buildXacmlSim();
             assertNotNull(testServer);
@@ -56,7 +56,7 @@ class XacmlSimulatorTest {
     }
 
     @AfterAll
-    public static void tearDownSimulator() {
+    static void tearDownSimulator() {
         HttpServletServerFactoryInstance.getServerFactory().destroy();
     }
 
