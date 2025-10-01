@@ -1,0 +1,5 @@
+distribution_type: 'maven'
+version: '4.2.1'
+project: 'policy-models'
+tag_release: false
+log_dir: 'policy-models-maven-stage-master/1439/'
