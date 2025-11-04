@@ -61,6 +61,11 @@ committers:
       company: 'Ericsson'
       id: 'waynedunican'
       timezone: 'Europe/Ireland'
+    - name: 'Daniel Hanrahan'
+      email: 'daniel.hanrahan@est.tech'
+      company: 'Ericsson'
+      id: 'danielhanrahan'
+      timezone: 'Europe/Ireland'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -101,3 +106,6 @@ tsc:
         - type: 'Addition'
           name: 'Wayne Dunican'
           link: https://lists.onap.org/g/onap-tsc/message/9618
+        - type: 'Addition'
+          name: 'Daniel Hanrahan'
+          link: https://lists.onap.org/g/onap-tsc/message/9632
