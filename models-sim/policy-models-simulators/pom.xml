@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.policy.models.sim</groupId>
         <artifactId>policy-models-sim</artifactId>
-        <version>4.2.2-SNAPSHOT</version>
+        <version>4.2.2</version>
     </parent>
 
     <artifactId>policy-models-simulators</artifactId>
