@@ -26,7 +26,7 @@
     <parent>
         <groupId>org.onap.policy.models.sim</groupId>
         <artifactId>policy-models-sim</artifactId>
-        <version>4.2.3-SNAPSHOT</version>
+        <version>5.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>policy-models-sim-pdp</artifactId>
     <name>policy-models-sim-pdp</name>
