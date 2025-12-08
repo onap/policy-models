@@ -3,6 +3,7 @@
  * ONAP Policy Models
  * ================================================================================
  * Copyright (C) 2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2025 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,6 +21,8 @@
 
 package org.onap.policy.models.tosca.authorative.concepts;
 
+import java.io.Serial;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +37,10 @@ import org.onap.policy.models.base.PfKey;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ToscaNameVersion {
+public class ToscaNameVersion implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 8010649773816325786L;
 
     private String name;
 
@@ -51,7 +57,7 @@ public class ToscaNameVersion {
     }
 
     /**
-     * Create a PfConcceptKey from the TOSCA identifier.
+     * Create a PfConceptKey from the TOSCA identifier.
      *
      * @return the key
      */
