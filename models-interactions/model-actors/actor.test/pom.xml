@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.policy.models.policy-models-interactions.model-actors</groupId>
         <artifactId>model-actors</artifactId>
-        <version>5.0.0-SNAPSHOT</version>
+        <version>5.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>actor.test</artifactId>
