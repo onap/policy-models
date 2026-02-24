@@ -1,0 +1,10 @@
+Code-Review+2: Wayne Dunican <wayne.dunican@est.tech>
+Code-Review+1: Ramesh Murugan Iyer <ramesh.murugan.iyer@est.tech>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Submitted-by: Wayne Dunican <wayne.dunican@est.tech>
+Submitted-at: Tue, 24 Feb 2026 15:41:57 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/143267
+Project: policy/models
+Branch: refs/heads/master
