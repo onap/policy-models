@@ -1,6 +1,6 @@
 <!--
   ============LICENSE_START=======================================================
-   Copyright (C) 2019, 2024-2025 OpenInfra Foundation Europe. All rights reserved.
+   Copyright (C) 2019-2026 OpenInfra Foundation Europe. All rights reserved.
    Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@
 
     <properties>
         <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
-        <aai.version>1.12.8</aai.version>
+        <aai.version>1.13.3</aai.version>
     </properties>
 
     <modules>
