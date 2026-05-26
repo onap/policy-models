@@ -56,7 +56,6 @@
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-grizzly2-http</artifactId>
-            <version>${version.jersey}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
