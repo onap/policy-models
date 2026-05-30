@@ -57,12 +57,6 @@
         <module>models-sim</module>
     </modules>
 
-    <distributionManagement>
-        <site>
-            <id>ecomp-site</id>
-            <url>dav:${nexusproxy}${sitePath}</url>
-        </site>
-    </distributionManagement>
 
     <dependencies>
         <dependency>
