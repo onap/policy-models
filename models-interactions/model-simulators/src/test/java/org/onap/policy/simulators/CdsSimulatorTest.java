@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2020 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2020-2021 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2023-2025 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,7 +37,6 @@ import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
@@ -77,8 +76,8 @@ class CdsSimulatorTest {
     @Test
     @Order(1)
     void test() throws Exception {
-        String requestStr = IOUtils.toString(
-            Objects.requireNonNull(getClass().getResource("cds/cds.request.json")),
+        String requestStr = new String(
+            Objects.requireNonNull(getClass().getResource("cds/cds.request.json")).openStream().readAllBytes(),
             StandardCharsets.UTF_8);
         Builder builder = ExecutionServiceInput.newBuilder();
         JsonFormat.parser().ignoringUnknownFields().merge(requestStr, builder);

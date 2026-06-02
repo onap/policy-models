@@ -33,7 +33,6 @@
 
     <properties>
         <jacoco.dataFile>${project.basedir}/../../target/code-coverage/jacoco-ut.exec</jacoco.dataFile>
-        <aai.version>1.13.3</aai.version>
     </properties>
 
     <modules>
@@ -42,24 +41,5 @@
         <module>model-actors</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.onap.aai.schema-service</groupId>
-                <artifactId>aai-schema</artifactId>
-                <version>${aai.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.google.code.javaparser</groupId>
-                        <artifactId>javaparser</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>com.googlecode.json-simple</groupId>
-                        <artifactId>json-simple</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
 </project>

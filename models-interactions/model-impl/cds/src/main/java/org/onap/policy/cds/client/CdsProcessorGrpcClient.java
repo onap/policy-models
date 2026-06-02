@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019-2021 Bell Canada.
  * Modifications Copyright (C) 2020-2021 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +20,6 @@
 
 package org.onap.policy.cds.client;
 
-import com.google.common.base.Preconditions;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.NettyChannelBuilder;
 import java.util.concurrent.CountDownLatch;
@@ -51,8 +51,10 @@ public class CdsProcessorGrpcClient implements AutoCloseable {
      */
     public CdsProcessorGrpcClient(final CdsProcessorListener listener, CdsServerProperties props) {
         final ValidationResult validationResult = props.validate();
-        Preconditions.checkState(validationResult.getStatus().isValid(), "Error validating CDS server "
-            + "properties: " + validationResult.getResult());
+        if (!validationResult.getStatus().isValid()) {
+            throw new IllegalStateException("Error validating CDS server "
+                + "properties: " + validationResult.getResult());
+        }
 
         String url = "gRPC://" + props.getHost() + ":" + props.getPort() + "/";
 

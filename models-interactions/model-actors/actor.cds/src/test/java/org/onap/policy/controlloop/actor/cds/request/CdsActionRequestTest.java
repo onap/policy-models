@@ -1,7 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  * Copyright (C) 2019 Bell Canada. All rights reserved.
- * Modifications Copyright (C) 2024 Nordix Foundation
+ * Modifications Copyright (C) 2024-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ package org.onap.policy.controlloop.actor.cds.request;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,17 +43,17 @@ class CdsActionRequestTest {
         req.setResolutionKey("1234567890");
 
         Map<String, String> aaiParams =
-                ImmutableMap.of("service-instance.service-instance-id", "1234", "generic-vnf.vnf-id", "5678");
+                Map.of("service-instance.service-instance-id", "1234", "generic-vnf.vnf-id", "5678");
         req.setAaiProperties(aaiParams);
 
-        Map<String, String> eventParams = ImmutableMap.of("event-param-1", "1234", "event-param-2", "5678");
+        Map<String, String> eventParams = Map.of("event-param-1", "1234", "event-param-2", "5678");
         req.setAdditionalEventParams(eventParams);
     }
 
     @Test
      void testGenerateCdsPayloadWhenPolicyPayloadIsNotValidJsonString() throws CoderException {
         String payloadStr = "active-streams=5";
-        Map<String, String> payloadProps = ImmutableMap.of(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payloadStr);
+        Map<String, String> payloadProps = Map.of(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payloadStr);
         req.setPolicyPayload(payloadProps);
 
         // Act
@@ -70,7 +69,7 @@ class CdsActionRequestTest {
     @Test
      void testGenerateCdsPayloadWhenPolicyPayloadIsValidJsonString() throws CoderException {
         String payloadStr = "{\"active-streams\":\"5\"}";
-        Map<String, String> payloadProps = ImmutableMap.of(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payloadStr);
+        Map<String, String> payloadProps = Map.of(CdsActorConstants.KEY_POLICY_PAYLOAD_DATA, payloadStr);
         req.setPolicyPayload(payloadProps);
 
         // Act
