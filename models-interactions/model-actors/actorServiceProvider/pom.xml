@@ -2,7 +2,7 @@
 <!--
   ============LICENSE_START=======================================================
   Copyright (C) 2017-2020 AT&T Intellectual Property. All rights reserved.
-  Modifications Copyright (C) 2019, 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+  Modifications Copyright (C) 2019-2026 OpenInfra Foundation Europe. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -66,16 +66,6 @@
             <artifactId>policy-endpoints</artifactId>
             <version>${policy.common.version}</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.opentelemetry</groupId>
-                    <artifactId>opentelemetry-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.kafka</groupId>
-                    <artifactId>kafka-clients</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.policy.common</groupId>

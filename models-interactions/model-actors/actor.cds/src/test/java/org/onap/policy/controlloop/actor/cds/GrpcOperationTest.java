@@ -26,6 +26,8 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,6 +42,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.MockedConstruction;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ServiceInstance;
@@ -52,6 +56,7 @@ import org.onap.policy.common.utils.coder.StandardCoderObject;
 import org.onap.policy.common.utils.time.PseudoExecutor;
 import org.onap.policy.controlloop.actor.cds.constants.CdsActorConstants;
 import org.onap.policy.controlloop.actor.cds.properties.GrpcOperationProperties;
+import org.onap.policy.controlloop.actor.cds.request.CdsActionRequest;
 import org.onap.policy.controlloop.actorserviceprovider.ActorService;
 import org.onap.policy.controlloop.actorserviceprovider.OperationOutcome;
 import org.onap.policy.controlloop.actorserviceprovider.OperationProperties;
@@ -266,6 +271,24 @@ class GrpcOperationTest {
         operation = new GrpcOperation(params, config);
         assertThatIllegalArgumentException()
             .isThrownBy(() -> operation.startOperationAsync(1, params.makeOutcome()));
+    }
+
+    @Test
+    void testConstructRequestEmptyPayload() throws Exception {
+        Map<String, Object> payloadMap = Map.of(CdsActorConstants.KEY_CBA_NAME, CDS_BLUEPRINT_NAME,
+            CdsActorConstants.KEY_CBA_VERSION, CDS_BLUEPRINT_VERSION, "data", "somedata");
+        params = params.toBuilder().targetType(TargetType.VNF).targetEntityIds(targetEntityIds)
+            .payload(payloadMap).build();
+
+        GrpcConfig grpcConfig = new GrpcConfig(executor, cdsProps);
+        operation = new GrpcOperation(params, grpcConfig);
+        loadVnfData();
+
+        try (MockedConstruction<CdsActionRequest> ignored = Mockito.mockConstruction(CdsActionRequest.class,
+                (mock, context) -> when(mock.generateCdsPayload()).thenReturn(""))) {
+            assertThatIllegalStateException().isThrownBy(() -> operation.constructRequest())
+                .withMessageContaining("Unable to build");
+        }
     }
 
     private void verifyOperation(ControlLoopOperationParams clop, Runnable loader) {
