@@ -3,7 +3,7 @@
  *
  * ================================================================================
  * Copyright (C) 2019-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2023-2024 Nordix Foundation.
+ * Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +23,9 @@ package org.onap.policy.aai;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.annotations.SerializedName;
 import java.io.Serial;
 import java.io.Serializable;
@@ -31,8 +34,6 @@ import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.onap.aai.domain.yang.CloudRegion;
 import org.onap.aai.domain.yang.GenericVnf;
 import org.onap.aai.domain.yang.ModelVer;
@@ -70,13 +71,13 @@ public class AaiCqResponse implements Serializable {
             .create();
 
         // Read JSON String and add all AaiObjects
-        var responseObj = new JSONObject(jsonString);
-        var resultsArray = new JSONArray();
+        var responseObj = JsonParser.parseString(jsonString).getAsJsonObject();
+        var resultsArray = new JsonArray();
         if (responseObj.has("results")) {
-            resultsArray = (JSONArray) responseObj.get("results");
+            resultsArray = responseObj.getAsJsonArray("results");
         }
-        for (var i = 0; i < resultsArray.length(); i++) {
-            final var resultObject = resultsArray.getJSONObject(i);
+        for (var i = 0; i < resultsArray.size(); i++) {
+            final var resultObject = resultsArray.get(i).getAsJsonObject();
 
             extractVserver(resultObject);
             extractGenericVnf(resultObject);
@@ -88,88 +89,52 @@ public class AaiCqResponse implements Serializable {
         }
     }
 
-    private void extractVserver(final JSONObject resultObject) {
+    private void extractVserver(final JsonObject resultObject) {
         if (resultObject.has("vserver")) {
-
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject("vserver").toString();
-
-            // Getting the vserver pojo again from the json
-            var vserver = gson.fromJson(json, Vserver.class);
+            var vserver = gson.fromJson(resultObject.getAsJsonObject("vserver"), Vserver.class);
             this.inventoryResponseItems.add(vserver);
         }
     }
 
-    private void extractGenericVnf(final JSONObject resultObject) {
+    private void extractGenericVnf(final JsonObject resultObject) {
         if (resultObject.has(GENERIC_VNF)) {
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject(GENERIC_VNF).toString();
-
-            // Getting the generic vnf pojo again from the json
-            var genericVnf = gson.fromJson(json, GenericVnf.class);
+            var genericVnf = gson.fromJson(resultObject.getAsJsonObject(GENERIC_VNF), GenericVnf.class);
             this.inventoryResponseItems.add(genericVnf);
         }
     }
 
-    private void extractServiceInstance(final JSONObject resultObject) {
+    private void extractServiceInstance(final JsonObject resultObject) {
         if (resultObject.has("service-instance")) {
-
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject("service-instance").toString();
-
-            // Getting the employee pojo again from the json
-            var serviceInstance = gson.fromJson(json, ServiceInstance.class);
+            var serviceInstance = gson.fromJson(resultObject.getAsJsonObject("service-instance"),
+                    ServiceInstance.class);
             this.inventoryResponseItems.add(serviceInstance);
         }
     }
 
-    private void extractVfModule(final JSONObject resultObject) {
+    private void extractVfModule(final JsonObject resultObject) {
         if (resultObject.has(VF_MODULE)) {
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject(VF_MODULE).toString();
-
-            // Getting the vf module pojo again from the json
-            var vfModule = gson.fromJson(json, VfModule.class);
+            var vfModule = gson.fromJson(resultObject.getAsJsonObject(VF_MODULE), VfModule.class);
             this.inventoryResponseItems.add(vfModule);
         }
     }
 
-    private void extractCloudRegion(final JSONObject resultObject) {
+    private void extractCloudRegion(final JsonObject resultObject) {
         if (resultObject.has("cloud-region")) {
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject("cloud-region").toString();
-
-            // Getting the cloud region pojo again from the json
-            var cloudRegion = gson.fromJson(json, CloudRegion.class);
+            var cloudRegion = gson.fromJson(resultObject.getAsJsonObject("cloud-region"), CloudRegion.class);
             this.inventoryResponseItems.add(cloudRegion);
         }
     }
 
-    private void extractTenant(final JSONObject resultObject) {
+    private void extractTenant(final JsonObject resultObject) {
         if (resultObject.has("tenant")) {
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject("tenant").toString();
-
-            // Getting the tenant pojo again from the json
-            var tenant = gson.fromJson(json, Tenant.class);
+            var tenant = gson.fromJson(resultObject.getAsJsonObject("tenant"), Tenant.class);
             this.inventoryResponseItems.add(tenant);
         }
     }
 
-    private void extractModelVer(final JSONObject resultObject) {
+    private void extractModelVer(final JsonObject resultObject) {
         if (resultObject.has("model-ver")) {
-            // Create the StreamSource by creating StringReader using the
-            // JSON input
-            var json = resultObject.getJSONObject("model-ver").toString();
-
-            // Getting the ModelVer pojo again from the json
-            var modelVer = gson.fromJson(json, ModelVer.class);
+            var modelVer = gson.fromJson(resultObject.getAsJsonObject("model-ver"), ModelVer.class);
             this.inventoryResponseItems.add(modelVer);
         }
     }

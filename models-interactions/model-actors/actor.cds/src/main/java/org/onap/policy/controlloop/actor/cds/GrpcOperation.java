@@ -2,6 +2,7 @@
  * ============LICENSE_START=======================================================
  * Copyright (C) 2020 Bell Canada. All rights reserved.
  * Modifications Copyright (C) 2020-2022 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +20,6 @@
 
 package org.onap.policy.controlloop.actor.cds;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Struct;
 import com.google.protobuf.util.JsonFormat;
@@ -32,6 +31,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.ActionIdentifiers;
 import org.onap.ccsdk.cds.controllerblueprints.common.api.CommonHeader;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
@@ -177,8 +177,10 @@ public class GrpcOperation extends OperationPartial {
         var struct = Struct.newBuilder();
         try {
             String requestStr = request.generateCdsPayload();
-            Preconditions.checkState(!Strings.isNullOrEmpty(requestStr),
-                            "Unable to build " + "config-deploy-request from payload parameters: {}", payload);
+            if (StringUtils.isEmpty(requestStr)) {
+                throw new IllegalStateException(
+                            "Unable to build " + "config-deploy-request from payload parameters: " + payload);
+            }
             JsonFormat.parser().merge(requestStr, struct);
         } catch (InvalidProtocolBufferException | CoderException e) {
             throw new IllegalArgumentException("Failed to embed CDS payload string into the input request. blueprint({"
@@ -216,8 +218,8 @@ public class GrpcOperation extends OperationPartial {
                         || payload.get(CdsActorConstants.KEY_CBA_VERSION) == null) {
             return false;
         }
-        return !Strings.isNullOrEmpty(payload.get(CdsActorConstants.KEY_CBA_NAME).toString())
-                        && !Strings.isNullOrEmpty(payload.get(CdsActorConstants.KEY_CBA_VERSION).toString())
-                        && !Strings.isNullOrEmpty(params.getOperation());
+        return !StringUtils.isEmpty(payload.get(CdsActorConstants.KEY_CBA_NAME).toString())
+                        && !StringUtils.isEmpty(payload.get(CdsActorConstants.KEY_CBA_VERSION).toString())
+                        && !StringUtils.isEmpty(params.getOperation());
     }
 }

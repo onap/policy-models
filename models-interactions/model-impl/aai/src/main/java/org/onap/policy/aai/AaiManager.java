@@ -3,7 +3,7 @@
  * aai
  * ================================================================================
  * Copyright (C) 2017-2021 AT&T Intellectual Property. All rights reserved.
- * Modifications Copyright (C) 2019-2020, 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2019-2026 OpenInfra Foundation Europe. All rights reserved.
  * Modifications Copyright (C) 2019 Samsung Electronics Co., Ltd.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,9 @@
 
 package org.onap.policy.aai;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -32,8 +35,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.onap.policy.common.message.bus.event.Topic.CommInfrastructure;
 import org.onap.policy.common.message.bus.utils.NetLoggerUtil;
 import org.onap.policy.common.message.bus.utils.NetLoggerUtil.EventType;
@@ -78,19 +79,19 @@ public final class AaiManager {
         if (getResponse == null) {
             return null;
         } else {
-            var responseObj = new JSONObject(getResponse);
-            JSONArray resultsArray;
+            var responseObj = JsonParser.parseString(getResponse).getAsJsonObject();
+            JsonArray resultsArray;
             if (responseObj.has("result-data")) {
-                resultsArray = (JSONArray) responseObj.get("result-data");
+                resultsArray = responseObj.getAsJsonArray("result-data");
             } else {
                 return null;
             }
-            var resourceLink = resultsArray.getJSONObject(0).getString("resource-link");
+            var resourceLink = resultsArray.get(0).getAsJsonObject().get("resource-link").getAsString();
             var start = resourceLink.replace(PREFIX, "");
             var query = "query/closed-loop";
-            var payload = new JSONObject();
-            payload.put("start", start);
-            payload.put("query", query);
+            var payload = new JsonObject();
+            payload.addProperty("start", start);
+            payload.addProperty("query", query);
             return payload.toString();
 
         }
