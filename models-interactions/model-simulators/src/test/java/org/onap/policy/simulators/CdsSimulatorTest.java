@@ -46,13 +46,10 @@ import org.onap.ccsdk.cds.controllerblueprints.processing.api.BluePrintProcessin
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceInput.Builder;
 import org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput;
-import org.onap.policy.common.utils.coder.CoderException;
-import org.onap.policy.common.utils.coder.StandardCoder;
 import org.onap.policy.common.utils.network.NetworkUtil;
 import org.onap.policy.common.utils.resources.ResourceUtils;
 
 class CdsSimulatorTest {
-    private static final StandardCoder coder = new StandardCoder();
 
     private CdsSimulator sim;
 
@@ -132,13 +129,15 @@ class CdsSimulatorTest {
 
     @Test
     @Order(2)
-    void testGetResponse() throws IOException, CoderException {
+    void testGetResponse() throws IOException {
         CdsSimulator cdsSimulator = new CdsSimulator(Util.LOCALHOST, sim.getPort());
         String reqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/cds.request.json");
         String responseqstr = ResourceUtils.getResourceAsString(
             "org/onap/policy/simulators/cds/pm_control-create-subscription.json");
-        ExecutionServiceInput request = coder.decode(reqstr, ExecutionServiceInput.class);
+        Builder reqBuilder = ExecutionServiceInput.newBuilder();
+        JsonFormat.parser().ignoringUnknownFields().merge(reqstr, reqBuilder);
+        ExecutionServiceInput request = reqBuilder.build();
         org.onap.ccsdk.cds.controllerblueprints.processing.api.ExecutionServiceOutput.Builder esoBuilder =
             ExecutionServiceOutput.newBuilder();
         JsonFormat.parser().ignoringUnknownFields().merge(responseqstr, esoBuilder);
