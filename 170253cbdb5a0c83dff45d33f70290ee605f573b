@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff93dcfa_3aad1712",
+        "filename": "models-interactions/model-simulators/src/test/java/org/onap/policy/simulators/CdsSimulatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 6742
+      },
+      "writtenOn": "2026-06-12T13:10:11Z",
+      "side": 1,
+      "message": "This test was already using protobuf json parser.",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 81,
+        "endChar": 56
+      },
+      "revId": "170253cbdb5a0c83dff45d33f70290ee605f573b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
