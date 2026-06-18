@@ -106,8 +106,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.openpojo</groupId>
-            <artifactId>openpojo</artifactId>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils-test</artifactId>
+            <version>${policy.common.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

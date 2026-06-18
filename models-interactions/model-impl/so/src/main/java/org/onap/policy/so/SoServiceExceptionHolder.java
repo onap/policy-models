@@ -26,9 +26,11 @@ import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class SoServiceExceptionHolder implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;

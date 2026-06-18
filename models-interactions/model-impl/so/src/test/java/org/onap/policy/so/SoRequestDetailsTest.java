@@ -109,7 +109,7 @@ class SoRequestDetailsTest {
         assertEquals(subscriberInfo, details.getSubscriberInfo());
         assertNotEquals(0, details.hashCode());
 
-        assertEquals("SoRequestDetails(modelInfo=org.onap.policy.so", details.toString().substring(0,  45));
+        assertEquals("SoRequestDetails(modelInfo=", details.toString().substring(0, 27));
 
         SoRequestDetails copiedDetails = new SoRequestDetails(details);
 

@@ -27,9 +27,11 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class SoRequestParameters implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236033L;

@@ -26,9 +26,11 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString
 public class SoRequest implements Serializable {
 
     private static final long serialVersionUID = -3283942659786236032L;

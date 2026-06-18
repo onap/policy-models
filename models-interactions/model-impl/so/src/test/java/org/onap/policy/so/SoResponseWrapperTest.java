@@ -68,7 +68,7 @@ class SoResponseWrapperTest {
 
         assertNotEquals(0, responseWrapper.hashCode());
 
-        assertEquals("SOResponseWrapper [SOResponse=org.onap.policy.", responseWrapper.toString().substring(0,  46));
+        assertEquals("SOResponseWrapper [SOResponse=", responseWrapper.toString().substring(0, 30));
 
         SoResponseWrapper identicalResponseWrapper = new SoResponseWrapper(response, requestId);
 
