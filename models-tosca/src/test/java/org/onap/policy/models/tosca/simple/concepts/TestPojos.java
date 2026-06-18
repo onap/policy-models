@@ -4,6 +4,7 @@
  * ================================================================================
  * Copyright (C) 2019, 2021 AT&T Intellectual Property. All rights reserved.
  * Modifications Copyright (C) 2019, 2024 Nordix Foundation.
+ * Modifications Copyright (C) 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,14 +24,8 @@
 
 package org.onap.policy.models.tosca.simple.concepts;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
-import com.openpojo.validation.Validator;
-import com.openpojo.validation.ValidatorBuilder;
-import com.openpojo.validation.rule.impl.GetterMustExistRule;
-import com.openpojo.validation.test.impl.GetterTester;
-import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.jupiter.api.Test;
-import org.onap.policy.common.utils.test.ToStringTester;
+import org.onap.policy.common.utils.test.PojoTester;
 
 /**
  * Class to perform unit tests of all pojos.
@@ -39,23 +34,9 @@ import org.onap.policy.common.utils.test.ToStringTester;
  *
  */
 class TestPojos {
-    private static final String POJO_PACKAGE = "org.onap.policy.models.tosca.simple.concepts";
 
     @Test
     void testPojos() {
-        // @formatter:off
-        final Validator validator = ValidatorBuilder
-                .create()
-                .with(new ToStringTester())
-                .with(new GetterMustExistRule())
-                .with(new SetterTester())
-                .with(new GetterTester())
-                .build();
-        // @formatter:on
-
-        validator.validate(POJO_PACKAGE,
-            new FilterPackageInfo(),
-            pc -> !pc.getClazz().getSimpleName().startsWith("Test"),
-            pc -> !pc.getClazz().getSimpleName().endsWith("Test"));
+        PojoTester.testPojos(TestPojos.class.getPackageName(), ".*Constraint.*");
     }
 }

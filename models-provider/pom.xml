@@ -1,7 +1,7 @@
 <!--
   ============LICENSE_START=======================================================
    Copyright (C) 2019-2020 AT&T Intellectual Property. All rights reserved.
-   Modifications Copyright (C) 2023-2025 OpenInfra Foundation Europe. All rights reserved.
+   Modifications Copyright (C) 2023-2026 OpenInfra Foundation Europe. All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -106,8 +106,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.openpojo</groupId>
-            <artifactId>openpojo</artifactId>
+            <groupId>org.onap.policy.common</groupId>
+            <artifactId>utils-test</artifactId>
+            <version>${policy.common.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

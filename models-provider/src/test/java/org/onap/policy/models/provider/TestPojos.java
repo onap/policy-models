@@ -1,6 +1,7 @@
 /*-
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2019-2024 Nordix Foundation.
+ *  Modifications Copyright (C) 2026 OpenInfra Foundation Europe. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +21,8 @@
 
 package org.onap.policy.models.provider;
 
-import com.openpojo.reflection.filters.FilterPackageInfo;
-import com.openpojo.validation.Validator;
-import com.openpojo.validation.ValidatorBuilder;
-import com.openpojo.validation.rule.impl.GetterMustExistRule;
-import com.openpojo.validation.rule.impl.SetterMustExistRule;
-import com.openpojo.validation.test.impl.GetterTester;
-import com.openpojo.validation.test.impl.SetterTester;
 import org.junit.jupiter.api.Test;
+import org.onap.policy.common.utils.test.PojoTester;
 
 /**
  * Class to perform unit tests of all pojos.
@@ -37,19 +32,8 @@ import org.junit.jupiter.api.Test;
  */
 class TestPojos {
 
-    private static final String POJO_PACKAGE = "org.onap.policy.models.provider";
-
     @Test
     void testPojos() {
-        // @formatter:off
-        final Validator validator = ValidatorBuilder
-                .create()
-                .with(new SetterMustExistRule())
-                .with(new GetterMustExistRule())
-                .with(new SetterTester())
-                .with(new GetterTester())
-                .build();
-        validator.validate(POJO_PACKAGE, new FilterPackageInfo());
-        // :formatter:on
+        PojoTester.testPojos(TestPojos.class.getPackageName(), "ModelsProvider");
     }
 }
