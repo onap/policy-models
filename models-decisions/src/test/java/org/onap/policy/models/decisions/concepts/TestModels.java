@@ -31,11 +31,18 @@ import org.onap.policy.common.utils.test.ToStringTester;
 
 class TestModels {
 
+    private static final String POJO_PACKAGE = "org.onap.policy.models.decisions.concepts";
+
     @Test
     void testDecisionModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                 .with(new GetterTester()).build();
-        validator.validate(TestModels.class.getPackage().getName(), new FilterPackageInfo());
+
+        // Validate only the POJOs in the package, excluding the test classes which are
+        // not expected to provide a toString().
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo(),
+                pojoClass -> !pojoClass.getClazz().getSimpleName().startsWith("Test"),
+                pojoClass -> !pojoClass.getClazz().getSimpleName().endsWith("Test"));
     }
 
 }
