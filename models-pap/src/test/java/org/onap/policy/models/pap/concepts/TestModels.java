@@ -52,6 +52,13 @@ class TestModels {
 
         pojoClasses.remove(PojoClassFactory.getPojoClass(PdpDeployPolicies.class));
 
+        // PapPolicyIdentifier deliberately has no getters/setters/toString (GSON only).
+        pojoClasses.remove(PojoClassFactory.getPojoClass(PapPolicyIdentifier.class));
+
+        // Exclude the test classes, which are not expected to provide a toString().
+        pojoClasses.removeIf(pojoClass -> pojoClass.getClazz().getSimpleName().startsWith("Test")
+                || pojoClass.getClazz().getSimpleName().endsWith("Test"));
+
         validator.validate(pojoClasses);
     }
 }

@@ -21,6 +21,7 @@
 
 package org.onap.policy.models.errors.concepts;
 
+import com.openpojo.reflection.filters.FilterClassName;
 import com.openpojo.reflection.filters.FilterPackageInfo;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -31,11 +32,19 @@ import org.onap.policy.common.utils.test.ToStringTester;
 
 class TestModels {
 
+    private static final String POJO_PACKAGE = "org.onap.policy.models.errors.concepts";
+
     @Test
     void testDecisionModels() {
         final Validator validator = ValidatorBuilder.create().with(new ToStringTester()).with(new SetterTester())
                 .with(new GetterTester()).build();
-        validator.validate(TestModels.class.getPackage().getName(), new FilterPackageInfo());
+
+        // Validate only the POJOs in the package, excluding the test classes and the
+        // ErrorResponseUtils utility class, none of which are expected to provide a toString().
+        validator.validate(POJO_PACKAGE, new FilterPackageInfo(),
+                pojoClass -> !pojoClass.getClazz().getSimpleName().startsWith("Test"),
+                pojoClass -> !pojoClass.getClazz().getSimpleName().endsWith("Test"),
+                new FilterClassName("^((?!" + ErrorResponseUtils.class.getName() + "$).)*$"));
     }
 
 

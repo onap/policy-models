@@ -55,7 +55,7 @@ class TestPojos {
 
         validator.validate(POJO_PACKAGE,
             new FilterPackageInfo(),
-            pc -> !pc.getName().startsWith("Test"),
-            pc -> !pc.getName().endsWith("Test"));
+            pc -> !pc.getClazz().getSimpleName().startsWith("Test"),
+            pc -> !pc.getClazz().getSimpleName().endsWith("Test"));
     }
 }
