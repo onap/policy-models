@@ -22,6 +22,30 @@
       },
       "revId": "29eacebe1f8bca1d216c5bc1dfbacc0f385e3501",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6485860_9fe3df76",
+        "filename": "models-sim/packages/models-simulator-docker/pom.xml.versionsBackup",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 6070
+      },
+      "writtenOn": "2026-07-13T13:41:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "685ff5de_8b2949fb",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 104
+      },
+      "revId": "29eacebe1f8bca1d216c5bc1dfbacc0f385e3501",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
