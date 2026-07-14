@@ -1,0 +1,9 @@
+Verified+1: ONAP Required GHA <releng+onap.required.gha@linuxfoundation.org>
+Code-Review+2: Daniel Hanrahan <daniel.hanrahan@est.tech>
+Verified+1: ONAP Bypass GHA <releng+onap.bypass.gha@linuxfoundation.org>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Submitted-by: Daniel Hanrahan <daniel.hanrahan@est.tech>
+Submitted-at: Tue, 14 Jul 2026 10:54:23 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/policy/models/+/146200
+Project: policy/models
+Branch: refs/heads/master
