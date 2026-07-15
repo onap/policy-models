@@ -13,3 +13,8 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    # Group all updates together into a single pull request
+    groups:
+      github-actions-updates:
+        patterns:
+          - "*"
