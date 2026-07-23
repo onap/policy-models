@@ -153,7 +153,7 @@ jobs:
         # yamllint disable-line rule:line-length
         if: github.event_name == 'schedule' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true)
         # yamllint disable-line rule:line-length
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       # Gerrit-aware checkout for workflow_dispatch with Gerrit context
       - name: 'Checkout Gerrit change'
@@ -189,7 +189,7 @@ jobs:
 
       - name: Load secret from 1Password
         if: steps.check-pom-xml.outputs.exists == 'true'
-        uses: 1password/load-secrets-action@3a12b0ab99d9cd590a3e9b5a90ea017210ed9556 # v4.0.1
+        uses: 1password/load-secrets-action@eb2efd0703da22a93c467f2d1ffbb6826c11e19c # v4.1.1
         with:
           export-env: true
         env:
