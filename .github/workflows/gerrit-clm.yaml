@@ -111,7 +111,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+      - uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40  # v2.20.1
         with:
           egress-policy: audit
 
@@ -139,7 +139,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+      - uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40  # v2.20.1
         with:
           egress-policy: audit
 
@@ -189,7 +189,7 @@ jobs:
 
       - name: Load secret from 1Password
         if: steps.check-pom-xml.outputs.exists == 'true'
-        uses: 1password/load-secrets-action@eb2efd0703da22a93c467f2d1ffbb6826c11e19c # v4.1.1
+        uses: 1password/load-secrets-action@e544b780808654ba8ceba5fb2fe2897103d92ff4 # v5.0.0
         with:
           export-env: true
         env:
@@ -374,7 +374,7 @@ jobs:
         if: steps.check-pom-xml.outputs.exists == 'true'
         continue-on-error: true
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/maven-build-action@79f0851d13bde7aed47a967bfd72682101756f7f # v0.3.0
+        uses: lfreleng-actions/maven-build-action@6a687d420895015a60abd139e37ba1ae7e78e8e8 # v0.3.1
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
@@ -411,7 +411,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@bf7454d06d71f1098171f2acdf0cd4708d7b5920  # v2.20.0
+      - uses: step-security/harden-runner@b09bb98e06d4d774595224525879c09bc6e98c40  # v2.20.1
         with:
           egress-policy: audit
 
