@@ -56,6 +56,11 @@ committers:
       company: 'Ericsson'
       id: 'danielhanrahan'
       timezone: 'Europe/Ireland'
+    - name: 'Adam kenihan'
+      email: 'adam.kenihan@est.tech'
+      company: 'Ericsson'
+      id: 'akenihan'
+      timezone: 'Europe/Ireland'
 tsc:
     approval: 'https://lists.onap.org/pipermail/onap-tsc'
     changes:
@@ -103,3 +108,5 @@ tsc:
           name: 'Adheli Tavares'
         - type: 'Removal'
           name: 'Wayne Dunican'
+        - type: 'Addition'
+          name: 'Adam Kenihan'
