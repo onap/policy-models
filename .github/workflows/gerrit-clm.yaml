@@ -111,7 +111,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c  # v2.21.0
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1  # v2.21.1
         with:
           egress-policy: audit
 
@@ -139,7 +139,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c  # v2.21.0
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1  # v2.21.1
         with:
           egress-policy: audit
 
@@ -374,7 +374,7 @@ jobs:
         if: steps.check-pom-xml.outputs.exists == 'true'
         continue-on-error: true
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/maven-build-action@6a687d420895015a60abd139e37ba1ae7e78e8e8 # v0.3.1
+        uses: lfreleng-actions/maven-build-action@3c48aed21aa422b16e1a15f31adbb2331aa59e83 # v0.4.2
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
@@ -411,7 +411,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c  # v2.21.0
+      - uses: step-security/harden-runner@e14015d583714f6e62063499dc959a02595150a1  # v2.21.1
         with:
           egress-policy: audit
 
