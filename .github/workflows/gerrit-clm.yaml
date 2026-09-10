@@ -391,7 +391,7 @@ jobs:
 
       - name: "Run CLM Scan"
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/sonatype-lifecycle-scan-action@f5b35cbd1c76597611c426e7e788c147e11c8e98  # v0.2.0
+        uses: lfreleng-actions/sonatype-lifecycle-scan-action@bfe8863debe1a325958cb200917a1561b968a177  # v0.2.1
         with:
           nexus_iq_server: ${{ vars.NEXUS_IQ_SERVER }}
           nexus_iq_username: ${{ vars.NEXUS_IQ_USERNAME }}
