@@ -374,7 +374,7 @@ jobs:
         if: steps.check-pom-xml.outputs.exists == 'true'
         continue-on-error: true
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/maven-build-action@3c48aed21aa422b16e1a15f31adbb2331aa59e83 # v0.4.2
+        uses: lfreleng-actions/maven-build-action@7781c31c0c5e7d345313807cde36377d0932e5d6 # v0.4.3
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
@@ -391,7 +391,7 @@ jobs:
 
       - name: "Run CLM Scan"
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/sonatype-lifecycle-scan-action@bfe8863debe1a325958cb200917a1561b968a177  # v0.2.1
+        uses: lfreleng-actions/sonatype-lifecycle-scan-action@71c04eb6a4fb17c2f7a966b996d64e2cacdfac02  # v0.2.2
         with:
           nexus_iq_server: ${{ vars.NEXUS_IQ_SERVER }}
           nexus_iq_username: ${{ vars.NEXUS_IQ_USERNAME }}
