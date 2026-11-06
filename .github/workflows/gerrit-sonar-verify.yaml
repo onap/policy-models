@@ -1,0 +1,259 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 The Linux Foundation
+
+# SonarQube Cloud analysis for policy/models.
+#
+# Replaces the Jenkins job policy-models-sonar-verify (global-jjb template
+# gerrit-maven-sonar-verify). It reports to the same SonarCloud project
+# the Jenkins jobs use, onap_policy-models in organisation onap, so
+# the analysis history is continuous. The scheduled branch scan stays
+# on Jenkins for now; see the trigger comment below.
+#
+# Discovery is filename-convention based: the name contains BOTH
+# 'gerrit' AND 'verify', so gerrit_to_platform dispatches it on
+# patchset-created, alongside any other verify lane the project has.
+# The file must exist on every active branch; this deployment covers
+# master.
+name: 'Gerrit Sonar Verify'
+
+# yamllint disable-line rule:truthy
+on:
+  # Dispatch only. The scheduled branch scan this lane will eventually
+  # take over from Jenkins is deliberately absent at introduction: a
+  # branch scan writes the project's own analysis, and getting the
+  # scanner choice wrong there rewrites the project's headline numbers.
+  # Every run below writes a short-lived branch instead, so master's
+  # analysis cannot be touched from here. The schedule arrives, and the
+  # Jenkins daily retires, once a cycle of runs shows this lane
+  # agreeing with it.
+  workflow_dispatch:
+    inputs:
+      GERRIT_BRANCH:
+        description: 'Branch that change is against'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_ID:
+        description: 'The ID for the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_NUMBER:
+        description: 'The Gerrit number'
+        required: false
+        type: string
+        default: ''
+      GERRIT_CHANGE_URL:
+        description: 'URL to the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_EVENT_TYPE:
+        description: 'Type of Gerrit event'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PATCHSET_NUMBER:
+        description: 'The patch number for the change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PATCHSET_REVISION:
+        description: 'The revision sha'
+        required: false
+        type: string
+        default: ''
+      GERRIT_PROJECT:
+        description: 'Project in Gerrit'
+        required: false
+        type: string
+        default: ''
+      GERRIT_REFSPEC:
+        description: 'Gerrit refspec of change'
+        required: false
+        type: string
+        default: ''
+      GERRIT_DISABLED:
+        description: 'Run without Gerrit components'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  # Group on the Gerrit change when there is one, so a new patchset
+  # supersedes the run for its predecessor. Fall back to the ref rather
+  # than github.run_id: run_id is unique per run, so cancel-in-progress
+  # could never fire for a manual dispatch, and full-reactor builds
+  # would compete for runners.
+  #
+  # The workflow name is part of the group because the group is
+  # repository-wide. Without it the verify and CLM lanes would share a
+  # group and cancel each other for the same change.
+  # yamllint disable-line rule:line-length
+  group: '${{ github.workflow }}-${{ github.event.inputs.GERRIT_CHANGE_ID || github.ref }}'
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  # Clear any previous Verified vote so a dispatched change starts from
+  # a clean state. Skipped for a manual GERRIT_DISABLED run.
+  clear-vote:
+    name: 'Clear Gerrit Vote'
+    # yamllint disable-line rule:line-length
+    if: inputs.GERRIT_DISABLED != true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - name: 'Clear votes'
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/gerrit-review-action@264fe205361cbb2ee8f26280998a75680ee33b53  # v1.3.0
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}  # zizmor: ignore[secrets-outside-env]
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: clear
+      - name: 'Allow replication'
+        run: sleep 10s
+
+  sonarqube-cloud:
+    name: 'SonarQube Cloud'
+    needs: clear-vote
+    if: >-
+      always()
+      && (needs.clear-vote.result == 'success'
+          || needs.clear-vote.result == 'skipped')
+    permissions:
+      contents: read
+    # yamllint disable-line rule:line-length
+    uses: lfreleng-actions/security-workflows/.github/workflows/sonarqube-cloud.yaml@378fcc19ebdf37f17fde4888d4b71c83b21d6cf3  # v0.9.7
+    with:
+      # Same SonarCloud project the Jenkins jobs report to, so the
+      # migration does not fork the analysis history.
+      sonar_organization: 'onap'
+      sonar_project_key: 'onap_policy-models'
+      #
+      # Branch decoration is the subtle part under Gerrit. Sonar infers
+      # branch context from the CI provider, and a gerrit_to_platform
+      # dispatch looks like a workflow_dispatch on the target branch.
+      # Left alone, every patchset would overwrite master's analysis
+      # with unmerged code.
+      #
+      # A dispatched change is analysed as <change>-<patchset> targeting
+      # the Gerrit branch, which Sonar treats as a short-lived branch:
+      # results stay per-change and expire on their own. That naming is
+      # not arbitrary -- it is what global-jjb/shell/maven-sonar.sh has
+      # always used, so the analyses this lane writes sit alongside the
+      # Jenkins ones rather than in a parallel set. Using change-<number>
+      # alone would collapse successive patchsets onto one analysis.
+      #
+      # A manual GERRIT_DISABLED run has no change, and must still not
+      # write the branch analysis, so it takes a run-scoped short-lived
+      # name. The effect is that no path through this lane can touch
+      # master.
+      # yamllint disable-line rule:line-length
+      sonar_branch_name: ${{ (!inputs.GERRIT_DISABLED && inputs.GERRIT_CHANGE_NUMBER != '') && format('{0}-{1}', inputs.GERRIT_CHANGE_NUMBER, inputs.GERRIT_PATCHSET_NUMBER) || format('manual-{0}', github.run_id) }}
+      # yamllint disable-line rule:line-length
+      sonar_branch_target: ${{ inputs.GERRIT_BRANCH != '' && inputs.GERRIT_BRANCH || 'master' }}
+      #
+      # Build before analysing so the Java analyser sees bytecode and
+      # the JaCoCo report; a source-only scan reports no coverage.
+      # Phases match the Jenkins jobs' 'clean install'. java_version is
+      # left unset so the lane detects the project's JDK rather than
+      # pinning a value that can drift out of step with the POMs.
+      #
+      # analysis_mode is deliberately unset: security-workflows derives
+      # it from build_type, so a Maven project is analysed with
+      # sonar-maven-plugin. Setting it here would only re-state that,
+      # and the value that matters is the one this lane must never take.
+      # The Scanner CLI walks target/generated-sources and reports
+      # findings against generated code nobody wrote.
+      build_type: 'maven'
+      mvn_phases: 'clean install'
+      mvn_params: '-Djib.skip=true --fail-at-end'
+      #
+      # Wait for the quality gate so its verdict is visible in the run,
+      # but do not yet fail on it. The Jenkins job it replaces sets
+      # sonarcloud-qualitygate-wait true, so it does fail on the gate,
+      # and this lane should end up there too. It starts short of that
+      # deliberately: Jenkins resolves its sonar-maven-plugin version
+      # from a server-side JJB global, so the two are not guaranteed to
+      # run the same analyser or reach the same verdict, and casting
+      # Verified-1 on contributors' changes before that is confirmed is
+      # the exact failure this migration spent its time removing. Flip
+      # fail_on_quality_gate once a cycle of runs shows them agreeing.
+      wait_for_quality_gate: true
+      fail_on_quality_gate: false
+      #
+      # The reusable defaults to 45, which a cold-cache 'clean install'
+      # plus a scan can exceed on a full ONAP reactor; the job is then
+      # cancelled mid-scan rather than failing with a diagnosis. The
+      # Jenkins job allows 60, but on a build node with a warm local
+      # repository, which a hosted runner does not have.
+      timeout_minutes: 90
+      #
+      # Maven pulls from artifact CDNs that are impractical to enumerate
+      # in the allow-list, and the build shares this job with the scan.
+      # Several ONAP reactors also pull Testcontainers images during the
+      # test phase.
+      build_permit_egress_traffic: true
+      #
+      # Gerrit-aware checkout. Blank for a manual GERRIT_DISABLED run,
+      # so the lane does a normal checkout.
+      # yamllint disable-line rule:line-length
+      gerrit_refspec: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_REFSPEC || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_project: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_PROJECT || '' }}
+      # yamllint disable-line rule:line-length
+      gerrit_branch: ${{ !inputs.GERRIT_DISABLED && inputs.GERRIT_BRANCH || '' }}
+    secrets:
+      sonar_token: ${{ secrets.SONAR_TOKEN }}
+      # The organisation's authoritative Maven settings: the onap-public
+      # mirror plus the docker.pull.registry and docker.push.registry
+      # properties the POMs reference without defaulting. Credential-free,
+      # and none are needed because the ONAP public group serves
+      # anonymously and this lane only resolves dependencies.
+      maven_global_settings: ${{ vars.MVN_GLOBAL_SETTINGS }}
+
+  # Report the overall conclusion back to Gerrit as a Verified vote.
+  vote:
+    name: 'Report Status to Gerrit'
+    # yamllint disable-line rule:line-length
+    if: ${{ always() && inputs.GERRIT_DISABLED != true }}
+    needs: [clear-vote, sonarqube-cloud]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read  # workflow-conclusion lists run jobs via the API
+    timeout-minutes: 5
+    steps:
+      - name: 'Harden runner'
+        # yamllint disable-line rule:line-length
+        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - name: 'Get workflow conclusion'
+        # yamllint disable-line rule:line-length
+        uses: im-open/workflow-conclusion@8eac7f17381a6917bc04fec3e2c92e70ebc37526  # v3.0.0
+      - name: 'Set vote'
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/gerrit-review-action@264fe205361cbb2ee8f26280998a75680ee33b53  # v1.3.0
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}  # zizmor: ignore[secrets-outside-env]
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: ${{ env.WORKFLOW_CONCLUSION }}
